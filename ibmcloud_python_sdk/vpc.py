@@ -1,7 +1,7 @@
 import http.client
 import json
-from config import conn, headers, version, generation
-from common import print_json
+from .config import conn, headers, version, generation
+from .common import print_json
 
 
 # Get all VPC

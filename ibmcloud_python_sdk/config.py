@@ -1,7 +1,7 @@
 import http.client
 import json
 import os
-from auth import get_token
+from .auth import get_token
 
 
 MANDATORY_ENV_VARS = ["IC_VERSION", "IC_API_KEY", "IC_REGION", "IC_GENERATION"]
