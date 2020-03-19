@@ -1,7 +1,6 @@
 import http.client
 import json
 from .config import conn, headers, version, generation
-from .common import print_json
 
 
 # Get all VPC
@@ -19,7 +18,6 @@ def get_vpcs():
         data = res.read()
 
         # Print and return response data
-        print_json(data.decode("utf-8"))
         return json.loads(data)
 
     except Exception as error:
@@ -42,7 +40,6 @@ def get_vpc(id):
         data = res.read()
 
         # Print and return response data
-        print_json(data.decode("utf-8"))
         return json.loads(data)
 
     except Exception as error:
