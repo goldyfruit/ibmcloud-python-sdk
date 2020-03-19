@@ -2,7 +2,7 @@ import http.client
 import gzip
 import json
 
-def getToken(url, key):
+def get_token(url, key):
     # URL for token
     conn = http.client.HTTPSConnection(url)
 

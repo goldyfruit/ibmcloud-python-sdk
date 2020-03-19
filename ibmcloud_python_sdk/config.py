@@ -1,7 +1,7 @@
 import http.client
 import json
 import os
-from token import getToken
+from auth import get_token
 
 
 MANDATORY_ENV_VARS = ["IC_VERSION", "IC_API_KEY", "IC_REGION", "IC_GENERATION"]
@@ -22,7 +22,7 @@ conn = http.client.HTTPSConnection(url)
 headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Authorization': getToken(authUrl, key),
+    'Authorization': get_token(authUrl, key),
 }
 
 

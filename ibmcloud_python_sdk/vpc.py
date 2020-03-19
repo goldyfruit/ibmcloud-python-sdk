@@ -1,13 +1,13 @@
 import http.client
 import json
 from config import conn, headers, version, generation
-from common import printJson
+from common import print_json
 
 
 # Get all VPC
 # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/list_vpcs
 # Doc: https://cloud.ibm.com/apidocs/vpc#list-all-vpcs
-def getVpcs():
+def get_vpcs():
 
     try:
         # Connect to api endpoint for vpcs
@@ -19,8 +19,8 @@ def getVpcs():
         data = res.read()
 
         # Print and return response data
-        printJson(data.decode("utf-8"))
-        return data.decode("utf-8")
+        print_json(data.decode("utf-8"))
+        return json.loads(data)
 
     except Exception as error:
         print(f"Error fetching VPCs. {error}")
@@ -30,7 +30,7 @@ def getVpcs():
 # Get specific VPC
 # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_vpc
 # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-vpc
-def getVpc(id):
+def get_vpc(id):
 
     try:
         # Connect to api endpoint for vpcs
@@ -42,8 +42,8 @@ def getVpc(id):
         data = res.read()
 
         # Print and return response data
-        printJson(data.decode("utf-8"))
-        return data.decode("utf-8")
+        print_json(data.decode("utf-8"))
+        return json.loads(data)
 
     except Exception as error:
         print(f"Error fetching VPC. {error}")
