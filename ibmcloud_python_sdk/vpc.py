@@ -112,3 +112,48 @@ class Vpc():
         except Exception as error:
             print(f"Error fetching default security group for VPC with id {id}. {error}")
             raise
+
+    # Create VPC
+    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/create_vpc
+    # Doc: https://cloud.ibm.com/apidocs/vpc#create-a-vpc
+    def create_vpc(self, **kwargs):
+        # Required parameters
+        required_args = set(["name", "resource_group"])
+        if not required_args.issubset(set(kwargs.keys())):
+            raise KeyError(
+                f'Required param is missing. Required: {required_args}'
+            )
+
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'resource_group': kwargs.get('resource_group'),
+            'address_prefix_management': kwargs.get('addr_mgmt', 'auto'),
+            'classic_access': kwargs.get('classic_access', False),
+        }
+
+        # Construct payload
+        payload = {}
+        for k, v in args.items():
+            if k == "resource_group":
+                rg = {}
+                rg["id"] = args["resource_group"]
+                payload["resource_group"] = rg
+            else:
+                payload[k] = v
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = f"/v1/vpcs?version={version}&generation={generation}"
+            conn.request("POST", path, json.dumps(payload), headers)
+
+            # Get and read response data
+            res = conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            return json.loads(data)
+
+        except Exception as error:
+            print(f"Error creating VPC. {error}")
+            raise
