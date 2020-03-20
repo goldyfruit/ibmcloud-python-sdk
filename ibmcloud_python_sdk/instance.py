@@ -3,9 +3,9 @@ import json
 from .config import conn, headers, version, generation
 
 
-# Get all VPC
+# Get all instances
 # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/list_instances
-# Doc: https://cloud.ibm.com/apidocs/instance#list-all-instances
+# Doc: https://cloud.ibm.com/apidocs/vpc#list-all-instance-profiles
 def get_instances():
     try:
         # Connect to api endpoint for instances
@@ -24,9 +24,9 @@ def get_instances():
         raise
 
 
-# Get specific VPC
+# Get specific instance by ID
 # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_instance
-# Doc: https://cloud.ibm.com/apidocs/instance#retrieve-specified-instance
+# Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-instance-profile
 def get_instance_by_id(id):
     try:
         # Connect to api endpoint for instance
@@ -41,13 +41,15 @@ def get_instance_by_id(id):
         return json.loads(data)
 
     except Exception as error:
-        print(f"Error fetching instance with id {id}. {error}")
+        print(f"Error fetching instance with ID {id}. {error}")
         raise
 
-# Get instance by name
+# Get specific instance by name
+# Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_instance
+# Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-instance-profile
 def get_instance_by_name(name):
     try:
-        # Connect to api endpoint for instance
+        # Connect to api endpoint for instances
         path = f"/v1/instances/?version={version}&generation={generation}"
         conn.request("GET", path, None, headers)
 
