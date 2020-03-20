@@ -91,3 +91,24 @@ class Vpc():
         except Exception as error:
             print(f"Error fetching default network ACL for VPC with ID {id}. {error}")
             raise
+
+    # Get VPC default security group
+    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_vpc_default_security_group
+    # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-a-vpc-s-default-security-group
+    def get_vpc_default_security_group(self, id):
+        try:
+            # Connect to api endpoint for vpcs
+            path = f"/v1/vpcs/{id}/default_security_group?version={version}\
+                &generation={generation}"
+            conn.request("GET", path, None, headers)
+
+            # Get and read response data
+            res = conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            return json.loads(data)
+
+        except Exception as error:
+            print(f"Error fetching default security group for VPC with id {id}. {error}")
+            raise
