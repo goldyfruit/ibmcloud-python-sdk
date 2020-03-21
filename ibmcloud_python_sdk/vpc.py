@@ -160,3 +160,59 @@ class Vpc():
         except Exception as error:
             print(f"Error creating VPC. {error}")
             raise
+
+
+    # Delete VPC by ID
+    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/delete_vpc
+    # Doc: https://cloud.ibm.com/apidocs/vpc#delete-specified-vpc
+    def delete_vpc_by_id(self, id):
+        try:
+            # Connect to api endpoint for vpcs
+            path = f"/v1/vpcs/{id}?version={version}&generation={generation}"
+            conn.request("DELETE", path, None, headers)
+
+            # Get and read response data
+            res = conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            if res.status != 204:
+                return json.loads(data)
+
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting VPC with id {id}. {error}")
+            raise
+
+
+    # Delete VPC by name
+    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/delete_vpc
+    # Doc: https://cloud.ibm.com/apidocs/vpc#delete-specified-vpc
+    def delete_vpc_by_name(self, name):
+        try:
+            # Check if VPC exists
+            vpc = self.get_vpc_by_name(name)
+            if "errors" in vpc:
+                return vpc
+
+            vpc_id = vpc["id"]
+
+            # Connect to api endpoint for vpcs
+            path = f"/v1/vpcs/{vpc_id}?version={version}&generation={generation}"
+            conn.request("DELETE", path, None, headers)
+
+            # Get and read response data
+            res = conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            if res.status != 204:
+                return json.loads(data)
+
+            # Print and return response data
+            return  {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting VPC with name {name}. {error}")
+            raise
