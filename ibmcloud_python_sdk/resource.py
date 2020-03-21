@@ -4,7 +4,7 @@ from .config import conn_rg, headers, version, generation
 
 class Resource():
     # Get all resource groups
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/list_instances
+    # Doc: https://cloud.ibm.com/apidocs/resource-controller/resource-manager#get-a-list-of-all-resource-groups
     def get_resource_groups(self):
         try:
             # Connect to api endpoint for resource_groups
