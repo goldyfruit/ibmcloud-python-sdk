@@ -30,7 +30,7 @@ class Instance():
     def get_instance_by_id(self, id):
         try:
             # Connect to api endpoint for instance
-            path = f"/v1/instances?version={version}&generation={generation}"
+            path = f"/v1/instances/{id}?version={version}&generation={generation}"
             conn.request("GET", path, None, headers)
 
             # Get and read response data
@@ -60,9 +60,10 @@ class Instance():
             for instance in json.loads(data)['instances']:
                 if instance['name'] == name:
                     # Return response data
-                    return(instance)
-            # Print and return response data
-            return {"instance": None}
+                    return instance
+
+            # Return response if no VPC is found
+            return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
             print(f"Error fetching instances with name {name}. {error}")
