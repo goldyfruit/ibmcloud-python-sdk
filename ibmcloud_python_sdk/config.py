@@ -16,8 +16,11 @@ key = os.environ.get("IC_API_KEY")
 generation = os.environ.get("IC_GENERATION")
 authUrl = "iam.cloud.ibm.com"
 url = f"{region}.iaas.cloud.ibm.com"
+url_rg = "resource-controller.cloud.ibm.com"
 
 conn = http.client.HTTPSConnection(url)
+conn_rg = http.client.HTTPSConnection(url_rg)
+
 
 headers = {
     'Content-Type': 'application/json',
