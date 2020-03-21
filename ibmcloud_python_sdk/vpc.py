@@ -62,10 +62,10 @@ class Vpc():
             for vpc in json.loads(data)['vpcs']:
                 if vpc['name'] == name:
                     # Return response data
-                    return(vpc)
+                    return vpc
 
-            # Print and return response data
-            return {"vpc": None}
+            # Return response if no VPC is found
+            return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
             print(f"Error fetching VPC with name {name}. {error}")
