@@ -1,19 +1,28 @@
 import http.client
 import json
-from .config import conn, headers, version, generation
+from . import config as ic
+
 
 class Instance():
+
+    def __init__(self):
+        self.cfg = ic.Config()
+        self.ver = self.cfg.version
+        self.gen = self.cfg.generation
+        self.headers = self.cfg.headers
+        self.conn = self.cfg.conn
+
     # Get all instances
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/list_instances
-    # Doc: https://cloud.ibm.com/apidocs/vpc#list-all-instance-profiles
     def get_instances(self):
+
         try:
             # Connect to api endpoint for instances
-            path = f"/v1/instances?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/instances?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Print and return response data
@@ -23,18 +32,16 @@ class Instance():
             print(f"Error fetching instances. {error}")
             raise
 
-
     # Get specific instance by ID
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_instance
-    # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-instance-profile
     def get_instance_by_id(self, id):
         try:
             # Connect to api endpoint for instance
-            path = f"/v1/instances/{id}?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/instances/{}?version={}&generation={}").format(
+                id, self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Print and return response data
@@ -45,16 +52,15 @@ class Instance():
             raise
 
     # Get specific instance by name
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_instance
-    # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-instance-profile
     def get_instance_by_name(self, name):
         try:
             # Connect to api endpoint for instances
-            path = f"/v1/instances/?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/instances/?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             for instance in json.loads(data)['instances']:
@@ -62,9 +68,9 @@ class Instance():
                     # Return response data
                     return instance
 
-            # Return response if no VPC is found
+            # Return response if no instance is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
-            print(f"Error fetching instances with name {name}. {error}")
+            print(f"Error fetching instance with name {name}. {error}")
             raise

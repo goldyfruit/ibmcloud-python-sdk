@@ -1,35 +1,44 @@
 import http.client
-import gzip
 import json
 
-def get_token(url, key):
-    # URL for token
-    conn = http.client.HTTPSConnection(url)
 
-    # Payload for retrieving token
-    payload = f"grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey={key}"
+class Auth():
+    def get_token(self, url, key):
+        # URL for token
+        conn = http.client.HTTPSConnection(url)
 
-    # Required headers
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
-    }
+        # Payload for retrieving token
+        payload = ("grant_type=urn:ibm:params:oauth:grant-type:"
+                   "apikey&apikey={}").format(key)
 
-    try:
-        # Connect to endpoint for retrieving a token
-        conn.request("POST", "/identity/token", payload, headers)
+        # Required headers
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+        }
 
-        # Get and read response data
-        res = conn.getresponse().read()
-        data = res.decode("utf-8")
+        try:
+            # Connect to endpoint for retrieving a token
+            conn.request("POST", "/identity/token", payload, headers)
 
-        # Format response in JSON
-        json_res = json.loads(data)
+            # Get and read response data
+            res = conn.getresponse().read()
+            data = res.decode("utf-8")
 
-        # Concatenate token type and token value
-        return json_res['token_type'] + ' ' + json_res['access_token']
+            # Format response in JSON
+            json_res = json.loads(data)
 
+<<<<<<< HEAD
     # If an error happens while retrieving token
     except Exception as error:
         print(f"Error getting token. {error}")
         raise
+=======
+            # Concatenate token type and token value
+            return json_res['token_type'] + ' ' + json_res['access_token']
+
+        # If an error happens while retrieving token
+        except Exception as error:
+            print(f"Error getting token. {error}")
+            raise
+>>>>>>> 5410cdd ([git] Ignore .vscode directory)
