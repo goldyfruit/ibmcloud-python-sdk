@@ -45,6 +45,7 @@ class Vpc():
             print(f"Error fetching VPC with ID {id}. {error}")
             raise
 
+
     # Get specific VPC by name
     # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_vpc
     # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-vpc
@@ -92,6 +93,7 @@ class Vpc():
             print(f"Error fetching default network ACL for VPC with ID {id}. {error}")
             raise
 
+
     # Get VPC default security group
     # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/get_vpc_default_security_group
     # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-a-vpc-s-default-security-group
@@ -112,6 +114,7 @@ class Vpc():
         except Exception as error:
             print(f"Error fetching default security group for VPC with id {id}. {error}")
             raise
+
 
     # Create VPC
     # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/VPCs/create_vpc
