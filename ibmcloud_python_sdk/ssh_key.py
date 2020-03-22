@@ -1,5 +1,6 @@
 import json
-from . import config as ic 
+from . import config as ic
+
 
 class Key():
 
@@ -10,7 +11,7 @@ class Key():
         self.headers = self.cfg.headers
         self.conn = self.cfg.conn
 
-    # Get all ssh-keys
+    # Get all keys
     def get_keys(self):
 
         try:
@@ -30,7 +31,7 @@ class Key():
             print(f"Error fetching keys. {error}")
             raise
 
-    # Get specific ssh-key by ID
+    # Get specific key by ID
     def get_key_by_id(self, id):
         try:
             # Connect to api endpoint for keys
@@ -46,10 +47,10 @@ class Key():
             return json.loads(data)
 
         except Exception as error:
-            print(f"Error fetching ssh-key with ID {id}. {error}")
+            print(f"Error fetching key with ID {id}. {error}")
             raise
 
-    # Get specific ssh-key by name
+    # Get specific key by name
     def get_key_by_name(self, name):
         try:
             # Connect to api endpoint for keys
@@ -61,20 +62,20 @@ class Key():
             res = self.conn.getresponse()
             data = res.read()
 
-            # Loop over instance until filter match
+            # Loop over keys until filter match
             for key in json.loads(data)['keys']:
                 if key['name'] == name:
                     # Return response data
                     return key
 
-            # Return response if no ssh-key is found
+            # Return response if no key is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
-            print(f"Error fetching ssh-key with name {name}. {error}")
+            print(f"Error fetching key with name {name}. {error}")
             raise
 
-    # Create ssh-key
+    # Create key
     def create_key(self, **kwargs):
         # Required parameters
         required_args = set(["name", "public_key", "resource_group"])
@@ -113,11 +114,10 @@ class Key():
             return json.loads(data)
 
         except Exception as error:
-            print(f"Error creating ssh-key. {error}")
+            print(f"Error creating key. {error}")
             raise
 
-
-    # Get specific ssh-key by ID
+    # Delete key
     def delete_key(self, id):
         try:
             # Connect to api endpoint for keys
@@ -131,7 +131,7 @@ class Key():
             # res.status == 200 ou 404
 
         except Exception as error:
-            print(f"Error deleting ssh-key with ID {id}. {error}")
+            print(f"Error deleting key with ID {id}. {error}")
             raise
 
 
