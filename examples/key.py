@@ -21,7 +21,7 @@ key.create_key(name="my-first-key",
                resource_group="f328f2cdec6d4b4da2844c214dec9d39")
 
 # Delete key by ID
-key.delete_vpc_by_id("ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
+key.delete_key_by_id("ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 
 # Delete key by name
-key.delete_vpc_by_name("my-first-key")
+key.delete_key_by_name("my-first-key")
