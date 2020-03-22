@@ -116,13 +116,6 @@ class Vpc():
 
     # Create VPC
     def create_vpc(self, **kwargs):
-        # Required parameters
-        required_args = set(["name", "resource_group"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
-
         # Set default value is not required paramaters are not defined
         args = {
             'name': kwargs.get('name'),
