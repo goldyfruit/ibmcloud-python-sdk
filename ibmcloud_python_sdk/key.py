@@ -128,7 +128,13 @@ class Key():
             # Get and read response data
             res = self.conn.getresponse()
             data = res.read()
-            # res.status == 200 ou 404
+
+            # Print and return response data
+            if res.status != 204:
+                return json.loads(data)
+
+            # Print and return response data
+            return {"status": "deleted"}
 
         except Exception as error:
             print(f"Error deleting key with ID {id}. {error}")
