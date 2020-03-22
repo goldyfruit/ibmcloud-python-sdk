@@ -89,13 +89,19 @@ class Key():
             'name': kwargs.get('name'),
             'public_key': kwargs.get('public_key'),
             'resource_group': kwargs.get('resource_group'),
-            'type': kwargs.get('resource_group', 'rsa'),
+            'type': kwargs.get('type', 'rsa'),
         }
 
         # Construct payload
         payload = {}
         for key, value in args.items():
-            payload[key] = value
+            if key == "resource_group":
+                payload["resource_group"] = {"id": args["resource_group"]}
+            else:
+                payload[key] = value
+
+        print(payload)
+
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
