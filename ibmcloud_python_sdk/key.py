@@ -118,8 +118,8 @@ class Key():
             print(f"Error creating key. {error}")
             raise
 
-    # Delete key
-    def delete_key(self, id):
+    # Delete key by ID
+    def delete_key_by_id(self, id):
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
