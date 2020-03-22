@@ -140,3 +140,31 @@ class Key():
         except Exception as error:
             print(f"Error deleting key with ID {id}. {error}")
             raise
+
+    # Delete key by name
+    def delete_key_by_name(self, name):
+        try:
+            # Check if key exists
+            key = self.get_key_by_name(name)
+            if "errors" in key:
+                return key
+
+            # Connect to api endpoint for keys
+            path = ("/v1/keys/{}?version={}&generation={}").format(
+                key["id"], self.ver, self.gen)
+            self.conn.request("DELETE", path, None, self.headers)
+
+            # Get and read response data
+            res = self.conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            if res.status != 204:
+                return json.loads(data)
+
+            # Print and return response data
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting key with name {name}. {error}")
+            raise
