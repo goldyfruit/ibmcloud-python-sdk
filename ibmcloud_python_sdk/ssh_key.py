@@ -47,7 +47,7 @@ class Key():
             return json.loads(data)
 
         except Exception as error:
-            print(f"Error fetchingi ssh-key with ID {id}. {error}")
+            print(f"Error fetching ssh-key with ID {id}. {error}")
             raise
 
     # Get specific ssh-key by name
@@ -118,3 +118,6 @@ class Key():
         except Exception as error:
             print(f"Error creating ssh-key. {error}")
             raise
+
+
+
