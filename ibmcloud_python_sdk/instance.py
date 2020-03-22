@@ -74,3 +74,41 @@ class Instance():
         except Exception as error:
             print(f"Error fetching instance with name {name}. {error}")
             raise
+
+    # Get all instance profiles
+    def get_instance_profiles(self):
+        try:
+            # Connect to api endpoint for instance
+            path = ("/v1/instance/profiles?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
+
+            # Get and read response data
+            res = self.conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            return json.loads(data)
+
+        except Exception as error:
+            print(f"Error fetching instance profiles. {error}")
+            raise
+
+    # Get specific instance profile by name
+    def get_instance_profile_by_name(self, name):
+        try:
+            # Connect to api endpoint for instance
+            path = ("/v1/instance/profiles/{}?version={}"
+                    "&generation={}").format(name, self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
+
+            # Get and read response data
+            res = self.conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            return json.loads(data)
+
+        except Exception as error:
+            print(f"Error fetching instance profile with name {name}. {error}")
+            raise

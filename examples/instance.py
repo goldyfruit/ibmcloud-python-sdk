@@ -13,3 +13,9 @@ instance.get_instance_by_id("r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 
 # Retrieve specific instance by name
 instance.get_instance_by_name("ibmcloud-baby")
+
+# Retrieve a complete instance profiles list
+instance.get_instance_profiles()
+
+# Retrieve instance profiles by name
+instance.get_instance_profile_by_name("mp2-56x448")
