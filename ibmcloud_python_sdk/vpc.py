@@ -135,9 +135,8 @@ class Vpc():
         payload = {}
         for key, value in args.items():
             if key == "resource_group":
-                rg = {}
-                rg["id"] = args["resource_group"]
-                payload["resource_group"] = rg
+                if value is not None:
+                    payload["resource_group"] = {"id": args["resource_group"]}
             else:
                 payload[key] = value
 
