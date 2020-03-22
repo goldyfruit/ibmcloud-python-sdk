@@ -78,7 +78,7 @@ class Key():
     # Create key
     def create_key(self, **kwargs):
         # Required parameters
-        required_args = set(["name", "public_key", "resource_group"])
+        required_args = set(["public_key"])
         if not required_args.issubset(set(kwargs.keys())):
             raise KeyError(
                 f'Required param is missing. Required: {required_args}'
@@ -96,7 +96,8 @@ class Key():
         payload = {}
         for key, value in args.items():
             if key == "resource_group":
-                payload["resource_group"] = {"id": args["resource_group"]}
+                if value is not None:
+                    payload["resource_group"] = {"id": args["resource_group"]}
             else:
                 payload[key] = value
 
@@ -139,5 +140,3 @@ class Key():
         except Exception as error:
             print(f"Error deleting key with ID {id}. {error}")
             raise
-
-
