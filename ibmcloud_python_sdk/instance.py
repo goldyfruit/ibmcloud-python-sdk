@@ -112,3 +112,73 @@ class Instance():
         except Exception as error:
             print(f"Error fetching instance profile with name {name}. {error}")
             raise
+
+    # Create instance
+    def create_instance(self, **kwargs):
+        # Required parameters
+        required_args = set(["image", "pni_subnet", "profile", "zone"])
+        if not required_args.issubset(set(kwargs.keys())):
+            raise KeyError(
+                f'Required param is missing. Required: {required_args}'
+            )
+
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'keys': kwargs.get('keys'),
+            'profile': kwargs.get('profile'),
+            'resource_group': kwargs.get('resource_group'),
+            'user_data': kwargs.get('user_data'),
+            'vpc': kwargs.get('vpc'),
+            'image': kwargs.get('image'),
+            'pni_subnet': kwargs.get('pni_subnet'),
+            'zone': kwargs.get('zone'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if key == "profile":
+                payload["profile"] = {"name": args["profile"]}
+            elif key == "keys":
+                if value is not None:
+                    kp = []
+                    for key_pair in args["keys"]:
+                        tmp = {}
+                        tmp["id"] = key_pair
+                        kp.append(tmp)
+                    payload["keys"] = kp
+            elif key == "resource_group":
+                if value is not None:
+                    payload["resource_group"] = {"id": args["resource_group"]}
+            elif key == "vpc":
+                if value is not None:
+                    payload["vpc"] = {"id": args["vpc"]}
+            elif key == "image":
+                payload["image"] = {"id": args["image"]}
+            elif key == "pni_subnet":
+                payload["primary_network_interface"] = {
+                    "subnet": {"id": args["pni_subnet"]}}
+            elif key == "zone":
+                payload["zone"] = {"name": args["zone"]}
+            else:
+                payload[key] = value
+
+        print(payload)
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/instances?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("POST", path, json.dumps(payload), self.headers)
+
+            # Get and read response data
+            res = self.conn.getresponse()
+            data = res.read()
+
+            # Print and return response data
+            return json.loads(data)
+
+        except Exception as error:
+            print(f"Error creating instance. {error}")
+            raise
