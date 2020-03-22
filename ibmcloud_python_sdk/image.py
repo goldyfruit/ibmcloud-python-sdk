@@ -1,20 +1,25 @@
-import http.client
 import json
-from .config import conn, headers, version, generation
-
+from . import config as ic
 
 class Image():
+
+    def __init__(self):
+        self.cfg = ic.Config()
+        self.ver = self.cfg.version
+        self.gen = self.cfg.generation
+        self.headers = self.cfg.headers
+        self.conn = self.cfg.conn
+
     # Get all Image
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/Images/list_images
-    # Doc: https://cloud.ibm.com/apidocs/vpc#list-all-images
     def get_images(self):
         try:
             # Connect to api endpoint for images
-            path = f"/v1/images?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/images?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Print and return response data
@@ -26,16 +31,15 @@ class Image():
 
 
     # Get specific Image by ID
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/Images/get_image
-    # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-image
     def get_image_by_id(self, id):
         try:
             # Connect to api endpoint for images
-            path = f"/v1/images/{id}?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/images/{}?version={}&generation={}").format(
+                id, self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Print and return response data
@@ -46,16 +50,15 @@ class Image():
             raise
 
     # Get specific Image by name
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/Images/get_image
-    # Doc: https://cloud.ibm.com/apidocs/vpc#retrieve-specified-image
     def get_image_by_name(self, name):
         try:
             # Connect to api endpoint for images
-            path = f"/v1/images/?version={version}&generation={generation}"
-            conn.request("GET", path, None, headers)
+            path = ("/v1/images/?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Loop over instance until filter match
@@ -72,8 +75,6 @@ class Image():
             raise
 
     # Create Image
-    # Spec: https://pages.github.ibm.com/riaas/api-spec/spec_aspirational/#/Images/create_image
-    # Doc: https://cloud.ibm.com/apidocs/vpc#create-a-image
     def create_image(self, **kwargs):
         # Required parameters
         required_args = set(["name", "resource_group"])
@@ -101,11 +102,12 @@ class Image():
                 payload[key] = value
         try:
             # Connect to api endpoint for images
-            path = f"/v1/images?version={version}&generation={generation}"
-            conn.request("POST", path, json.dumps(payload), headers)
+            path = ("/v1/images?version={}&generation={}").format(
+                self.ver, self.gen)
+            self.conn.request("POST", path, json.dumps(payload), self.headers)
 
             # Get and read response data
-            res = conn.getresponse()
+            res = self.conn.getresponse()
             data = res.read()
 
             # Print and return response data

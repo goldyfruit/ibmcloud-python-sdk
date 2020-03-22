@@ -30,7 +30,6 @@ class Key():
             print(f"Error fetching keys. {error}")
             raise
 
-
     # Get specific ssh-key by ID
     def get_key_by_id(self, id):
         try:
@@ -100,8 +99,6 @@ class Key():
             else:
                 payload[key] = value
 
-        print(payload)
-
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
@@ -119,5 +116,22 @@ class Key():
             print(f"Error creating ssh-key. {error}")
             raise
 
+
+    # Get specific ssh-key by ID
+    def delete_key(self, id):
+        try:
+            # Connect to api endpoint for keys
+            path = ("/v1/keys/{}?version={}&generation={}").format(
+                id, self.ver, self.gen)
+            self.conn.request("DELETE", path, None, self.headers)
+
+            # Get and read response data
+            res = self.conn.getresponse()
+            data = res.read()
+            # res.status == 200 ou 404
+
+        except Exception as error:
+            print(f"Error deleting ssh-key with ID {id}. {error}")
+            raise
 
 
