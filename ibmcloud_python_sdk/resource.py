@@ -10,18 +10,17 @@ class Resource():
         self.ver = self.cfg.version
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
-        self.conn = self.cfg.conn
+        self.conn_rg = self.cfg.conn_rg
 
     # Get all resource groups
     def get_resource_groups(self):
         try:
             # Connect to api endpoint for resource_groups
             path = "/v2/resource_groups"
-            self.cfg.var.conn_rg.request("GET", path, None,
-                                         self.cfg.var.headers)
+            self.conn_rg.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = self.cfg.var.conn_rg.getresponse()
+            res = self.conn_rg.getresponse()
             data = res.read()
 
             # Print and return response data
@@ -36,11 +35,10 @@ class Resource():
         try:
             # Connect to api endpoint for resource_groups
             path = f"/v2/resource_groups?account_id={id}"
-            self.cfg.var.conn_rg.request("GET", path, None,
-                                         self.cfg.var.headers)
+            self.conn_rg.request("GET", path, None, self.headers)
 
             # Get and read response data
-            res = self.cfg.var.conn_rg.getresponse()
+            res = self.conn_rg.getresponse()
             data = res.read()
 
             # Print and return response data
