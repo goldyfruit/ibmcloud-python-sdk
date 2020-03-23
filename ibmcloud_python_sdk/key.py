@@ -13,7 +13,6 @@ class Key():
 
     # Get all keys
     def get_keys(self):
-
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
