@@ -30,6 +30,22 @@ class Vpc():
             print(f"Error fetching VPC. {error}")
             raise
 
+    # Get specific VPC by ID or by name
+    # This method is generic and should be used as prefered choice
+    def get_vpc(self, vpc):
+        by_name = self.get_vpc_by_name(vpc)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_vpc_by_id(vpc)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
     # Get specific VPC by ID
     def get_vpc_by_id(self, id):
         try:

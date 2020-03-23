@@ -8,6 +8,9 @@ instance = ic.Instance()
 # Retrieve a complete instances list
 instance.get_instances()
 
+# Retrieve specific instance (generic)
+instance.get_instance("ibmcloud-baby")
+
 # Retrieve specific instance by ID
 instance.get_instance_by_id("r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 

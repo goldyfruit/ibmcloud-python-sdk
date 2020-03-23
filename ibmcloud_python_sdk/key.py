@@ -30,6 +30,22 @@ class Key():
             print(f"Error fetching keys. {error}")
             raise
 
+    # Get specific key by ID or by name
+    # This method is generic and should be used as prefered choice
+    def get_key(self, key):
+        by_name = self.get_key_by_name(key)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_key_by_id(key)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
     # Get specific key by ID
     def get_key_by_id(self, id):
         try:

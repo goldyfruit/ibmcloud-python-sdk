@@ -30,6 +30,22 @@ class Image():
             print(f"Error fetching images. {error}")
             raise
 
+    # Get specific image by ID or by name
+    # This method is generic and should be used as prefered choice
+    def get_image(self, image):
+        by_name = self.get_image_by_name(image)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_image_by_id(image)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
     # Get specific Image by ID
     def get_image_by_id(self, id):
         try:

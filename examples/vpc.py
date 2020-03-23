@@ -8,6 +8,9 @@ vpc = ic.Vpc()
 # Retrieve a complete VPC list
 vpc.get_vpcs()
 
+# Retrieve specific VPC (generic)
+vpc.get_vpc("advisory")
+
 # Retrieve specific VPC by ID
 vpc.get_vpc_by_id("r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 

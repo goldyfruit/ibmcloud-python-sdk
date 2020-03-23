@@ -8,6 +8,9 @@ key = ic.Key()
 # Retrieve key list
 key.get_keys()
 
+# Retrieve specific key (generic)
+key.get_key("advisory")
+
 # Retrieve specific key by ID
 key.get_key_by_id("ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 

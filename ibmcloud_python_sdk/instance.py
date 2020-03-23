@@ -32,6 +32,22 @@ class Instance():
             print(f"Error fetching instances. {error}")
             raise
 
+    # Get specific instance by ID or by name
+    # This method is generic and should be used as prefered choice
+    def get_instance(self, instance):
+        by_name = self.get_instance_by_name(instance)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_instance_by_id(instance)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
     # Get specific instance by ID
     def get_instance_by_id(self, id):
         try:
