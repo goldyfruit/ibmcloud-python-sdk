@@ -164,8 +164,6 @@ class Instance():
             else:
                 payload[key] = value
 
-        print(payload)
-
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/instances?version={}&generation={}").format(
