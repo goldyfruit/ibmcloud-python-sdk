@@ -1,6 +1,7 @@
 import json
 from . import config as ic
 
+
 class Image():
 
     def __init__(self):
@@ -28,7 +29,6 @@ class Image():
         except Exception as error:
             print(f"Error fetching images. {error}")
             raise
-
 
     # Get specific Image by ID
     def get_image_by_id(self, id):
@@ -97,7 +97,8 @@ class Image():
             if key == "file":
                 payload["file"] = {"id": args["file"]}
             if key == "operating_system":
-                payload["operating_system"] = {"name": args["operating_system"]}
+                payload["operating_system"] = {
+                    "name": args["operating_system"]}
             else:
                 payload[key] = value
         try:
