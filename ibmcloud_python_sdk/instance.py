@@ -177,3 +177,66 @@ class Instance():
         except Exception as error:
             print(f"Error creating instance. {error}")
             raise
+
+    # Delete instance
+    # This method is generic and should be used as prefered choice
+    def delete_instance(self, instance):
+        by_name = self.delete_instance_by_name(instance)
+        if "errors" in by_name:
+            for key_instance in by_name["errors"]:
+                if key_instance["code"] == "not_found":
+                    by_id = self.delete_instance_by_id(instance)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
+    # Delete instance by ID
+    def delete_instance_by_id(self, id):
+        try:
+            # Connect to api endpoint for instances
+            path = ("/v1/instances/{}?version={}&generation={}").format(
+                id, self.ver, self.gen)
+
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting instance with ID {id}. {error}")
+            raise
+
+    # Delete instance by name
+    def delete_instance_by_name(self, name):
+        try:
+            # Check if instance exists
+            instance = self.get_instance_by_name(name)
+            if "errors" in instance:
+                return instance
+
+            # Connect to api endpoint for instances
+            path = ("/v1/instances/{}?version={}&generation={}").format(
+                instance["id"], self.ver, self.gen)
+
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting instance with name {name}. {error}")
+            raise
