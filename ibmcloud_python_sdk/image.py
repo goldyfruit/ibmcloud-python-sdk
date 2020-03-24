@@ -11,7 +11,7 @@ class Image():
         self.headers = self.cfg.headers
         self.conn = self.cfg.conn
 
-    # Get all Image
+    # Get all images
     def get_images(self):
         try:
             # Connect to api endpoint for images
@@ -46,7 +46,7 @@ class Image():
         else:
             return by_name
 
-    # Get specific Image by ID
+    # Get specific image by ID
     def get_image_by_id(self, id):
         try:
             # Connect to api endpoint for images
@@ -62,10 +62,10 @@ class Image():
             return json.loads(data)
 
         except Exception as error:
-            print(f"Error fetching Image with ID {id}. {error}")
+            print(f"Error fetching image with ID {id}. {error}")
             raise
 
-    # Get specific Image by name
+    # Get specific image by name
     def get_image_by_name(self, name):
         try:
             # Connect to api endpoint for images
@@ -77,20 +77,20 @@ class Image():
             res = self.conn.getresponse()
             data = res.read()
 
-            # Loop over instance until filter match
+            # Loop over images until filter match
             for image in json.loads(data)['images']:
                 if image['name'] == name:
                     # Return response data
                     return image
 
-            # Return response if no Image is found
+            # Return response if no image is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
-            print(f"Error fetching Image with name {name}. {error}")
+            print(f"Error fetching image with name {name}. {error}")
             raise
 
-    # Create Image
+    # Create image
     def create_image(self, **kwargs):
         # Required parameters
         required_args = set(["name", "resource_group"])
@@ -131,5 +131,5 @@ class Image():
             return json.loads(data)
 
         except Exception as error:
-            print(f"Error creating Image. {error}")
+            print(f"Error creating image. {error}")
             raise
