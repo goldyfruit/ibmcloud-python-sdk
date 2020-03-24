@@ -12,6 +12,36 @@ class Image():
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
 
+    # Get operating systems
+    def get_operating_systems(self):
+        try:
+            # Connect to api endpoint for operating_systems
+            path = ("/v1/operating_systems?version={}&generation={}").format(
+                self.ver, self.gen)
+
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
+
+        except Exception as error:
+            print(f"Error fetching operating systems. {error}")
+            raise
+
+    # Get specific operating system
+    def get_operating_system(self, name):
+        try:
+            # Connect to api endpoint for images
+            path = ("/v1/operating_systems/{}?version={}"
+                    "&generation={}").format(name, self.ver, self.gen)
+
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
+
+        except Exception as error:
+            print(f"Error fetching operating system with name {name}. {error}")
+            raise
+
     # Get all images
     def get_images(self):
         try:
