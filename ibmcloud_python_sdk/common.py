@@ -33,5 +33,10 @@ class Common():
         res = self.conn.getresponse()
         data = res.read()
 
-        # Return data and HTTP response
-        return {"data": json.loads(data), "response": res}
+        if not data:
+            # Return empty data and HTTP response this is mostly
+            # due to DELETE request which doesn't return any data
+            return {"data": None, "response": res}
+        else:
+            # Return data and HTTP response
+            return {"data": json.loads(data), "response": res}
