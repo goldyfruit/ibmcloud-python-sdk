@@ -1,15 +1,13 @@
-import json
-from . import config as ic
 
 
 class Geo():
 
     def __init__(self):
-        self.cfg = ic.Config()
+        self.cfg = ic_con.Config()
+        self.common = ic_com.Common()
         self.ver = self.cfg.version
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
-        self.conn = self.cfg.conn
 
     # Get all regions
     def get_regions(self):
@@ -17,14 +15,10 @@ class Geo():
             # Connect to api endpoint for regions
             path = ("/v1/regions?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return response data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)
 
         except Exception as error:
             print(f"Error fetching regions. {error}")
@@ -36,14 +30,10 @@ class Geo():
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}?version={}&generation={}").format(
                 name, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return response data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)
 
         except Exception as error:
             print(f"Error fetching region with name {name}. {error}")
@@ -55,14 +45,10 @@ class Geo():
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}/zones?version={}&generation={}").format(
                 region, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return response data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)
 
         except Exception as error:
             print(f"Error fetching zones for region {region}. {error}")
@@ -74,14 +60,10 @@ class Geo():
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}/zones/{}?version={}&generation={}").format(
                 region, zone, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return response data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)
 
         except Exception as error:
             print(f"Error fetching zone {zone} for region {region}. {error}")
