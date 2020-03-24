@@ -154,3 +154,66 @@ class Image():
         except Exception as error:
             print(f"Error creating image. {error}")
             raise
+
+    # Delete image
+    # This method is generic and should be used as prefered choice
+    def delete_image(self, image):
+        by_name = self.delete_image_ip_by_name(image)
+        if "errors" in by_name:
+            for key_image in by_name["errors"]:
+                if key_image["code"] == "not_found":
+                    by_id = self.delete_image_ip_by_id(image)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
+    # Delete image by ID
+    def delete_image_ip_by_id(self, id):
+        try:
+            # Connect to api endpoint for images
+            path = ("/v1/images/{}?version={}&generation={}").format(
+                id, self.ver, self.gen)
+
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting image with ID {id}. {error}")
+            raise
+
+    # Delete image by name
+    def delete_image_ip_by_name(self, name):
+        try:
+            # Check if image exists
+            image = self.get_image_by_name(name)
+            if "errors" in image:
+                return image
+
+            # Connect to api endpoint for images
+            path = ("/v1/images/{}?version={}&generation={}").format(
+                image["id"], self.ver, self.gen)
+
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return {"status": "deleted"}
+
+        except Exception as error:
+            print(f"Error deleting image with name {name}. {error}")
+            raise
