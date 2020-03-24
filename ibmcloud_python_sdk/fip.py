@@ -146,7 +146,7 @@ class Fip():
     # Delete floating IP by ID
     def delete_floating_ip_by_id(self, id):
         try:
-            # Connect to api endpoint for instances
+            # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
                 id, self.ver, self.gen)
 
@@ -167,12 +167,12 @@ class Fip():
     # Delete floating IP by name
     def delete_floating_ip_by_name(self, name):
         try:
-            # Check if instance exists
+            # Check if floating IP exists
             fip = self.get_floating_ip_by_name(name)
             if "errors" in fip:
                 return fip
 
-            # Connect to api endpoint for instances
+            # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
                 fip["id"], self.ver, self.gen)
 
