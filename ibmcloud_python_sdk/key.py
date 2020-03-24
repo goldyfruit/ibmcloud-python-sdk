@@ -150,7 +150,7 @@ class Key():
 
             # Return data
             if data["response"].status != 204:
-                return json.loads(data["data"])
+                return data["data"]
 
             # Return status
             return {"status": "deleted"}
@@ -176,7 +176,7 @@ class Key():
 
             # Return data
             if data["response"].status != 204:
-                return json.loads(data["data"])
+                return data["data"]
 
             # Return status
             return {"status": "deleted"}
