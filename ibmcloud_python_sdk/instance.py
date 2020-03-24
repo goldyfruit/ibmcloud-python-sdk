@@ -1,32 +1,28 @@
 import http.client
 import json
-from . import config as ic
+from . import config as ic_con
+from . import common as ic_com
 
 
 class Instance():
 
     def __init__(self):
-        self.cfg = ic.Config()
+        self.cfg = ic_con.Config()
+        self.common = ic_com.Common()
         self.ver = self.cfg.version
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
-        self.conn = self.cfg.conn
 
     # Get all instances
     def get_instances(self):
-
         try:
             # Connect to api endpoint for instances
             path = ("/v1/instances?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching instances. {error}")
@@ -54,14 +50,10 @@ class Instance():
             # Connect to api endpoint for instance
             path = ("/v1/instances/{}?version={}&generation={}").format(
                 id, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching instance with ID {id}. {error}")
@@ -73,18 +65,18 @@ class Instance():
             # Connect to api endpoint for instances
             path = ("/v1/instances/?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
+            # Retrieve instances data
+            data = self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
-            for instance in json.loads(data)['instances']:
+            # Loop over instances until filter match
+            for instance in data["instances"]:
                 if instance['name'] == name:
                     # Return response data
                     return instance
 
-            # Return response if no instance is found
+            # Return error if no instance is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
@@ -97,14 +89,10 @@ class Instance():
             # Connect to api endpoint for instance
             path = ("/v1/instance/profiles?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching instance profiles. {error}")
@@ -116,14 +104,10 @@ class Instance():
             # Connect to api endpoint for instance
             path = ("/v1/instance/profiles/{}?version={}"
                     "&generation={}").format(name, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching instance profile with name {name}. {error}")
@@ -184,14 +168,11 @@ class Instance():
             # Connect to api endpoint for vpcs
             path = ("/v1/instances?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("POST", path, json.dumps(payload), self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "POST", path, self.headers,
+                json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating instance. {error}")

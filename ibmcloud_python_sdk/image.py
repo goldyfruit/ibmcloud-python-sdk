@@ -1,15 +1,16 @@
 import json
-from . import config as ic
+from . import config as ic_con
+from . import common as ic_com
 
 
 class Image():
 
     def __init__(self):
-        self.cfg = ic.Config()
+        self.cfg = ic_con.Config()
+        self.common = ic_com.Common()
         self.ver = self.cfg.version
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
-        self.conn = self.cfg.conn
 
     # Get all images
     def get_images(self):
@@ -17,14 +18,10 @@ class Image():
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching images. {error}")
@@ -52,14 +49,10 @@ class Image():
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
                 id, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching image with ID {id}. {error}")
@@ -71,19 +64,18 @@ class Image():
             # Connect to api endpoint for images
             path = ("/v1/images/?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
+            # Retrieve images data
+            data = self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
             # Loop over images until filter match
-            for image in json.loads(data)['images']:
+            for image in data["images"]:
                 if image['name'] == name:
                     # Return response data
                     return image
 
-            # Return response if no image is found
+            # Return error if no image is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
@@ -93,7 +85,7 @@ class Image():
     # Create image
     def create_image(self, **kwargs):
         # Required parameters
-        required_args = set(["name", "resource_group"])
+        required_args = set(["file", "operating_system"])
         if not required_args.issubset(set(kwargs.keys())):
             raise KeyError(
                 f'Required param is missing. Required: {required_args}'
@@ -103,6 +95,8 @@ class Image():
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
+            'file': kwargs.get('file'),
+            'operating_system': kwargs.get('operating_system'),
         }
 
         # Construct payload
@@ -121,14 +115,11 @@ class Image():
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("POST", path, json.dumps(payload), self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "POST", path, self.headers,
+                json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating image. {error}")

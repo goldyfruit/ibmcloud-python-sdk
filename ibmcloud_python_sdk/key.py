@@ -1,15 +1,16 @@
 import json
-from . import config as ic
+from . import config as ic_con
+from . import common as ic_com
 
 
 class Key():
 
     def __init__(self):
-        self.cfg = ic.Config()
+        self.cfg = ic_con.Config()
+        self.common = ic_com.Common()
         self.ver = self.cfg.version
         self.gen = self.cfg.generation
         self.headers = self.cfg.headers
-        self.conn = self.cfg.conn
 
     # Get all keys
     def get_keys(self):
@@ -17,14 +18,10 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching keys. {error}")
@@ -52,14 +49,10 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
                 id, self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching key with ID {id}. {error}")
@@ -71,19 +64,18 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys/?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("GET", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
+            # Retrieve keys data
+            data = self.common.query_wrapper(
+                "iaas", "GET", path, self.headers)["data"]
 
             # Loop over keys until filter match
-            for key in json.loads(data)['keys']:
+            for key in data["keys"]:
                 if key['name'] == name:
-                    # Return response data
+                    # Return data
                     return key
 
-            # Return response if no key is found
+            # Return error if no key is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
@@ -120,14 +112,11 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
                 self.ver, self.gen)
-            self.conn.request("POST", path, json.dumps(payload), self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
-
-            # Print and return response data
-            return json.loads(data)
+            # Return data
+            return self.common.query_wrapper(
+                "iaas", "POST", path, self.headers,
+                json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating key. {error}")
@@ -139,17 +128,15 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
                 id, self.ver, self.gen)
-            self.conn.request("DELETE", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
 
-            # Print and return response data
-            if res.status != 204:
-                return json.loads(data)
+            # Return data
+            if data["response"].status != 204:
+                return json.loads(data["data"])
 
-            # Print and return response data
+            # Return status
             return {"status": "deleted"}
 
         except Exception as error:
@@ -167,17 +154,15 @@ class Key():
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
                 key["id"], self.ver, self.gen)
-            self.conn.request("DELETE", path, None, self.headers)
 
-            # Get and read response data
-            res = self.conn.getresponse()
-            data = res.read()
+            data = self.common.query_wrapper(
+                "iaas", "DELETE", path, self.headers)
 
-            # Print and return response data
-            if res.status != 204:
-                return json.loads(data)
+            # Return data
+            if data["response"].status != 204:
+                return json.loads(data["data"])
 
-            # Print and return response data
+            # Return status
             return {"status": "deleted"}
 
         except Exception as error:

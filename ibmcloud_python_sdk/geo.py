@@ -16,9 +16,9 @@ class Geo():
             path = ("/v1/regions?version={}&generation={}").format(
                 self.ver, self.gen)
 
-            # Return response data
+            # Return data
             return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching regions. {error}")
@@ -31,9 +31,9 @@ class Geo():
             path = ("/v1/regions/{}?version={}&generation={}").format(
                 name, self.ver, self.gen)
 
-            # Return response data
+            # Return data
             return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching region with name {name}. {error}")
@@ -46,9 +46,9 @@ class Geo():
             path = ("/v1/regions/{}/zones?version={}&generation={}").format(
                 region, self.ver, self.gen)
 
-            # Return response data
+            # Return data
             return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching zones for region {region}. {error}")
@@ -61,9 +61,9 @@ class Geo():
             path = ("/v1/regions/{}/zones/{}?version={}&generation={}").format(
                 region, zone, self.ver, self.gen)
 
-            # Return response data
+            # Return data
             return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)
+                "iaas", "GET", path, self.headers)["data"]
 
         except Exception as error:
             print(f"Error fetching zone {zone} for region {region}. {error}")
