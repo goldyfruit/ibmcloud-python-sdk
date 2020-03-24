@@ -28,3 +28,6 @@ key.delete_key_by_id("ea930372-2abd-4aa1-bf8c-3db3ac8cb765")
 
 # Delete key by name
 key.delete_key_by_name("my-first-key")
+
+# Delete key  by using generic delete method
+key.delete_key("my-first-key")
