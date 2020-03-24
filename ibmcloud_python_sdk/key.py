@@ -122,6 +122,22 @@ class Key():
             print(f"Error creating key. {error}")
             raise
 
+    # Delete key
+    # This method is generic and should be used as prefered choice
+    def delete_key(self, key):
+        by_name = self.delete_key_by_name(key)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.delete_key_by_id(key)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
     # Delete key by ID
     def delete_key_by_id(self, id):
         try:
