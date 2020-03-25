@@ -133,10 +133,11 @@ class Image():
         payload = {}
         for key, value in args.items():
             if key == "resource_group":
-                payload["resource_group"] = {"id": args["resource_group"]}
-            if key == "file":
+                if value is not None:
+                    payload["resource_group"] = {"id": args["resource_group"]}
+            elif key == "file":
                 payload["file"] = {"id": args["file"]}
-            if key == "operating_system":
+            elif key == "operating_system":
                 payload["operating_system"] = {
                     "name": args["operating_system"]}
             else:
