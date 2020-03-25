@@ -32,7 +32,7 @@ image.create_image(file="cos://us-south/images-bucket/centos8.qcow2",
 image.delete_image_ip_by_id("0737-968fd5b4-6548-44db-acf0-6ebd6d66a301")
 
 # Delete image by name
-image.delete_image_ip_by_name("ibmcloud-baby-baby")
+image.delete_image_ip_by_name("ibmcloud-image-baby")
 
 # Delete image by using generic delete method
-image.delete_image("ibmcloud-fip-baby")
+image.delete_image("ibmcloud-image-baby")
