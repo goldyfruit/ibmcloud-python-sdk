@@ -1,27 +1,23 @@
 import json
-from . import config as ic_con
-from . import common as ic_com
+from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 
 
 class Image():
 
     def __init__(self):
-        self.cfg = ic_con.Config()
-        self.common = ic_com.Common()
-        self.ver = self.cfg.version
-        self.gen = self.cfg.generation
-        self.headers = self.cfg.headers
+        self.cfg = params()
 
     # Get operating systems
     def get_operating_systems(self):
         try:
             # Connect to api endpoint for operating_systems
             path = ("/v1/operating_systems?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching operating systems. {error}")
@@ -32,11 +28,11 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/operating_systems/{}?version={}"
-                    "&generation={}").format(name, self.ver, self.gen)
+                    "&generation={}").format(name, self.cfg["version"],
+                                             self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching operating system with name {name}. {error}")
@@ -47,11 +43,10 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching images. {error}")
@@ -78,11 +73,10 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching image with ID {id}. {error}")
@@ -93,16 +87,15 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/images/?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Retrieve images data
-            data = self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            data = qw("iaas", "GET", path, headers())["data"]
 
             # Loop over images until filter match
             for image in data["images"]:
-                if image['name'] == name:
-                    # Return response data
+                if image["name"] == name:
+                    # Return data
                     return image
 
             # Return error if no image is found
@@ -145,12 +138,11 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "POST", path, self.headers,
-                json.dumps(payload))["data"]
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating image. {error}")
@@ -177,10 +169,9 @@ class Image():
         try:
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
@@ -203,10 +194,9 @@ class Image():
 
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
-                image["id"], self.ver, self.gen)
+                image["id"], self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:

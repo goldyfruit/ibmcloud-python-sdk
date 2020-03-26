@@ -1,11 +1,12 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(name="ibmcloud_python_sdk",
-      version="1.0.0",
-      description="IBM Cloud Python SDK",
-      url="#",
-      author="IBM Corp",
-      author_email="#",
-      license="MIT",
-      packages=["ibmcloud_python_sdk"],
-      zip_safe=False)
+setup(
+    name="ibmcloud_python_sdk",
+    description="IBM Cloud Python SDK",
+    version="1.0.0",
+    url="#",
+    author="Gaëtan Trellu (goldyfruit) & James Régis",
+    author_email="#",
+    license="Apache2",
+    packages=find_packages(),
+)

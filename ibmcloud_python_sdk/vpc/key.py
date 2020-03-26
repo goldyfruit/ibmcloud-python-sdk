@@ -1,27 +1,23 @@
 import json
-from . import config as ic_con
-from . import common as ic_com
+from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 
 
 class Key():
 
     def __init__(self):
-        self.cfg = ic_con.Config()
-        self.common = ic_com.Common()
-        self.ver = self.cfg.version
-        self.gen = self.cfg.generation
-        self.headers = self.cfg.headers
+        self.cfg = params()
 
     # Get all keys
     def get_keys(self):
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching keys. {error}")
@@ -48,11 +44,10 @@ class Key():
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching key with ID {id}. {error}")
@@ -63,15 +58,14 @@ class Key():
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Retrieve keys data
-            data = self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            data = qw("iaas", "GET", path, headers())["data"]
 
             # Loop over keys until filter match
             for key in data["keys"]:
-                if key['name'] == name:
+                if key["name"] == name:
                     # Return data
                     return key
 
@@ -111,12 +105,11 @@ class Key():
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "POST", path, self.headers,
-                json.dumps(payload))["data"]
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating key. {error}")
@@ -143,10 +136,9 @@ class Key():
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
@@ -169,10 +161,9 @@ class Key():
 
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
-                key["id"], self.ver, self.gen)
+                key["id"], self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:

@@ -1,28 +1,23 @@
-import http.client
 import json
-from . import config as ic_con
-from . import common as ic_com
+from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 
 
 class Instance():
 
     def __init__(self):
-        self.cfg = ic_con.Config()
-        self.common = ic_com.Common()
-        self.ver = self.cfg.version
-        self.gen = self.cfg.generation
-        self.headers = self.cfg.headers
+        self.cfg = params()
 
     # Get all instances
     def get_instances(self):
         try:
             # Connect to api endpoint for instances
             path = ("/v1/instances?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching instances. {error}")
@@ -49,11 +44,10 @@ class Instance():
         try:
             # Connect to api endpoint for instance
             path = ("/v1/instances/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching instance with ID {id}. {error}")
@@ -64,16 +58,15 @@ class Instance():
         try:
             # Connect to api endpoint for instances
             path = ("/v1/instances/?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Retrieve instances data
-            data = self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            data = qw("iaas", "GET", path, headers())["data"]
 
             # Loop over instances until filter match
             for instance in data["instances"]:
-                if instance['name'] == name:
-                    # Return response data
+                if instance["name"] == name:
+                    # Return data
                     return instance
 
             # Return error if no instance is found
@@ -88,11 +81,10 @@ class Instance():
         try:
             # Connect to api endpoint for instance
             path = ("/v1/instance/profiles?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching instance profiles. {error}")
@@ -103,11 +95,11 @@ class Instance():
         try:
             # Connect to api endpoint for instance
             path = ("/v1/instance/profiles/{}?version={}"
-                    "&generation={}").format(name, self.ver, self.gen)
+                    "&generation={}").format(name, self.cfg["version"],
+                                             self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching instance profile with name {name}. {error}")
@@ -167,12 +159,11 @@ class Instance():
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/instances?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "POST", path, self.headers,
-                json.dumps(payload))["data"]
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating instance. {error}")
@@ -199,10 +190,9 @@ class Instance():
         try:
             # Connect to api endpoint for instances
             path = ("/v1/instances/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
@@ -225,10 +215,9 @@ class Instance():
 
             # Connect to api endpoint for instances
             path = ("/v1/instances/{}?version={}&generation={}").format(
-                instance["id"], self.ver, self.gen)
+                instance["id"], self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:

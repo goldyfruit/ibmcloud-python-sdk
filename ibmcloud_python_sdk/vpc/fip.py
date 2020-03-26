@@ -1,27 +1,23 @@
 import json
-from . import config as ic_con
-from . import common as ic_com
+from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 
 
 class Fip():
 
     def __init__(self):
-        self.cfg = ic_con.Config()
-        self.common = ic_com.Common()
-        self.ver = self.cfg.version
-        self.gen = self.cfg.generation
-        self.headers = self.cfg.headers
+        self.cfg = params()
 
     # Get all floating IPs
     def get_floating_ips(self):
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching floating IPs. {error}")
@@ -48,11 +44,10 @@ class Fip():
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching floating IP with ID {id}. {error}")
@@ -63,16 +58,15 @@ class Fip():
         try:
             # Connect to api endpoint for instances
             path = ("/v1/floating_ips/?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Retrieve floating IPs data
-            data = self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            data = qw("iaas", "GET", path, headers())["data"]
 
             # Loop over instances until filter match
             for fip in data["floating_ips"]:
-                if fip['name'] == name:
-                    # Return response data
+                if fip["name"] == name:
+                    # Return data
                     return fip
 
             # Return error if no instance is found
@@ -116,12 +110,11 @@ class Fip():
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/?version={}&generation={}").format(
-                self.ver, self.gen)
+                self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "POST", path, self.headers,
-                json.dumps(payload))["data"]
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error reserving floating. {error}")
@@ -148,10 +141,9 @@ class Fip():
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                id, self.ver, self.gen)
+                id, self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
@@ -174,10 +166,9 @@ class Fip():
 
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                fip["id"], self.ver, self.gen)
+                fip["id"], self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:

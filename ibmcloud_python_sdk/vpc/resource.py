@@ -2,18 +2,15 @@ import http.client
 import json
 from . import config as ic
 
-from . import config as ic_con
-from . import common as ic_com
+from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 
 
 class Resource():
 
     def __init__(self):
-        self.cfg = ic_con.Config()
-        self.common = ic_com.Common()
-        self.ver = self.cfg.version
-        self.gen = self.cfg.generation
-        self.headers = self.cfg.headers
+        self.cfg = params()
 
     # Get all resource groups
     def get_resource_groups(self):
@@ -22,8 +19,7 @@ class Resource():
             path = "/v2/resource_groups"
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching resource groups. {error}")
@@ -36,8 +32,7 @@ class Resource():
             path = f"/v2/resource_groups?account_id={id}"
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "GET", path, self.headers)["data"]
+            return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching resource groups for account {id}. {error}")
