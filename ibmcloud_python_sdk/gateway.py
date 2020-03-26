@@ -115,7 +115,7 @@ class Gateway():
                 payload["zone"] = {"name": args["zone"]}
             else:
                 payload[key] = value
-        print(payload)
+
         try:
             # Connect to api endpoint for public_gateways
             path = ("/v1/public_gateways?version={}&generation={}").format(
