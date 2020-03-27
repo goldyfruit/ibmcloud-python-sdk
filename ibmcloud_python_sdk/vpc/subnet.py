@@ -2,13 +2,14 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
-from ibmcloud_python_sdk.vpc.gateway import get_public_gateway
+from ibmcloud_python_sdk.vpc import gateway as gw
 
 
 class Subnet():
 
     def __init__(self):
         self.cfg = params()
+        self.gateway = gw.Gateway()
 
     # Get all subnets
     def get_subnets(self):
@@ -294,7 +295,7 @@ class Subnet():
         # Retrieve subnet and public gateway information to get the ID
         # (mostly useful if a name is provided)
         subnet = self.get_subnet(args["subnet"])
-        gateway = get_public_gateway(args["public_gateway"])
+        gateway = self.gateway.get_public_gateway(args["public_gateway"])
 
         # Construct payload
         payload = {}
