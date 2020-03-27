@@ -1,1 +1,3 @@
 PyYAML>=3.12 # MIT
+rednose==1.3.0
+mock==4.0.2
