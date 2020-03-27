@@ -133,9 +133,8 @@ class Vpc():
                 self.cfg["version"], self.cfg["generation"])
 
             # Return data
-            return self.common.query_wrapper(
-                "iaas", "POST", path, self.headers,
-                json.dumps(payload))["data"]
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
         except Exception as error:
             print(f"Error creating VPC. {error}")
@@ -164,8 +163,7 @@ class Vpc():
             path = ("/v1/vpcs/{}?version={}&generation={}").format(
                 id, self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
@@ -190,8 +188,7 @@ class Vpc():
             path = ("/v1/vpcs/{}?version={}&generation={}").format(
                 vpc["id"], self.cfg["version"], self.cfg["generation"])
 
-            data = self.common.query_wrapper(
-                "iaas", "DELETE", path, self.headers)
+            data = qw("iaas", "DELETE", path, headers())
 
             # Return data
             if data["response"].status != 204:
