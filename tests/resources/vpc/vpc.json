@@ -1,0 +1,55 @@
+{
+    "classic_access": false,
+    "created_at": "2020-03-22T20:50:29.000Z",
+    "crn": "crn:v1:bluemix:public:is:us-south:a/9aa205e454574e8484b3ca8c2ff33d86::vpc:r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
+    "cse_source_ips": [
+        {
+            "ip": {
+                "address": "10.249.196.170"
+            },
+            "zone": {
+                "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1",
+                "name": "us-south-1"
+            }
+        },
+        {
+            "ip": {
+                "address": "10.249.74.185"
+            },
+            "zone": {
+                "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-2",
+                "name": "us-south-2"
+            }
+        },
+        {
+            "ip": {
+                "address": "10.249.214.161"
+            },
+            "zone": {
+                "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-3",
+                "name": "us-south-3"
+            }
+        }
+    ],
+    "default_network_acl": {
+        "crn": "crn:v1:bluemix:public:is:us-south:a/9aa205e454574e8484b3ca8c2ff33d86::network-acl:r006-9fab1e61-5e1a-4e70-a80b-bca04c2f0149",
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/r006-9fab1e61-5e1a-4e70-a80b-bca04c2f0149",
+        "id": "r006-9fab1e61-5e1a-4e70-a80b-bca04c2f0149",
+        "name": "unpainted-crucial-trimmer-perennial-zipfile-barcode"
+    },
+    "default_security_group": {
+        "crn": "crn:v1:bluemix:public:is:us-south:a/9aa205e454574e8484b3ca8c2ff33d86::security-group:r006-30a8aae2-17cc-4d0a-bf5d-5e0b8d4e546d",
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/r006-30a8aae2-17cc-4d0a-bf5d-5e0b8d4e546d",
+        "id": "r006-30a8aae2-17cc-4d0a-bf5d-5e0b8d4e546d",
+        "name": "fruit-average-shaping-gone-denture-rumor"
+    },
+    "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
+    "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
+    "name": "vpc-test",
+    "resource_group": {
+        "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/c4d1b0e8b5684588a614a6fbfe5af252",
+        "id": "c4d1b0e8b5684588a614a6fbfe5af252",
+        "name": "jregis-ansible-demo-rg-1"
+    },
+    "status": "available"
+}
