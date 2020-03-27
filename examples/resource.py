@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import resource as ic
+from ibmcloud_python_sdk.vpc import resource as ic
 
 # Intentiate the class
 resource = ic.Resource()

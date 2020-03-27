@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import subnet as ic
+from ibmcloud_python_sdk.vpc import subnet as ic
 
 # Intentiate the class
 subnet = ic.subnet()

@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import fip as ic
+from ibmcloud_python_sdk.vpc import fip as ic
 
 # Intentiate the class
 fip = ic.Fip()

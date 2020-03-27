@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import volume as ic
+from ibmcloud_python_sdk.vpc import volume as ic
 
 # Intentiate the class
 volume = ic.Volume()

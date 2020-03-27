@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import image as ic
+from ibmcloud_python_sdk.vpc import image as ic
 
 # Intentiate the class
 image = ic.Image()

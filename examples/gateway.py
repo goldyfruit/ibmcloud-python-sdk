@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import gateway as ic
+from ibmcloud_python_sdk.vpc import gateway as ic
 
 # Intentiate the class
 gateway = ic.Gateway()

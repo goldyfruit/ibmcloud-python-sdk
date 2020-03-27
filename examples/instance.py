@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import instance as ic
+from ibmcloud_python_sdk.vpc import instance as ic
 
 # Intentiate the class
 instance = ic.Instance()

@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import vpc as ic
+from ibmcloud_python_sdk.vpc import vpc as ic
 
 # Intentiate the class
 vpc = ic.Vpc()

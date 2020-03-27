@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import geo as ic
+from ibmcloud_python_sdk.vpc import geo as ic
 
 # Intentiate the class
 geo = ic.Geo()

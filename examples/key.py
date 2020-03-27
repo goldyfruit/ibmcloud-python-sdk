@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from ibmcloud_python_sdk import key as ic
+from ibmcloud_python_sdk.vpc import key as ic
 
 # Intentiate the class
 key = ic.Key()
