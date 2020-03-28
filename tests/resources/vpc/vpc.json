@@ -45,11 +45,11 @@
     },
     "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
     "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
-    "name": "vpc-test",
+    "name": "sdk",
     "resource_group": {
         "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/c4d1b0e8b5684588a614a6fbfe5af252",
         "id": "c4d1b0e8b5684588a614a6fbfe5af252",
-        "name": "jregis-ansible-demo-rg-1"
+        "name": "sdk-demo-rg-1"
     },
     "status": "available"
 }
