@@ -23,7 +23,7 @@ class Acl():
             print(f"Error fetching network ACLs. {error}")
             raise
 
-    # Get specific network ACL by ID or by name
+    # Get specific network ACL
     # This method is generic and should be used as prefered choice
     def get_network_acl(self, acl):
         by_name = self.get_network_acl_by_name(acl)
@@ -63,13 +63,13 @@ class Acl():
             # Retrieve network ACL data
             data = qw("iaas", "GET", path, headers())["data"]
 
-            # Loop over network ACL until filter match
+            # Loop over network ACLs until filter match
             for acl in data['network_acls']:
                 if acl["name"] == name:
                     # Return data
                     return acl
 
-            # Return error if no VPC is found
+            # Return error if no network ACL is found
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
@@ -113,6 +113,8 @@ class Acl():
         # Retrieve network ACL information to get the ID
         # (mostly useful if a name is provided)
         network_acl = self.get_network_acl(name)
+        if "errors" in network_acl:
+            return network_acl
 
         try:
             # Connect to api endpoint for network_acls
