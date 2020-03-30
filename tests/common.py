@@ -6,10 +6,12 @@ import json
 from urllib.parse import urlparse
 
 def fake_auth(auth_url, key):
+    """
+    Return a false header required by authentication process
+    """
     return {'Content-Type': 'application/json', 'Accept': 'application/json', 
             'Authorization': 'Bearer eyJraWQiOiIyMDIwMDMyNjE4MjgiLCJhbGciOiJ\
                     SUzI1NiJ9.e'}
-
 
 def fake_get_call(service, verb, path, headers):
     """
