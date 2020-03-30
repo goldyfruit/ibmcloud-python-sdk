@@ -1,5 +1,5 @@
 #!/bin/env bash
 
-export IC_CONFIG_FILE="fake-credential.yml"
+export IC_CONFIG_FILE="test-credentials.yaml"
 
 nosetests tests --rednose --verbose
