@@ -6,7 +6,6 @@ import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.vpc import Vpc
 
 from .. import common as common
-from . import test_vpc_fake_url as vpc
 
 class VPCTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -57,13 +56,13 @@ class VPCTestCase(unittest.TestCase):
         response = self.vpc.get_vpc_default_network_acl(self.fake_vpc['id'])
         self.assertEqual(response['default_network_acl']['name'], self.fake_vpc['default_network_acl'])
 
-    @patch('ibmcloud_python_sdk.vpc.vpc.qw', vpc.fake_create_vpc)
+    @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_create)
     def test_create_vpc_working(self):
         """Test create_vpc should work."""
         response = self.vpc.create_vpc(name=self.fake_vpc['name'])
         self.assertEqual(response['name'], self.fake_vpc['name'])
  
-    @patch('ibmcloud_python_sdk.vpc.vpc.qw', vpc.fake_create_vpc)
+    @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_create)
     def test_create_vpc_not_working(self):
         """Test create_vpc should not work."""
         response = self.vpc.create_vpc(name=self.fake_vpc['name'])
