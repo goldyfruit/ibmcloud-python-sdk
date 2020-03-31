@@ -22,7 +22,9 @@ def fake_get_call(service, verb, path, headers):
    
     if 'vpcs' in path:
         folder = 'vpcs'
-        result["data"][folder] = []
+    if 'instances' in path:
+        folder = 'instances'
+    result["data"][folder] = []
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     print(resource_file)
     # Must return a file-like object
@@ -43,8 +45,9 @@ def fake_get_one(service, verb, path, headers):
     
     if 'vpcs' in path:
         folder = 'vpcs'
+    if 'instances' in path:
+        folder = 'instances'
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
-    #resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     # Must return a file-like object
     try:
         json_file = open(resource_file, mode='rb')
