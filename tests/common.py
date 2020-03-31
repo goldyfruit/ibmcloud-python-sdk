@@ -50,7 +50,7 @@ def fake_get_call(service, verb, path, headers):
         return(result)
     except IOError:
         print("in da house")
-        return result["data"]["vpcs"].append({"error": "not found"})
+        return result["data"][folder].append({"error": "not found"})
         raise 
 
 def fake_get_one(service, verb, path, headers):

@@ -1,0 +1,27 @@
+{
+    "created_at": "2019-08-20T00:00:00.000Z",
+    "crn": "crn:v1:bluemix:public:is:us-south:::image:a49598fa-47f4-47f1-b404-9d69a70ea7f6",
+    "file": {
+        "size": 6
+    },
+    "href": "https://us-south-ng.iaas.cloud.ibm.com/v1/images/a49598fa-47f4-47f1-b404-9d69a70ea7f6",
+    "id": "a49598fa-47f4-47f1-b404-9d69a70ea7f6",
+    "minimum_provisioned_size": 100,
+    "name": "sdk",
+    "operating_system": {
+        "architecture": "ppc64le",
+        "display_name": "Ubuntu Linux 18.04 LTS Bionic Beaver Minimal Install (ppc64le)",
+        "family": "Ubuntu Linux",
+        "href": "https://us-south-ng.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-18-04-ppc64le",
+        "name": "ubuntu-18-04-ppc64le",
+        "vendor": "Canonical",
+        "version": "18.04 LTS Bionic Beaver Minimal Install"
+    },
+    "resource_group": {
+        "href": "https://resource-controller.cloud.ibm.com/v1/resource_groups/",
+        "id": ""
+    },
+    "status": "deprecated",
+    "visibility": "public"
+}
+

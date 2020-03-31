@@ -1,0 +1,17 @@
+{
+    "created_at": "2020-03-22T14:12:42.000Z",
+    "crn": "crn:v1:bluemix:public:is:us-south:a/9aa205e454574e8484b3ca8c2ff33d86::key:r006-84ddd169-031f-4732-9faa-aeef7c554df5",
+    "fingerprint": "SHA256:m0upwfQg4N5goQVn/VXravLLweEFSJ7t60aiUQ8C/kM",
+    "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/r006-84ddd169-031f-4732-9faa-aeef7c554df5",
+    "id": "r006-84ddd169-031f-4732-9faa-aeef7c554df5",
+    "length": 2048,
+    "name": "sdk",
+    "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLxcLJBkqQK/brID+Q3v6iROtBgVEDgIXJO7krIDCXGBHoCX1TlppO1Y+qC0+B9bNCiZQoYNmQ+mJZ0HOhWNCO/TmoO/opKCBT51OK3nFsnysCViObieEcf2NF9qHCayesM9pjp+I3gsCLeaOO65rnSfABz34Hqy1NgdZ6ZFuPhuq4LQIhSnz747+tvJe0wqNPAWbBffJM2NFF4ASzg6j1Opc3j33zc2Nw45yQDfEs7p/THwiUOlH85rE0ySsAGwy3eNhBI/u9HnGTq2cpQvk/Lrv0xFIhKMczJDDryx0za72e9/1121oQKBmuOqMBiNbpvs2ji6o1so+OlKCwu5yXsoYLtjeNd7SVkfjz01gi0zoiLxmzCGbktdxKHTo4ab6D8S4A47itrv8Nnqma238hYUaMT5DQ7BFgkwZT7nYdoYxBvhKu9yO9B9VmhEiM67r2dHMslxviwFcjSV4hRMh26VtXeKeUX3R0BzUpmIhnq4Rz4yQAgW0lXtOBunjPxB8= demo@sdk",
+    "resource_group": {
+        "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/c4d1b0e8b5684588a614a6fbfe5af252",
+        "id": "c4d1b0e8b5684588a614a6fbfe5af252",
+        "name": "jregis-ansible-demo-rg-1"
+    },
+    "type": "rsa"
+}
+
