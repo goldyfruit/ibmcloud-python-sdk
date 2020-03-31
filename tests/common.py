@@ -21,14 +21,14 @@ def fake_get_call(service, verb, path, headers):
     result["data"] = {}
    
     if 'vpcs' in path:
-        folder = 'vpc'
-        result["data"]["vpcs"] = []
+        folder = 'vpcs'
+        result["data"][folder] = []
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     print(resource_file)
     # Must return a file-like object
     try:
         json_file = open(resource_file, mode='rb')
-        result["data"]["vpcs"].append(json.load(json_file))
+        result["data"][folder].append(json.load(json_file))
         return(result)
     except IOError:
         print("in da house")
@@ -41,8 +41,8 @@ def fake_get_one(service, verb, path, headers):
     """
     result = {}
     
-    if 'vpc' in path:
-        folder = 'vpc'
+    if 'vpcs' in path:
+        folder = 'vpcs'
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     #resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     # Must return a file-like object
