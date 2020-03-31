@@ -1,0 +1,24 @@
+{
+    "address": "169.48.93.0",
+    "created_at": "2020-03-13T15:33:36.000Z",
+    "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/r006-6f093bf3-28fe-4d19-b53e-44cabb574366",
+    "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82",
+    "name": "sdk",
+    "resource_group": {
+        "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/f328f2cdec6d4b4da2844c214dec9d39",
+        "id": "f328f2cdec6d4b4da2844c214dec9d39",
+        "name": "Resource-Group-Advisory"
+    },
+    "status": "available",
+    "target": {
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/r006-351910c5-2c28-4c78-9b36-28da9d4b062a",
+        "id": "r006-351910c5-2c28-4c78-9b36-28da9d4b062a",
+        "name": "pgw-00c6c3c0-6540-11ea-b2cd-53e9ffc40d80",
+        "primary_ipv4_address": null,
+        "resource_type": "public_gateway"
+    },
+    "zone": {
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-3",
+        "name": "us-south-3"
+    }
+}
