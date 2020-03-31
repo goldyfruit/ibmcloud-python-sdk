@@ -1,7 +1,7 @@
 {
     "id": "c4d1b0e8b5684588a614a6fbfe5af252",
-    "account_id": "9aa205e454574e8484b3ca8c2ff33d86",
-    "name": "jregis-ansible-demo-rg-1",
+    "account_id": "9bb205f454274e8484b3ca8c8ff89d86",
+    "name": "sdk",
     "default": false,
     "state": "ACTIVE",
     "quota_id": "a3d7b8d01e261c24677937c29ab33f3c",

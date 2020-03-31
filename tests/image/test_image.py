@@ -65,14 +65,12 @@ class ImageTestCase(unittest.TestCase):
                 file='file')
         print(response)
         self.assertEqual(response['name'], self.fake_image['name'])
-# 
-#    @patch('ibmcloud_python_sdk.vpc.image.qw', common.fake_create)
-#    def test_create_image_not_working(self):
-#        """Test create_image should not work."""
-#        response = self.image.create_image(name=self.fake_image['name'],
-#                 pni_subnet='subnet', 
-#                image='image', 
-#                profile='profile', 
-#                zone='zone')
-#        self.assertNotEqual(response['id'], self.fake_image['name'])
-       
+ 
+    @patch('ibmcloud_python_sdk.vpc.image.qw', common.fake_create)
+    def test_create_image_not_working(self):
+        """Test create_image should not work."""
+        response = self.image.create_image(name=self.fake_image['name'],
+                operating_system='operating_system=', 
+                file='file')
+        self.assertNotEqual(response['id'], self.fake_image['name'])
+      

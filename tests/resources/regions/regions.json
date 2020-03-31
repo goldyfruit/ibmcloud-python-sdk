@@ -1,7 +1,7 @@
 {
     "endpoint": "https://eu-gb.iaas.cloud.ibm.com",
     "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/eu-gb",
-    "name": "eu-gb",
+    "name": "sdk",
     "status": "available"
 }
 
