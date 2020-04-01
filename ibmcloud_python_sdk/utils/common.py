@@ -53,3 +53,14 @@ def check_args(arguments, **kwargs):
         raise KeyError(
             "Required param(s) is/are missing. Required: {}".format(required)
         )
+
+
+def resource_not_found(payload=None):
+    """Return custom JSON if a resource is not found.
+    :param payload: Optional. Customize the JSON to return is needed.
+    """
+    if payload is not None:
+        return payload
+    else:
+        return {"errors": [{"code": "not_found"}]}
+
