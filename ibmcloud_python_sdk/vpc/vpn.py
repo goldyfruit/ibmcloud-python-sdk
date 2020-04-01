@@ -599,9 +599,9 @@ class Vpn():
                         "action": args["action"]
                     }
                 elif key == "local_cidrs":
-                    payload["local_cidrs"] = [args["local_cidrs"]]
+                    payload["local_cidrs"] = args["local_cidrs"]
                 elif key == "peer_cidrs":
-                    payload["peer_cidrs"] = [args["peer_cidrs"]]
+                    payload["peer_cidrs"] = args["peer_cidrs"]
                 elif key == "ike_policy":
                     payload["ike_policy"] = {"id": args["ike_policy"]}
                 elif key == "ipsec_policy":
