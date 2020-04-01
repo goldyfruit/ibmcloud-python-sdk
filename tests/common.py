@@ -45,7 +45,7 @@ def fake_get_call(service, verb, path, headers):
     folder = set_folder_var(path)
     result["data"][folder] = []
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
-    print(resource_file)
+    #print(resource_file)
     # Must return a file-like object
     try:
         json_file = open(resource_file, mode='rb')
@@ -78,14 +78,18 @@ def fake_create(service, verb, path, headers, payload):
     """
     Test
     """
+    data = {}
     folder = set_folder_var(path)
     path_pattern = '\/v1\/'+folder+'\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}&generation=[0-9]'
+    vpc_acl_or_sg_pattern = '\/v1\/vpcs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/default_security_group\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}\&generation=[0-9]{1}'
     contain_path = re.compile(path_pattern)
-    print(path_pattern)
-    print(path)
+    contain_acl_or_sg_path = re.compile(vpc_acl_or_sg_pattern)
+    #print(path_pattern)
+    #print(path)
     print(bool(contain_path.search(path)))
-    if service == "iaas" and verb == "POST" and bool(contain_path.search(path)) is True:
-        data = {}
+    print(bool(contain_acl_or_sg_path.search(path)))
+    if service == "iaas" and verb == "POST" and\
+            (bool(contain_path.search(path)) is True or bool(contain_acl_or_sg_path(path)) is True):
         data = { "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82", \
                 "crn": "crn:v1:bluemix:public:is:us-south:a/2d171b8a90e246fd9ffe0e5e8c191c9e:\
                 :instance:r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82", \
@@ -94,7 +98,6 @@ def fake_create(service, verb, path, headers, payload):
                 "status": "available"}
         return({"status_code": 200, "data": data})
     else:
-        data = {}
         data = {"id": "", "name": "", "status": "error !"}
         return({"status_code": 500, "data": data})
 
