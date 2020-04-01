@@ -133,12 +133,24 @@ class Vpc():
 
         except Exception as error:
             print("Error fetching default security group for VPC"
-                  "with id {id}. {error}").format(id, error)
+                  " {}. {}").format(vpc, error)
             raise
 
-    # Create VPC
     def create_vpc(self, **kwargs):
-        # Set default value is not required paramaters are not defined
+        """
+        Create VPC (Virtual Private Cloud)
+        :param name: Optional. The unique user-defined name for this VPC.
+
+        :param resource_group: Optional. The resource group to use.
+
+        :param address_prefix_management: Optional. Indicates whether a
+        default address prefix should be automatically created for
+        each zone in this VPC.
+
+        :param classic_access: Optional. Indicates whether this VPC should
+        be connected to Classic Infrastructure.
+        """
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
