@@ -158,17 +158,16 @@ class Volume():
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "resource_group":
-                if value is not None:
+            if value is not None:
+                if key == "resource_group":
                     payload["resource_group"] = {"id": args["resource_group"]}
-            elif key == "profile":
-                payload["profile"] = {"name": args["profile"]}
-            elif key == "zone":
-                payload["zone"] = {"name": args["zone"]}
-            else:
-                payload[key] = value
+                elif key == "profile":
+                    payload["profile"] = {"name": args["profile"]}
+                elif key == "zone":
+                    payload["zone"] = {"name": args["zone"]}
+                else:
+                    payload[key] = value
 
-        print(payload)
         try:
             # Connect to api endpoint for volumes
             path = ("/v1/volumes?version={}&generation={}").format(
