@@ -9,8 +9,10 @@ class Vpc():
     def __init__(self):
         self.cfg = params()
 
-    # Get all VPCs
     def get_vpcs(self):
+        """
+        Retrieve VPC list
+        """
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs?version={}&generation={}").format(
@@ -23,9 +25,11 @@ class Vpc():
             print(f"Error fetching VPC. {error}")
             raise
 
-    # Get specific VPC by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_vpc(self, vpc):
+        """
+        Retrieve specific VPC by name or by ID
+        :param vpc: VPC name or ID
+        """
         by_name = self.get_vpc_by_name(vpc)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -39,8 +43,11 @@ class Vpc():
         else:
             return by_name
 
-    # Get specific VPC by ID
     def get_vpc_by_id(self, id):
+        """
+        Retrieve specific VPC by ID
+        :param id: VPC ID
+        """
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}?version={}&generation={}").format(
@@ -53,8 +60,11 @@ class Vpc():
             print(f"Error fetching VPC with ID {id}. {error}")
             raise
 
-    # Get specific VPC by name
     def get_vpc_by_name(self, name):
+        """
+        Retrieve specific VPC by name
+        :param id: VPC name
+        """
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/?version={}&generation={}").format(
@@ -63,7 +73,7 @@ class Vpc():
             # Retrieve vpc data
             data = qw("iaas", "GET", path, headers())["data"]
 
-            # Loop over vpc until filter match
+            # Loop over VPCs until filter match
             for vpc in data['vpcs']:
                 if vpc["name"] == name:
                     # Return data
@@ -76,8 +86,11 @@ class Vpc():
             print(f"Error fetching VPC with name {name}. {error}")
             raise
 
-    # Get VPC default network ACL
-    def get_vpc_default_network_acl(self, id):
+    def get_default_network_acl(self, vpc):
+        """
+        Retrieve VPC's default network ACL
+        :param vpc: VPC name or ID
+        """
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_network_acl?version={}"
@@ -92,8 +105,11 @@ class Vpc():
                   " with ID {}. {}").format(id, error)
             raise
 
-    # Get VPC default security group
-    def get_vpc_default_security_group(self, id):
+    def get_default_security_group(self, vpc):
+        """
+        Retrieve VPC's default security group
+        :param vpc: VPC name or ID
+        """
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_security_group?version={}"
@@ -140,44 +156,16 @@ class Vpc():
             print(f"Error creating VPC. {error}")
             raise
 
-    # Delete vpc
-    # This method is generic and should be used as prefered choice
     def delete_vpc(self, vpc):
-        by_name = self.delete_vpc_by_name(vpc)
-        if "errors" in by_name:
-            for key_vpc in by_name["errors"]:
-                if key_vpc["code"] == "not_found":
-                    by_id = self.delete_vpc_by_id(vpc)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
+        """
+        Delete VPC
+        :param vpc: VPC name or ID
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
 
-    # Delete VPC by ID
-    def delete_vpc_by_id(self, id):
-        try:
-            # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting VPC with id {id}. {error}")
-            raise
-
-    # Delete VPC by name
-    def delete_vpc_by_name(self, name):
         try:
             # Check if VPC exists
             vpc = self.get_vpc_by_name(name)
