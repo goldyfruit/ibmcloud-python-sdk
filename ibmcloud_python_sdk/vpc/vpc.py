@@ -22,7 +22,7 @@ class Vpc():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching VPC. {error}")
+            print("Error fetching VPC. {}").format(error)
             raise
 
     def get_vpc(self, vpc):
@@ -57,7 +57,7 @@ class Vpc():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching VPC with ID {id}. {error}")
+            print("Error fetching VPC with ID {}. {}").format(id, error)
             raise
 
     def get_vpc_by_name(self, name):
@@ -83,7 +83,7 @@ class Vpc():
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
-            print(f"Error fetching VPC with name {name}. {error}")
+            print("Error fetching VPC with name {}. {}").format(name, error)
             raise
 
     def get_default_network_acl(self, vpc):
@@ -102,7 +102,7 @@ class Vpc():
 
         except Exception as error:
             print("Error fetching default network ACL for VPC"
-                  " with ID {}. {}").format(id, error)
+                  " {}. {}").format(vpc, error)
             raise
 
     def get_default_security_group(self, vpc):
@@ -153,7 +153,7 @@ class Vpc():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error creating VPC. {error}")
+            print("Error creating VPC. {}").format(error)
             raise
 
     def delete_vpc(self, vpc):
@@ -186,5 +186,5 @@ class Vpc():
             return {"status": "deleted"}
 
         except Exception as error:
-            print(f"Error deleting VPC with name {name}. {error}")
+            print("Error deleting VPC {}. {}").format(vpc, error)
             raise
