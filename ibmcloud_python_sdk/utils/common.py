@@ -14,7 +14,6 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         such authentication token, content type, etc...
     :param payload: Optional. JSON payload send during the query.
     """
-
     cfg = params()
 
     if conn_type == "iaas":
@@ -52,5 +51,5 @@ def check_args(arguments, **kwargs):
     # Check if required arguments are passed
     if not required.issubset(passed):
         raise KeyError(
-            "Required param is/are missing. Required: {}".format(required)
+            "Required param(s) is/are missing. Required: {}".format(required)
         )
