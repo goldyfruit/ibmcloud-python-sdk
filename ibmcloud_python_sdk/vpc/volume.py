@@ -28,6 +28,7 @@ class Volume():
             print("Error fetching volume profiles. {}").format(error)
             raise
 
+    def get_volume_profile(self, profile):
         """
         Retrieve specific volume profile by name
         :param profile: Volume profile name
@@ -35,7 +36,7 @@ class Volume():
         try:
             # Connect to api endpoint for volume
             path = ("/v1/volume/profiles/{}?version={}"
-                    "&generation={}").format(name, self.cfg["version"],
+                    "&generation={}").format(profile, self.cfg["version"],
                                              self.cfg["generation"])
 
             # Return data
