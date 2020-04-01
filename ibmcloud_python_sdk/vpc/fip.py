@@ -109,7 +109,7 @@ class Fip():
 
         try:
             # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/?version={}&generation={}").format(
+            path = ("/v1/floating_ips?version={}&generation={}").format(
                 self.cfg["version"], self.cfg["generation"])
 
             # Return data
