@@ -148,56 +148,23 @@ class Volume():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error creating volume. {error}")
+            print("Error creating volume. {}").format(error)
             raise
 
-    # Delete volume
-    # This method is generic and should be used as prefered choice
     def delete_volume(self, volume):
-        by_name = self.delete_volume_ip_by_name(volume)
-        if "errors" in by_name:
-            for key_volume in by_name["errors"]:
-                if key_volume["code"] == "not_found":
-                    by_id = self.delete_volume_ip_by_id(volume)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
+        """
+        Delete volume
+        :param volume: Volume name or ID
+        """
+        # Check if volume exists and get information
+        volume_info = self.get_volume(volume)
+        if "errors" in volume_info:
+            return volume_info
 
-    # Delete volume by ID
-    def delete_volume_ip_by_id(self, id):
         try:
             # Connect to api endpoint for volumes
             path = ("/v1/volumes/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting volume with ID {id}. {error}")
-            raise
-
-    # Delete volume by name
-    def delete_volume_ip_by_name(self, name):
-        try:
-            # Check if volume exists
-            volume = self.get_volume_by_name(name)
-            if "errors" in volume:
-                return volume
-
-            # Connect to api endpoint for volumes
-            path = ("/v1/volumes/{}?version={}&generation={}").format(
-                volume["id"], self.cfg["version"], self.cfg["generation"])
+                volume_info["id"], self.cfg["version"], self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
