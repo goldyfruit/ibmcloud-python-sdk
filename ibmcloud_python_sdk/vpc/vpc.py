@@ -91,10 +91,16 @@ class Vpc():
         Retrieve VPC's default network ACL
         :param vpc: VPC name or ID
         """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_network_acl?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
+                    "&generation={}").format(vpc_info["id"],
+                                             self.cfg["version"],
                                              self.cfg["generation"])
 
             # Return data
@@ -110,10 +116,16 @@ class Vpc():
         Retrieve VPC's default security group
         :param vpc: VPC name or ID
         """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_security_group?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
+                    "&generation={}").format(vpc_info["id"],
+                                             self.cfg["version"],
                                              self.cfg["generation"])
 
             # Return data
@@ -167,14 +179,9 @@ class Vpc():
             return vpc_info
 
         try:
-            # Check if VPC exists
-            vpc = self.get_vpc_by_name(name)
-            if "errors" in vpc:
-                return vpc
-
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}?version={}&generation={}").format(
-                vpc["id"], self.cfg["version"], self.cfg["generation"])
+                vpc_info["id"], self.cfg["version"], self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
