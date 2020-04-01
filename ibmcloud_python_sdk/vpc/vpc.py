@@ -2,6 +2,8 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
 
 
 class Vpc():
@@ -63,7 +65,7 @@ class Vpc():
     def get_vpc_by_name(self, name):
         """
         Retrieve specific VPC by name
-        :param id: VPC name
+        :param name: VPC name
         """
         try:
             # Connect to api endpoint for vpcs
@@ -80,7 +82,7 @@ class Vpc():
                     return vpc
 
             # Return error if no VPC is found
-            return {"errors": [{"code": "not_found"}]}
+            return resource_not_found()
 
         except Exception as error:
             print("Error fetching VPC with name {}. {}").format(name, error)
@@ -203,7 +205,7 @@ class Vpc():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
             print("Error deleting VPC {}. {}").format(vpc, error)
