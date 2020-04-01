@@ -19,7 +19,7 @@ class Resource():
             path = "/v2/resource_groups"
 
             # Return data
-            return qw("iaas", "GET", path, headers())["data"]
+            return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching resource groups. {error}")
@@ -32,7 +32,7 @@ class Resource():
             path = f"/v2/resource_groups?account_id={id}"
 
             # Return data
-            return qw("iaas", "GET", path, headers())["data"]
+            return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
             print(f"Error fetching resource groups for account {id}. {error}")
