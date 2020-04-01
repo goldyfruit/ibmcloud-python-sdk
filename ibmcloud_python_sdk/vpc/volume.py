@@ -2,6 +2,8 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
 
 
@@ -101,7 +103,7 @@ class Volume():
                     return volume
 
             # Return error if no volume is found
-            return {"errors": [{"code": "not_found"}]}
+            return resource_not_found
 
         except Exception as error:
             print("Error fetching volume with name {}. {}").format(name,
@@ -172,7 +174,7 @@ class Volume():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted
 
         except Exception as error:
             print("Error deleting volume {}. {}").format(volume, error)
