@@ -1,0 +1,23 @@
+{
+    "connections": [],
+    "created_at": "2020-04-01T19:55:36.500Z",
+    "crn": "crn:v1:bluemix:public:is:us-south:a/2d171b8a90e246fd9ffe0e5e8c191c9e::vpn:0737-dec93d61-79c1-401d-90aa-5e56cc73b50f",
+    "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/0737-dec93d61-79c1-401d-90aa-5e56cc73b50f",
+    "id": "0737-dec93d61-79c1-401d-90aa-5e56cc73b50f",
+    "name": "vpn-test",
+    "public_ip": {
+        "address": "52.117.12.177"
+    },
+    "resource_group": {
+        "href": "https://resource-controller.cloud.ibm.com/v1/resource_groups/f328f2cdec6d4b4da2844c214dec9d39",
+        "id": "f328f2cdec6d4b4da2844c214dec9d39",
+        "name": "Resource-Group-Advisory"
+    },
+    "status": "available",
+    "subnet": {
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0737-f763775a-05d4-41fb-9da3-3cbd64530784",
+        "id": "0737-f763775a-05d4-41fb-9da3-3cbd64530784",
+        "name": "advisory-net"
+    }
+}
+
