@@ -20,7 +20,7 @@ class Volume():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching volume profiles. {error}")
+            print("Error fetching volume profiles. {}").format(error)
             raise
 
     # Get specific volume profile
@@ -35,7 +35,8 @@ class Volume():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching volume profile with name {name}. {error}")
+            print("Error fetching volume profile {}. {}").format(profile,
+                                                                 error)
             raise
 
     # Get all volumes
@@ -49,7 +50,7 @@ class Volume():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching volumes. {error}")
+            print("Error fetching volumes. {}").format(error)
             raise
 
     # Get specific volume by ID or by name
@@ -79,7 +80,7 @@ class Volume():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching volume with ID {id}. {error}")
+            print("Error fetching volume with ID {}. {}").format(id, error)
             raise
 
     # Get specific volume by name
@@ -102,7 +103,8 @@ class Volume():
             return {"errors": [{"code": "not_found"}]}
 
         except Exception as error:
-            print(f"Error fetching volume with name {name}. {error}")
+            print("Error fetching volume with name {}. {}").format(name,
+                                                                   error)
             raise
 
     # Create volume
@@ -176,5 +178,5 @@ class Volume():
             return {"status": "deleted"}
 
         except Exception as error:
-            print(f"Error deleting volume with name {name}. {error}")
+            print("Error deleting volume {}. {}").format(volume, error)
             raise
