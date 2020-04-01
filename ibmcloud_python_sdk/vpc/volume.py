@@ -2,6 +2,7 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import check_args
 
 
 class Volume():
@@ -109,14 +110,10 @@ class Volume():
 
     # Create volume
     def create_volume(self, **kwargs):
-        # Required parameters
-        required_args = set(["profile", "zone", "capacity"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
+        args = ["profile", "zone", "capacity"]
+        check_args(args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'zone': kwargs.get('zone'),
