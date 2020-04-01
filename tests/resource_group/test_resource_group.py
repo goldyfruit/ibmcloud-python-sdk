@@ -3,7 +3,7 @@ import unittest
 from mock import patch
 
 import ibmcloud_python_sdk.config
-from ibmcloud_python_sdk.vpc.resource import Resource
+from ibmcloud_python_sdk.resource_group import Resource
 
 import tests.common as common
 
@@ -23,13 +23,13 @@ class ResourceTestCase(unittest.TestCase):
     def tearDown(self):
         self.patcher.stop()
 
-    @patch('ibmcloud_python_sdk.vpc.resource.qw', common.fake_get_call)
+    @patch('ibmcloud_python_sdk.resource_group.qw', common.fake_get_call)
     def test_get_resources(self):
         """Test get_resources ."""
         response = self.resource.get_resource_groups()
         self.assertNotEqual(len(response), 0)
 
-    @patch('ibmcloud_python_sdk.vpc.resource.qw', common.fake_get_call)
+    @patch('ibmcloud_python_sdk.resource_group.qw', common.fake_get_call)
     def test_get_resource_with_name(self):
         """Test get_resource with name as parameter."""
         response = self.resource.get_resource_groups_by_account(self.fake_resource['name'])

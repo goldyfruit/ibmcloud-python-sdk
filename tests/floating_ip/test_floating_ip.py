@@ -3,7 +3,7 @@ import unittest
 from mock import patch
 
 import ibmcloud_python_sdk.config
-from ibmcloud_python_sdk.vpc.fip import Fip as FloatingIP
+from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
 
 import tests.common as common
 
@@ -23,13 +23,13 @@ class FloatingIPTestCase(unittest.TestCase):
     def tearDown(self):
         self.patcher.stop()
 
-    @patch('ibmcloud_python_sdk.vpc.fip.qw', common.fake_get_call)
+    @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', common.fake_get_call)
     def test_get_floating_ips(self):
         """Test get_floating_ips ."""
         response = self.floating_ip.get_floating_ips()
         self.assertNotEqual(len(response), 0)
 
-    @patch('ibmcloud_python_sdk.vpc.fip.qw', common.fake_get_call)
+    @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', common.fake_get_call)
     def test_get_floating_ip_with_name(self):
         """Test get_floating_ip with name as parameter."""
         response = self.floating_ip.get_floating_ip(self.fake_floating_ip['name'])
@@ -56,7 +56,7 @@ class FloatingIPTestCase(unittest.TestCase):
 #        response = self.floating_ip.get_floating_ip_default_network_acl(self.fake_floating_ip['id'])
 #        self.assertEqual(response['default_network_acl']['name'], self.fake_floating_ip['default_network_acl'])
 #
-    @patch('ibmcloud_python_sdk.vpc.fip.qw', common.fake_create)
+    @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', common.fake_create)
     def test_reserve_floating_ip_working(self):
         """Test reserve_floating_ip should work."""
         response = self.floating_ip.reserve_floating_ip(name=self.fake_floating_ip['name'], 
@@ -64,7 +64,7 @@ class FloatingIPTestCase(unittest.TestCase):
         print(response)
         self.assertEqual(response['name'], self.fake_floating_ip['name'])
  
-    @patch('ibmcloud_python_sdk.vpc.fip.qw', common.fake_create)
+    @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', common.fake_create)
     def test_reserve_floating_ip_not_working(self):
         """Test reserve_floating_ip should not work."""
         response = self.floating_ip.reserve_floating_ip(name=self.fake_floating_ip['name'],
