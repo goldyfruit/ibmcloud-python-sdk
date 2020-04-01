@@ -12,8 +12,10 @@ class Volume():
     def __init__(self):
         self.cfg = params()
 
-    # Get all volume profiles
     def get_volume_profiles(self):
+        """
+        Retrieve volume profile list
+        """
         try:
             # Connect to api endpoint for volume
             path = ("/v1/volume/profiles?version={}&generation={}").format(
@@ -26,8 +28,10 @@ class Volume():
             print("Error fetching volume profiles. {}").format(error)
             raise
 
-    # Get specific volume profile
-    def get_volume_profile(self, name):
+        """
+        Retrieve specific volume profile by name
+        :param profile: Volume profile name
+        """
         try:
             # Connect to api endpoint for volume
             path = ("/v1/volume/profiles/{}?version={}"
@@ -42,8 +46,11 @@ class Volume():
                                                                  error)
             raise
 
-    # Get all volumes
     def get_volumes(self):
+        """
+        Retrieve volume list
+        :param profile: Volume profile name
+        """
         try:
             # Connect to api endpoint for volumes
             path = ("/v1/volumes?version={}&generation={}").format(
@@ -56,9 +63,11 @@ class Volume():
             print("Error fetching volumes. {}").format(error)
             raise
 
-    # Get specific volume by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_volume(self, volume):
+        """
+        Retrieve specific volume by name or by ID
+        :param volume: Volume name or ID
+        """
         by_name = self.get_volume_by_name(volume)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -72,8 +81,11 @@ class Volume():
         else:
             return by_name
 
-    # Get specific volume by ID
     def get_volume_by_id(self, id):
+        """
+        Retrieve specific volume by ID
+        :param id: Volume ID
+        """
         try:
             # Connect to api endpoint for volumes
             path = ("/v1/volumes/{}?version={}&generation={}").format(
@@ -86,8 +98,11 @@ class Volume():
             print("Error fetching volume with ID {}. {}").format(id, error)
             raise
 
-    # Get specific volume by name
     def get_volume_by_name(self, name):
+        """
+        Retrieve specific volume by name
+        :param name: Volume name
+        """
         try:
             # Connect to api endpoint for volumes
             path = ("/v1/volumes/?version={}&generation={}").format(
@@ -112,6 +127,20 @@ class Volume():
 
     # Create volume
     def create_volume(self, **kwargs):
+        """
+        Create block volume
+        :param name: Optional. The unique user-defined name for this volume.
+
+        :param resource_group: Optional. The resource group to use.
+
+        :param zone: The location of the volume.
+
+        :param iops: Optional. The bandwidth for the volume.
+
+        :param profile: The profile to use for this volume.
+
+        :param capacity: The capacity of the volume in gigabytes.
+        """
         args = ["profile", "zone", "capacity"]
         check_args(args, **kwargs)
 
