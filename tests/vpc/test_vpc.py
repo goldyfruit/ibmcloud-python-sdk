@@ -6,6 +6,7 @@ import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.vpc import Vpc
 
 import tests.common as common
+import tests.vpc.custom as custom
 
 class VPCTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -35,25 +36,27 @@ class VPCTestCase(unittest.TestCase):
         response = self.vpc.get_vpc(self.fake_vpc['name'])
         self.assertEqual(response['name'], self.fake_vpc['name'])
 
-# TODO: to verify
-#    @patch('ibmcloud_python_sdk.auth.get_token', common.fake_auth)
-#    @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_get_one)
-#    def test_get_vpc_with_id(self):
-#        """Test get_vpc with id as parameter."""
-#        response = self.vpc.get_vpc(self.fake_vpc['id'])
-#        self.assertEqual(response['id'], self.fake_vpc['id'])
+    @patch('ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc', custom.fake_get_vpc)
+    @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_get_one)
+    def test_get_vpc_with_id(self):
+        """Test get_vpc with id as parameter."""
+        response = self.vpc.get_vpc(self.fake_vpc['id'])
+        self.assertEqual(response['id'], self.fake_vpc['id'])
 
+#    
+    @patch('ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc', custom.fake_get_vpc)
     @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_get_one)
     def test_get_vpc_default_security_group(self):
         """Test get_vpc_default_security_group."""
-        response = self.vpc.get_vpc_default_security_group(self.fake_vpc['id'])
+        response = self.vpc.get_default_security_group(self.fake_vpc['id'])
         print(response)
         self.assertEqual(response['default_security_group']['name'], self.fake_vpc['default_security_group'])
 
+    @patch('ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc', custom.fake_get_vpc)
     @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_get_one)
     def test_get_vpc_default_network_acl(self):
         """Test get_vpc_default_network_acl."""
-        response = self.vpc.get_vpc_default_network_acl(self.fake_vpc['id'])
+        response = self.vpc.get_default_network_acl(self.fake_vpc['id'])
         self.assertEqual(response['default_network_acl']['name'], self.fake_vpc['default_network_acl'])
 
     @patch('ibmcloud_python_sdk.vpc.vpc.qw', common.fake_create)
