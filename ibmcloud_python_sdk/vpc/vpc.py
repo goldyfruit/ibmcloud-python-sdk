@@ -162,11 +162,11 @@ class Vpc():
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "resource_group":
-                if value is not None:
+            if value is not None:
+                if key == "resource_group":
                     payload["resource_group"] = {"id": args["resource_group"]}
-            else:
-                payload[key] = value
+                else:
+                    payload[key] = value
 
         try:
             # Connect to api endpoint for vpcs
