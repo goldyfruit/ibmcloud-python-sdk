@@ -37,3 +37,20 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
     else:
         # Return data and HTTP response
         return {"data": json.loads(data), "response": res}
+
+
+def check_args(arguments, **kwargs):
+    """Check that required arguments are passed to the function.
+    :param arguments: List of required arguments.
+    """
+    # Argument required by the function
+    required = set(arguments)
+
+    # Argument passed to the function
+    passed = set(kwargs.keys())
+
+    # Check if required arguments are passed
+    if not required.issubset(passed):
+        raise KeyError(
+            "Required param is/are missing. Required: {}".format(required)
+        )
