@@ -154,7 +154,8 @@ class Vpc():
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
-            'address_prefix_management': kwargs.get('addr_mgmt', 'auto'),
+            'address_prefix_management': kwargs.get(
+                'address_prefix_management', 'auto'),
             'classic_access': kwargs.get('classic_access', False),
         }
 
