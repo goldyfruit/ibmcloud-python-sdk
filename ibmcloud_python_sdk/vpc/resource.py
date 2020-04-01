@@ -12,8 +12,10 @@ class Resource():
     def __init__(self):
         self.cfg = params()
 
-    # Get all resource groups
     def get_resource_groups(self):
+        """
+        Retrieve resource group list
+        """
         try:
             # Connect to api endpoint for resource_groups
             path = "/v2/resource_groups"
@@ -27,6 +29,10 @@ class Resource():
 
     # Get resource groups by account
     def get_resource_groups_by_account(self, id):
+        """
+        Retrieve resource group list for a specific account
+        :param id: Account ID
+        """
         try:
             # Connect to api endpoint for resource_groups
             path = f"/v2/resource_groups?account_id={id}"
