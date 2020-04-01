@@ -25,6 +25,8 @@ class Resource():
             return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
+            print("Error fetching resource groups. {}").format(error)
+            raise
 
     def get_resource_group(self, group):
         """
@@ -95,11 +97,12 @@ class Resource():
         """
         try:
             # Connect to api endpoint for resource_groups
-            path = f"/v2/resource_groups?account_id={id}"
+            path = "/v2/resource_groups?account_id={}".format(id)
 
             # Return data
             return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching resource groups for account {id}. {error}")
+            print("Error fetching resource groups for account {}. {}").format(
+                id, error)
             raise
