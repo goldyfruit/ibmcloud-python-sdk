@@ -5,7 +5,7 @@ from mock import patch
 import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.image import Image
 
-from .. import common as common
+import tests.common as common
 
 class ImageTestCase(unittest.TestCase):
     """Test case for the client methods."""

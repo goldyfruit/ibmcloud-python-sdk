@@ -5,7 +5,7 @@ from mock import patch
 import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.geo import Geo as Region
 
-from .. import common as common
+import tests.common as common
 
 class RegionTestCase(unittest.TestCase):
     """Test case for the client methods."""

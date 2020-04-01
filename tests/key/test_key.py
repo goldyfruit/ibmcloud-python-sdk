@@ -5,7 +5,7 @@ from mock import patch
 import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.key import Key
 
-from .. import common as common
+import tests.common as common
 
 class KeyTestCase(unittest.TestCase):
     """Test case for the client methods."""
