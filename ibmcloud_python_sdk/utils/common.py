@@ -64,3 +64,12 @@ def resource_not_found(payload=None):
     else:
         return {"errors": [{"code": "not_found"}]}
 
+
+def resource_deleted(payload=None):
+    """Return custom JSON if a resource is deleted.
+    :param payload: Optional. Customize the JSON to return is needed.
+    """
+    if payload is not None:
+        return payload
+    else:
+        return {"status": "deleted"}
