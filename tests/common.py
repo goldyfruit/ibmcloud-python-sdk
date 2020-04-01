@@ -22,6 +22,9 @@ def set_folder_var(path):
         folder = 'regions'
     if 'resource_groups' in path:
         folder = 'resource_groups'
+    if 'floating_ips' in path:
+        folder = 'floating_ips'
+
     return folder
 
 def fake_auth(auth_url, key):
@@ -76,10 +79,11 @@ def fake_create(service, verb, path, headers, payload):
     Test
     """
     folder = set_folder_var(path)
-    path_pattern = '/v1\/'+folder+'\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}&generation=[0-9]'
+    path_pattern = '\/v1\/'+folder+'\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}&generation=[0-9]'
+    contain_path = re.compile(path_pattern)
     print(path_pattern)
     print(path)
-    contain_path = re.compile(path_pattern)
+    print(bool(contain_path.search(path)))
     if service == "iaas" and verb == "POST" and bool(contain_path.search(path)) is True:
         data = {}
         data = { "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82", \
