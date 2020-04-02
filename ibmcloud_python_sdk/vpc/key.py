@@ -127,53 +127,20 @@ class Key():
             print("Error creating key. {}").format(error)
             raise
 
-    # Delete key
-    # This method is generic and should be used as prefered choice
     def delete_key(self, key):
-        by_name = self.delete_key_by_name(key)
-        if "errors" in by_name:
-            for key_name in by_name["errors"]:
-                if key_name["code"] == "not_found":
-                    by_id = self.delete_key_by_id(key)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
-
-    # Delete key by ID
-    def delete_key_by_id(self, id):
+        """
+        Delete key
+        :param key: Key name or ID
+        """
         try:
-            # Connect to api endpoint for keys
-            path = ("/v1/keys/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting key with ID {id}. {error}")
-            raise
-
-    # Delete key by name
-    def delete_key_by_name(self, name):
-        try:
-            # Check if key exists
-            key = self.get_key_by_name(name)
-            if "errors" in key:
-                return key
+            # Check if key existskey
+            key_info = self.get_key(key)
+            if "errors" in key_info:
+                return key_info
 
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
-                key["id"], self.cfg["version"], self.cfg["generation"])
+                key_info["id"], self.cfg["version"], self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
