@@ -167,7 +167,7 @@ class Subnet():
         :param total_ipv4_address_count: Optional. The total number of IPv4
         addresses required.
         """
-        args = ["vpc", "zone", "total_ipv4_address_count"]
+        args = ["vpc"]
         check_args(args, **kwargs)
 
         # Build dict of argument and assign default value when needed
