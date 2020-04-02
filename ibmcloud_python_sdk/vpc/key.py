@@ -9,8 +9,10 @@ class Key():
     def __init__(self):
         self.cfg = params()
 
-    # Get all keys
     def get_keys(self):
+        """
+        Retrieve key list
+        """
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys?version={}&generation={}").format(
@@ -23,9 +25,11 @@ class Key():
             print(f"Error fetching keys. {error}")
             raise
 
-    # Get specific key by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_key(self, key):
+        """
+        Retrieve specific key
+        :param key: Key name or ID
+        """
         by_name = self.get_key_by_name(key)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -39,8 +43,11 @@ class Key():
         else:
             return by_name
 
-    # Get specific key by ID
     def get_key_by_id(self, id):
+        """
+        Retrieve specific key by ID
+        :param id: Key ID
+        """
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/{}?version={}&generation={}").format(
@@ -53,8 +60,11 @@ class Key():
             print(f"Error fetching key with ID {id}. {error}")
             raise
 
-    # Get specific key by name
     def get_key_by_name(self, name):
+        """
+        Retrieve specific key by name
+        :param id: Key name
+        """
         try:
             # Connect to api endpoint for keys
             path = ("/v1/keys/?version={}&generation={}").format(
@@ -76,16 +86,18 @@ class Key():
             print(f"Error fetching key with name {name}. {error}")
             raise
 
-    # Create key
     def create_key(self, **kwargs):
-        # Required parameters
-        required_args = set(["public_key"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
+        """
+        Create key
+        :param name: Optional. The unique user-defined name for this key.
 
-        # Set default value is not required paramaters are not defined
+        :param resource_group: Optional. The resource group to use.
+
+        :param public_key: A unique public SSH key to import, encoded in PEM
+        format.
+
+        :param type: Optional. The cryptosystem used by this key.
+        """
         args = {
             'name': kwargs.get('name'),
             'public_key': kwargs.get('public_key'),
