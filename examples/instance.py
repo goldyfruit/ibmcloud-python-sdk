@@ -18,8 +18,8 @@ instance.get_instance_by_name("ibmcloud-baby")
 # Retrieve a complete instance profiles list
 instance.get_instance_profiles()
 
-# Retrieve instance profiles by name
-instance.get_instance_profile_by_name("mp2-56x448")
+# Retrieve instance profiles
+instance.get_instance_profile("mp2-56x448")
 
 # Create an instance
 instance.create_instance(name="vm001", profile="cx2-4x8",

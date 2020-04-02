@@ -27,11 +27,5 @@ volume.create_volume(name="gtrellu-sdk", iops=3000,
                      profile="general-purpose", capacity=100,
                      zone="us-south-3")
 
-# Delete volume by ID
-volume.delete_volume_ip_by_id("r006-d01c7629-fdbb-41e2-8342-9e7d89184af7")
-
-# Delete volume by name
-volume.delete_volume_ip_by_name("ibmcloud-volume-baby")
-
-# Delete volume by using generic delete method
+# Delete volume
 volume.delete_volume("ibmcloud-volume-baby")
