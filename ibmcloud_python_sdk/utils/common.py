@@ -6,7 +6,7 @@ from ibmcloud_python_sdk.config import params
 def query_wrapper(conn_type, method, path, headers=None, payload=None):
     """Execute HTTP query and return JSON response.
     :param conn_type: Define which URL should be used for the connection
-        such as "iaas", "auth" or "rg" (resource group).
+        such as "iaas", "auth", "cis", or "rg" (resource group).
     :param method: HTTP method that should be used such as
         GET, POST, PUT, DELETE, etc...
     :param path: Path used by within the query
@@ -22,6 +22,8 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         conn = http.client.HTTPSConnection(cfg["rg_url"])
     elif conn_type == "auth":
         conn = http.client.HTTPSConnection(cfg["auth_url"])
+    elif conn_type == "cis":
+        conn = http.client.HTTPSConnection(cfg["cis_url"])
 
     conn.request(method, path, payload, headers)
 
