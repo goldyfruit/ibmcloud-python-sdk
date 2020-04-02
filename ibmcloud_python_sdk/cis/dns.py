@@ -36,7 +36,6 @@ class Dns():
     def get_resource_instance(self, resource_instance):
         by_name = self.get_resource_instance_by_name(resource_instance)
         if "errors" in by_name:
-            print(by_name)
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_guid = self.get_resource_instance_by_guid(resource_instance)
@@ -56,12 +55,17 @@ class Dns():
             path = ("/v2/resource_instances/{}").format(guid)
             resource_instance = qw("rg", "GET", path, headers())["data"]
         
+            if "status_code" in resource_instance:
+                if resource_instance["status_code"] == 404:
+                    return ({"errors": [{"code": "not_found",
+                        "msg": "No resource instance found"}]
+                        })
             # Test if the resource instance is for DNS operation
             if resource_instance["resource_plan_id"] == self.resource_plan_id:
                 return resource_instance
             else:
                 return ({"errors": [{"code": "not_found",
-                    "msg": "The instance is not suitable for DNS operations"}]
+                    "msg": "The resource instance is not suitable for DNS operations"}]
                     })
         except Exception as error:
             print("Error fetching resource resource instance. {}").format(error)
@@ -78,7 +82,7 @@ class Dns():
                     return resource_instance
             else:
                 return ({"errors": [{"code": "not_found", 
-                    "msg": "No instance suitable for DNS operations found."}]
+                    "msg": "No resource instance suitable for DNS operations found."}]
                     })
 
 
