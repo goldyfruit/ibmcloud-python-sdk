@@ -5,12 +5,14 @@ from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
+from ibmcloud_python_sdk import resource_group
 
 
 class Volume():
 
     def __init__(self):
         self.cfg = params()
+        self.rg = resource_group.Resource()
 
     def get_volume_profiles(self):
         """
@@ -160,7 +162,9 @@ class Volume():
         for key, value in args.items():
             if value is not None:
                 if key == "resource_group":
-                    payload["resource_group"] = {"id": args["resource_group"]}
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "profile":
                     payload["profile"] = {"name": args["profile"]}
                 elif key == "zone":
