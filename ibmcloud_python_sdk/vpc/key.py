@@ -2,6 +2,8 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk import resource_group
 
@@ -160,7 +162,7 @@ class Key():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
             print("Error deleting key with name {}. {}").format(key, error)
