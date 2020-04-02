@@ -348,7 +348,7 @@ class Subnet():
                   "subnet {}. {}").format(subnet, error)
             raise
 
-    def delete_subnet_by_name(self, subnet):
+    def delete_subnet(self, subnet):
         """
         Delete subnet
         :param subnet: Subnet name or ID
