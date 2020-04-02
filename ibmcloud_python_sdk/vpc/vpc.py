@@ -1,15 +1,18 @@
 import json
+
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk import resource_group
 
 
 class Vpc():
 
     def __init__(self):
         self.cfg = params()
+        self.rg = resource_group.Resource()
 
     def get_vpcs(self):
         """
@@ -166,7 +169,9 @@ class Vpc():
         for key, value in args.items():
             if value is not None:
                 if key == "resource_group":
-                    payload["resource_group"] = {"id": args["resource_group"]}
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    payload["resource_group"] = {"id": rg_info["id"]}
                 else:
                     payload[key] = value
 
