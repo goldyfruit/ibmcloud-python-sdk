@@ -2,12 +2,14 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk import resource_group
 
 
 class Key():
 
     def __init__(self):
         self.cfg = params()
+        self.rg = resource_group.Resource()
 
     def get_keys(self):
         """
@@ -108,11 +110,15 @@ class Key():
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "resource_group":
-                if value is not None:
-                    payload["resource_group"] = {"id": args["resource_group"]}
-            else:
-                payload[key] = value
+            if value is not None:
+                if key == "resource_group":
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
+                    payload["resource_group"] = {"id": rg_info["id"]}
+                else:
+                    payload[key] = value
 
         try:
             # Connect to api endpoint for keys
