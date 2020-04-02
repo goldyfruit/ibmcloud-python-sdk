@@ -2,15 +2,21 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk import resource_group
 
 
 class Fip():
 
     def __init__(self):
         self.cfg = params()
+        self.rg = resource_group.Resource()
 
-    # Get all floating IPs
     def get_floating_ips(self):
+        """
+        Retrieve floating IP list
+        """
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips?version={}&generation={}").format(
@@ -20,27 +26,41 @@ class Fip():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching floating IPs. {error}")
+            print("Error fetching floating IPs. {}").format(error)
             raise
 
-    # Get specific floating IP by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_floating_ip(self, fip):
+        """
+        Retrieve specific floating IP
+        :param fip: Floating name, ID or address
+        """
         by_name = self.get_floating_ip_by_name(fip)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_floating_ip_by_id(fip)
                     if "errors" in by_id:
+                        for key_id in by_id["errors"]:
+                            if key_id["code"] == "not_found":
+                                by_addr = self.get_floating_ip_by_address(fip)
+                                if "errors" in by_addr:
+                                    return by_addr
+                                else:
+                                    return by_addr
+                            else:
+                                return by_id
+                    else:
                         return by_id
-                    return by_id
                 else:
                     return by_name
         else:
             return by_name
 
-    # Get specific floating IP by ID
     def get_floating_ip_by_id(self, id):
+        """
+        Retrieve specific floating IP by ID
+        :param id: Floating IP ID
+        """
         try:
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
@@ -50,13 +70,17 @@ class Fip():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching floating IP with ID {id}. {error}")
+            print("Error fetching floating IP with ID {}. {}").format(
+                id, error)
             raise
 
-    # Get specific floating IP by name
     def get_floating_ip_by_name(self, name):
+        """
+        Retrieve specific floating IP by name
+        :param name: Floating IP name
+        """
         try:
-            # Connect to api endpoint for instances
+            # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/?version={}&generation={}").format(
                 self.cfg["version"], self.cfg["generation"])
 
@@ -69,23 +93,56 @@ class Fip():
                     # Return data
                     return fip
 
-            # Return error if no instance is found
-            return {"errors": [{"code": "not_found"}]}
+            # Return error if no floating ips is found
+            return resource_not_found()
 
         except Exception as error:
-            print(f"Error fetching floating IP with name {name}. {error}")
+            print("Error fetching floating IP with name {}. {}").format(
+                name, error)
+            raise
+
+    def get_floating_ip_by_address(self, address):
+        """
+        Retrieve specific floating IP by address
+        :param address: Floating IP address
+        """
+        try:
+            # Connect to api endpoint for floating_ips
+            path = ("/v1/floating_ips/?version={}&generation={}").format(
+                self.cfg["version"], self.cfg["generation"])
+
+            # Retrieve floating IPs data
+            data = qw("iaas", "GET", path, headers())["data"]
+
+            # Loop over instances until filter match
+            for fip in data["floating_ips"]:
+                if fip["address"] == address:
+                    # Return data
+                    return fip
+
+            # Return error if no floating ips is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching floating IP with address {}. {}").format(
+                address, error)
             raise
 
     # Reserve floating IP
     def reserve_floating_ip(self, **kwargs):
-        # Required parameters
-        required_args = set(["target"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
+        """
+        Create floating IP
+        :param name: Optional. The unique user-defined name for this floating
+        IP.
 
-        # Set default value is not required paramaters are not defined
+        :param resource_group: Optional. The resource group to use.
+
+        :param targer: Optional. The target this address is to be bound to.
+
+        :param zone: Optional. The identity of the zone to provision a
+        floating IP in.
+        """
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'target': kwargs.get('target'),
@@ -96,16 +153,17 @@ class Fip():
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "target":
-                payload["target"] = {"id": args["target"]}
-            elif key == "resource_group":
-                if value is not None:
-                    payload["resource_group"] = {"id": args["resource_group"]}
-            elif key == "zone":
-                if value is not None:
+            if value is not None:
+                if key == "target":
+                    payload["target"] = {"id": args["target"]}
+                elif key == "resource_group":
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    payload["resource_group"] = {"id": rg_info["id"]}
+                elif key == "zone":
                     payload["zone"] = {"name": args["zone"]}
-            else:
-                payload[key] = value
+                else:
+                    payload[key] = value
 
         try:
             # Connect to api endpoint for floating_ips
@@ -117,56 +175,23 @@ class Fip():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error reserving floating. {error}")
+            print("Error reserving floating. {}").format(error)
             raise
 
-    # Delete floating IP
-    # This method is generic and should be used as prefered choice
     def delete_floating_ip(self, fip):
-        by_name = self.delete_floating_ip_by_name(fip)
-        if "errors" in by_name:
-            for key_fip in by_name["errors"]:
-                if key_fip["code"] == "not_found":
-                    by_id = self.delete_floating_ip_by_id(fip)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
-
-    # Delete floating IP by ID
-    def delete_floating_ip_by_id(self, id):
-        try:
-            # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting floating IP with ID {id}. {error}")
-            raise
-
-    # Delete floating IP by name
-    def delete_floating_ip_by_name(self, name):
+        """
+        Delete floating IP
+        :param fip: Public gateway name, ID or address
+        """
         try:
             # Check if floating IP exists
-            fip = self.get_floating_ip_by_name(name)
-            if "errors" in fip:
-                return fip
+            fip_info = self.get_floating_ip(fip)
+            if "errors" in fip_info:
+                return fip_info
 
             # Connect to api endpoint for floating_ips
             path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                fip["id"], self.cfg["version"], self.cfg["generation"])
+                fip_info["id"], self.cfg["version"], self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -175,8 +200,8 @@ class Fip():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
-            print(f"Error deleting floating IP with name {name}. {error}")
+            print("Error deleting floating IP {}. {}").format(fip, error)
             raise
