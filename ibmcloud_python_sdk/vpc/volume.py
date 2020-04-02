@@ -121,7 +121,7 @@ class Volume():
                     return volume
 
             # Return error if no volume is found
-            return resource_not_found
+            return resource_not_found()
 
         except Exception as error:
             print("Error fetching volume with name {}. {}").format(name,
@@ -207,7 +207,7 @@ class Volume():
                 return data["data"]
 
             # Return status
-            return resource_deleted
+            return resource_deleted()
 
         except Exception as error:
             print("Error deleting volume {}. {}").format(volume, error)
