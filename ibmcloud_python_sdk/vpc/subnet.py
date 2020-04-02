@@ -7,6 +7,7 @@ from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
+from ibmcloud_python_sdk import resource_group
 
 
 class Subnet():
@@ -15,6 +16,7 @@ class Subnet():
         self.cfg = params()
         self.vpc = vpc.Vpc()
         self.gateway = gw.Gateway()
+        self.rg = resource_group.Resource()
 
     def get_subnets(self):
         """
@@ -189,15 +191,23 @@ class Subnet():
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
                     payload["resource_group"] = {"id": rg_info["id"]}
+                    if "errors" in rg_info:
+                        return rg_info
                 elif key == "network_acl":
                     acl_info = self.get_subnet_network_acl(args["network_acl"])
                     payload["network_acl"] = {"id": acl_info["id"]}
+                    if "errors" in acl_info:
+                        return acl_info
                 elif key == "public_gateway":
                     gateway_info = self.get_subnet_public_gateway(
                         args["public_gateway"])
+                    if "errors" in gateway_info:
+                        return gateway_info
                     payload["public_gateway"] = {"id": gateway_info["id"]}
                 elif key == "vpc":
                     vpc_info = self.vpc.get_vpc(args["vpc"])
+                    if "errors" in vpc_info:
+                        return vpc_info
                     payload["vpc"] = {"id": vpc_info["id"]}
                 elif key == "zone":
                     payload["zone"] = {"name": args["zone"]}
