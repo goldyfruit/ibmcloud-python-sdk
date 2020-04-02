@@ -303,17 +303,17 @@ class Subnet():
         try:
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/public_gateway?version={}"
-                    "&generation={}").format(subnet_info["id"], self.ver,
-                                             self.gen)
+                    "&generation={}").format(subnet_info["id"],
+                                             self.cfg["version"],
+                                             self.cfg["generation"])
 
             # Return data
             return qw("iaas", "PUT", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error attaching public gateway with ID {} to subnet"
-                  " {}. {}").format(args["public_gateway"], args["subnet"],
-                                    error)
+            print("Error attaching public gateway {} to subnet {}. {}").format(
+                args["public_gateway"], args["subnet"], error)
             raise
 
     def detach_public_gateway(self, subnet):
