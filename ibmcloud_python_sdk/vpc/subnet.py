@@ -150,7 +150,7 @@ class Subnet():
 
         :param resource_group: Optional. The resource group to use.
 
-        :param ipv4_cidr_block: The IPv4 range of the subnet, expressed in CIDR 
+        :param ipv4_cidr_block: The IPv4 range of the subnet, expressed in CIDR
         format.
 
         :param vpc: The VPC the subnet is to be a part of.
