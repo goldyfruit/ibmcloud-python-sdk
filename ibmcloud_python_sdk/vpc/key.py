@@ -2,6 +2,7 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk import resource_group
 
 
@@ -100,6 +101,10 @@ class Key():
 
         :param type: Optional. The cryptosystem used by this key.
         """
+        args = ["public_key"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'public_key': kwargs.get('public_key'),
