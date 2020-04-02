@@ -15,16 +15,13 @@ gateway.get_public_gateway_by_id("r006-351910c5-2c28-4c78-9b36-28da9d4b062a")
 # Retrieve specific gateway by name
 gateway.get_public_gateway_by_name("ibmcloud-pgw-baby")
 
+# Retrieve specific gateway by address
+gateway.get_public_gateway_by_name("128.128.129.129")
+
 # Create gateway
 gateway.create_public_gateway(name="cibmcloud-pgw-baby", zone="us-south-3",
                               vpc="r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765",
                               resource_group="f328f2cdec6d4b4da2844c214dec99")
 
-# Delete gateway by ID
-gateway.delete_public_gateway_by_id("0737-968fd5b4-6548-44db-acf0-6ebd6da301")
-
-# Delete gateway by name
-gateway.get_public_gateway_by_name("ibmcloud-pgw-baby")
-
-# Delete gateway by using generic delete method
+# Delete gateway
 gateway.delete_public_gateway("ibmcloud-pgw-baby")

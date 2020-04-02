@@ -2,15 +2,26 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.vpc import vpc
+from ibmcloud_python_sdk.vpc import floating_ip
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk.utils.common import check_args
+from ibmcloud_python_sdk import resource_group
 
 
 class Gateway():
 
     def __init__(self):
         self.cfg = params()
+        self.vpc = vpc.Vpc()
+        self.fip = floating_ip.Fip()
+        self.rg = resource_group.Resource()
 
-    # Get all public gateways
     def get_public_gateways(self):
+        """
+        Retrieve public gateways list
+        """
         try:
             # Connect to api endpoint for public_gateways
             path = ("/v1/public_gateways?version={}&generation={}").format(
@@ -20,12 +31,14 @@ class Gateway():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching public gateways. {error}")
+            print("Error fetching public gateways. {}").format(error)
             raise
 
-    # Get specific public gateway by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_public_gateway(self, gateway):
+        """
+        Retrieve specific public gateway
+        :param gateway: Public gateway name or ID
+        """
         by_name = self.get_public_gateway_by_name(gateway)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -39,8 +52,11 @@ class Gateway():
         else:
             return by_name
 
-    # Get specific public gateway by ID
     def get_public_gateway_by_id(self, id):
+        """
+        Retrieve specific public gateway by ID
+        :param id: Public gateway ID
+        """
         try:
             # Connect to api endpoint for public_gateways
             path = ("/v1/public_gateways/{}?version={}&generation={}").format(
@@ -50,11 +66,15 @@ class Gateway():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching public gateway with ID {id}. {error}")
+            print("Error fetching public gateway with ID {}. {}").format(id,
+                                                                         error)
             raise
 
-    # Get specific public gateway by name
     def get_public_gateway_by_name(self, name):
+        """
+        Retrieve specific public gateway by name
+        :param name: Public gateway name
+        """
         try:
             # Connect to api endpoint for public_gateways
             path = ("/v1/public_gateways/?version={}&generation={}").format(
@@ -70,22 +90,31 @@ class Gateway():
                     return gateway
 
             # Return error if no public gateway is found
-            return {"errors": [{"code": "not_found"}]}
+            return resource_not_found()
 
         except Exception as error:
-            print(f"Error fetching public gateway with name {name}. {error}")
+            print("Error fetching public gateway with name {}. {}").format(
+                name, error)
             raise
 
-    # Create public gateway
     def create_public_gateway(self, **kwargs):
-        # Required parameters
-        required_args = set(["vpc", "zone"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
+        """
+        Create public gateway
+        :param name: Optional. The unique user-defined name for this subnet.
 
-        # Set default value is not required paramaters are not defined
+        :param resource_group: Optional. The resource group to use.
+
+        :param floating_ip: Optional. Identifies a floating IP by a unique
+        property.
+
+        :param vpc: The VPC the public gateway is to be a part of.
+
+        :param zone: The zone the public gateway is to reside in.
+        """
+        args = ["vpc", "zone"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
@@ -97,18 +126,26 @@ class Gateway():
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "resource_group":
-                if value is not None:
-                    payload["resource_group"] = {"id": args["resource_group"]}
-            elif key == "floating_ip":
-                if value is not None:
-                    payload["floating_ip"] = {"address": args["floating_ip"]}
-            elif key == "vpc":
-                payload["vpc"] = {"id": args["vpc"]}
-            elif key == "zone":
-                payload["zone"] = {"name": args["zone"]}
-            else:
-                payload[key] = value
+            if value is not None:
+                if key == "resource_group":
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    payload["resource_group"] = {"id": rg_info["id"]}
+                elif key == "floating_ip":
+                    fip_info = self.fip.get_floating_ip(args["floating_ip"])
+                    if "errors" in fip_info:
+                        return fip_info
+                        payload["floating_ip"] = {
+                            "address": fip_info["address"]}
+                elif key == "vpc":
+                    vpc_info = self.vpc.get_vpc(args["vpc"])
+                    if "errors" in vpc_info:
+                        return vpc_info
+                    payload["vpc"] = {"id": vpc_info["id"]}
+                elif key == "zone":
+                    payload["zone"] = {"name": args["zone"]}
+                else:
+                    payload[key] = value
 
         try:
             # Connect to api endpoint for public_gateways
@@ -123,53 +160,21 @@ class Gateway():
             print(f"Error creating public gateway. {error}")
             raise
 
-    # Delete public gateway
-    # This method is generic and should be used as prefered choice
     def delete_public_gateway(self, gateway):
-        by_name = self.delete_public_gateway_by_name(gateway)
-        if "errors" in by_name:
-            for key_gateway in by_name["errors"]:
-                if key_gateway["code"] == "not_found":
-                    by_id = self.delete_public_gateway_by_id(gateway)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
-
-    # Delete public gateway by ID
-    def delete_public_gateway_by_id(self, id):
-        try:
-            # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting public gateway with ID {id}. {error}")
-            raise
-
-    # Delete public gateway by name
-    def delete_public_gateway_by_name(self, name):
+        """
+        Delete gateway
+        :param gateway: Public gateway name or ID
+        """
         try:
             # Check if public gateway exists
-            gateway = self.get_public_gateway_by_name(name)
-            if "errors" in gateway:
-                return gateway
+            gateway_info = self.get_public_gateway(gateway)
+            if "errors" in gateway_info:
+                return gateway_info
 
             # Connect to api endpoint for public_gateways
             path = ("/v1/public_gateways/{}?version={}&generation={}").format(
-                gateway["id"], self.cfg["version"], self.cfg["generation"])
+                gateway_info["id"], self.cfg["version"],
+                self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -178,8 +183,9 @@ class Gateway():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
-            print(f"Error deleting public gateway with name {name}. {error}")
+            print("Error deleting public gateway with name {}. {}").format(
+                gateway, error)
             raise
