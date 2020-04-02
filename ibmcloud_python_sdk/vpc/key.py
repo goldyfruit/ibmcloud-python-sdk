@@ -22,7 +22,7 @@ class Key():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching keys. {error}")
+            print("Error fetching keys. {}").format(error)
             raise
 
     def get_key(self, key):
@@ -57,7 +57,7 @@ class Key():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching key with ID {id}. {error}")
+            print("Error fetching key with ID {}. {}").format(id, error)
             raise
 
     def get_key_by_name(self, name):
@@ -80,10 +80,10 @@ class Key():
                     return key
 
             # Return error if no key is found
-            return {"errors": [{"code": "not_found"}]}
+            return resource_not_found()
 
         except Exception as error:
-            print(f"Error fetching key with name {name}. {error}")
+            print("Error fetching key with name {}. {}").format(name, error)
             raise
 
     def create_key(self, **kwargs):
@@ -124,7 +124,7 @@ class Key():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error creating key. {error}")
+            print("Error creating key. {}").format(error)
             raise
 
     # Delete key
@@ -185,5 +185,5 @@ class Key():
             return {"status": "deleted"}
 
         except Exception as error:
-            print(f"Error deleting key with name {name}. {error}")
+            print("Error deleting key with name {}. {}").format(key, error)
             raise
