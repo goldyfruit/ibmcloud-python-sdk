@@ -32,7 +32,7 @@ class Volume():
 
     def get_volume_profile(self, profile):
         """
-        Retrieve specific volume profile by name
+        Retrieve specific volume profile
         :param profile: Volume profile name
         """
         try:
@@ -128,7 +128,6 @@ class Volume():
                                                                    error)
             raise
 
-    # Create volume
     def create_volume(self, **kwargs):
         """
         Create block volume
