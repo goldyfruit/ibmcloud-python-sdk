@@ -6,7 +6,6 @@ security = ic.Security()
 # Variables
 interface = "0737-968fd5b4-6548-44db-acf0-6ebd6d66a301"
 security_group = "2d364f0a-a870-42c3-a554-000001099037"
-resource_group = "f328f2cdec6d4b4da2844c214dec9d39"
 
 # Retrieve security group list
 security.get_security_groups()
@@ -39,7 +38,7 @@ security.get_security_group_rule("ibmcloud-sg-baby",
 # Create security group rule
 security.create_security_group(name="ibmcloud-sg-baby",
                                vpc="ea930372-2abd-4aa1-bf8c-3db3ac8cb765",
-                               resource_group=resource_group)
+                               resource_group="advisory")
 
 # Create security group rule
 security.create_security_group_rule(sg="ibmcloud-sg-baby",
@@ -55,15 +54,9 @@ security.add_interface_security_group(security_group="ibmcloud-sg-baby",
 security.remove_interface_security_group(security_group="ibmcloud-sg-baby",
                                          interface=interface)
 
-# Delete security group (generic)
+# Delete security group
 security.delete_security_group("ibmcloud-sg-baby")
 
-# Delete security group by ID
-security.delete_security_group_by_id("ibmcloud-sg-baby")
-
-# Delete security group by name
-security.delete_security_group_by_name("ibmcloud-sg-baby")
-
 # Delete security group rule
-security.delete_security_group("ibmcloud-sg-baby",
-                               "b597cff2-38e8-4e6e-999d-000002173027")
+security.delete_security_group_rule("ibmcloud-sg-baby",
+                                    "ibmcloud-rule-baby")
