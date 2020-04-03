@@ -8,8 +8,10 @@ class Geo():
     def __init__(self):
         self.cfg = params()
 
-    # Get all regions
     def get_regions(self):
+        """
+        Retrieve region list
+        """
         try:
             # Connect to api endpoint for regions
             path = ("/v1/regions?version={}&generation={}").format(
@@ -19,25 +21,31 @@ class Geo():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching regions. {error}")
+            print("Error fetching regions. {}").format(error)
             raise
 
-    # Get specific region by name
-    def get_region(self, name):
+    def get_region(self, region):
+        """
+        Retrieve specific rgion
+        :param region: Region name
+        """
         try:
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}?version={}&generation={}").format(
-                name, self.cfg["version"], self.cfg["generation"])
+                region, self.cfg["version"], self.cfg["generation"])
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching region with name {name}. {error}")
+            print("Error fetching region {}. {}").format(region, error)
             raise
 
-    # Get all zones from a region
     def get_region_zones(self, region):
+        """
+        Retrieve zone list for a specific region
+        :param region: Region name
+        """
         try:
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}/zones?version={}&generation={}").format(
@@ -47,11 +55,17 @@ class Geo():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching zones for region {region}. {error}")
+            print("Error fetching zones for region {}. {}").format(region,
+                                                                   error)
             raise
 
     # Get specific zone from a region
     def get_region_zone(self, region, zone):
+        """
+        Retrieve specific zone for a specific region
+        :param region: Region name
+        :param zone: Zone name
+        """
         try:
             # Connect to api endpoint for regions
             path = ("/v1/regions/{}/zones/{}?version={}&generation={}").format(
@@ -61,5 +75,6 @@ class Geo():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching zone {zone} for region {region}. {error}")
+            print("Error fetching zone {} for region {}. {}").format(
+                zone, region, error)
             raise
