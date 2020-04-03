@@ -126,14 +126,14 @@ class Image():
     def create_image(self, **kwargs):
         """
         Create image
-        :param name: Optional. The unique user-defined name for this key.
+        :param name: Optional. The unique user-defined name for this image.
 
         :param resource_group: Optional. The resource group to use.
 
-        :param file: A unique public SSH key to import, encoded in PEM
-        format.
+        :param file: Optional. The file from which to create the image format.
 
-        :param operating_system: Optional. The cryptosystem used by this key.
+        :param operating_system: Optional. The operating system included in
+        this image.
         """
         args = ["file", "operating_system"]
         check_args(args, **kwargs)
