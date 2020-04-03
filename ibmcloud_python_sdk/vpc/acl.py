@@ -273,9 +273,12 @@ class Acl():
                     vpc_info = self.vpc.get_vpc(args["vpc"])
                     if "errors" in vpc_info:
                         return vpc_info
+                    payload["vpc"] = {"id": vpc_info["id"]}
                 elif key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
                     payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "rules":
                     rs = []

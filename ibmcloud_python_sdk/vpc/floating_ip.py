@@ -155,6 +155,8 @@ class Fip():
                 elif key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
                     payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "zone":
                     payload["zone"] = {"name": args["zone"]}

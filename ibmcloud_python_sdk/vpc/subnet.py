@@ -188,14 +188,14 @@ class Subnet():
                 if key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
-                    payload["resource_group"] = {"id": rg_info["id"]}
                     if "errors" in rg_info:
                         return rg_info
+                    payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "network_acl":
                     acl_info = self.get_subnet_network_acl(args["network_acl"])
-                    payload["network_acl"] = {"id": acl_info["id"]}
                     if "errors" in acl_info:
                         return acl_info
+                    payload["network_acl"] = {"id": acl_info["id"]}
                 elif key == "public_gateway":
                     gateway_info = self.get_subnet_public_gateway(
                         args["public_gateway"])

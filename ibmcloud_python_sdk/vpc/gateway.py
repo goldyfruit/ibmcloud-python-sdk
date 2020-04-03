@@ -128,6 +128,8 @@ class Gateway():
                 if key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
                     payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "floating_ip":
                     fip_info = self.fip.get_floating_ip(args["floating_ip"])
