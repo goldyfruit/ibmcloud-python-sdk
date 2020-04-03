@@ -22,8 +22,8 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         conn = http.client.HTTPSConnection(cfg["rg_url"])
     elif conn_type == "auth":
         conn = http.client.HTTPSConnection(cfg["auth_url"])
-    elif conn_type == "cis":
-        conn = http.client.HTTPSConnection(cfg["cis_url"])
+    elif conn_type == "dns":
+        conn = http.client.HTTPSConnection(cfg["dns_url"])
 
     conn.request(method, path, payload, headers)
 
