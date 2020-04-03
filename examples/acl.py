@@ -36,8 +36,8 @@ acl.get_network_acl_rule_by_name("ibmcloud-acl-baby", "ibmcloud-acl-rule-baby")
 
 # Create network ACL
 acl.create_network_acl(name="vm001",
-                       vpc="r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765",
-                       resource_group="f328f2cdec6d4b4da2844c214dec9d39")
+                       vpc="ibm-vpc-baby",
+                       resource_group="advisory")
 
 # Create network ACL rule
 acl.create_network_acl_rule(acl="ibmcloud-acl-baby",
@@ -49,20 +49,9 @@ acl.create_network_acl_rule(acl="ibmcloud-acl-baby",
                             protocol="tcp",
                             source="0.0.0.0/0")
 
-# Delete network ACL (generic)
-acl.delete_network_acl("0737-968fd5b4-6548-44db-acf0-6ebd6d66a301")
-
-# Delete network ACL by ID
-acl.delete_network_acl_by_id("ibmcloud-fip-baby")
-
-# Delete network ACL by name
-acl.delete_network_acl_by_name("ibmcloud-fip-baby")
+# Delete network ACL
+acl.delete_network_acl("ibmcloud-acl-baby")
 
 # Delete network ACL rule
-acl.delete_network_acl_rule("0737-968fd5b4-6548-44db-acf0-6ebd6d66a301")
 
-# Delete network ACL rule by ID
-acl.delete_network_acl_rule_by_id("ibmcloud-fip-baby")
-
-# Delete network ACL rule by name
-acl.delete_network_acl_rule_by_name("ibmcloud-fip-baby")
+acl.delete_network_acl_rule("ibmcloud-acl-baby", "ibmcloud-rule-baby")

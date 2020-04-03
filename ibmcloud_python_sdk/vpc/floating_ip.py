@@ -174,9 +174,9 @@ class Fip():
             print("Error reserving floating. {}").format(error)
             raise
 
-    def delete_floating_ip(self, fip):
+    def release_floating_ip(self, fip):
         """
-        Delete floating IP
+        Release floating IP
         :param fip: Public gateway name, ID or address
         """
         try:
