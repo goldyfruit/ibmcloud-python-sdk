@@ -107,12 +107,10 @@ class Volume():
         :param name: Volume name
         """
         try:
-            # Connect to api endpoint for volumes
-            path = ("/v1/volumes/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve volumes data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve volumes
+            data = self.get_volumes()
+            if "errors" in data:
+                return data
 
             # Loop over volumes until filter match
             for volume in data["volumes"]:

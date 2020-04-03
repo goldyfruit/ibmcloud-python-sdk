@@ -71,12 +71,10 @@ class Key():
         :param id: Key name
         """
         try:
-            # Connect to api endpoint for keys
-            path = ("/v1/keys/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve keys data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve keys
+            data = self.get_keys()
+            if "errors" in data:
+                return data
 
             # Loop over keys until filter match
             for key in data["keys"]:

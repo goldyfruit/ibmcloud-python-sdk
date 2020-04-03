@@ -80,12 +80,10 @@ class Fip():
         :param name: Floating IP name
         """
         try:
-            # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve floating IPs data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve floating IPs
+            data = self.get_floating_ips()
+            if "errors" in data:
+                return data
 
             # Loop over instances until filter match
             for fip in data["floating_ips"]:
@@ -107,12 +105,10 @@ class Fip():
         :param address: Floating IP address
         """
         try:
-            # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve floating IPs data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve floating IPs
+            data = self.get_floating_ips()
+            if "errors" in data:
+                return data
 
             # Loop over instances until filter match
             for fip in data["floating_ips"]:

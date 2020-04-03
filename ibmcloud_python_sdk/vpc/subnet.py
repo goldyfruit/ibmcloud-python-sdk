@@ -75,12 +75,10 @@ class Subnet():
         :param name: Subnet name
         """
         try:
-            # Connect to api endpoint for subnets
-            path = ("/v1/subnets/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve subnets data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve subnets
+            data = self.get_subnets()
+            if "errors" in data:
+                return data
 
             # Loop over subnets until filter match
             for subnet in data["subnets"]:

@@ -76,12 +76,10 @@ class Gateway():
         :param name: Public gateway name
         """
         try:
-            # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve gateways data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve public gateways
+            data = self.get_public_gateways()
+            if "errors" in data:
+                return data
 
             # Loop over gateways until filter match
             for gateway in data["public_gateways"]:

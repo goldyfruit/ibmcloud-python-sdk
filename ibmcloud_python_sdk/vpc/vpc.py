@@ -71,12 +71,10 @@ class Vpc():
         :param name: VPC name
         """
         try:
-            # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve vpc data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve VPCs
+            data = self.get_vpcs()
+            if "errors" in data:
+                return data
 
             # Loop over VPCs until filter match
             for vpc in data['vpcs']:
