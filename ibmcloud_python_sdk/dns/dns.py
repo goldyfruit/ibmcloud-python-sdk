@@ -117,22 +117,21 @@ class Dns():
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/instances/{}/dnszones").format(
-                resouce_instance_guid)
-
-            dns_zones = qw("dns", "GET", path, headers(),
-                    json.dumps(payload))["data"]
+                resource_instance_guid)
+            
+            dns_zones = qw("dns", "GET", path, headers())["data"]
 
             if "error" in dns_zones or len(dns_zones) == 0:
                 return ({"error": [{"status_code": 404,
                     "msg": "No dns zone found."}]})
-            
-            for dns_zone in dns_zones["data"]:
-                if dns_zone["name"] == name:
+           
+            # Find the existing domain matching the query
+            for dns_zone in dns_zones['dnszones']:
+                if dns_zone["name"] == args['name']:
                     return dns_zone
-                else:
-                    return ({"error": [{"status_code": 404, 
-                        "msg": "No dns zone found."}]})
-            # Return data
+            # Return error message if no existing domain matches the query
+            return ({"error": [{"status_code": 404, 
+                "msg": "No dns zone found."}]})
 
         except Exception as error:
             print(f"Error creating dns zone. {error}")
@@ -143,29 +142,33 @@ class Dns():
     def create_zone(self, **kwargs):
         # Required parameters
         required_args = set(["name", "resource_instance"])
-        check_args(required_args, **kwargs)
+        #check_args(required_args, **kwargs)
 
         # Set default value is not required paramaters are not defined
         args = {
             'name': kwargs.get('name'),
-            'description': kwargs.get('description'),
-            'label': kwargs.get('label'),
-            'resource_instance':  kwargs.get('resource_instance'),
+            'description': kwargs.get('description') or "Null",
+            'label': kwargs.get('label') or "Null",
         }
-
+        resource_instance = kwargs.get('resource_instance')
+        
         # Construct payload
         payload = {}
 
-        resource_instance_guid = self.get_resource_instance(resource_instance)["guid"]
-        for key, value in args.items():
-             payload[key] = value
-        
-                     
         try:
-            # Connect to api endpoint for vpcs
-            path = ("/v1/instances/{}/dnszones").format(
-                resouce_instance_guid)
+            ri = self.get_resource_instance(resource_instance)
+            resource_instance_guid = ri["guid"]
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
 
+        for key, value in args.items():
+            payload[key] = value
+        print(payload) 
+        try:
+            # Connect to api endpoint for dns zone
+            path = ("/v1/instances/{}/dnszones").format(
+                resource_instance_guid)
             # Return data
             return qw("dns", "POST", path, headers(),
                     json.dumps(payload))["data"]
