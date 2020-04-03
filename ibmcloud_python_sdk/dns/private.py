@@ -299,7 +299,7 @@ class Dns():
                     json.dumps(args['record']))["data"]
        
         except Exception as error:
-            print(f"Error adding permitted network. {error}")
+            print(f"Error adding resource record. {error}")
             raise
 
 
