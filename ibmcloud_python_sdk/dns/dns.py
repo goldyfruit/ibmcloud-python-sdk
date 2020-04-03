@@ -60,14 +60,14 @@ class Dns():
             if "status_code" in resource_instance:
                 if resource_instance["status_code"] == 404:
                     return ({"errors": [{"code": "not_found",
-                        "msg": "No resource instance found"}]
+                        "message": "No resource instance found"}]
                         })
             # Test if the resource instance is for DNS operation
             if resource_instance["resource_plan_id"] == self.resource_plan_id:
                 return resource_instance
             else:
                 return ({"errors": [{"code": "not_found",
-                    "msg": "The resource instance is not suitable for DNS operations"}]
+                    "message": "The resource instance is not suitable for DNS operations"}]
                     })
         except Exception as error:
             print("Error fetching resource resource instance. {}").format(error)
@@ -80,7 +80,7 @@ class Dns():
 
         if len(resource_instances) == 0:
             return ({"errors": [{"code": "not_found",
-                "msg": "No resource instance suitable for DNS operations found."}]})
+                "message": "No resource instance suitable for DNS operations found."}]})
         
         if "errors" in resource_instances:
             return resource_instances
@@ -91,15 +91,15 @@ class Dns():
                     return resource_instance
             else:
                 return ({"errors": [{"code": "not_found", 
-                    "msg": "No resource instance suitable for DNS operations found."}]
+                    "message": "No resource instance suitable for DNS operations found."}]
                     })
 
 
     # Get specific dns zone id
-    def get_dns_zone_info(self, **kwargs):
+    def get_dns_zone_by_name(self, **kwargs):
         # Required parameters
         required_args = ['name', 'resource_instance']
-        #check_args(required_args, **kwargs)
+        check_args(required_args, **kwargs)
 
         # Set default value is not required paramaters are not defined
         args = {
@@ -111,7 +111,7 @@ class Dns():
         try:
             resource_instance_guid = self.get_resource_instance(args['resource_instance'])["guid"]
         except Exception as error:
-            print(f"Unable to find resource instance : {args['resource_instance']}.")
+            print(f"Unable to find resource instance : {error}.")
             raise
 
         try:
@@ -123,7 +123,7 @@ class Dns():
 
             if "error" in dns_zones or len(dns_zones) == 0:
                 return ({"error": [{"status_code": 404,
-                    "msg": "No dns zone found."}]})
+                    "message": "No dns zone found."}]})
            
             # Find the existing domain matching the query
             for dns_zone in dns_zones['dnszones']:
@@ -131,7 +131,7 @@ class Dns():
                     return dns_zone
             # Return error message if no existing domain matches the query
             return ({"error": [{"status_code": 404, 
-                "msg": "No dns zone found."}]})
+                "message": "No dns zone found."}]})
 
         except Exception as error:
             print(f"Error creating dns zone. {error}")
@@ -142,17 +142,16 @@ class Dns():
     def create_zone(self, **kwargs):
         # Required parameters
         required_args = set(["name", "resource_instance"])
-        #check_args(required_args, **kwargs)
+        check_args(required_args, **kwargs)
 
         # Set default value is not required paramaters are not defined
         args = {
             'name': kwargs.get('name'),
-            'description': kwargs.get('description') or "Null",
-            'label': kwargs.get('label') or "Null",
+            'description': kwargs.get('description') or "",
+            'label': kwargs.get('label') or "",
         }
         resource_instance = kwargs.get('resource_instance')
         
-        # Construct payload
         payload = {}
 
         try:
@@ -162,9 +161,10 @@ class Dns():
             print(f"Error getting resource instace guid. {error}")
             raise
 
+        # Construct payload
         for key, value in args.items():
             payload[key] = value
-        print(payload) 
+
         try:
             # Connect to api endpoint for dns zone
             path = ("/v1/instances/{}/dnszones").format(
@@ -172,25 +172,61 @@ class Dns():
             # Return data
             return qw("dns", "POST", path, headers(),
                     json.dumps(payload))["data"]
-
+        
         except Exception as error:
             print(f"Error creating dns zone. {error}")
             raise
 
+    # Add permitted network to dns zone's acls
+    def add_permitted_network(self, **kwargs):
+        # Required parameters
+        required_args = set(["name", "resource_instance", "vpc_crn"])
+        check_args(required_args, **kwargs)
 
-    def get_zones(self):
-        """
-        Retrieve all zones
-        """
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'vpc_crn': kwargs.get('vpc_crn'),
+            'resource_instance': kwargs.get('resource_instance'),
+        }
+        #resource_instance = kwargs.get('resource_instance')
+        
+        payload = {}
+
+        # Get resource instane GUID
+        try:
+            ri = self.get_resource_instance(args['resource_instance'])
+            resource_instance_guid = ri['guid']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+        
+        # Get Zone id
+        try:
+            zone = self.get_dns_zone_by_name(name=args['name'], 
+                    resource_instance=args['resource_instance'])
+            zone_id = zone['id']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+ 
+        # Construct payload
+        payload["type"] = 'vpc'
+        payload["permitted_network"] = {}
+        payload["permitted_network"]["vpc_crn"] = args['vpc_crn']
+
         try:
             # Connect to api endpoint for vpcs
-            path = ("")
+            path = ("/v1/instances/{}/dnszones/{}/permitted_networks").format(
+                resource_instance_guid, zone_id)
+            
+            return qw("dns", "POST", path, headers(),
+                    json.dumps(payload))["data"]
 
-            # Return data
-            return qw("dns", "GET", path, headers())
+            #if "error" in acl:
+            #    return ({"error": [{"status_code": 404,
+            #        "message": "Add permitted nework failed."}]})
+        
         except Exception as error:
-            print("Error fetching dns zones. {}").format(error)
+            print(f"Error adding permitted network. {error}")
             raise
-
-    def test(self):
-        print(self.cfg)
