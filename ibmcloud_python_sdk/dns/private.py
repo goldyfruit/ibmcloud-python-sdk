@@ -138,6 +138,28 @@ class Dns():
             raise
 
 
+    # Lookup function to get dns zone id and resource instance id
+    def get_dns_zone_and_resource_instance_id(self, dns_zone, resource_instance):
+        # Get resource instane GUID
+        try:
+            ri = self.get_resource_instance(resource_instance)
+            resource_instance_guid = ri['guid']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+        
+        # Get Zone id
+        try:
+            zone = self.get_dns_zone_by_name(name=dns_zone, 
+                    resource_instance=resource_instance)
+            zone_id = zone['id']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+        
+        return(zone_id, resource_instance_guid)
+ 
+
     # Create DNS zone
     def create_zone(self, **kwargs):
         # Required parameters
@@ -179,6 +201,17 @@ class Dns():
 
     # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
+        """
+        Add permitted network to dns zone
+
+        :param name: required. The unique user-defined name for this ima.
+
+        :param resource_group: Optional. The resource group to use.
+        
+        :param resource_instance: required. The name of the dns resource instance
+        
+        :param vpc_crn: required. The allowed VPC'CRN : crn:v1:staging:public:is:us-east ....
+        """
         # Required parameters
         required_args = set(["name", "resource_instance", "vpc_crn"])
         check_args(required_args, **kwargs)
@@ -193,23 +226,10 @@ class Dns():
         
         payload = {}
 
-        # Get resource instane GUID
-        try:
-            ri = self.get_resource_instance(args['resource_instance'])
-            resource_instance_guid = ri['guid']
-        except Exception as error:
-            print(f"Error getting resource instace guid. {error}")
-            raise
-        
-        # Get Zone id
-        try:
-            zone = self.get_dns_zone_by_name(name=args['name'], 
-                    resource_instance=args['resource_instance'])
-            zone_id = zone['id']
-        except Exception as error:
-            print(f"Error getting resource instace guid. {error}")
-            raise
- 
+        # Get zone ID and resource instane GUID
+        zone_id, resource_instance_guid = self.get_dns_zone_and_resource_instance_id(
+                    args['name'], args['resource_instance'])
+
         # Construct payload
         payload["type"] = 'vpc'
         payload["permitted_network"] = {}
@@ -230,3 +250,136 @@ class Dns():
         except Exception as error:
             print(f"Error adding permitted network. {error}")
             raise
+
+    def add_resource_record(self, **kwargs):
+        """
+        Add record in a specified zone
+
+        :param name: required. The unique user-defined name for this ima.
+
+        :param resource_instance: required. The name of the dns resource instance
+        
+        :param record: required. the record to add in the zone '{"name": "testB", "type": "A", "rdata": {"ip": "4.5.6.7"}}'
+
+        """
+        # Required parameters
+        required_args = set(["name", "resource_instance", "record"])
+        check_args(required_args, **kwargs)
+
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'resource_instance': kwargs.get('resource_instance'),
+            'record': kwargs.get('record'),
+        }
+        
+        # Get resource instane GUID
+        try:
+            ri = self.get_resource_instance(args['resource_instance'])
+            resource_instance_guid = ri['guid']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+        
+        # Get Zone id
+        try:
+            zone = self.get_dns_zone_by_name(name=args['name'], 
+                    resource_instance=args['resource_instance'])
+            zone_id = zone['id']
+        except Exception as error:
+            print(f"Error getting resource instace guid. {error}")
+            raise
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
+                resource_instance_guid, zone_id)
+            
+            return qw("dns", "POST", path, headers(),
+                    json.dumps(args['record']))["data"]
+       
+        except Exception as error:
+            print(f"Error adding permitted network. {error}")
+            raise
+
+
+    def get_resource_records(self, **kwargs):
+        """
+        Add record in a specified zone
+
+        :param name: required. The unique user-defined name for this ima.
+
+        :param resource_instance: required. The name of the dns resource instance
+        """
+        # Required parameters
+        required_args = set(["name", "resource_instance"])
+        check_args(required_args, **kwargs)
+
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'resource_instance': kwargs.get('resource_instance'),
+        }
+        
+        # Get zone ID and resource instane GUID
+        zone_id, resource_instance_guid = self.get_dns_zone_and_resource_instance_id(
+                    args['name'], args['resource_instance'])
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
+                resource_instance_guid, zone_id)
+            
+            return qw("dns", "GET", path, headers())["data"]
+       
+        except Exception as error:
+            print(f"Error adding permitted network. {error}")
+            raise
+
+
+    def delete_resource_record(self, **kwargs):
+        """
+        Dlete record in a specified zone
+
+        :param name: required. The unique user-defined name for this ima.
+
+        :param record: required. The dns record name to delete.
+
+        :param resource_instance: required. The name of the dns resource instance.
+
+        """
+        # Required parameters
+        required_args = set(["name", "record", "resource_instance"])
+        check_args(required_args, **kwargs)
+
+        # Set default value is not required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'resource_instance': kwargs.get('resource_instance'),
+            'record': kwargs.get('record'),
+        }
+        
+        # Get zone ID and resource instane GUID
+        zone_id, resource_instance_guid = self.get_dns_zone_and_resource_instance_id(
+                    args['name'], args['resource_instance'])
+
+        # Get all records 
+        records = self.get_resource_records(name=args['name'], 
+                resource_instance=args['resource_instance'])
+ 
+        for record in records['resource_records']:
+            print(record['name'])
+            if record['name'] ==  args['record']:
+                try:
+                    # Connect to api endpoint for vpcs
+                    path = ("/v1/instances/{}/dnszones/{}/resource_records/{}").format(
+                    resource_instance_guid, zone_id, record['id'])
+            
+                    return qw("dns", "DELETE", path, headers())["data"]
+       
+                except Exception as error:
+                    print(f"Error adding permitted network. {error}")
+                    raise
+
+        else:
+            return ({"errors": [{"code": "not_found",
+                "message": "No dns record found"}] })
