@@ -10,6 +10,7 @@ def params():
 
     option = {}
     option["auth_url"] = constants.AUTH_URL
+    option["dns_url"] = constants.DNS_URL
     option["rg_url"] = constants.RG_URL
 
     if path.exists(creds):
