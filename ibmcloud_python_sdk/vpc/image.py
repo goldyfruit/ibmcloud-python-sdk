@@ -2,15 +2,22 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk.utils.common import check_args
+from ibmcloud_python_sdk import resource_group
 
 
 class Image():
 
     def __init__(self):
         self.cfg = params()
+        self.rg = resource_group.Resource()
 
-    # Get operating systems
     def get_operating_systems(self):
+        """
+        Retrieve operating system list
+        """
         try:
             # Connect to api endpoint for operating_systems
             path = ("/v1/operating_systems?version={}&generation={}").format(
@@ -20,13 +27,16 @@ class Image():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching operating systems. {error}")
+            print("Error fetching operating systems. {}").format(error)
             raise
 
-    # Get specific operating system
     def get_operating_system(self, name):
+        """
+        Retrieve specific operating system
+        :param name: Operating system name
+        """
         try:
-            # Connect to api endpoint for images
+            # Connect to api endpoint for operating_systems
             path = ("/v1/operating_systems/{}?version={}"
                     "&generation={}").format(name, self.cfg["version"],
                                              self.cfg["generation"])
@@ -35,11 +45,13 @@ class Image():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching operating system with name {name}. {error}")
+            print("Error fetching operating system {}. {}").format(name, error)
             raise
 
-    # Get all images
     def get_images(self):
+        """
+        Retrieve image list
+        """
         try:
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
@@ -49,12 +61,14 @@ class Image():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching images. {error}")
+            print("Error fetching images. {}").format(error)
             raise
 
-    # Get specific image by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_image(self, image):
+        """
+        Retrieve specific image
+        :param image: Image name or ID
+        """
         by_name = self.get_image_by_name(image)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -68,8 +82,11 @@ class Image():
         else:
             return by_name
 
-    # Get specific image by ID
     def get_image_by_id(self, id):
+        """
+        Retrieve specific image by ID
+        :param id: Image ID
+        """
         try:
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
@@ -79,18 +96,19 @@ class Image():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching image with ID {id}. {error}")
+            print("Error fetching image with ID {}. {}").format(id, error)
             raise
 
-    # Get specific image by name
     def get_image_by_name(self, name):
+        """
+        Retrieve specific image by name
+        :param name: Image name
+        """
         try:
-            # Connect to api endpoint for images
-            path = ("/v1/images/?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
-
-            # Retrieve images data
-            data = qw("iaas", "GET", path, headers())["data"]
+            # Retrieve images
+            data = self.get_images()
+            if "errors" in data:
+                return data
 
             # Loop over images until filter match
             for image in data["images"]:
@@ -99,42 +117,54 @@ class Image():
                     return image
 
             # Return error if no image is found
-            return {"errors": [{"code": "not_found"}]}
+            return resource_not_found()
 
         except Exception as error:
-            print(f"Error fetching image with name {name}. {error}")
+            print("Error fetching image with name {}. {}").format(name, error)
             raise
 
-    # Create image
     def create_image(self, **kwargs):
-        # Required parameters
-        required_args = set(["file", "operating_system"])
-        if not required_args.issubset(set(kwargs.keys())):
-            raise KeyError(
-                f'Required param is missing. Required: {required_args}'
-            )
+        """
+        Create image
+        :param name: Optional. The unique user-defined name for this key.
 
-        # Set default value is not required paramaters are not defined
+        :param resource_group: Optional. The resource group to use.
+
+        :param file: A unique public SSH key to import, encoded in PEM
+        format.
+
+        :param operating_system: Optional. The cryptosystem used by this key.
+        """
+        args = ["file", "operating_system"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
             'file': kwargs.get('file'),
+            'format': kwargs.get('format'),
+            'source_volume': kwargs.get('source_volume'),
             'operating_system': kwargs.get('operating_system'),
         }
 
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key == "resource_group":
-                if value is not None:
-                    payload["resource_group"] = {"id": args["resource_group"]}
-            elif key == "file":
-                payload["file"] = {"id": args["file"]}
-            elif key == "operating_system":
-                payload["operating_system"] = {
-                    "name": args["operating_system"]}
-            else:
-                payload[key] = value
+            if value is not None:
+                if key == "resource_group":
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    payload["resource_group"] = {"id": rg_info["id"]}
+                elif key == "file":
+                    payload["file"] = {"id": args["file"]}
+                elif key == "source_volume":
+                    payload["source_volume"] = {"id": args["source_volume"]}
+                elif key == "operating_system":
+                    payload["operating_system"] = {
+                        "name": args["operating_system"]}
+                else:
+                    payload[key] = value
         try:
             # Connect to api endpoint for images
             path = ("/v1/images?version={}&generation={}").format(
@@ -145,56 +175,23 @@ class Image():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error creating image. {error}")
+            print("Error creating image. {}").format(error)
             raise
 
-    # Delete image
-    # This method is generic and should be used as prefered choice
     def delete_image(self, image):
-        by_name = self.delete_image_ip_by_name(image)
-        if "errors" in by_name:
-            for key_image in by_name["errors"]:
-                if key_image["code"] == "not_found":
-                    by_id = self.delete_image_ip_by_id(image)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
-
-    # Delete image by ID
-    def delete_image_ip_by_id(self, id):
-        try:
-            # Connect to api endpoint for images
-            path = ("/v1/images/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
-
-            data = qw("iaas", "DELETE", path, headers())
-
-            # Return data
-            if data["response"].status != 204:
-                return data["data"]
-
-            # Return status
-            return {"status": "deleted"}
-
-        except Exception as error:
-            print(f"Error deleting image with ID {id}. {error}")
-            raise
-
-    # Delete image by name
-    def delete_image_ip_by_name(self, name):
+        """
+        Delete image
+        :param image: Image name or ID
+        """
         try:
             # Check if image exists
-            image = self.get_image_by_name(name)
-            if "errors" in image:
-                return image
+            image_info = self.get_image_by_name(image)
+            if "errors" in image_info:
+                return image_info
 
             # Connect to api endpoint for images
             path = ("/v1/images/{}?version={}&generation={}").format(
-                image["id"], self.cfg["version"], self.cfg["generation"])
+                image_info["id"], self.cfg["version"], self.cfg["generation"])
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -203,8 +200,8 @@ class Image():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
-            print(f"Error deleting image with name {name}. {error}")
+            print("Error deleting image with name {}. {}").format(image, error)
             raise
