@@ -90,19 +90,20 @@ class Instance():
             print(f"Error fetching instance profiles. {error}")
             raise
 
-    # Get specific instance profile by name
-    def get_instance_profile_by_name(self, name):
+    # Get specific instance profile
+    def get_instance_profile(self, profile):
         try:
             # Connect to api endpoint for instance
             path = ("/v1/instance/profiles/{}?version={}"
-                    "&generation={}").format(name, self.cfg["version"],
+                    "&generation={}").format(profile, self.cfg["version"],
                                              self.cfg["generation"])
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error fetching instance profile with name {name}. {error}")
+            print("Error fetching instance profile {}. {}").format(profile,
+                                                                   error)
             raise
 
     # Create instance
