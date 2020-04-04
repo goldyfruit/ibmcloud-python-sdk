@@ -29,6 +29,8 @@ def params():
         option["region"] = environ.get("IC_REGION")
         option["generation"] = environ.get("IC_GENERATION")
         option["key"] = environ.get("IC_API_KEY")
+        option["cis_username"] = environ.get("SL_USERNAME")
+        option["cis_apikey"] = environ.get("SL_API_KEY")
         option["is_url"] = "{}.{}".format(
             environ.get("IC_REGION"), constants.IS_URL)
 
@@ -46,6 +48,8 @@ def params():
     option["region"] = cloud["region"]
     option["generation"] = cloud["generation"]
     option["key"] = cloud["key"]
+    option["cis_username"] = cloud["cis_username"]
+    option["cis_apikey"] = cloud["cis_apikey"]
     option["is_url"] = "{}.iaas.cloud.ibm.com".format(cloud["region"])
 
     return option
