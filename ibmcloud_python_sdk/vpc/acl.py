@@ -233,7 +233,7 @@ class Acl():
                     # Return data
                     return rule
 
-            # Return error if no VPC is found
+            # Return error if no network ACL is found
             return resource_not_found()
 
         except Exception as error:
