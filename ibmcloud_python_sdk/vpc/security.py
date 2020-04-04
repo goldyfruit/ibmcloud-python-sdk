@@ -454,7 +454,7 @@ class Security():
                 return data["data"]
 
             # Return status
-            return {"status": "deleted"}
+            return resource_deleted()
 
         except Exception as error:
             print("Error deleting security group {}. {}").format(
