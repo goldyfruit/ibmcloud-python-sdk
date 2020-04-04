@@ -14,8 +14,7 @@ class Dns():
         self.resource_plan_id = "dc1460a6-37bd-4e2b-8180-d0f86ff39baa"
 
     def get_resource_instances(self):
-        """
-        Retrieve all dns instances
+        """Retrieve all dns resource instances
         """
         result = []
         try:
@@ -201,15 +200,11 @@ class Dns():
 
     # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
-        """
-        Add permitted network to dns zone
+        """Add permitted network to dns zone
 
         :param name: required. The unique user-defined name for this ima.
-
         :param resource_group: Optional. The resource group to use.
-        
         :param resource_instance: required. The name of the dns resource instance
-        
         :param vpc_crn: required. The allowed VPC'CRN : crn:v1:staging:public:is:us-east ....
         """
         # Required parameters
@@ -252,15 +247,11 @@ class Dns():
             raise
 
     def add_resource_record(self, **kwargs):
-        """
-        Add record in a specified zone
+        """Add record in a specified zone
 
         :param name: required. The unique user-defined name for this ima.
-
         :param resource_instance: required. The name of the dns resource instance
-        
         :param record: required. the record to add in the zone '{"name": "testB", "type": "A", "rdata": {"ip": "4.5.6.7"}}'
-
         """
         # Required parameters
         required_args = set(["name", "resource_instance", "record"])
@@ -304,11 +295,9 @@ class Dns():
 
 
     def get_resource_records(self, **kwargs):
-        """
-        Add record in a specified zone
+        """Get record for a specified zone
 
         :param name: required. The unique user-defined name for this ima.
-
         :param resource_instance: required. The name of the dns resource instance
         """
         # Required parameters
@@ -332,20 +321,16 @@ class Dns():
             return qw("dns", "GET", path, headers())["data"]
        
         except Exception as error:
-            print(f"Error adding permitted network. {error}")
+            print(f"Error getting resource records. {error}")
             raise
 
 
     def delete_resource_record(self, **kwargs):
-        """
-        Dlete record in a specified zone
+        """Dlete record in a specified zone
 
         :param name: required. The unique user-defined name for this ima.
-
         :param record: required. The dns record name to delete.
-
         :param resource_instance: required. The name of the dns resource instance.
-
         """
         # Required parameters
         required_args = set(["name", "record", "resource_instance"])
@@ -367,19 +352,19 @@ class Dns():
                 resource_instance=args['resource_instance'])
  
         for record in records['resource_records']:
-            print(record['name'])
             if record['name'] ==  args['record']:
                 try:
                     # Connect to api endpoint for vpcs
-                    path = ("/v1/instances/{}/dnszones/{}/resource_records/{}").format(
-                    resource_instance_guid, zone_id, record['id'])
+                    path = ("/v1/instances/{}/dnszones/{}/
+                            resource_records/{}").format(
+                                    resource_instance_guid, 
+                                    zone_id, record['id'])
             
                     return qw("dns", "DELETE", path, headers())["data"]
        
                 except Exception as error:
-                    print(f"Error adding permitted network. {error}")
+                    print(f"Error deleting zone. {error}")
                     raise
-
         else:
             return ({"errors": [{"code": "not_found",
                 "message": "No dns record found"}] })
