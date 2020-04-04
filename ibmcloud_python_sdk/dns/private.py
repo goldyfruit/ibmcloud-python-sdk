@@ -114,7 +114,7 @@ class Dns():
             raise
 
         try:
-            # Connect to api endpoint for vpcs
+            # Connect to api endpoint for dns zones
             path = ("/v1/instances/{}/dnszones").format(
                 resource_instance_guid)
             
@@ -231,7 +231,7 @@ class Dns():
         payload["permitted_network"]["vpc_crn"] = args['vpc_crn']
 
         try:
-            # Connect to api endpoint for vpcs
+            # Connect to api endpoint for permitted network
             path = ("/v1/instances/{}/dnszones/{}/permitted_networks").format(
                 resource_instance_guid, zone_id)
             
@@ -282,7 +282,7 @@ class Dns():
             raise
 
         try:
-            # Connect to api endpoint for vpcs
+            # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
                 resource_instance_guid, zone_id)
             
@@ -314,7 +314,7 @@ class Dns():
         zone_id, resource_instance_guid = self.get_dns_zone_and_resource_instance_id(
                     args['name'], args['resource_instance'])
         try:
-            # Connect to api endpoint for vpcs
+            # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
                 resource_instance_guid, zone_id)
             
@@ -354,7 +354,7 @@ class Dns():
         for record in records['resource_records']:
             if record['name'] ==  args['record']:
                 try:
-                    # Connect to api endpoint for vpcs
+                    # Connect to api endpoint for resource records
                     path = ("/v1/instances/{}/dnszones/{}/
                             resource_records/{}").format(
                                     resource_instance_guid, 
