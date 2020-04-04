@@ -14,14 +14,14 @@ class Geo():
         """
         try:
             # Connect to api endpoint for regions
-            path = ("/v1/regions?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/regions?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching regions. {}").format(error)
+            print("Error fetching regions. {}".format(error))
             raise
 
     def get_region(self, region):
@@ -31,14 +31,14 @@ class Geo():
         """
         try:
             # Connect to api endpoint for regions
-            path = ("/v1/regions/{}?version={}&generation={}").format(
-                region, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/regions/{}?version={}&generation={}".format(
+                region, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching region {}. {}").format(region, error)
+            print("Error fetching region {}. {}".format(region, error))
             raise
 
     def get_region_zones(self, region):
@@ -48,15 +48,14 @@ class Geo():
         """
         try:
             # Connect to api endpoint for regions
-            path = ("/v1/regions/{}/zones?version={}&generation={}").format(
-                region, self.cfg["version"], self.cfg["generation"])
-
+            path = ("/v1/regions/{}/zones?version={}&generation={}".format(
+                region, self.cfg["version"], self.cfg["generation"]))
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching zones for region {}. {}").format(region,
-                                                                   error)
+            print("Error fetching zones for region {}. {}".format(region,
+                                                                  error))
             raise
 
     # Get specific zone from a region
@@ -68,13 +67,13 @@ class Geo():
         """
         try:
             # Connect to api endpoint for regions
-            path = ("/v1/regions/{}/zones/{}?version={}&generation={}").format(
-                region, zone, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/regions/{}/zones/{}?version={}&generation={}".format(
+                region, zone, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching zone {} for region {}. {}").format(
-                zone, region, error)
+            print("Error fetching zone {} for region {}. {}".format(
+                zone, region, error))
             raise
