@@ -13,6 +13,44 @@ class ResourceInstance():
         # self.resource_group_id = "aef66560191746fe804b9a66874f62b1"
         self.resource_plan_id = "dc1460a6-37bd-4e2b-8180-d0f86ff39baa"
 
+    def create_resource_instance(self, **kwargs):
+        """Create a resource instance
+
+        :param: name: required.
+        :param: resource_group_id: required.
+        :param: resource_plan_id: required.
+        :param: target: required.
+        """
+        # Required parameters
+        required_args = ['name', 'resource_group_id', 'resource_plan_id', 'target']
+        check_args(required_args, **kwargs)
+ 
+        # Set default value if required paramaters are not defined
+        args = {
+            'name': kwargs.get('name'),
+            'resource_group': kwargs.get('resource_group_id'),
+            'resource_plan_id': kwargs.get('resource_plan_id'),
+            'target': kwargs.get('target'),
+        }
+  
+        payload = {}
+
+        # Construct payload
+        for key, value in args.items():
+            payload[key] = value
+
+        try:
+            # Connect to api endpoint for resource instances
+            path = ("/v2/resource_instances")
+
+            print(json.dumps(payload))
+            return qw("rg", "POST", path, headers(),
+                    json.dumps(payload))["data"]
+        except Exception as error:
+            print("Error creating resource instance. {}").format(error)
+            raise
+       
+
     def get_resource_instances(self, resource_plan_id=None):
         """Retrieve all dns resource instances
         """
@@ -39,6 +77,8 @@ class ResourceInstance():
     # Get specific resource instance by ID or by name
     # This method is generic and should be used as prefered choice
     def get_resource_instance(self, resource_instance):
+        """
+        """
         by_name = self.get_resource_instance_by_name(resource_instance)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -84,3 +124,27 @@ class ResourceInstance():
                 return ({"errors": [{"code": "not_found", 
                     "message": "No resource instance suitable for DNS operations found."}]
                     })
+    def delete_reource_instance(self, **kwargs):
+        """Delete a resource instance
+
+        :param: id: required. The resource instance id
+        """
+        # Required parameters
+        required_args = ['guid']
+        check_args(required_args, **kwargs)
+
+        # Set default value if required paramaters are not defined
+        args = {
+            'guid': kwargs.get('guid'),
+        }
+    
+        try:
+            # Connect to api endpoint for resource instances
+            path = ("/v2/resource_instances/{}").format(args['guid'])
+            return qw("rg", "DELETE", path, headers())["data"]
+
+        except Exception as error:
+            print("Error deleting resource instance. {}").format(error)
+            raise
+
+
