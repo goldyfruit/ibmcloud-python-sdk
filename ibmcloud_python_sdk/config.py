@@ -18,12 +18,13 @@ def params():
             try:
                 config = yaml.safe_load(config_file)
             except yaml.YAMLError as error:
-                print(f"Error reading config file: {creds}. {error}")
+                print("Error reading config file: {}. {}".format(creds, error))
     else:
         for var in constants.MANDATORY_ENV_VARS:
             if var not in environ:
                 raise EnvironmentError(
-                    f"Failed because {var} global variable is not set.")
+                    "Failed because {} global variable is not set.".format(
+                        var))
 
         option["version"] = environ.get("IC_VERSION")
         option["region"] = environ.get("IC_REGION")
@@ -42,7 +43,7 @@ def params():
         if "IC_CONFIG_NAME" in environ:
             cloud = config["clouds"][environ.get("IC_CONFIG_NAME")]
         else:
-            raise Exception(f"Configuration name should be defined.")
+            raise Exception("Configuration name should be defined.")
 
     option["version"] = cloud["version"]
     option["region"] = cloud["region"]
