@@ -24,7 +24,7 @@ class Dns():
         required_args = ['resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'resource_instance_guid':  kwargs.get('resource_instance_guid'),
         }
@@ -53,7 +53,7 @@ class Dns():
         required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid':  kwargs.get('resource_instance_guid'),
@@ -77,11 +77,16 @@ class Dns():
 
     # Get specific dns zone by name
     def get_dns_zone_by_name(self, **kwargs):
+        """Get dns zone by name
+
+        :param: dns_zone: the DNS zone name to query
+        :param: esource_instance_guid: the GUID of the resource instance
+        """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid':  kwargs.get('resource_instance_guid'),
@@ -116,7 +121,7 @@ class Dns():
         required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid':  kwargs.get('resource_instance_guid'),
@@ -154,7 +159,7 @@ class Dns():
         required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid':  kwargs.get('resource_instance_guid'),
@@ -177,11 +182,19 @@ class Dns():
 
     # Create DNS zone
     def create_zone(self, **kwargs):
+        """Create a zone in a specified resource instance
+
+        :param: dns_zone: required. The user-defined name to create.
+        :param: description: optional. A description for the domain.
+        :param: label: optional: A label for the domain.
+        :param: resource_instance: required. The resource instance guid
+            of the the dns resource instance.
+        """
         # Required parameters
-        required_args = set(["dns_zone", "resource_instance_guid"])
+        required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'name': kwargs.get('dns_zone'),
             'description': kwargs.get('description') or "",
@@ -212,17 +225,17 @@ class Dns():
     def add_permitted_network(self, **kwargs):
         """Add permitted network to dns zone
 
-        :param name: required. The user-defined name for this domain.
-        :param resource_group: Optional. The resource group to use.
+        :param dns_zone: required. The user-defined name for this domain.
         :param resource_instance: required. The resource instance guid
-            of the dns resource instance
-        :param vpc_crn: required. The allowed VPC'CRN : crn:v1:staging:public:is:us-east ....
+            of the dns resource instance.
+        :param vpc_crn: required. The allowed VPC'CRN : 
+            crn:v1:staging:public:is:us-east ... .
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance_guid', 'vpc_crn']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'vpc_crn': kwargs.get('vpc_crn'),
@@ -260,13 +273,18 @@ class Dns():
         :param name: required. The unique user-defined name for this ima.
         :param resource_instance: required. The name of the dns resource instance
         :param record: required. the record to add in the zone 
-            ex : '{"name": "testB", "type": "A", "rdata": {"ip": "4.5.6.7"}}'
+            ex : '{ "name": "testB", 
+                    "type": "A", 
+                    "rdata": {
+                        "ip": "4.5.6.7"
+                     }
+                  }'
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance_guid', 'record']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
@@ -305,7 +323,7 @@ class Dns():
         required_args = ['dns_zone', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
@@ -339,7 +357,7 @@ class Dns():
         required_args = ['dns_zone', 'record', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
@@ -378,7 +396,7 @@ class Dns():
         required_args = ['dns_zone', 'record', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
@@ -414,7 +432,7 @@ class Dns():
         required_args = ['dns_zone', 'record_name', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
@@ -443,7 +461,7 @@ class Dns():
         required_args = ['dns_zone', 'record_id', 'resource_instance_guid']
         check_args(required_args, **kwargs)
 
-        # Set default value is not required paramaters are not defined
+        # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance_guid': kwargs.get('resource_instance_guid'),
