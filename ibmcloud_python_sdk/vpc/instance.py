@@ -566,7 +566,7 @@ class Instance():
                                                 "name": boot_vv}
                                         elif boot_vk == "resource_group":
                                             info = self.rg.get_resource_group(
-                                                boot_vv["resource_group"])
+                                                boot_vv)
                                             if "errors" in info:
                                                 return info
                                             tmp_bv["resource_group"] = {
