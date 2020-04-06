@@ -7,6 +7,7 @@ from ibmcloud_python_sdk.vpc import image
 from ibmcloud_python_sdk.vpc import subnet
 from ibmcloud_python_sdk.vpc import floating_ip
 from ibmcloud_python_sdk.vpc import volume
+from ibmcloud_python_sdk.vpc import key as keyring
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk import resource_group
@@ -22,6 +23,7 @@ class Instance():
         self.subnet = subnet.Subnet()
         self.fip = floating_ip.Fip()
         self.volume = volume.Volume()
+        self.keyring = keyring.Key()
         self.rg = resource_group.Resource()
 
     def get_instances(self):
@@ -505,7 +507,10 @@ class Instance():
                     kp = []
                     for key_pair in args["keys"]:
                         tmp_k = {}
-                        tmp_k["id"] = key_pair
+                        key_info = self.keyring.get_key(key_pair)
+                        if "errors" in key_info:
+                            return key_info
+                        tmp_k["id"] = key_info["id"]
                         kp.append(tmp_k)
                     payload["keys"] = kp
                 elif key == "network_interfaces":
@@ -551,15 +556,30 @@ class Instance():
                     tmp_b = {}
                     bva = args["boot_volume_attachment"]
                     for boot_k, boot_v in bva.items():
-                        if boot_k == "profile":
-                            tmp_b["profile"] = {"name": boot_v}
-                        elif boot_k == "resource_group":
-                            tmp_b["resource_group"] = {"id": boot_v}
-                        elif boot_k == "encryption_key":
-                            tmp_b["encryption_key"] = {"crn": boot_v}
-                        else:
-                            tmp_b[boot_k] = boot_v
-                    payload["boot_volume_attachments"] = tmp_b
+                        if boot_v is not None:
+                            if boot_k == "volume":
+                                tmp_bv = {}
+                                for boot_vk, boot_vv in bva["volume"].items():
+                                    if boot_vv is not None:
+                                        if boot_vk == "profile":
+                                            tmp_bv["profile"] = {
+                                                "name": boot_vv}
+                                        elif boot_vk == "resource_group":
+                                            info = self.rg.get_resource_group(
+                                                boot_vv["resource_group"])
+                                            if "errors" in info:
+                                                return info
+                                            tmp_bv["resource_group"] = {
+                                                "id": info["id"]}
+                                        elif boot_vk == "encryption_key":
+                                            tmp_bv["encryption_key"] = {
+                                                "crn": boot_vv}
+                                        else:
+                                            tmp_bv[boot_vk] = boot_vv
+                                    tmp_b["volume"] = tmp_bv
+                            else:
+                                tmp_b[boot_k] = boot_v
+                    payload["boot_volume_attachment"] = tmp_b
                 elif key == "primary_network_interface":
                     tmp_p = {}
                     pni = args["primary_network_interface"]
@@ -579,9 +599,15 @@ class Instance():
                                     tmp_ip["id"] = pni_ip
                                     ip.append(tmp_ip)
                                 tmp_p["ips"] = ip
-                            elif nic_k == "primary_ip":
-                                tmp_n["primary_ip"] = {
-                                    "id": interface["primary_ip"]}
+                            elif pni_k == "primary_ip":
+                                tmp_p["primary_ip"] = {
+                                    "id": pni["primary_ip"]}
+                            elif pni_k == "subnet":
+                                subnet_info = self.subnet.get_subnet(
+                                    pni["subnet"])
+                                if "errors" in subnet_info:
+                                    return subnet_info
+                                tmp_p["subnet"] = {"id": subnet_info["id"]}
                             else:
                                 tmp_p[pni_k] = pni_v
                     payload["primary_network_interface"] = tmp_p
@@ -609,6 +635,8 @@ class Instance():
                 elif key == "source_template":
                     payload["source_template"] = {
                         "id": args["source_template"]}
+                elif key == "zone":
+                    payload["zone"] = {"name": args["zone"]}
                 else:
                     payload[key] = value
 
