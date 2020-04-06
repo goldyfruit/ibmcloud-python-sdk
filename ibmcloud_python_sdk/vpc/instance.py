@@ -37,7 +37,7 @@ class Instance():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching instances. {}").format(error)
+            print("Error fetching instances. {}".format(error))
             raise
 
     def get_instance(self, instance):
@@ -64,13 +64,13 @@ class Instance():
         :param id: Instance ID
         """
         try:
-            path = ("/v1/instances/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/instances/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching instance with ID {}. {}").format(id, error)
+            print("Error fetching instance with ID {}. {}".format(id, error))
             raise
 
     def get_instance_by_name(self, name):
@@ -90,8 +90,8 @@ class Instance():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching instance with name {}. {}").format(
-                name, error)
+            print("Error fetching instance with name {}. {}".format(
+                name, error))
             raise
 
     def get_instance_configuration(self, instance):
@@ -119,14 +119,14 @@ class Instance():
         """
         try:
             path = ("/v1/instances/{}/initialization?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(id, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching configuration for instance with ID"
-                  " {}. {}").format(id, error)
+                  " {}. {}".format(id, error))
             raise
 
     def get_instance_configuration_by_name(self, name):
@@ -140,15 +140,15 @@ class Instance():
                 return instance_info
 
             path = ("/v1/instances/{}/initialization?version={}"
-                    "&generation={}").format(instance_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching configuration for instance with name"
-                  " {}. {}").format(name, error)
+                  " {}. {}".format(name, error))
             raise
 
     def get_instance_interfaces(self, instance):
@@ -176,14 +176,14 @@ class Instance():
         """
         try:
             path = ("/v1/instances/{}/network_interfaces?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(id, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching network interfaces for instance with ID"
-                  " {}. {}").format(id, error)
+                  " {}. {}".format(id, error))
             raise
 
     def get_instance_interfaces_by_name(self, name):
@@ -197,15 +197,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/network_interfaces?version={}"
-                    "&generation={}").format(instance_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching network interfaces for instance with name"
-                  " {}. {}").format(name, error)
+                  " {}. {}".format(name, error))
             raise
 
     def get_instance_interface(self, instance, interface):
@@ -240,15 +240,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/network_interfaces/{}?version={}"
-                    "&generation={}").format(instance_info["id"], id,
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"], id,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching network interface {} for instance"
-                  " {}. {}").format(instance, id, error)
+                  " {}. {}".format(instance, id, error))
             raise
 
     def get_instance_interface_by_name(self, instance, name):
@@ -274,7 +274,7 @@ class Instance():
 
         except Exception as error:
             print("Error fetching network interface {} for instance"
-                  " {}. {}").format(instance, name, error)
+                  " {}. {}".format(instance, name, error))
             raise
 
     def get_instance_interface_fips(self, instance, interface):
@@ -295,16 +295,16 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/network_interfaces/{}/floating_ips"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        interface_into["id"],
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       interface_into["id"],
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching floating IPs attached to network interface"
-                  " {} for instance {}. {}").format(interface, instance, error)
+                  " {} for instance {}. {}".format(interface, instance, error))
             raise
 
     def get_instance_interface_fip(self, instance, interface, floating):
@@ -338,18 +338,18 @@ class Instance():
                     fip_info = fip["id"]
 
             path = ("/v1/instances/{}/network_interfaces/{}/floating_ips/{}"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        interface_into["id"],
-                                                        fip_info,
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       interface_into["id"],
+                                                       fip_info,
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching floating IP {} attached to network interface"
-                  " {} for instance {}. {}").format(fip_info, interface,
-                                                    instance, error)
+                  " {} for instance {}. {}".format(fip_info, interface,
+                                                   instance, error))
             raise
 
     def get_instance_volume_attachments(self, instance):
@@ -363,15 +363,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/volume_attachments"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching volumes attached to instance {}. {}").format(
-                instance, error)
+            print("Error fetching volumes attached to instance {}. {}".format(
+                instance, error))
             raise
 
     def get_instance_volume_attachment(self, instance, attachment):
@@ -395,16 +395,16 @@ class Instance():
                     volume_info = vol["id"]
 
             path = ("/v1/instances/{}/volume_attachments/{}"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        volume_info,
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       volume_info,
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching volume {} attached to instance"
-                  " {}. {}").format(attachment, instance, error)
+                  " {}. {}".format(attachment, instance, error))
             raise
 
     def get_instance_profiles(self):
@@ -412,13 +412,13 @@ class Instance():
         Retrieve instance profile list
         """
         try:
-            path = ("/v1/instance/profiles?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/instance/profiles?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching instance profiles. {}").format(error)
+            print("Error fetching instance profiles. {}".format(error))
             raise
 
     def get_instance_profile(self, profile):
@@ -428,14 +428,14 @@ class Instance():
         """
         try:
             path = ("/v1/instance/profiles/{}?version={}"
-                    "&generation={}").format(profile, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(profile, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching instance profile {}. {}").format(
-                profile, error)
+            print("Error fetching instance profile {}. {}".format(
+                profile, error))
             raise
 
     def create_instance(self, **kwargs):
@@ -641,14 +641,14 @@ class Instance():
                     payload[key] = value
 
         try:
-            path = ("/v1/instances?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/instances?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating instance. {}").format(error)
+            print("Error creating instance. {}".format(error))
             raise
 
     def create_instance_action(self, **kwargs):
@@ -682,15 +682,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/actions?version={}"
-                    "&generation={}").format(instance_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating instance action. {}").format(error)
+            print("Error creating instance action. {}".format(error))
             raise
 
     def create_instance_interface(self, **kwargs):
@@ -739,15 +739,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/network_interfaces?version={}"
-                    "&generation={}").format(instance_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating instance interface. {}").format(error)
+            print("Error creating instance interface. {}".format(error))
             raise
 
     def associate_floating_ip(self, **kwargs):
@@ -772,7 +772,8 @@ class Instance():
         if "errors" in instance_info:
             return instance_info
 
-        interface_info = self.get_instance_interface(args["interface"])
+        interface_info = self.get_instance_interface(instance_info["id"],
+                                                     args["interface"])
         if "errors" in interface_info:
             return interface_info
 
@@ -782,19 +783,19 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/network_interfaces/{}/floating_ips/{}"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        interface_info["id"],
-                                                        fip_info["id"],
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       interface_info["id"],
+                                                       fip_info["id"],
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
-            return qw("iaas", "POST", path, headers(), None)["data"]
+            return qw("iaas", "PUT", path, headers(), None)["data"]
 
         except Exception as error:
             print("Error associating floating IP {} on network interface {}"
-                  " for instance {}. {}").format(fip_info["id"],
-                                                 interface_info["id"],
-                                                 instance_info["id"], error)
+                  " for instance {}. {}".format(fip_info["id"],
+                                                interface_info["id"],
+                                                instance_info["id"], error))
             raise
 
     def attach_volume(self, **kwargs):
@@ -839,15 +840,15 @@ class Instance():
 
         try:
             path = ("/v1/instances/{}/volume_attachments?version={}"
-                    "&generation={}").format(instance_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(instance_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
-            return qw("iaas", "POST", path, headers(),
+            return qw("iaas", "PUT", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating volume attachment. {}").format(error)
+            print("Error creating volume attachment. {}".format(error))
             raise
 
     def delete_instance(self, instance):
@@ -872,7 +873,7 @@ class Instance():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting instance {}. {}").format(instance, error)
+            print("Error deleting instance {}. {}".format(instance, error))
             raise
 
     def delete_instance_interface(self, instance, interface):
@@ -890,9 +891,9 @@ class Instance():
             if "errors" in interface_info:
                 return interface_info
 
-            path = ("/v1/instances/{}?version={}&generation={}").format(
+            path = ("/v1/instances/{}?version={}&generation={}".format(
                 instance_info["id"], interface_info["id"], self.cfg["version"],
-                self.cfg["generation"])
+                self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -902,7 +903,7 @@ class Instance():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting instance {}. {}").format(instance, error)
+            print("Error deleting instance {}. {}".format(instance, error))
             raise
 
     def disassociate_floating_ip(self, instance, interface, fip):
@@ -917,7 +918,7 @@ class Instance():
             if "errors" in instance_info:
                 return instance_info
 
-            interface_info = self.get_instance_interface(interface)
+            interface_info = self.get_instance_interface(instance, interface)
             if "errors" in interface_info:
                 return interface_info
 
@@ -926,11 +927,11 @@ class Instance():
                 return fip_info
 
             path = ("/v1/instances/{}/network_interfaces/{}/floating_ips/{}"
-                    "?version={}&generation={}").format(instance_info["id"],
-                                                        interface_info["id"],
-                                                        fip_info["id"],
-                                                        self.cfg["version"],
-                                                        self.cfg["generation"])
+                    "?version={}&generation={}".format(instance_info["id"],
+                                                       interface_info["id"],
+                                                       fip_info["id"],
+                                                       self.cfg["version"],
+                                                       self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -941,8 +942,8 @@ class Instance():
 
         except Exception as error:
             print("Error disassociating floating IP {} from network interface"
-                  " {} on instance {}. {}").format(fip, interface, instance,
-                                                   error)
+                  " {} on instance {}. {}".format(fip, interface, instance,
+                                                  error))
             raise
 
     def detach_volume(self, instance, volume):
