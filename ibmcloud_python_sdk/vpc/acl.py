@@ -286,9 +286,7 @@ class Acl():
                 elif key == "rules":
                     rs = []
                     for acl_rules in args["rules"]:
-                        tmp = {}
-                        tmp["id"] = acl_rules
-                        rs.append(tmp)
+                        rs.append(acl_rules)
                     payload["rules"] = rs
                 elif key == "source_network_acl":
                     payload["source_network_acl"] = {
