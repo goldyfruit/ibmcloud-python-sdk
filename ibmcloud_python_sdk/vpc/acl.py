@@ -22,14 +22,14 @@ class Acl():
         """
         try:
             # Connect to api endpoint for network_acls
-            path = ("/v1/network_acls?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/network_acls?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching network ACLs. {}").format(error)
+            print("Error fetching network ACLs. {}".format(error))
             raise
 
     def get_network_acl(self, acl):
@@ -57,15 +57,15 @@ class Acl():
         """
         try:
             # Connect to api endpoint for network_acls
-            path = ("/v1/network_acls/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/network_acls/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching network ACL with ID {}. {}").format(
-                id, error)
+            print("Error fetching network ACL with ID {}. {}".format(
+                id, error))
             raise
 
     def get_network_acl_by_name(self, name):
@@ -89,8 +89,8 @@ class Acl():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching network ACL with name {}. {}").format(
-                name, error)
+            print("Error fetching network ACL with name {}. {}".format(
+                name, error))
             raise
 
     def get_network_acl_rules(self, acl):
@@ -119,15 +119,15 @@ class Acl():
         try:
             # Connect to api endpoint for network_acls
             path = ("/v1/network_acls/{}/rules?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(id, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching rules for network ACL with ID"
-                  " {}. {}").format(id, error)
+                  " {}. {}".format(id, error))
             raise
 
     def get_network_acl_rules_by_name(self, name):
@@ -144,16 +144,16 @@ class Acl():
         try:
             # Connect to api endpoint for network_acls
             path = ("/v1/network_acls/{}/rules/?version={}"
-                    "&generation={}").format(acl_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(acl_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching network ACL with name {}. {}").format(
-                name, error)
+            print("Error fetching network ACL with name {}. {}".format(
+                name, error))
             raise
 
     # Get specific network ACL's rule
@@ -197,16 +197,16 @@ class Acl():
         try:
             # Connect to api endpoint for network_acls
             path = ("/v1/network_acls/{}/rules/{}?version={}"
-                    "&generation={}").format(acl_info["id"], id,
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(acl_info["id"], id,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching rule with ID {} for network ACL"
-                  "with ID {}. {}").format(id, acl_info["id"], error)
+                  "with ID {}. {}".format(id, acl_info["id"], error))
             raise
 
     def get_network_acl_rule_by_name(self, acl, name):
@@ -238,7 +238,7 @@ class Acl():
 
         except Exception as error:
             print("Error fetching rule with name {} for network ACL"
-                  "with ID {}. {}").format(name, acl_info["id"], error)
+                  "with ID {}. {}".format(name, acl_info["id"], error))
             raise
 
     def create_network_acl(self, **kwargs):
@@ -296,15 +296,15 @@ class Acl():
 
         try:
             # Connect to api endpoint for network_acls
-            path = ("/v1/network_acls?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/network_acls?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating network ACL. {}").format(error)
+            print("Error creating network ACL. {}".format(error))
             raise
 
     def create_network_acl_rule(self, **kwargs):
@@ -360,16 +360,16 @@ class Acl():
         try:
             # Connect to api endpoint for network_acls
             path = ("/v1/network_acls/{}/rules?version={}"
-                    "&generation={}").format(acl_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(acl_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating network ACL rule. {}").format(error)
+            print("Error creating network ACL rule. {}".format(error))
             raise
 
     def delete_network_acl(self, acl):
@@ -384,8 +384,8 @@ class Acl():
                 return acl_info
 
             # Connect to api endpoint for network_acls
-            path = ("/v1/network_acls/{}?version={}&generation={}").format(
-                acl_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/network_acls/{}?version={}&generation={}".format(
+                acl_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -397,7 +397,7 @@ class Acl():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting network ACL with {}. {}").format(acl, error)
+            print("Error deleting network ACL with {}. {}".format(acl, error))
             raise
 
     def delete_network_acl_rule(self, acl, rule):
@@ -418,9 +418,9 @@ class Acl():
 
             # Connect to api endpoint for network_acls
             path = ("/v1/network_acls/{}/rules/{}?version={}"
-                    "&generation={}").format(acl_info["id"], rule_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(acl_info["id"], rule_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -433,5 +433,5 @@ class Acl():
 
         except Exception as error:
             print("Error deleting network ACL rule {} for network"
-                  "ACL {}. {}").format(rule, acl, error)
+                  "ACL {}. {}".format(rule, acl, error))
             raise
