@@ -253,6 +253,8 @@ class Acl():
 
         :param rules: Optional. Array of prototype objects for rules to create
         along with this network ACL.
+
+        :param source_network_acl: Optional. Network ACL to copy rules from.
         """
         args = ["vpc"]
         check_args(args, **kwargs)
@@ -263,6 +265,7 @@ class Acl():
             'resource_group': kwargs.get('resource_group'),
             'vpc': kwargs.get('vpc'),
             'rules': kwargs.get('rules'),
+            'source_network_acl': kwargs.get('source_network_acl'),
         }
 
         # Construct payload
@@ -287,6 +290,9 @@ class Acl():
                         tmp["id"] = acl_rules
                         rs.append(tmp)
                     payload["rules"] = rs
+                elif key == "source_network_acl":
+                    payload["source_network_acl"] = {
+                        "id": args["source_network_acl"]}
                 else:
                     payload[key] = value
 
