@@ -4,6 +4,7 @@ from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.vpc import gateway as gw
 from ibmcloud_python_sdk.vpc import vpc
+from ibmcloud_python_sdk.vpc import acl
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
@@ -16,6 +17,7 @@ class Subnet():
         self.cfg = params()
         self.vpc = vpc.Vpc()
         self.gateway = gw.Gateway()
+        self.acl = acl.Acl()
         self.rg = resource_group.Resource()
 
     def get_subnets(self):
@@ -244,10 +246,10 @@ class Subnet():
         # Retrieve subnet and network ACL information to get the ID
         # (mostly useful if a name is provided)
         subnet_info = self.get_subnet(args["subnet"])
-        acl_info = self.get_subnet_network_acl(args["network_acl"])
         if "errors" in subnet_info:
             return subnet_info
-        elif "errors" in acl_info:
+        acl_info = self.acl.get_network_acl(args["network_acl"])
+        if "errors" in acl_info:
             return acl_info
 
         # Construct payload
@@ -257,8 +259,9 @@ class Subnet():
         try:
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/network_acl?version={}"
-                    "&generation={}").format(subnet_info["id"], self.ver,
-                                             self.gen)
+                    "&generation={}".format(subnet_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "PUT", path, headers(),
@@ -266,8 +269,8 @@ class Subnet():
 
         except Exception as error:
             print("Error attaching network ACL {} to subnet"
-                  "{}. {}").format(args["network_acl"], args["subnet"],
-                                   error)
+                  "{}. {}".format(args["network_acl"], args["subnet"],
+                                  error))
             raise
 
     def attach_public_gateway(self, **kwargs):
