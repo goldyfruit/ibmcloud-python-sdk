@@ -33,9 +33,13 @@ class Resource():
         Retrieve the default resource group
         """
         resource_groups = self.get_resource_groups()["resources"]
-        for resource_group in resource_groups:
-            if resource_group['default'] == True:
-                return resource_group
+        try:
+            for resource_group in resource_groups:
+                if resource_group['default'] == True:
+                    return resource_group
+        except Exception as error:
+            print("Error fetching default resource group. {}").format(error)
+            raise
 
     def get_resource_group(self, group):
         """
