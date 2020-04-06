@@ -28,6 +28,15 @@ class Resource():
             print("Error fetching resource groups. {}").format(error)
             raise
 
+    def get_default_resource_group(self):
+        """
+        Retrieve the default resource group
+        """
+        resource_groups = self.get_resource_groups()["resources"]
+        for resource_group in resource_groups:
+            if resource_group['default'] == True:
+                return resource_group
+
     def get_resource_group(self, group):
         """
         Retrieve specific resource group by name or by ID
