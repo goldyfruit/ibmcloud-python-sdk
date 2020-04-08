@@ -24,14 +24,14 @@ class Gateway():
         """
         try:
             # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/public_gateways?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching public gateways. {}").format(error)
+            print("Error fetching public gateways. {}".format(error))
             raise
 
     def get_public_gateway(self, gateway):
@@ -59,15 +59,15 @@ class Gateway():
         """
         try:
             # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/public_gateways/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching public gateway with ID {}. {}").format(id,
-                                                                         error)
+            print("Error fetching public gateway with ID {}. {}".format(
+                id, error))
             raise
 
     def get_public_gateway_by_name(self, name):
@@ -91,8 +91,8 @@ class Gateway():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching public gateway with name {}. {}").format(
-                name, error)
+            print("Error fetching public gateway with name {}. {}".format(
+                name, error))
             raise
 
     def create_public_gateway(self, **kwargs):
@@ -149,15 +149,15 @@ class Gateway():
 
         try:
             # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/public_gateways?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error creating public gateway. {error}")
+            print("Error creating public gateway. {}".format(error))
             raise
 
     def delete_public_gateway(self, gateway):
@@ -172,9 +172,9 @@ class Gateway():
                 return gateway_info
 
             # Connect to api endpoint for public_gateways
-            path = ("/v1/public_gateways/{}?version={}&generation={}").format(
+            path = ("/v1/public_gateways/{}?version={}&generation={}".format(
                 gateway_info["id"], self.cfg["version"],
-                self.cfg["generation"])
+                self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -186,6 +186,6 @@ class Gateway():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting public gateway with name {}. {}").format(
-                gateway, error)
+            print("Error deleting public gateway with name {}. {}".format(
+                gateway, error))
             raise
