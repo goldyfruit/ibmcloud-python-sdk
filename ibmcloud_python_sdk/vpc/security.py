@@ -268,14 +268,14 @@ class Security():
     def create_security_group(self, **kwargs):
         """
         Create security group
-        :param name: Optional. The user-defined name for this security group. 
+        :param name: Optional. The user-defined name for this security group.
 
         :param resource_group: Optional. The resource group to use.
 
         :param vpc: The VPC this security group is to be a part of.
 
-        :param rules: Array of rule prototype objects for rules to be created
-        for this security group.
+        :param rules: Optional. Array of rule prototype objects for rules to
+        be created for this security group.
         """
         args = ["vpc"]
         check_args(args, **kwargs)
@@ -306,30 +306,37 @@ class Security():
                 elif key == "rules":
                     rs = []
                     for sg_rules in args["rules"]:
-                        tmp = {}
-                        tmp["id"] = sg_rules
-                        rs.append(tmp)
+                        rs.append(sg_rules)
                     payload["rules"] = rs
+                elif key == "remote":
+                    for r_k, r_v in args["remote"].items():
+                        if r_v is not None:
+                            if r_k == "cidr_block":
+                                payload["remote"] = {"cidr_block": r_v}
+                            elif r_k == "ip":
+                                payload["remote"] = {"ip": r_v}
+                            elif r_k == "id":
+                                payload["remoted"] = {"id": r_v}
                 else:
                     payload[key] = value
 
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/security_groups?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating security group. {}").format(error)
+            print("Error creating security group. {}".format(error))
             raise
 
     def create_security_group_rule(self, **kwargs):
         """
         Create security group rule
-        :param name: Optional. The user-defined name for this security group. 
+        :param name: Optional. The user-defined name for this security group.
 
         :param resource_group: Optional. The resource group to use.
 
