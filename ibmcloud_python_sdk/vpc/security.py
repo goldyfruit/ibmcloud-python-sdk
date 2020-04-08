@@ -22,14 +22,14 @@ class Security():
         """
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/security_groups?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching security groups. {}").format(error)
+            print("Error fetching security groups. {}".format(error))
             raise
 
     def get_security_group(self, security_group):
@@ -57,15 +57,15 @@ class Security():
         """
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/security_groups/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching security group with ID {}. {}").format(
-                id, error)
+            print("Error fetching security group with ID {}. {}".format(
+                id, error))
             raise
 
     def get_security_group_by_name(self, name):
@@ -89,8 +89,8 @@ class Security():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching security group with name {}. {}").format(
-                name, error)
+            print("Error fetching security group with name {}. {}".format(
+                name, error))
             raise
 
     def get_security_group_interfaces(self, security_group):
@@ -119,15 +119,15 @@ class Security():
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/network_interfaces?version={}"
-                    "&generation={}").format(id, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(id, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching network interfaces associated to security"
-                  " group with ID {}. {}").format(id, error)
+                  " group with ID {}. {}".format(id, error))
             raise
 
     def get_security_group_interfaces_by_name(self, name):
@@ -158,7 +158,7 @@ class Security():
 
         except Exception as error:
             print("Error fetching network interfaces associated to security"
-                  " group with name {}. {}").format(name, error)
+                  " group with name {}. {}".format(name, error))
             raise
 
     def get_security_group_rules(self, security_group):
@@ -175,16 +175,16 @@ class Security():
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/rules?version={}"
-                    "&generation={}").format(sg_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching rules for security group with"
-                  " ID {}. {}").format(id, error)
+                  " ID {}. {}".format(id, error))
             raise
 
     def get_security_group_rule(self, security_group, rule):
@@ -222,9 +222,9 @@ class Security():
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/rules/{}?version={}"
-                    "&generation={}").format(sg_info["info"], id,
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"], id,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
@@ -302,8 +302,8 @@ class Security():
 
         except Exception as error:
             print("Error adding network interface {} to security group"
-                  " {}. {}").format(args["interface"], args["security_group"],
-                                    error)
+                  " {}. {}".format(args["interface"], args["security_group"],
+                                   error))
             raise
 
     def create_security_group(self, **kwargs):
@@ -420,16 +420,16 @@ class Security():
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/rules?version={}"
-                    "&generation={}").format(sg_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating security group rule. {}").format(error)
+            print("Error creating security group rule. {}".format(error))
             raise
 
     def delete_security_group(self, security_group):
@@ -444,8 +444,8 @@ class Security():
                 return sg_info
 
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}?version={}&generation={}").format(
-                sg_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/security_groups/{}?version={}&generation={}".format(
+                sg_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -457,8 +457,8 @@ class Security():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting security group {}. {}").format(
-                security_group, error)
+            print("Error deleting security group {}. {}".format(
+                security_group, error))
             raise
 
     def remove_interface_security_group(self, security_group, interface):
@@ -475,9 +475,9 @@ class Security():
 
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
-                    "&generation={}").format(sg_info["id"], interface,
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"], interface,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -490,7 +490,7 @@ class Security():
 
         except Exception as error:
             print("Error removing network interface {} from security group"
-                  " {}. {}").format(interface, security_group, error)
+                  " {}. {}".format(interface, security_group, error))
             raise
 
     def delete_security_group_rule(self, security_group, rule):
@@ -506,15 +506,15 @@ class Security():
                 return sg_info
 
             # Check if rule exists
-            rule_info = self.get_security_group_rule(rule)
+            rule_info = self.get_security_group_rule(sg_info["id"], rule)
             if "errors" in rule_info:
                 return rule_info
 
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/rules/{}?version={}"
-                    "&generation={}").format(sg_info["id"], rule_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"], rule_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -526,7 +526,6 @@ class Security():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting rule {} from security group {}. {}").format(
-                rule, security_group, error
-            )
+            print("Error deleting rule {} from security group {}. {}".format(
+                rule, security_group, error))
             raise
