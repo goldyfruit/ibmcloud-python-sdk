@@ -19,8 +19,8 @@ class Fip():
         """
         try:
             # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/floating_ips?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
@@ -63,15 +63,15 @@ class Fip():
         """
         try:
             # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/floating_ips/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching floating IP with ID {}. {}").format(
-                id, error)
+            print("Error fetching floating IP with ID {}. {}".format(
+                id, error))
             raise
 
     def get_floating_ip_by_name(self, name):
@@ -95,8 +95,8 @@ class Fip():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching floating IP with name {}. {}").format(
-                name, error)
+            print("Error fetching floating IP with name {}. {}".format(
+                name, error))
             raise
 
     def get_floating_ip_by_address(self, address):
@@ -120,8 +120,8 @@ class Fip():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching floating IP with address {}. {}").format(
-                address, error)
+            print("Error fetching floating IP with address {}. {}".format(
+                address, error))
             raise
 
     # Reserve floating IP
@@ -165,15 +165,15 @@ class Fip():
 
         try:
             # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/floating_ips?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error reserving floating. {}").format(error)
+            print("Error reserving floating. {}".format(error))
             raise
 
     def release_floating_ip(self, fip):
@@ -188,8 +188,8 @@ class Fip():
                 return fip_info
 
             # Connect to api endpoint for floating_ips
-            path = ("/v1/floating_ips/{}?version={}&generation={}").format(
-                fip_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/floating_ips/{}?version={}&generation={}".format(
+                fip_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -201,5 +201,5 @@ class Fip():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting floating IP {}. {}").format(fip, error)
+            print("Error deleting floating IP {}. {}".format(fip, error))
             raise
