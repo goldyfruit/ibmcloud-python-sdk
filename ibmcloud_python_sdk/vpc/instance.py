@@ -390,6 +390,7 @@ class Instance():
             if "errors" in data:
                 return data
 
+            volume_info = None
             for vol in data['volume_attachments']:
                 if vol["name"] == attachment or vol["id"] == attachment:
                     volume_info = vol["id"]
@@ -834,7 +835,7 @@ class Instance():
         for key, value in args.items():
             if key != "instance" and value is not None:
                 if key == "volume":
-                    payload["volume"] = {"id", volume_info["id"]}
+                    payload["volume"] = {"id": volume_info["id"]}
                 else:
                     payload[key] = value
 
@@ -844,7 +845,7 @@ class Instance():
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
-            return qw("iaas", "PUT", path, headers(),
+            return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
@@ -861,9 +862,9 @@ class Instance():
             if "errors" in instance_info:
                 return instance_info
 
-            path = ("/v1/instances/{}?version={}&generation={}").format(
+            path = ("/v1/instances/{}?version={}&generation={}".format(
                 instance_info["id"], self.cfg["version"],
-                self.cfg["generation"])
+                self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -946,24 +947,25 @@ class Instance():
                                                   error))
             raise
 
-    def detach_volume(self, instance, volume):
+    def detach_volume(self, instance, attachment):
         """
         Detach volume from an instance
         :param instance: Instance name or ID
-        :param volume: Volume name or ID
+        :param attachment: Volume attachement name or ID
         """
         try:
             instance_info = self.get_instance(instance)
             if "errors" in instance_info:
                 return instance_info
 
-            volume_info = self.volume.get_volume(volume)
-            if "errors" in volume_info:
-                return volume_info
+            attachment_info = self.get_instance_volume_attachment(
+                instance_info["id"], attachment)
+            if "errors" in attachment_info:
+                return attachment_info
 
             path = ("/v1/instances/{}/volume_attachments/{}"
                     "?version={}&generation={}".format(instance_info["id"],
-                                                       volume_info["id"],
+                                                       attachment_info["id"],
                                                        self.cfg["version"],
                                                        self.cfg["generation"]))
 
@@ -975,6 +977,6 @@ class Instance():
             return resource_deleted()
 
         except Exception as error:
-            print("Error detaching volume {} from instance {}. {}".format(
-                volume, instance, error))
+            print("Error detaching volume with attachment {} from instance"
+                  " {}. {}".format(attachment, instance, error))
             raise
