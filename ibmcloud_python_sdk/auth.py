@@ -40,6 +40,7 @@ def get_headers():
     if not headers:
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
+        headers["User-Agent"] = "IBM-Cloud_Python_SDK"
         headers["Authorization"] = get_token(constants.AUTH_URL, cfg["key"])
 
 <<<<<<< HEAD
