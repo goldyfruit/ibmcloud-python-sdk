@@ -191,21 +191,13 @@ class Security():
         """
         Retrieve specific rule from a security group
         :param security_group: Security group name or ID
-        :param rule: Rule name or ID
+        :param rule: Rule ID
         """
-        by_name = self.get_security_group_rule_by_name(security_group, rule)
-        if "errors" in by_name:
-            for key_name in by_name["errors"]:
-                if key_name["code"] == "not_found":
-                    by_id = self.get_security_group_rule_by_id(security_group,
-                                                               rule)
-                    if "errors" in by_id:
-                        return by_id
-                    return by_id
-                else:
-                    return by_name
-        else:
-            return by_name
+        by_id = self.get_security_group_rule_by_id(security_group, rule)
+        if "errors" in by_id:
+            return by_id
+
+        return by_id
 
     def get_security_group_rule_by_id(self, security_group, id):
         """
@@ -231,40 +223,7 @@ class Security():
 
         except Exception as error:
             print("Error fetching rule with ID {} for security group"
-                  " {}. {}").format(id, security_group["info"], error)
-            raise
-
-    def get_security_group_rule_by_name(self, security_group, name):
-        """
-        Retrieve specific rule from a security group
-        :param security_group: Security group name or ID
-        :param name: Rule name
-        """
-        # Retrieve security group information to get the ID
-        # (mostly useful if a name is provided)
-        sg_info = self.get_security_group(security_group)
-        if "errors" in sg_info:
-            return sg_info
-
-        try:
-            # Retrieve rules from security group
-            data = self.get_security_group_rules(sg_info["id"])
-            if "errors" in data:
-                return data
-
-            # Loop over rules until filter match
-            for rule in data['rules']:
-                if rule["name"] == name:
-                    # Return data
-                    return rule
-
-            # Return error if no security group is found
-            return resource_not_found(
-
-            )
-        except Exception as error:
-            print("Error fetching rule with name {} for security group"
-                  " {}. {}").format(security_group, name, error)
+                  " {}. {}".format(id, security_group, error))
             raise
 
     def add_interface_security_group(self, **kwargs):
