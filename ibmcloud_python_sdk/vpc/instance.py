@@ -313,7 +313,7 @@ class Instance():
         instance
         :param instance: Instance name or ID
         :param interface: Interface name or ID
-        :parem fip: Floating IP name,ID or address
+        :parem floating: Floating IP name,ID or address
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
