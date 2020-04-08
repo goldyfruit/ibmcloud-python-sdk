@@ -20,14 +20,14 @@ class Vpc():
         """
         try:
             # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/vpcs?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching VPC. {}").format(error)
+            print("Error fetching VPC. {}".format(error))
             raise
 
     def get_vpc(self, vpc):
@@ -55,14 +55,14 @@ class Vpc():
         """
         try:
             # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/vpcs/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching VPC with ID {}. {}").format(id, error)
+            print("Error fetching VPC with ID {}. {}".format(id, error))
             raise
 
     def get_vpc_by_name(self, name):
@@ -86,7 +86,7 @@ class Vpc():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching VPC with name {}. {}").format(name, error)
+            print("Error fetching VPC with name {}. {}".format(name, error))
             raise
 
     def get_default_network_acl(self, vpc):
@@ -102,16 +102,16 @@ class Vpc():
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_network_acl?version={}"
-                    "&generation={}").format(vpc_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(vpc_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching default network ACL for VPC"
-                  " {}. {}").format(vpc, error)
+                  " {}. {}".format(vpc, error))
             raise
 
     def get_default_security_group(self, vpc):
@@ -127,16 +127,16 @@ class Vpc():
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/default_security_group?version={}"
-                    "&generation={}").format(vpc_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(vpc_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
             print("Error fetching default security group for VPC"
-                  " {}. {}").format(vpc, error)
+                  " {}. {}".format(vpc, error))
             raise
 
     def create_vpc(self, **kwargs):
@@ -177,15 +177,15 @@ class Vpc():
 
         try:
             # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/vpcs?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating VPC. {}").format(error)
+            print("Error creating VPC. {}".format(error))
             raise
 
     def delete_vpc(self, vpc):
@@ -200,8 +200,8 @@ class Vpc():
 
         try:
             # Connect to api endpoint for vpcs
-            path = ("/v1/vpcs/{}?version={}&generation={}").format(
-                vpc_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/vpcs/{}?version={}&generation={}".format(
+                vpc_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -213,5 +213,5 @@ class Vpc():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting VPC {}. {}").format(vpc, error)
+            print("Error deleting VPC {}. {}".format(vpc, error))
             raise
