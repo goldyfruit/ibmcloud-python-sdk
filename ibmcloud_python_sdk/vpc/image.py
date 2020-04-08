@@ -20,14 +20,14 @@ class Image():
         """
         try:
             # Connect to api endpoint for operating_systems
-            path = ("/v1/operating_systems?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/operating_systems?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching operating systems. {}").format(error)
+            print("Error fetching operating systems. {}".format(error))
             raise
 
     def get_operating_system(self, name):
@@ -38,14 +38,14 @@ class Image():
         try:
             # Connect to api endpoint for operating_systems
             path = ("/v1/operating_systems/{}?version={}"
-                    "&generation={}").format(name, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(name, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching operating system {}. {}").format(name, error)
+            print("Error fetching operating system {}. {}".format(name, error))
             raise
 
     def get_images(self):
@@ -54,14 +54,14 @@ class Image():
         """
         try:
             # Connect to api endpoint for images
-            path = ("/v1/images?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/images?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching images. {}").format(error)
+            print("Error fetching images. {}".format(error))
             raise
 
     def get_image(self, image):
@@ -89,14 +89,14 @@ class Image():
         """
         try:
             # Connect to api endpoint for images
-            path = ("/v1/images/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/images/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching image with ID {}. {}").format(id, error)
+            print("Error fetching image with ID {}. {}".format(id, error))
             raise
 
     def get_image_by_name(self, name):
@@ -120,7 +120,7 @@ class Image():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching image with name {}. {}").format(name, error)
+            print("Error fetching image with name {}. {}".format(name, error))
             raise
 
     def create_image(self, **kwargs):
@@ -155,6 +155,8 @@ class Image():
                 if key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
                     payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "file":
                     payload["file"] = {"id": args["file"]}
@@ -167,15 +169,15 @@ class Image():
                     payload[key] = value
         try:
             # Connect to api endpoint for images
-            path = ("/v1/images?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/images?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating image. {}").format(error)
+            print("Error creating image. {}".format(error))
             raise
 
     def delete_image(self, image):
@@ -190,8 +192,8 @@ class Image():
                 return image_info
 
             # Connect to api endpoint for images
-            path = ("/v1/images/{}?version={}&generation={}").format(
-                image_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/images/{}?version={}&generation={}".format(
+                image_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -203,5 +205,5 @@ class Image():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting image with name {}. {}").format(image, error)
+            print("Error deleting image with name {}. {}".format(image, error))
             raise
