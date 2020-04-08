@@ -20,14 +20,14 @@ class Key():
         """
         try:
             # Connect to api endpoint for keys
-            path = ("/v1/keys?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/keys?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching keys. {}").format(error)
+            print("Error fetching keys. {}".format(error))
             raise
 
     def get_key(self, key):
@@ -55,14 +55,14 @@ class Key():
         """
         try:
             # Connect to api endpoint for keys
-            path = ("/v1/keys/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/keys/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching key with ID {}. {}").format(id, error)
+            print("Error fetching key with ID {}. {}".format(id, error))
             raise
 
     def get_key_by_name(self, name):
@@ -86,7 +86,7 @@ class Key():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching key with name {}. {}").format(name, error)
+            print("Error fetching key with name {}. {}".format(name, error))
             raise
 
     def create_key(self, **kwargs):
@@ -127,15 +127,15 @@ class Key():
 
         try:
             # Connect to api endpoint for keys
-            path = ("/v1/keys?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/keys?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating key. {}").format(error)
+            print("Error creating key. {}".format(error))
             raise
 
     def delete_key(self, key):
@@ -144,14 +144,14 @@ class Key():
         :param key: Key name or ID
         """
         try:
-            # Check if key existskey
+            # Check if key exists
             key_info = self.get_key(key)
             if "errors" in key_info:
                 return key_info
 
             # Connect to api endpoint for keys
-            path = ("/v1/keys/{}?version={}&generation={}").format(
-                key_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/keys/{}?version={}&generation={}".format(
+                key_info["id"], self.cfg["version"], self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -163,5 +163,5 @@ class Key():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting key with name {}. {}").format(key, error)
+            print("Error deleting key with name {}. {}".format(key, error))
             raise
