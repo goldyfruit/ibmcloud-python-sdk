@@ -7,6 +7,7 @@ from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.vpc import instance
 
 
 class Security():
@@ -15,6 +16,7 @@ class Security():
         self.cfg = params()
         self.vpc = vpc.Vpc()
         self.rg = resource_group.Resource()
+        self.instance = instance.Instance()
 
     def get_security_groups(self):
         """
@@ -232,6 +234,8 @@ class Security():
         :param interface: The network interface ID.
 
         :param security_group: The security group name or ID.
+
+        :param instance: Optional. Instance name or ID.
         """
         args = ["interface", "security_group"]
         check_args(args, **kwargs)
@@ -240,7 +244,10 @@ class Security():
         args = {
             'interface': kwargs.get('interface'),
             'security_group': kwargs.get('security_group'),
+            'instance': kwargs.get('instance'),
         }
+
+        target = args["interface"]
 
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -248,11 +255,20 @@ class Security():
         if "errors" in sg_info:
             return sg_info
 
+        if args["instance"]:
+            # Retrieve network interface information to get the ID
+            # (mostly useful if a name is provided)
+            nic_info = self.instance.get_instance_interface(
+                args["instance"], args["interface"])
+            if "errors" in nic_info:
+                return nic_info
+            target = nic_info["id"]
+
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
                     "&generation={}").format(sg_info["id"],
-                                             args["interface"],
+                                             target,
                                              self.cfg["version"],
                                              self.cfg["generation"])
 
@@ -261,8 +277,7 @@ class Security():
 
         except Exception as error:
             print("Error adding network interface {} to security group"
-                  " {}. {}".format(args["interface"], args["security_group"],
-                                   error))
+                  " {}. {}".format(target, args["security_group"], error))
             raise
 
     def create_security_group(self, **kwargs):
