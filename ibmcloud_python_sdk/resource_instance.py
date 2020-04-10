@@ -182,9 +182,9 @@ class ResourceInstance():
             path = ("/v2/resource_instances?name={}".format(
                name))
 
-            resource_instances = qw("rg", "GET", path, headers())["data"]
+            resource_instance = qw("rg", "GET", path, headers())["data"]
             #return result
-            return resource_instances
+            return resource_instance["resources"][0]
         except Exception as error:
             print("Error fetching resource instances. {}").format(error)
             raise
