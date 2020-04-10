@@ -4,12 +4,16 @@ from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 
+from ibmcloud_python_sdk import resource_instance
+from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import check_args
 
 class Dns():
 
     def __init__(self):
         self.cfg = params()
+        self.ri = resource_instance.ResourceInstance()
+        self.vpc = vpc.Vpc()
         # resource_group_id and self.resource_plan_id for free dns instance
         self.resource_group_id = "aef66560191746fe804b9a66874f62b1"
         self.resource_plan_id = "dc1460a6-37bd-4e2b-8180-d0f86ff39baa"
@@ -21,15 +25,20 @@ class Dns():
         :param resource_instance_guid: the GUID of the resource instance
         """
         # Required parameters
-        required_args = ['resource_instance_guid']
+        required_args = ['resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
-            'resource_instance_guid':  kwargs.get('resource_instance_guid'),
+            'resource_instance':  kwargs.get('resource_instance'),
         }
-
-        resource_instance_guid = args['resource_instance_guid']
+        
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
 
         try:
             # Connect to api endpoint for dns zones
@@ -47,25 +56,32 @@ class Dns():
         """Get a specific dns zone hosted by a resource instance
 
         param: dns_zone: the DNS zone name or id to query
-        param: resource_instance_guid: the GUID of the resource instance 
+        param: resource_instance: name or GUID of the resource instance 
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid':  kwargs.get('resource_instance_guid'),
+            'resource_instance':  kwargs.get('resource_instance'),
         }
 
+#        # get resource instance guid
+#        ri = self.ri.get_resource_instance(args['resource_instance'])
+#        if "errors" in ri:
+#            return ri
+#        else: 
+#            resource_instance_guid = ri["guid"]
+
         by_name = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
-                 resource_instance_guid=args['resource_instance_guid'])
+                 resource_instance=args['resource_instance'])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_guid = self.get_dns_zone_by_id(dns_zone=args['dns_zone'],
-                            resource_instance_guid=args['resource_instance_guid'])
+                            resource_instance=args['resource_instance'])
                     if "errors" in by_guid:
                         return by_guid
                     return by_guid
@@ -80,33 +96,41 @@ class Dns():
         """Get dns zone by name
 
         :param: dns_zone: the DNS zone name to query
-        :param: esource_instance_guid: the GUID of the resource instance
+        :param: esource_instance_guid: name or GUID of the resource instance
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid':  kwargs.get('resource_instance_guid'),
+            'resource_instance':  kwargs.get('resource_instance'),
         }
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
 
         try:
             # Connect to api endpoint for dns zones
             path = ("/v1/instances/{}/dnszones").format(
-                args['resource_instance_guid'])
+                resource_instance_guid)
             
             dns_zones = qw("dns", "GET", path, headers())["data"]
 
             if "errors" in dns_zones or len(dns_zones) == 0:
                 return ({"errors": [{"code": "not_found",
-                    "message": "No dns zone found."}]})
+                    "message": "No dns zones found."}]})
            
             # Find the existing domain matching the query
             for dns_zone in dns_zones['dnszones']:
                 if dns_zone["name"] == args['dns_zone']:
                     return dns_zone
+
             # Return error message if no existing domain matches the query
             return ({"errors": [{"code": "not_found", 
                 "message": "No dns zone found."}]})
@@ -118,19 +142,26 @@ class Dns():
     # Get specific dns zone by id
     def get_dns_zone_by_id(self, **kwargs):
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid':  kwargs.get('resource_instance_guid'),
+            'resource_instance':  kwargs.get('resource_instance'),
         }
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
 
         try:
             # Connect to api endpoint for dns zones
             path = ("/v1/instances/{}/dnszones").format(
-                args['resource_instance_guid'])
+                resource_instance_guid)
             
             dns_zones = qw("dns", "GET", path, headers())["data"]
 
@@ -152,23 +183,23 @@ class Dns():
 
 
 
-    # Lookup function to get dns zone id and resource instance id
+    # Lookup function to get dns zone id and resource instance
     def get_dns_zone_id(self, **kwargs):
         """
         """
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid':  kwargs.get('resource_instance_guid'),
+            'resource_instance':  kwargs.get('resource_instance'),
         }
-        
+
         # Get Zone id
         try:
             zone = self.get_dns_zone_by_name(dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])
+                    resource_instance=args['resource_instance'])
             if "errors" in zone:
                 for key_name in zone["errors"]:
                     if key_name["code"] == "not_found":
@@ -176,7 +207,7 @@ class Dns():
             else:
                 return zone['id']
         except Exception as error:
-            print(f"Error getting resource instace guid. {error}")
+            print(f"Error getting dns zone id: {error}")
             raise
  
 
@@ -187,11 +218,11 @@ class Dns():
         :param: dns_zone: required. The user-defined name to create.
         :param: description: optional. A description for the domain.
         :param: label: optional: A label for the domain.
-        :param: resource_instance: required. The resource instance guid
-            of the the dns resource instance.
+        :param: resource_instance: required. Name or guid of dns 
+            resource instance.
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
@@ -201,64 +232,145 @@ class Dns():
             'label': kwargs.get('label') or "",
         }
 
-        resource_instance_guid = kwargs.get('resource_instance_guid')
-        
-        payload = {}
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(kwargs.get('resource_instance'))
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
 
-        # Construct payload
-        for key, value in args.items():
-            payload[key] = value
+        zone = self.get_dns_zone(
+                    dns_zone=args['name'], 
+                    resource_instance=resource_instance_guid)
+
+        if "errors" in zone :
+            for key in zone["errors"]:
+                if key["code"] == "not_found":
+                    payload = {}
+
+                    # Construct payload
+                    for key, value in args.items():
+                        payload[key] = value
+            
+                    try:
+                        # Connect to api endpoint for dns zone
+                        path = ("/v1/instances/{}/dnszones").format(
+                            resource_instance_guid)
+                        # Return data
+                        return qw("dns", "POST", path, headers(),
+                                json.dumps(payload))["data"]
+                    
+                    except Exception as error:
+                        print(f"Error creating dns zone. {error}")
+                        raise
+        else:
+            return zone
+
+    # Delete DNS zone
+    def delete_zone(self, **kwargs):
+        """Create a zone in a specified resource instance
+
+        :param: dns_zone: required. The user-defined name to create.
+        :param: resource_instance: required. Name or guid of dns 
+            resource instance.
+        """
+        # Required parameters
+        required_args = ['dns_zone', 'resource_instance']
+        check_args(required_args, **kwargs)
+
+        # Set default value if required paramaters are not defined
+        args = {
+            'name': kwargs.get('dns_zone'),
+            'resource_instance': kwargs.get('resource_instance'),
+        }
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
+        dns_zone = self.get_dns_zone(dns_zone=args['name'], 
+                resource_instance=args['resource_instance'])
+
+        if "errors" in dns_zone:
+            return dns_zone
+        else:
+            dns_zone_id = dns_zone['id']
 
         try:
             # Connect to api endpoint for dns zone
-            path = ("/v1/instances/{}/dnszones").format(
-                resource_instance_guid)
+            path = ("/v1/instances/{}/dnszones/{}").format(
+                resource_instance_guid,
+                dns_zone_id)
+ 
             # Return data
-            return qw("dns", "POST", path, headers(),
-                    json.dumps(payload))["data"]
-        
+            result = qw("dns", "DELETE", path, headers())
+
+            if result["data"] == None:
+                if result["response"].getcode() == 204:
+                    return({"message": "deletion request successfully initiated"})
+                else:
+                    return result
+
         except Exception as error:
             print(f"Error creating dns zone. {error}")
             raise
+
 
     # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
         """Add permitted network to dns zone
 
         :param dns_zone: required. The user-defined name for this domain.
-        :param resource_instance: required. The resource instance guid
-            of the dns resource instance.
-        :param vpc_crn: required. The allowed VPC'CRN : 
-            crn:v1:staging:public:is:us-east ... .
+        :param resource_instance: required. Name or guid of dns resource 
+        instance.
+        :param vpc: required. The allowed VPC name or id. 
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid', 'vpc_crn']
+        required_args = ['dns_zone', 'resource_instance', 'vpc']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'vpc_crn': kwargs.get('vpc_crn'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'vpc': kwargs.get('vpc'),
+            'resource_instance': kwargs.get('resource_instance'),
         }
-        #resource_instance = kwargs.get('resource_instance')
         
-        payload = {}
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
+        # get vpc crn
+        vpc = self.vpc.get_vpc(args["vpc"])
+        if "errors" in vpc:
+            return vpc
+        else:
+            vpc_crn = vpc["crn"]
 
         # Get zone ID
         zone_id = self.get_dns_zone_id(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])
+                    resource_instance=resource_instance_guid)
+        if "errors" in zone_id :
+            return zone_id
+
+        payload = {}
 
         # Construct payload
-        payload["type"] = 'vpc'
+        payload["type"] = "vpc"
         payload["permitted_network"] = {}
-        payload["permitted_network"]["vpc_crn"] = args['vpc_crn']
+        payload["permitted_network"]["vpc_crn"] = vpc_crn
 
         try:
             # Connect to api endpoint for permitted network
             path = ("/v1/instances/{}/dnszones/{}/permitted_networks").format(
-                args['resource_instance_guid'], zone_id)
+                resource_instance_guid, zone_id)
             
             return qw("dns", "POST", path, headers(),
                     json.dumps(payload))["data"]
@@ -266,6 +378,69 @@ class Dns():
         except Exception as error:
             print(f"Error adding permitted network. {error}")
             raise
+
+
+
+    # Delete permitted network to dns zone's acls
+    def delete_permitted_network(self, **kwargs):
+        """Delete permitted network to dns zone
+
+        :param dns_zone: required. The user-defined name for this domain.
+        :param resource_instance: required. Name or guid of dns resource 
+        instance.
+        :param vpc_crn: required. The allowed VPC's CRN : 
+            
+        """
+        # Required parameters
+        required_args = ['dns_zone', 'resource_instance', 'vpc']
+        check_args(required_args, **kwargs)
+
+        # Set default value if required paramaters are not defined
+        args = {
+            'dns_zone': kwargs.get('dns_zone'),
+            'vpc': kwargs.get('vpc'),
+            'resource_instance': kwargs.get('resource_instance'),
+        }
+        
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else:
+            resource_instance_guid = ri["guid"]
+
+        # get vpc id
+        vpc = self.vpc.get_vpc(args["vpc"])
+        if "errors" in vpc:
+            return vpc
+        else:
+            vpc_id = vpc["id"]
+
+        # get zone ID
+        zone_id = self.get_dns_zone_id(
+                    dns_zone=args['dns_zone'], 
+                    resource_instance=resource_instance_guid,)
+        if "errors" in zone_id:
+            return zone_id
+
+        # Construct payload
+        try:
+            # Connect to api endpoint for permitted network
+            path = ("/v1/instances/{}/dnszones/{}/permitted_networks/{}").format(
+                resource_instance_guid, zone_id, vpc_id)
+            
+            result = qw("dns", "DELETE", path, headers())
+            if result["data"] == None:
+                if result["response"].getcode() == 204:
+                    return({"message": "deletion request successfully initiated"})
+                else:
+                    return result
+            else:
+                return result
+        except Exception as error:
+            print(f"Error removing permitted network. {error}")
+            raise
+
 
     def add_resource_record(self, **kwargs):
         """Add record in a specified zone
@@ -320,15 +495,22 @@ class Dns():
         :param resource_instance: required. The name of the dns resource instance
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid']
+        required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
         }
         
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         # Get zone ID
         zone_id = self.get_dns_zone_id(
                     dns_zone=args['dns_zone'], 
@@ -351,27 +533,35 @@ class Dns():
 
         :param name: required. The unique user-defined name for this ima.
         :param record: required. The dns record name to delete.
-        :param resource_instance: required. The name of the dns resource instance.
+        :param resource_instance: required. Name or GUID of dns resource 
+            instance.
         """
         # Required parameters
-        required_args = ['dns_zone', 'record', 'resource_instance_guid']
+        required_args = ['dns_zone', 'record', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
             'record': kwargs.get('record'),
         }
         
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         # Get zone ID and resource instane GUID
         zone_id = self.get_dns_zone_id(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])
+                    resource_instance_guid=resource_instance_guid)
 
         # Get record ID
         record_id = self.get_resource_record(dns_zone=args['dns_zone'], 
-                resource_instance_guid=args['resource_instance_guid'],
+                resource_instance_guid=resource_instance_guid,
                 record=args['record'])['id']
  
         try:
@@ -393,17 +583,25 @@ class Dns():
         """
         """
         # Required parameters
-        required_args = ['dns_zone', 'record', 'resource_instance_guid']
+        required_args = ['dns_zone', 'record', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
             'record': kwargs.get('record'),
         }
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         by_name = self.get_resource_record_by_name(dns_zone=args['dns_zone'],
-                 resource_instance_guid=args['resource_instance_guid'],
+                 resource_instance_guid=resource_instance_guid,
                  record_name=args['record'])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -429,20 +627,27 @@ class Dns():
         :param resource_instance_guid
         """
         # Required parameters
-        required_args = ['dns_zone', 'record_name', 'resource_instance_guid']
+        required_args = ['dns_zone', 'record_name', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
             'record_name': kwargs.get('record_name'),
         }
         
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         # Get zone ID and resource instane GUID
         records = self.get_resource_records(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])['resource_records']
+                    resource_instance_guid=resource_instance_guid)['resource_records']
 
         for record in records:
             if record['name'] == args['record_name']:
@@ -455,23 +660,23 @@ class Dns():
 
         :param  dns_zone:
         :param record_id:
-        :param resource_instance_guid:
+        :param resource_instance:
         """
         # Required parameters
-        required_args = ['dns_zone', 'record_id', 'resource_instance_guid']
+        required_args = ['dns_zone', 'record_id', 'resource_instance']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
             'record_id': kwargs.get('record_id'),
         }
         
         # Get zone ID and resource instane GUID
         records = self.get_resource_records(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])['resource_records']
+                    resource_instance_guid=resource_instance_guid)['resource_records']
 
         for record in records:
             if record['id'] == args['record_id']:
