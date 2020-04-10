@@ -13,10 +13,7 @@ class ResourceInstance():
     def __init__(self):
         self.cfg = params()
         self.rg = resource_group.Resource()
-        # self.resource_group_id = "aef66560191746fe804b9a66874f62b1"
-        # self.resource_plan_id = "dc1460a6-37bd-4e2b-8180-d0f86ff39baa"
-        self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa",
-                }
+        self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", }
 
     def create_resource_instance(self, **kwargs):
         """Create a resource instance
@@ -99,7 +96,8 @@ class ResourceInstance():
             return self.resource_plan_dict['dns']
 
     def get_resource_instances(self, resource_plan_id=None):
-        """Retrieve all resource instances for a given resource plan
+        """Retrieve all resource instances for a given resource plan.
+        If no resource_plan id has been provided, we use the DNS plan.
         """
         # set resource_plan default to DNS 
         if resource_plan_id == None:
@@ -115,11 +113,6 @@ class ResourceInstance():
                resource_id, ri_type))
 
             resource_instances = qw("rg", "GET", path, headers())["data"]
-            #for resource_instance in resource_instances["data"]["resources"]:
-            #    if resource_instance["resource_plan_id"] == resource_plan_id : 
-            #        result.append(resource_instance)
-            ## Return data
-            #return result
             return resource_instances
         except Exception as error:
             print("Error fetching resource instances. {}").format(error)
@@ -156,46 +149,40 @@ class ResourceInstance():
 
             if "status_code" in result:
                 if result["status_code"] == 404:
-                    return ({"errors": [{"code": "not_found",
-                        "message": "No resource instances found."}]
-                        })
+                    return resource_not_found()
                 else:
                     return result
+            else:
+                return result
         except Exception as error:
             print("Error fetching resource resource instance. {}".format(error))
             raise
 
+# TODO: This function is useless because the API has a function to query by 
+# name. 
+#    # Get specific resource instance by name
+#    def get_resource_instance_by_name(self, name):
+#        resource_instances = self.get_resource_instances(resource_plan_id=None)
+#        
+#        if len(resource_instances) == 0:
+#            return resource_not_found()
+#
+#        if "errors" in resource_instances:
+#            return resource_instances
+#
+#        for resource_instance in resource_instances["resources"]:
+#            if resource_instance["name"] == name:
+#                return resource_instance
+#
+#        return resource_not_found()
 
-    # Get specific resource instance by name
     def get_resource_instance_by_name(self, name):
-        resource_instances = self.get_resource_instances(resource_plan_id=None)
-        
-        if len(resource_instances) == 0:
-            return ({"errors": [{"code": "not_found",
-                "message": "No resource instances found."}]})
-        
-        if "errors" in resource_instances:
-            return resource_instances
-
-        for resource_instance in resource_instances["resources"]:
-            if resource_instance["name"] == name:
-                return resource_instance
-
-        return ({"errors": [{"code": "not_found", 
-            "message": "No resource instance found."}]
-            })
-
-    def get_resource_instance_by_name2(self, name):
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances?name".format(
+            path = ("/v2/resource_instances?name={}".format(
                name))
 
             resource_instances = qw("rg", "GET", path, headers())["data"]
-            #for resource_instance in resource_instances["data"]["resources"]:
-            #    if resource_instance["resource_plan_id"] == resource_plan_id : 
-            #        result.append(resource_instance)
-            ## Return data
             #return result
             return resource_instances
         except Exception as error:
@@ -212,9 +199,7 @@ class ResourceInstance():
             if "errors" in instance:
                 for key in instance["errors"]:
                     if key["code"] == "not_found":
-                       return ({"errors": [{"code": "not_found", 
-                            "message": "No resource instance found."}]
-                            })
+                       return resource_not_found()
                     else:
                         return instance
             else:
@@ -227,11 +212,13 @@ class ResourceInstance():
             # Connect to api endpoint for resource instances
             path = ("/v2/resource_instances/{}").format(guid)
             result =  qw("rg", "DELETE", path, headers())
+        
             if result["data"] == None:
                 if result["response"].getcode() == 204:
                     return({"message": "deletion request successfully initiated"})
                 else:
                     return result
+
         except Exception as error:
             print("Error deleting resource instance. {}").format(error)
             raise
