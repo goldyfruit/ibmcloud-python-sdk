@@ -442,7 +442,7 @@ class Dns():
             raise
 
 
-    def add_resource_record(self, **kwargs):
+    def create_resource_record(self, **kwargs):
         """Add record in a specified zone
 
         :param name: required. The unique user-defined name for this ima.
@@ -456,20 +456,27 @@ class Dns():
                   }'
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance_guid', 'record']
+        required_args = ['dns_zone', 'resource_instance', 'record']
         check_args(required_args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance_guid': kwargs.get('resource_instance_guid'),
+            'resource_instance': kwargs.get('resource_instance'),
             'record': kwargs.get('record'),
         }
-        
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         # Get Zone id
         try:
             zone = self.get_dns_zone(dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])
+                    resource_instance=args['resource_instance'])
             zone_id = zone['id']
         except Exception as error:
             print(f"Error getting zone id. {error}")
@@ -478,7 +485,7 @@ class Dns():
         try:
             # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
-                args['resource_instance_guid'], zone_id)
+                resource_instance_guid, zone_id)
             
             return qw("dns", "POST", path, headers(),
                     json.dumps(args['record']))["data"]
@@ -514,13 +521,12 @@ class Dns():
         # Get zone ID
         zone_id = self.get_dns_zone_id(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=args['resource_instance_guid'])
+                    resource_instance=args['resource_instance'])
         try:
             # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
-                args['resource_instance_guid'], zone_id)
+                resource_instance_guid, zone_id)
             
-            print(path)
             return qw("dns", "GET", path, headers())["data"]
        
         except Exception as error:
@@ -556,21 +562,29 @@ class Dns():
 
         # Get zone ID and resource instane GUID
         zone_id = self.get_dns_zone_id(
-                    dns_zone=args['dns_zone'], 
-                    resource_instance_guid=resource_instance_guid)
+                    dns_zone=args["dns_zone"], 
+                    resource_instance=args["resource_instance"])
 
         # Get record ID
-        record_id = self.get_resource_record(dns_zone=args['dns_zone'], 
-                resource_instance_guid=resource_instance_guid,
-                record=args['record'])['id']
+        record = self.get_resource_record(dns_zone=args["dns_zone"], 
+                resource_instance=args["resource_instance"],
+                record=args["record"])
+        if "errors" in record:
+            return record
+        else:
+            record_id = record["id"]
  
         try:
             # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records/{}").format(
-                           args['resource_instance_guid'], 
+                           resource_instance_guid, 
                            zone_id, record_id)
         
-            return qw("dns", "DELETE", path, headers())["data"]
+            result = qw("dns", "DELETE", path, headers())["data"]
+            if result == None:
+                return({"message": "record successfully deleted"})
+            else:
+                return result
        
         except Exception as error:
                     print(f"Error deleting zone. {error}")
@@ -601,13 +615,14 @@ class Dns():
             resource_instance_guid = ri["guid"]
 
         by_name = self.get_resource_record_by_name(dns_zone=args['dns_zone'],
-                 resource_instance_guid=resource_instance_guid,
+                 resource_instance=resource_instance_guid,
                  record_name=args['record'])
+
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_resource_record_by_id(dns_zone=args['dns_zone'],
-                            resource_instance_guid=args['resource_instance_guid'],
+                            resource_instance=resource_instance_guid,
                             record_id=args['record'])
                     if "errors" in by_id:
                         return by_id
@@ -624,7 +639,7 @@ class Dns():
 
         :param  dns_zone:
         :param record_name:
-        :param resource_instance_guid
+        :param resource_instance
         """
         # Required parameters
         required_args = ['dns_zone', 'record_name', 'resource_instance']
@@ -644,11 +659,10 @@ class Dns():
         else: 
             resource_instance_guid = ri["guid"]
 
-        # Get zone ID and resource instane GUID
+        # Get list of records
         records = self.get_resource_records(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=resource_instance_guid)['resource_records']
-
+                    resource_instance=args["resource_instance"])['resource_records']
         for record in records:
             if record['name'] == args['record_name']:
                 return record
@@ -672,11 +686,18 @@ class Dns():
             'resource_instance': kwargs.get('resource_instance'),
             'record_id': kwargs.get('record_id'),
         }
-        
+
+        # get resource instance guid
+        ri = self.ri.get_resource_instance(args['resource_instance'])
+        if "errors" in ri:
+            return ri
+        else: 
+            resource_instance_guid = ri["guid"]
+
         # Get zone ID and resource instane GUID
         records = self.get_resource_records(
                     dns_zone=args['dns_zone'], 
-                    resource_instance_guid=resource_instance_guid)['resource_records']
+                    resource_instance=args["resource_instance"])['resource_records']
 
         for record in records:
             if record['id'] == args['record_id']:
