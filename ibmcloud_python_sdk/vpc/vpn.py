@@ -29,7 +29,7 @@ class Vpn():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching IKE policies. {}").format(error)
+            print("Error fetching IKE policies. {}".format(error))
             raise
 
     def get_ike_policy(self, policy):
@@ -88,8 +88,8 @@ class Vpn():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching IKE policy with name {}. {}").format(
-                name, error)
+            print("Error fetching IKE policy with name {}. {}".format(
+                name, error))
             raise
 
     def get_ike_policy_connections(self, policy):
