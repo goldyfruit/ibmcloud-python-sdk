@@ -398,7 +398,8 @@ class Loadbalancer():
 
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/pools?version={}"
-                    "&generation={}".format(lb_info["id"]))
+                    "&generation={}".format(lb_info["id"], self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
@@ -497,7 +498,9 @@ class Loadbalancer():
 
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/pools/{}/members?version={}"
-                    "&generation={}".format(lb_info["id"], pool_info["id"]))
+                    "&generation={}".format(lb_info["id"], pool_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
