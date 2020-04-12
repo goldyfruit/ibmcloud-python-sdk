@@ -6,6 +6,7 @@ import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.instance import Instance
 
 import tests.common as common
+import tests.instance.custom as custom
 
 class InstanceTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -56,6 +57,7 @@ class InstanceTestCase(unittest.TestCase):
 #        response = self.instance.get_instance_default_network_acl(self.fake_instance['id'])
 #        self.assertEqual(response['default_network_acl']['name'], self.fake_instance['default_network_acl'])
 #
+    @patch('ibmcloud_python_sdk.vpc.image.Image.get_image', custom.fake_get_image)
     @patch('ibmcloud_python_sdk.vpc.instance.qw', common.fake_create)
     def test_create_instance_working(self):
         """Test create_instance should work."""
@@ -66,6 +68,7 @@ class InstanceTestCase(unittest.TestCase):
                 zone='zone')
         self.assertEqual(response['name'], self.fake_instance['name'])
  
+    @patch('ibmcloud_python_sdk.vpc.image.Image.get_image', custom.fake_get_image)
     @patch('ibmcloud_python_sdk.vpc.instance.qw', common.fake_create)
     def test_create_instance_not_working(self):
         """Test create_instance should not work."""

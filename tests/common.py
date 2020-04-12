@@ -12,6 +12,8 @@ def set_folder_var(path):
     """
     if 'vpcs' in path:
         folder = 'vpcs'
+    if 'vpn' in path:
+        folder = 'vpns'
     if 'instances' in path:
         folder = 'instances'
     if 'images' in path:
