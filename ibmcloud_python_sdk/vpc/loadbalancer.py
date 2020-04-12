@@ -435,9 +435,15 @@ class Loadbalancer():
         :param id: Pool ID
         """
         try:
+            # Retrieve load balancer information
+            lb_info = self.get_lb(lb)
+            if "errors" in lb_info:
+                return lb_info
+
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/pools/{}?version={}"
-                    "&generation={}".format(id, self.cfg["version"],
+                    "&generation={}".format(lb_info["id"], id,
+                                            self.cfg["version"],
                                             self.cfg["generation"]))
 
             # Return data
