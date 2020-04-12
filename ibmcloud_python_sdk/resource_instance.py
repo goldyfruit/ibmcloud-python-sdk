@@ -70,7 +70,7 @@ class ResourceInstance():
                     return qw("rg", "POST", path, headers(),
                             json.dumps(payload))["data"]
                 except Exception as error:
-                    print("Error creating resource instance. {}").format(error)
+                    print("Error creating resource instance. {}".format(error))
                     raise
         return existing_instance
 
@@ -115,7 +115,7 @@ class ResourceInstance():
             resource_instances = qw("rg", "GET", path, headers())["data"]
             return resource_instances
         except Exception as error:
-            print("Error fetching resource instances. {}").format(error)
+            print("Error fetching resource instances. {}".format(error))
             raise
 
 
@@ -183,10 +183,13 @@ class ResourceInstance():
                name))
 
             resource_instance = qw("rg", "GET", path, headers())["data"]
-            #return result
-            return resource_instance["resources"][0]
+            if len(resource_instance["resources"]) == 0 or \
+                    resource_instance["resources"] == None:
+                        return resource_not_found()
+            else:
+                return resource_instance["resources"][0]
         except Exception as error:
-            print("Error fetching resource instances. {}").format(error)
+            print("Error fetching resource instances. {}".format(error))
             raise
 
     def delete_resource_instance(self, instance):
@@ -220,7 +223,7 @@ class ResourceInstance():
                     return result
 
         except Exception as error:
-            print("Error deleting resource instance. {}").format(error)
+            print("Error deleting resource instance. {}".format(error))
             raise
 
 
