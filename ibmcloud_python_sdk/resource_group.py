@@ -72,8 +72,8 @@ class Resource():
             return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching resource group with ID {}. {}").format(
-                id, error)
+            print("Error fetching resource group with ID {}. {}".format(
+                id, error))
             raise
 
     def get_resource_group_by_name(self, name):
@@ -98,8 +98,8 @@ class Resource():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching resource group with name {}. {}").format(
-                name, error)
+            print("Error fetching resource group with name {}. {}".format(
+                name, error))
             raise
 
     # Get resource groups by account
@@ -116,6 +116,6 @@ class Resource():
             return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching resource groups for account {}. {}").format(
-                id, error)
+            print("Error fetching resource groups for account {}. {}".format(
+                id, error))
             raise
