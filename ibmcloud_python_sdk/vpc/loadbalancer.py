@@ -146,18 +146,18 @@ class Loadbalancer():
         Retrieve specific load balancer
         :param lb: Load balancer name or ID
         """
-        by_name = self.get_lb_listener_by_name(lb, listener)
-        if "errors" in by_name:
-            for key_name in by_name["errors"]:
+        by_port = self.get_lb_listener_by_port(lb, listener)
+        if "errors" in by_port:
+            for key_name in by_port["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_lb_listener_by_id(lb, listener)
                     if "errors" in by_id:
                         return by_id
                     return by_id
                 else:
-                    return by_name
+                    return by_port
         else:
-            return by_name
+            return by_port
 
     def get_lb_listener_by_id(self, lb, id):
         """
@@ -179,11 +179,11 @@ class Loadbalancer():
                   " {}. {}".format(id, lb, error))
             raise
 
-    def get_lb_listener_by_name(self, lb, name):
+    def get_lb_listener_by_port(self, lb, port):
         """
-        Retrieve specific listener from load balancer by name
+        Retrieve specific listener from load balancer by port
         :param lb: Load balancer name or ID
-        :param name: Listener name
+        :param port: Listener port
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -198,7 +198,7 @@ class Loadbalancer():
 
             # Loop over listeners until filter match
             for listener in data["listeners"]:
-                if listener["name"] == name:
+                if listener["port"] == port:
                     # Return data
                     return listener
 
@@ -206,8 +206,8 @@ class Loadbalancer():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching listener with name {} from load balancer"
-                  " {}. {}".format(name, lb, error))
+            print("Error fetching listener with port {} from load balancer"
+                  " {}. {}".format(port, lb, error))
             raise
 
     def get_lb_listener_policies(self, lb, listener):
@@ -690,7 +690,7 @@ class Loadbalancer():
         """
         Create policy
         :param lb: Load balancer name or ID.
-        :param listener: Listener ID
+        :param listener: Listener ID or port
         :param action: The policy action.
         :param name: Optional. The user-defined name for this policy.
         :param priority: Priority of the policy.
@@ -758,7 +758,7 @@ class Loadbalancer():
         """
         Create rule
         :param lb: Load balancer name or ID.
-        :param listener: Listener ID
+        :param listener: Listener ID or port
         :param policy: The policy name or ID.
         :param condition: The condition of the rule.
         :param field: Optional. HTTP header field.
@@ -989,7 +989,7 @@ class Loadbalancer():
         """
         Delete listener from load balancer
         :param lb: Load balancer name or ID
-        :param listener: Listener ID
+        :param listener: Listener ID or port
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1026,7 +1026,7 @@ class Loadbalancer():
         """
         Delete policy from listener
         :param lb: Load balancer name or ID
-        :param listener: Listener ID
+        :param listener: Listener ID or port
         :param policy: Policy name or ID
         """
         # Check if load balancer exists
