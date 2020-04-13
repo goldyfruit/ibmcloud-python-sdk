@@ -25,7 +25,7 @@ class Resource():
             return qw("rg", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching resource groups. {}").format(error)
+            print("Error fetching resource groups. {}".format(error))
             raise
 
     def get_default_resource_group(self):
@@ -38,7 +38,7 @@ class Resource():
                 if resource_group['default'] == True:
                     return resource_group
         except Exception as error:
-            print("Error fetching default resource group. {}").format(error)
+            print("Error fetching default resource group. {}".format(error))
             raise
 
     def get_resource_group(self, group):
