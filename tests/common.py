@@ -10,7 +10,7 @@ def set_folder_var(path):
     """
     Set folder variable based on path
     """
-    if 'vpcs' in path:
+    if 'vpc' in path:
         folder = 'vpcs'
     if 'vpn' in path:
         folder = 'vpns'
@@ -18,6 +18,8 @@ def set_folder_var(path):
         folder = 'instances'
     if 'images' in path:
         folder = 'images'
+    if 'public_gateway' in path:
+        folder = 'gateways'
     if 'keys' in path:
         folder = 'keys'
     if 'regions' in path:
@@ -82,16 +84,16 @@ def fake_create(service, verb, path, headers, payload):
     """
     data = {}
     folder = set_folder_var(path)
-    path_pattern = '\/v1\/'+folder+'\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}&generation=[0-9]'
-    vpc_acl_or_sg_pattern = '\/v1\/vpcs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/default_security_group\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}\&generation=[0-9]{1}'
-    contain_path = re.compile(path_pattern)
-    contain_acl_or_sg_path = re.compile(vpc_acl_or_sg_pattern)
+#    path_pattern = '\/v1\/'+folder+'\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}&generation=[0-9]'
+#    vpc_acl_or_sg_pattern = '\/v1\/vpcs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/default_security_group\?version=[0-9]{4}-[0-9]{2}-[0-9]{2}\&generation=[0-9]{1}'
+#    contain_path = re.compile(path_pattern)
+#    contain_acl_or_sg_path = re.compile(vpc_acl_or_sg_pattern)
     #print(path_pattern)
     #print(path)
-    print(bool(contain_path.search(path)))
-    print(bool(contain_acl_or_sg_path.search(path)))
-    if service == "iaas" and verb == "POST" and\
-            (bool(contain_path.search(path)) is True or bool(contain_acl_or_sg_path(path)) is True):
+#    print(bool(contain_path.search(path)))
+#    print(bool(contain_acl_or_sg_path.search(path)))
+    if service == "iaas" and verb == "POST" : #and\
+#            (bool(contain_path.search(path)) is True or bool(contain_acl_or_sg_path(path)) is True):
         data = { "id": "r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82", \
                 "crn": "crn:v1:bluemix:public:is:us-south:a/2d171b8a90e246fd9ffe0e5e8c191c9e:\
                 :instance:r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82", \
@@ -103,3 +105,33 @@ def fake_create(service, verb, path, headers, payload):
         data = {"id": "", "name": "", "status": "error !"}
         return({"status_code": 500, "data": data})
 
+def query_specified_object(path):
+    result = {}
+    folder = set_folder_var(path)
+    resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
+    # Must return a file-like object
+    try:
+        json_file = open(resource_file, mode='rb')
+        result["data"] = json.load(json_file)
+        return(result)
+    except IOError:
+        return["data"]["vpcs"].append({"error": "not found"})
+        raise
+
+
+def fake_get_vpc(path, vpc):
+    """
+    This function will replace the original API.
+    """
+    result = query_specified_object('vpc')
+    print(result["data"])
+    return(result["data"])
+
+def fake_get_resource_group(path, rg):
+    """
+    This function will replace the original API.
+    """
+    result = query_specified_object('resource_group')
+    print(result["data"])
+    return(result["data"])
+ 
