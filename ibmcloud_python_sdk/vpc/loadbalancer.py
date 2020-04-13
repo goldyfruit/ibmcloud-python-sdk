@@ -165,10 +165,15 @@ class Loadbalancer():
         :param lb: Load balancer name or ID
         :param id: Listener ID
         """
+        # Retrieve load balancer information
+        lb_info = self.get_lb(lb)
+        if "errors" in lb_info:
+            return lb_info
         try:
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/listeners/{}?version={}"
-                    "&generation={}".format(id, self.cfg["version"],
+                    "&generation={}".format(lb_info["id"], id,
+                                            self.cfg["version"],
                                             self.cfg["generation"]))
 
             # Return data
@@ -651,6 +656,11 @@ class Loadbalancer():
             'protocol': kwargs.get('protocol'),
         }
 
+        # Retrieve load balancer information
+        lb_info = self.get_lb(args["lb"])
+        if "errors" in lb_info:
+            return lb_info
+
         # Construct payload
         payload = {}
         for key, value in args.items():
@@ -665,11 +675,6 @@ class Loadbalancer():
                     payload["policies"] = pl
                 else:
                     payload[key] = value
-
-        # Retrieve load balancer information
-        lb_info = self.get_lb(args["lb"])
-        if "errors" in lb_info:
-            return lb_info
 
         try:
             # Connect to api endpoint for load_balancers
@@ -997,7 +1002,7 @@ class Loadbalancer():
             return lb_info
 
         # Check if listener exists
-        listener_info = self.get_lb_listener(lb_info["id"])
+        listener_info = self.get_lb_listener(lb_info["id"], listener)
         if "errors" in listener_info:
             return listener_info
 
