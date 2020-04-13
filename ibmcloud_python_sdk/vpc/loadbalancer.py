@@ -203,7 +203,7 @@ class Loadbalancer():
 
             # Loop over listeners until filter match
             for listener in data["listeners"]:
-                if listener["port"] == port:
+                if listener["port"] == int(port):
                     # Return data
                     return listener
 
@@ -212,7 +212,7 @@ class Loadbalancer():
 
         except Exception as error:
             print("Error fetching listener with port {} from load balancer"
-                  " {}. {}".format(port, lb, error))
+                  " {}. {}".format(int(port), lb, error))
             raise
 
     def get_lb_listener_policies(self, lb, listener):
