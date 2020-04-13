@@ -668,6 +668,12 @@ class Loadbalancer():
                 if key == "certificate_instance":
                     payload["certificate_instance"] = {
                         "crn": args["certificate_instance"]}
+                elif key == "default_pool":
+                    pool_info = self.get_lb_pool(lb_info["id"],
+                                                 args["default_pool"])
+                    if "errors" in pool_info:
+                        return pool_info
+                    payload["default_pool"] = {"id": pool_info["id"]}
                 elif key == "policies":
                     pl = []
                     for policy in args["policies"]:
