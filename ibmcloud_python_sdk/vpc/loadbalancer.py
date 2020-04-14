@@ -203,7 +203,7 @@ class Loadbalancer():
 
             # Loop over listeners until filter match
             for listener in data["listeners"]:
-                if listener["port"] == int(port):
+                if listener["port"] == port:
                     # Return data
                     return listener
 
