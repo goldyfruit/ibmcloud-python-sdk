@@ -709,7 +709,7 @@ class Loadbalancer():
         :param rules: Optional. The list of rules of this policy.
         :param target: Optional. Target depending the action defined.
         """
-        args = ["lb", "listener", "port", "protocol"]
+        args = ["lb", "listener", "action", "priority"]
         check_args(args, **kwargs)
 
         # Build dict of argument and assign default value when needed
