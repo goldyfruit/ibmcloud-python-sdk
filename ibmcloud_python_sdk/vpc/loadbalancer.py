@@ -715,12 +715,12 @@ class Loadbalancer():
         # Build dict of argument and assign default value when needed
         args = {
             'lb': kwargs.get('lb'),
-            'listener': kwargs.get('certificate_instance'),
-            'action': kwargs.get('connection_limit'),
-            'name': kwargs.get('default_pool'),
-            'priority': kwargs.get('policies'),
-            'rules': kwargs.get('port'),
-            'target': kwargs.get('protocol'),
+            'listener': kwargs.get('listener'),
+            'action': kwargs.get('action'),
+            'name': kwargs.get('name'),
+            'priority': kwargs.get('priority'),
+            'rules': kwargs.get('rules'),
+            'target': kwargs.get('target'),
         }
 
         # Construct payload
