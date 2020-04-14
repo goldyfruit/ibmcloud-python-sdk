@@ -37,11 +37,11 @@ class Vpn():
         Retrieve specific IKE policy
         :param policy: Policy name or ID
         """
-        by_name = self.get_public_gateway_by_name(policy)
+        by_name = self.get_ike_policy_by_name(policy)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_public_gateway_by_id(policy)
+                    by_id = self.get_ike_policy_by_id(policy)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -137,11 +137,11 @@ class Vpn():
         Retrieve specific IPsec policy
         :param policy: Policy name or ID
         """
-        by_name = self.get_public_gateway_by_name(policy)
+        by_name = self.get_ipsec_policy_by_name(policy)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_public_gateway_by_id(policy)
+                    by_id = self.get_ike_policy_by_id(policy)
                     if "errors" in by_id:
                         return by_id
                     return by_id
