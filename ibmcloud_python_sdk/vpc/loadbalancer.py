@@ -727,12 +727,7 @@ class Loadbalancer():
         payload = {}
         for key, value in args.items():
             if key != "lb" and key != "listener" and value is not None:
-                if key == "target":
-                    if "id" in key["target"]:
-                        payload["target"] = {"id": args["target"]}
-                    else:
-                        payload["target"] = {"href": args["target"]}
-                elif key == "rules":
+                if key == "rules":
                     rl = []
                     for rule in args["rules"]:
                         rl.append(rule)
