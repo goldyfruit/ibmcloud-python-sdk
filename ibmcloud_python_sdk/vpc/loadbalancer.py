@@ -916,24 +916,18 @@ class Loadbalancer():
         # Build dict of argument and assign default value when needed
         args = {
             'lb': kwargs.get('lb'),
-            'algorithm': kwargs.get('algorithm'),
-            'health_monitor': kwargs.get('health_monitor'),
-            'members': kwargs.get('members'),
-            'name': kwargs.get('name'),
+            'pool': kwargs.get('pool'),
             'port': kwargs.get('port'),
-            'protocol': kwargs.get('protocol'),
-            'session_persistence': kwargs.get('session_persistence'),
+            'target': kwargs.get('target'),
+            'weight': kwargs.get('weight'),
         }
 
         # Construct payload
         payload = {}
         for key, value in args.items():
-            if key != "lb" and key != "listener" and value is not None:
+            if key != "lb" and key != "pool" and value is not None:
                 if key == "target":
-                    if "id" in key["target"]:
-                        payload["target"] = {"id": args["target"]}
-                    else:
-                        payload["target"] = {"href": args["target"]}
+                    payload["target"] = {"address": args["target"]}
                 else:
                     payload[key] = value
 
