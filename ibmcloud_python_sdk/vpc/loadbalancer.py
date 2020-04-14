@@ -253,11 +253,12 @@ class Loadbalancer():
         :param listener: Listener name or ID
         :param policy: Policy name or ID
         """
-        by_name = self.get_lb_listener_policy_by_name(lb, listener)
+        by_name = self.get_lb_listener_policy_by_name(lb, listener, policy)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_lb_listener_policy_by_id(lb, listener)
+                    by_id = self.get_lb_listener_policy_by_id(lb, listener,
+                                                              policy)
                     if "errors" in by_id:
                         return by_id
                     return by_id
