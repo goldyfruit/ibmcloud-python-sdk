@@ -238,11 +238,11 @@ class Vpn():
         Retrieve specific VPN gateway
         :param gateway: VPN gateway name or ID
         """
-        by_name = self.get_gateway_by_name(gateway)
+        by_name = self.get_vpn_gateway_by_name(gateway)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_gateway_by_id(gateway)
+                    by_id = self.get_vpn_gateway_by_id(gateway)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -495,7 +495,6 @@ class Vpn():
                   " {}. {}".format(connection, gateway, error))
             raise
 
-    # Check peer CIDR for specific connections on VPN gateway
     def check_vpn_gateway_peer_cidr(self, gateway, connection, prefix_address,
                                     prefix_length):
         """
@@ -932,7 +931,7 @@ class Vpn():
         :param gateway: VPN gateway name or ID
         """
         # Check if gateway exists
-        gateway_info = self.get_gateway(gateway)
+        gateway_info = self.get_vpn_gateway(gateway)
         if "errors" in gateway_info:
             return gateway_info
 
