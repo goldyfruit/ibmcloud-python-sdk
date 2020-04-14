@@ -504,7 +504,7 @@ class Loadbalancer():
                 return lb_info
 
             # Retrieve pool information
-            pool_info = self.get_lb_pool(lb)
+            pool_info = self.get_lb_pool(lb, pool)
             if "errors" in pool_info:
                 return pool_info
 
@@ -535,7 +535,7 @@ class Loadbalancer():
             return lb_info
 
         # Retrieve pool information
-        pool_info = self.get_lb_pool(lb)
+        pool_info = self.get_lb_pool(lb, pool)
         if "errors" in pool_info:
             return pool_info
 
