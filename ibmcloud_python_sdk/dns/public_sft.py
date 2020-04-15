@@ -19,6 +19,31 @@ class Dns():
                 api_key=self.cfg['cis_apikey'])
         self.dns = DNSManager(self.client)
 
+
+    # Create zone
+    def create_zone(self, zone, serial=None):
+        """Create a zone for the specified zone.
+
+        :param zone: the zone name to create
+        :param serial: serial value on the zone (default: strftime(%Y%m%d01))
+         """
+        try:
+            return (self.dns.create_zone(zone, serial))
+        except Exception as error:
+            print(f"Error creating dns zones. {error}")
+            raise
+       
+
+
+    # List all domains
+    def list_zones(self, **kwargs):
+        try:
+            return (self.dns.list_zones(**kwargs))
+        except Exception as error:
+            print(f"Error listing dns zones. {error}")
+            raise
+
+
     def create_record(self, **kwargs):
         """Create a resource record on a domain.
 
@@ -47,26 +72,5 @@ class Dns():
             print(f"Error creating dns record. {error}")
             raise
 
-    # Create zone
-    def create_zone(self, zone, serial=None)
-        """Create a zone for the specified zone.
-
-        :param zone: the zone name to create
-        :param serial: serial value on the zone (default: strftime(%Y%m%d01))
-         """
-         try:
-            return (self.dns.create_zone(zone, serial))
-         except Exception as error:
-            print(f"Error creating dns zones. {error}")
-            raise
-       
-
-
-    # List all domains
-    def list_zones(self, **kwargs):
-        try:
-            return (self.dns.list_zones(**kwargs))
-         except Exception as error:
-            print(f"Error listing dns zones. {error}")
-            raise
-
+    def delete_recore(self, **kwargs):
+        pass
