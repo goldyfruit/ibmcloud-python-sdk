@@ -75,3 +75,14 @@ def resource_deleted(payload=None):
         return payload
     else:
         return {"status": "deleted"}
+
+
+def resource_found(payload=None):
+    """Return custom JSON if a resource is found but doesn't have output.
+    :param payload: Optional. Customize the JSON to return is needed.
+    """
+    if payload is not None:
+        return payload
+    else:
+        return {"status": "found"}
+
