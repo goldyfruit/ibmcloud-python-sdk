@@ -980,7 +980,7 @@ class Vpn():
             data = qw("iaas", "DELETE", path, headers())
 
             # Return data
-            if data["response"].status != 204:
+            if data["response"].status != 202:
                 return data["data"]
 
             # Return status
