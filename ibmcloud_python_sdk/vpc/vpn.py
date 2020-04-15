@@ -714,9 +714,7 @@ class Vpn():
             'peer_cidrs': kwargs.get('peer_cidrs'),
             'psk': kwargs.get('psk'),
             'admin_state_up': kwargs.get('admin_state_up', True),
-            'interval': kwargs.get('interval', 2),
-            'timeout': kwargs.get('timeout', 10),
-            'action': kwargs.get('action', "restart"),
+            'dead_peer_detection': kwargs.get('dead_peer_detection'),
             'encryption_algorithm': kwargs.get('encryption_algorithm'),
             'key_lifetime': kwargs.get('key_lifetime'),
             'ike_policy': kwargs.get('ike_policy'),
@@ -727,13 +725,7 @@ class Vpn():
         payload = {}
         for key, value in args.items():
             if key != "gateway" and value is not None:
-                if key == "interval" or key == "timeout" or key == "action":
-                    payload["dead_peer_detection"] = {
-                        "internal": args["internal"],
-                        "timeout": args["timeout"],
-                        "action": args["action"]
-                    }
-                elif key == "ike_policy":
+                if key == "ike_policy":
                     ike_info = self.get_ike_policy(args["ike_policy"])
                     if "errors" in ike_info:
                         return ike_info
