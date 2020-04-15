@@ -409,7 +409,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -443,7 +444,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -477,7 +479,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -510,7 +513,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -835,7 +839,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(args["connection"])
+        connection_info = self.get_vpn_gateway_connection(gateway_info["info"],
+                                                          args["connection"])
         if "errors" in connection_info:
             return connection_info
 
@@ -959,7 +964,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -1000,7 +1006,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
@@ -1046,7 +1053,8 @@ class Vpn():
             return gateway_info
 
         # Retrieve connection information to get the ID
-        connection_info = self.get_vpn_gateway_connection(connection)
+        connection_info = self.get_vpn_gateway_connection(gateway_info["id"],
+                                                          connection)
         if "errors" in connection_info:
             return connection_info
 
