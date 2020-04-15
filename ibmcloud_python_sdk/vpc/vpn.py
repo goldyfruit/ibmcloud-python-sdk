@@ -5,6 +5,8 @@ from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.vpc import subnet
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk.utils.common import resource_found
+from ibmcloud_python_sdk.utils.common import resource_created
 from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk import resource_group
 
@@ -459,7 +461,16 @@ class Vpn():
                                                        self.cfg["version"],
                                                        self.cfg["generation"]))
 
-            return qw("iaas", "GET", path, headers())["data"]
+            data = qw("iaas", "GET", path, headers())
+
+            # Return data if error
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return custom JSON
+            payload = {"local_cidr": ("{}/{}".format(prefix_address,
+                                                     prefix_length))}
+            return resource_found(payload)
 
         except Exception as error:
             print("Error fetching local CIDR {}/{} for connection {} in VPN"
@@ -528,7 +539,16 @@ class Vpn():
                                                        self.cfg["version"],
                                                        self.cfg["generation"]))
 
-            return qw("iaas", "GET", path, headers())["data"]
+            data = qw("iaas", "GET", path, headers())
+
+            # Return data if error
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return custom JSON
+            payload = {"peer_cidr": ("{}/{}".format(prefix_address,
+                                                    prefix_length))}
+            return resource_found(payload)
 
         except Exception as error:
             print("Error fetching peer CIDR {}/{} for connection {} in VPN"
@@ -803,8 +823,16 @@ class Vpn():
                                                        self.cfg["version"],
                                                        self.cfg["generation"]))
 
-            # Return data
-            return qw("iaas", "POST", path, headers(), None)["data"]
+            data = qw("iaas", "PUT", path, headers())
+
+            # Return data if error
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return custom JSON
+            payload = {"local_cidr": ("{}/{}".format(args["prefix_address"],
+                                                     args["prefix_length"]))}
+            return resource_created(payload)
 
         except Exception as error:
             print("Error addind local CIDR {}/{} to connection {} on VPN"
@@ -854,8 +882,16 @@ class Vpn():
                                                        self.cfg["version"],
                                                        self.cfg["generation"]))
 
-            # Return data
-            return qw("iaas", "POST", path, headers(), None)["data"]
+            data = qw("iaas", "PUT", path, headers())
+
+            # Return data if error
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return custom JSON
+            payload = {"peer_cidr": ("{}/{}".format(args["prefix_address"],
+                                                    args["prefix_length"]))}
+            return resource_created(payload)
 
         except Exception as error:
             print("Error adding peer CIDR {}/{} to connection {} on VPN"
