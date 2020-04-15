@@ -365,7 +365,7 @@ class Vpn():
                   " ID {}. {}".format(gateway, id, error))
             raise
 
-    def get_vpc_gateway_connection_by_name(self, gateway, name):
+    def get_vpn_gateway_connection_by_name(self, gateway, name):
         """
         Retrieve specific connection for a VPN gateway by name
         :param gateway: VPN gateway name
