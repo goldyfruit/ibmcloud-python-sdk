@@ -106,32 +106,53 @@ def fake_create(service, verb, path, headers, payload):
         return({"status_code": 500, "data": data})
 
 def query_specified_object(path):
-    result = {}
+    #result = {}
     folder = set_folder_var(path)
     resource_file = os.path.normpath('tests/resources/{}/{}.json').format(folder, folder)
     # Must return a file-like object
     try:
         json_file = open(resource_file, mode='rb')
-        result["data"] = json.load(json_file)
+        result = json.load(json_file)
         return(result)
     except IOError:
         return["data"]["vpcs"].append({"error": "not found"})
         raise
 
 
-def fake_get_vpc(path, vpc):
+def fake_get_vpc(fake, data):
     """
     This function will replace the original API.
     """
     result = query_specified_object('vpc')
-    print(result["data"])
-    return(result["data"])
+    return(result)
 
-def fake_get_resource_group(path, rg):
+def fake_get_resource_group(fake, data):
     """
     This function will replace the original API.
     """
     result = query_specified_object('resource_group')
-    print(result["data"])
-    return(result["data"])
+    return(result)
  
+def fake_get_image(fake, data):
+    """
+    This function will replace the original API.
+    """
+    result = query_specified_object('image')
+    return(result)
+ 
+def fake_get_vpn(fake, data):
+    """
+    This function will replace the original API.
+    """
+    result = query_specified_object('vpn')
+    return(result)
+ 
+def fake_get_floating_ip(fake, data):
+    """
+    This function will replace the original API.
+    """
+    result = query_specified_object('floating_ips')
+    return(result)
+ 
+
+
