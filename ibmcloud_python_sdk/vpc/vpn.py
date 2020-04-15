@@ -797,7 +797,7 @@ class Vpn():
         # Build dict of argument and assign default value when needed
         args = {
             'gateway': kwargs.get('gateway'),
-            'connection': kwargs.get('resource_group'),
+            'connection': kwargs.get('connection'),
             'prefix_address': kwargs.get('prefix_address'),
             'prefix_length': kwargs.get('prefix_length'),
         }
@@ -856,7 +856,7 @@ class Vpn():
         # Build dict of argument and assign default value when needed
         args = {
             'gateway': kwargs.get('gateway'),
-            'connection': kwargs.get('resource_group'),
+            'connection': kwargs.get('connection'),
             'prefix_address': kwargs.get('prefix_address'),
             'prefix_length': kwargs.get('prefix_length'),
         }
