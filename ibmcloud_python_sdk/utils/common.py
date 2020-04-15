@@ -86,3 +86,12 @@ def resource_found(payload=None):
     else:
         return {"status": "found"}
 
+
+def resource_created(payload=None):
+    """Return custom JSON if a resource is created but doesn't have output.
+    :param payload: Optional. Customize the JSON to return is needed.
+    """
+    if payload is not None:
+        return payload
+    else:
+        return {"status": "created"}
