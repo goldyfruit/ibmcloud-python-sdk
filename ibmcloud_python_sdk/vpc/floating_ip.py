@@ -32,7 +32,7 @@ class Fip():
     def get_floating_ip(self, fip):
         """
         Retrieve specific floating IP
-        :param fip: Floating name, ID or address
+        :param fip: Floating IP name, ID or address
         """
         by_name = self.get_floating_ip_by_name(fip)
         if "errors" in by_name:
