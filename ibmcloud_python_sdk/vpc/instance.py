@@ -309,11 +309,11 @@ class Instance():
 
     def get_instance_interface_fip(self, instance, interface, floating):
         """
-        Retrieve floating IPs attached to a network interface for a specific
-        instance
+        Retrieve specific floating IP attached to a network interface for
+        a specific instance
         :param instance: Instance name or ID
         :param interface: Interface name or ID
-        :parem floating: Floating IP name,ID or address
+        :parem floating: Floating IP name, ID or address
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
