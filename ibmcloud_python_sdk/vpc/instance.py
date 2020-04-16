@@ -443,43 +443,30 @@ class Instance():
 
     def create_instance(self, **kwargs):
         """
-        Create instance
+        Create VSI
         :param name: Optional. The unique user-defined name for this virtual
         server instance.
-
         :param keys: Optional. The public SSH keys to install on the virtual
         server instance.
-
         :param network_interfaces: Optional. Collection of additional network
         interfaces to create for the virtual server instance.
-
         :param placement_target: Optional. The placement for the virtual server
         instance.
-
         :param profile: Optional. The profile to use for this virtual server
         instance.
-
         :param resource_group: Optional. The resource group to use.
-
         :param user_data: Optional. User data to be made available when setting
         up the virtual server instance.
-
         :param volume_attachments: Optional. Collection of volume attachments.
-
         :param boot_volume_attachment: Optional. The boot volume attachment for
         the virtual server instance.
-
         :param source_template: Optional. The unique identifier for this
         instance template.
-
         :param image: Optional. The identity of the image to be used when
         provisioning the virtual server instance.
-
         :param primary_network_interface: Optional. Primary network interface.
-
         :param vpc: Optional. The VPC the virtual server instance is to be a
         part of.
-
         :param zone: Optional. The identity of the zone to provision the
         virtual server instance in.
         """
