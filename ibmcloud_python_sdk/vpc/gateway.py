@@ -131,8 +131,7 @@ class Gateway():
                     fip_info = self.fip.get_floating_ip(args["floating_ip"])
                     if "errors" in fip_info:
                         return fip_info
-                        payload["floating_ip"] = {
-                            "address": fip_info["address"]}
+                    payload["floating_ip"] = {"address": fip_info["address"]}
                 elif key == "vpc":
                     vpc_info = self.vpc.get_vpc(args["vpc"])
                     if "errors" in vpc_info:
