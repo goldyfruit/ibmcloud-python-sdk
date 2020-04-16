@@ -130,11 +130,8 @@ class Fip():
         Create floating IP
         :param name: Optional. The unique user-defined name for this floating
         IP.
-
         :param resource_group: Optional. The resource group to use.
-
         :param targer: Optional. The target this address is to be bound to.
-
         :param zone: Optional. The identity of the zone to provision a
         floating IP in.
         """
@@ -179,7 +176,7 @@ class Fip():
     def release_floating_ip(self, fip):
         """
         Release floating IP
-        :param fip: Public gateway name, ID or address
+        :param fip: Floating IP name, ID or address
         """
         try:
             # Check if floating IP exists
