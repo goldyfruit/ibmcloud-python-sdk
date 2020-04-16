@@ -35,7 +35,7 @@ class Resource():
         resource_groups = self.get_resource_groups()["resources"]
         try:
             for resource_group in resource_groups:
-                if resource_group['default'] == True:
+                if resource_group['default'] is True:
                     return resource_group
         except Exception as error:
             print("Error fetching default resource group. {}".format(error))
