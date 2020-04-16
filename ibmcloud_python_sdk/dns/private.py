@@ -3,7 +3,7 @@ from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk import resource_instance
-
+from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import check_args
 
@@ -35,7 +35,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -47,7 +48,7 @@ class Dns():
 
             return qw("dns", "GET", path, headers())["data"]
         except Exception as error:
-            print(f"Error creating dns zone. {error}")
+            print("Error creating dns zone. {}".format(error))
             raise
 
     # Get specific dns zone by ID or by name
@@ -81,7 +82,7 @@ class Dns():
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_guid = self.get_dns_zone_by_id(dns_zone=args['dns_zone'],
-                                                    resource_instance=args['resource_instance'])
+                                                      resource_instance=args['resource_instance'])
                     if "errors" in by_guid:
                         return by_guid
                     return by_guid
@@ -122,7 +123,7 @@ class Dns():
 
             if "errors" in dns_zones or not dns_zones:
                 return ({"errors": [{"code": "not_found",
-                        "message": "No dns zones found."}]})
+                                     "message": "No dns zones found."}]})
 
             # Find the existing domain matching the query
             for dns_zone in dns_zones['dnszones']:
@@ -131,10 +132,10 @@ class Dns():
 
             # Return error message if no existing domain matches the query
             return ({"errors": [{"code": "not_found",
-                    "message": "No dns zone found."}]})
+                                 "message": "No dns zone found."}]})
 
         except Exception as error:
-            print(f"Error creating dns zone. {error}")
+            print("Error creating dns zone. {}".format(error))
             raise
 
     # Get specific dns zone by id
@@ -166,7 +167,7 @@ class Dns():
 
             if "errors" in dns_zones or not dns_zones:
                 return ({"errors": [{"code": "not_found",
-                    "message": "No dns zone found."}]})
+                                     "message": "No dns zone found."}]})
 
             # Find the existing domain matching the query
             for dns_zone in dns_zones['dnszones']:
@@ -174,10 +175,10 @@ class Dns():
                     return dns_zone
             # Return error message if no existing domain matches the query
             return ({"errors": [{"code": "not_found",
-                "message": "No dns zone found."}]})
+                                 "message": "No dns zone found."}]})
 
         except Exception as error:
-            print(f"Error creating dns zone. {error}")
+            print("Error creating dns zone. {}".format(error))
             raise
 
 
@@ -198,14 +199,14 @@ class Dns():
         # Get Zone id
         try:
             zone = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
-                    resource_instance=args['resource_instance'])
+                                             resource_instance=args['resource_instance'])
             if "errors" in zone:
                 for key_name in zone["errors"]:
                     if key_name["code"] == "not_found":
                         return zone
             return zone['id']
         except Exception as error:
-            print(f"Error getting dns zone id: {error}")
+            print("Error getting dns zone id: {}".format(error))
             raise
 
 
@@ -237,8 +238,8 @@ class Dns():
         resource_instance_guid = temp_ri["guid"]
 
         zone = self.get_dns_zone(
-                    dns_zone=args['name'],
-                    resource_instance=resource_instance_guid)
+            dns_zone=args['name'],
+            resource_instance=resource_instance_guid)
 
         if "errors" in zone:
             for key_zone in zone["errors"]:
@@ -255,17 +256,17 @@ class Dns():
                             resource_instance_guid)
                         # Return data
                         return qw("dns", "POST", path, headers(),
-                                json.dumps(payload))["data"]
+                                  json.dumps(payload))["data"]
 
                     except Exception as error:
-                        print(f"Error creating dns zone. {error}")
+                        print("Error creating dns zone. {}".format(error))
                         raise
         return zone
 
     # Delete DNS zone
     def delete_zone(self, **kwargs):
         """Create a zone in a specified resource instance
-        
+
         :param: dns_zone: required. The user-defined name to create.
         :param: resource_instance: required. Name or guid of dns
             resource instance.
@@ -287,7 +288,7 @@ class Dns():
         resource_instance_guid = temp_ri["guid"]
 
         dns_zone = self.get_dns_zone(dns_zone=args['name'],
-                resource_instance=args['resource_instance'])
+                                     resource_instance=args['resource_instance'])
 
         if "errors" in dns_zone:
             return dns_zone
@@ -308,7 +309,7 @@ class Dns():
             return result
 
         except Exception as error:
-            print(f"Error creating dns zone. {error}")
+            print("Error creating dns zone. {}".format(error))
             raise
 
 
@@ -346,9 +347,9 @@ class Dns():
 
         # Get zone ID
         zone_id = self.get_dns_zone_id(
-                    dns_zone=args['dns_zone'],
-                    resource_instance=resource_instance_guid)
-        if "errors" in zone_id :
+            dns_zone=args['dns_zone'],
+            resource_instance=resource_instance_guid)
+        if "errors" in zone_id:
             return zone_id
 
         payload = {}
@@ -364,10 +365,10 @@ class Dns():
                 resource_instance_guid, zone_id)
 
             return qw("dns", "POST", path, headers(),
-                    json.dumps(payload))["data"]
+                      json.dumps(payload))["data"]
 
         except Exception as error:
-            print(f"Error adding permitted network. {error}")
+            print("Error adding permitted network. {}".format(error))
             raise
 
 
@@ -407,8 +408,8 @@ class Dns():
 
         # get zone ID
         zone_id = self.get_dns_zone_id(
-                    dns_zone=args['dns_zone'],
-                    resource_instance=resource_instance_guid,)
+            dns_zone=args['dns_zone'],
+            resource_instance=resource_instance_guid,)
         if "errors" in zone_id:
             return zone_id
 
@@ -425,7 +426,7 @@ class Dns():
                 return result
             return result
         except Exception as error:
-            print(f"Error removing permitted network. {error}")
+            print("Error removing permitted network. {}".format(error))
             raise
 
 
@@ -462,10 +463,10 @@ class Dns():
         # Get Zone id
         try:
             zone = self.get_dns_zone(dns_zone=args['dns_zone'],
-                    resource_instance=args['resource_instance'])
+                                     resource_instance=args['resource_instance'])
             zone_id = zone['id']
         except Exception as error:
-            print(f"Error getting zone id. {error}")
+            print("Error getting zone id. {}".format(error))
             raise
 
         try:
@@ -474,10 +475,10 @@ class Dns():
                 resource_instance_guid, zone_id)
 
             return qw("dns", "POST", path, headers(),
-                    json.dumps(args['record']))["data"]
+                      json.dumps(args['record']))["data"]
 
         except Exception as error:
-            print(f"Error adding resource record. {error}")
+            print("Error adding resource record. {}".format(error))
             raise
 
 
@@ -505,8 +506,8 @@ class Dns():
 
         # Get zone ID
         zone_id = self.get_dns_zone_id(
-                    dns_zone=args['dns_zone'],
-                    resource_instance=args['resource_instance'])
+            dns_zone=args['dns_zone'],
+            resource_instance=args['resource_instance'])
         try:
             # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records").format(
@@ -515,7 +516,7 @@ class Dns():
             return qw("dns", "GET", path, headers())["data"]
 
         except Exception as error:
-            print(f"Error getting resource records. {error}")
+            print("Error getting resource records. {}".format(error))
             raise
 
 
@@ -546,13 +547,13 @@ class Dns():
 
         # Get zone ID and resource instane GUID
         zone_id = self.get_dns_zone_id(
-                    dns_zone=args["dns_zone"],
-                    resource_instance=args["resource_instance"])
+            dns_zone=args["dns_zone"],
+            resource_instance=args["resource_instance"])
 
         # Get record ID
         record = self.get_resource_record(dns_zone=args["dns_zone"],
-                resource_instance=args["resource_instance"],
-                record=args["record"])
+                                          resource_instance=args["resource_instance"],
+                                          record=args["record"])
         if "errors" in record:
             return record
         record_id = record["id"]
@@ -560,20 +561,20 @@ class Dns():
         try:
             # Connect to api endpoint for resource records
             path = ("/v1/instances/{}/dnszones/{}/resource_records/{}").format(
-                           resource_instance_guid,
-                           zone_id, record_id)
+                resource_instance_guid,
+                zone_id, record_id)
 
             result = qw("dns", "DELETE", path, headers())["data"]
             if result is None:
-                return({"message": "record successfully deleted"})
+                return resource_deleted()
             return result
 
         except Exception as error:
-                    print(f"Error deleting zone. {error}")
-                    raise
+            print("Error deleting zone. {}".format(error))
+            raise
         else:
             return ({"errors": [{"code": "not_found",
-                "message": "No dns record found"}]})
+                                 "message": "No dns record found"}]})
 
     def get_resource_record(self, **kwargs):
         """Get resource records from a dns zone
@@ -596,15 +597,15 @@ class Dns():
         resource_instance_guid = temp_ri["guid"]
 
         by_name = self.get_resource_record_by_name(dns_zone=args['dns_zone'],
-                 resource_instance=resource_instance_guid,
-                 record_name=args['record'])
+                                                   resource_instance=resource_instance_guid,
+                                                   record_name=args['record'])
 
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_resource_record_by_id(dns_zone=args['dns_zone'],
-                            resource_instance=resource_instance_guid,
-                            record_id=args['record'])
+                                                           resource_instance=resource_instance_guid,
+                                                           record_id=args['record'])
                     if "errors" in by_id:
                         return by_id
                     return by_id
