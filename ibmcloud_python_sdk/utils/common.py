@@ -15,17 +15,18 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
     :param payload: Optional. JSON payload send during the query.
     """
     cfg = params()
+    timeout = cfg["http_timeout"]
 
     if conn_type == "iaas":
-        conn = http.client.HTTPSConnection(cfg["is_url"])
+        conn = http.client.HTTPSConnection(cfg["is_url"], timeout=timeout)
     elif conn_type == "rg":
-        conn = http.client.HTTPSConnection(cfg["rg_url"])
+        conn = http.client.HTTPSConnection(cfg["rg_url"], timeout=timeout)
     elif conn_type == "auth":
-        conn = http.client.HTTPSConnection(cfg["auth_url"])
+        conn = http.client.HTTPSConnection(cfg["auth_url"], timeout=timeout)
     elif conn_type == "dns":
-        conn = http.client.HTTPSConnection(cfg["dns_url"])
+        conn = http.client.HTTPSConnection(cfg["dns_url"], timeout=timeout)
     elif conn_type == "em":
-        conn = http.client.HTTPSConnection(cfg["em_url"])
+        conn = http.client.HTTPSConnection(cfg["em_url"], timeout=timeout)
 
     conn.request(method, path, payload, headers)
 
