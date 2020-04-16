@@ -330,11 +330,13 @@ class Instance():
             if "errors" in data:
                 return data
 
+            fip_info = None
             for fip in data['floating_ips']:
-                fn = fip["name"]
-                fi = fip["id"]
-                fa = fip["address"]
-                if fn == floating or fi == floating or fa == floating:
+                if (
+                    fip["name"] == floating
+                    or fip["id"] == floating
+                    or fip["address"] == floating
+                ):
                     fip_info = fip["id"]
 
             path = ("/v1/instances/{}/network_interfaces/{}/floating_ips/{}"
