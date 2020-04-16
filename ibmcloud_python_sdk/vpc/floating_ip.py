@@ -26,7 +26,7 @@ class Fip():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching floating IPs. {}").format(error)
+            print("Error fetching floating IPs. {}".format(error))
             raise
 
     def get_floating_ip(self, fip):

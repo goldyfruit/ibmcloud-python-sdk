@@ -5,8 +5,7 @@ from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import check_args
 
-
-import Softlayer
+from SoftLayer import DNSManager
 
 class Dns():
     """Dns public class
