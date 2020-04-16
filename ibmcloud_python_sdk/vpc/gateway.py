@@ -99,14 +99,10 @@ class Gateway():
         """
         Create public gateway
         :param name: Optional. The unique user-defined name for this subnet.
-
         :param resource_group: Optional. The resource group to use.
-
         :param floating_ip: Optional. Identifies a floating IP by a unique
         property.
-
         :param vpc: The VPC the public gateway is to be a part of.
-
         :param zone: The zone the public gateway is to reside in.
         """
         args = ["vpc", "zone"]
