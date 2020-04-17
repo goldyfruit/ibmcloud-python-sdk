@@ -1260,6 +1260,6 @@ class Loadbalancer():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting member {} from pool {} from load balancer"
-                  " {}}. {}".format(member, pool, lb, error))
+            print("Error deleting member {} in pool {} from load balancer"
+                  " {}. {}".format(member, pool, lb, error))
             raise
