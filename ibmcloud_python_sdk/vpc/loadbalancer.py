@@ -145,6 +145,7 @@ class Loadbalancer():
         """
         Retrieve specific load balancer
         :param lb: Load balancer name or ID
+        :param listener: Listener port or ID
         """
         by_port = self.get_lb_listener_by_port(lb, listener)
         if "errors" in by_port:
@@ -219,7 +220,7 @@ class Loadbalancer():
         """
         Retrieve policies for specific listeners
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         """
         try:
             # Retrieve load balancer information
@@ -250,7 +251,7 @@ class Loadbalancer():
         """
         Retrieve specific policy from listener
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         :param policy: Policy name or ID
         """
         by_name = self.get_lb_listener_policy_by_name(lb, listener, policy)
@@ -271,7 +272,7 @@ class Loadbalancer():
         """
         Retrieve specific policy from listener by ID
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         :param id: Policy ID
         """
         try:
@@ -293,7 +294,7 @@ class Loadbalancer():
         """
         Retrieve specific policy from listener by name
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         :param name: Policy name
         """
         # Retrieve load balancer information
@@ -331,7 +332,7 @@ class Loadbalancer():
         """
         Retrieve rules from listener's policy
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         :param policy: Policy name or ID
         """
         try:
@@ -370,7 +371,7 @@ class Loadbalancer():
         """
         Retrieve specific rule from listener's policy
         :param lb: Load balancer name or ID
-        :param listener: Listener name or ID
+        :param listener: Listener port or ID
         :param policy: Policy name or ID
         :param rule: Rule ID
         """
@@ -702,7 +703,7 @@ class Loadbalancer():
         """
         Create policy
         :param lb: Load balancer name or ID.
-        :param listener: Listener ID or port
+        :param listener: Listener port or ID.
         :param action: The policy action.
         :param name: Optional. The user-defined name for this policy.
         :param priority: Priority of the policy.
@@ -765,7 +766,7 @@ class Loadbalancer():
         """
         Create rule
         :param lb: Load balancer name or ID.
-        :param listener: Listener ID or port
+        :param listener: Listener port or ID.
         :param policy: The policy name or ID.
         :param condition: The condition of the rule.
         :param field: Optional. HTTP header field.
@@ -990,7 +991,7 @@ class Loadbalancer():
         """
         Delete listener from load balancer
         :param lb: Load balancer name or ID
-        :param listener: Listener ID or port
+        :param listener: Listener port or ID
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1027,7 +1028,7 @@ class Loadbalancer():
         """
         Delete policy from listener
         :param lb: Load balancer name or ID
-        :param listener: Listener ID or port
+        :param listener: Listener port or ID
         :param policy: Policy name or ID
         """
         # Check if load balancer exists
@@ -1072,7 +1073,7 @@ class Loadbalancer():
         """
         Delete rule from policy
         :param lb: Load balancer name or ID
-        :param listener: Listener ID
+        :param listener: Listener port or ID
         :param policy: Policy name or ID
         :param rule: Rule ID
         """
