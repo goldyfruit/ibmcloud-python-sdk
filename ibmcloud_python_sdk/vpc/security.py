@@ -360,15 +360,6 @@ class Security():
                     for sg_rules in args["rules"]:
                         rs.append(sg_rules)
                     payload["rules"] = rs
-                elif key == "remote":
-                    for r_k, r_v in args["remote"].items():
-                        if r_v is not None:
-                            if r_k == "cidr_block":
-                                payload["remote"] = {"cidr_block": r_v}
-                            elif r_k == "ip":
-                                payload["remote"] = {"ip": r_v}
-                            elif r_k == "id":
-                                payload["remoted"] = {"id": r_v}
                 else:
                     payload[key] = value
 
