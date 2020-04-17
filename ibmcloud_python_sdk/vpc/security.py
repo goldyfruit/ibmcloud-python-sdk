@@ -97,14 +97,42 @@ class Security():
 
     def get_security_group_interfaces(self, security_group):
         """
-        Retrieve network interfaces associated to a security group
+        Retrieve network interfaces associated to a security group by ID
         :param security_group: Security group name or ID
         """
-        by_name = self.get_security_group_by_name(security_group)
+        # Retrieve security group information to get the ID
+        # (mostly useful if a name is provided)
+        sg_info = self.get_security_group(security_group)
+        if "errors" in sg_info:
+            return sg_info
+
+        try:
+            # Connect to api endpoint for security_groups
+            path = ("/v1/security_groups/{}/network_interfaces?version={}"
+                    "&generation={}".format(sg_info["id"], self.cfg["version"],
+                                            self.cfg["generation"]))
+
+            # Return data
+            return qw("iaas", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching network interfaces associated to security"
+                  " group {}. {}".format(security_group, error))
+            raise
+
+    def get_security_group_interface(self, security_group, interface):
+        """
+        Retrieve specific network interface associated to a security group
+        :param security_group: Security group name or ID
+        :param interface: Network interface name or ID
+        """
+        by_name = self.get_security_group_interface_by_name(security_group,
+                                                            interface)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_security_group_by_id(security_group)
+                    by_id = self.get_security_group_interface_by_id(
+                        security_group, interface)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -113,54 +141,63 @@ class Security():
         else:
             return by_name
 
-    def get_security_group_interfaces_by_id(self, id):
+    def get_security_group_interface_by_id(self, security_group, id):
         """
-        Retrieve network interfaces associated to a security group by ID
-        :param id: Security group ID
+        Retrieve specific network interface associated to a security group
+        :param security_group: Security group name or ID
+        :param id: Network interface ID
         """
+        # Retrieve security group information to get the ID
+        # (mostly useful if a name is provided)
+        sg_info = self.get_security_group(security_group)
+        if "errors" in sg_info:
+            return sg_info
+
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}/network_interfaces?version={}"
-                    "&generation={}".format(id, self.cfg["version"],
+            path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
+                    "&generation={}".format(sg_info["id"], id,
+                                            self.cfg["version"],
                                             self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching network interfaces associated to security"
-                  " group with ID {}. {}".format(id, error))
+            print("Error fetching network interface with ID {} associated to"
+                  " security group {}. {}".format(id, security_group, error))
             raise
 
-    def get_security_group_interfaces_by_name(self, name):
+    def get_security_group_interface_by_name(self, security_group, name):
         """
-        Retrieve network interfaces associated to a security group by name
-        :param name: Security group name
+        Retrieve specific network interface associated to a security group
+        :param security_group: Security group name or ID
+        :param name: Network interface name
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
-        sg_info = self.get_security_group(name)
+        sg_info = self.get_security_group(security_group)
         if "errors" in sg_info:
             return sg_info
 
         try:
-            # Retrieve security groups
+            # Retrieve network interfaces
             data = self.get_security_group_interfaces(sg_info["id"])
             if "errors" in data:
                 return data
 
-            # Loop over security groups until filter match
-            for sg in data['security_groups']:
-                if sg["name"] == name:
+            # Loop over network interfaces until filter match
+            for nic in data['network_interfaces']:
+                if nic["name"] == name:
                     # Return data
-                    return sg
+                    return nic
 
-            # Return error if no security group is found
+            # Return error if no interface is found
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching network interfaces associated to security"
-                  " group with name {}. {}".format(name, error))
+            print("Error fetching network interface with name {} associated to"
+                  " security group {}. {}".format(name, security_group, error))
             raise
 
     def get_security_group_rules(self, security_group):
