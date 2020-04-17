@@ -525,10 +525,30 @@ class Loadbalancer():
 
     def get_lb_pool_member(self, lb, pool, member):
         """
+        Retrieve specific pool from load balancer
+        :param lb: Load balancer name or ID
+        :param pool: Pool name or ID
+        :param member: Member address or ID
+        """
+        by_address = self.get_lb_pool_member_by_address(lb, pool, member)
+        if "errors" in by_address:
+            for key_name in by_address["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_lb_pool_member_by_id(lb, pool, member)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_address
+        else:
+            return by_address
+
+    def get_lb_pool_member_by_id(self, lb, pool, id):
+        """
         Retrieve specific pool from load balancer by ID
         :param lb: Load balancer name or ID
         :param pool: Pool name or ID
-        :param member: Member ID
+        :param id: Member ID
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -544,15 +564,52 @@ class Loadbalancer():
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/pools/{}/members/{}?version={}"
                     "&generation={}".format(lb_info["id"], pool_info["id"],
-                                            member, self.cfg["version"],
+                                            id, self.cfg["version"],
                                             self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching member {} in pool {} {} from load balancer"
-                  " {}. {}".format(member, pool, lb, error))
+            print("Error fetching member with ID {} in pool {} from load"
+                  " balancer {}. {}".format(id, pool, lb, error))
+            raise
+
+    def get_lb_pool_member_by_address(self, lb, pool, address):
+        """
+        Retrieve specific pool from load balancer by ID
+        :param lb: Load balancer name or ID
+        :param pool: Pool name or ID
+        :param address: Member address
+        """
+        # Retrieve load balancer information
+        lb_info = self.get_lb(lb)
+        if "errors" in lb_info:
+            return lb_info
+
+        # Retrieve pool information
+        pool_info = self.get_lb_pool(lb, pool)
+        if "errors" in pool_info:
+            return pool_info
+
+        try:
+            # Retrieve members
+            data = self.get_lb_pool_members(lb_info["id"], pool_info["id"])
+            if "errors" in data:
+                return data
+
+            # Loop over members until filter match
+            for member in data["pools"]:
+                if member["name"] == address:
+                    # Return data
+                    return member
+
+            # Return error if no member is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching member with address {} in pool {} from"
+                  " load balancer {}. {}".format(member, pool, lb, error))
             raise
 
     def create_lb(self, **kwargs):
@@ -1168,7 +1225,7 @@ class Loadbalancer():
         Delete member from pool
         :param lb: Load balancer name or ID
         :param pool: Pool name ID
-        :param member: Member ID or address
+        :param member: Member address or ID
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1181,19 +1238,16 @@ class Loadbalancer():
             return pool_info
 
         # Check if member exists
-        data = self.get_lb_pool_members(lb_info["id"], pool_info["id"])
-        if "errors" in data:
-            return data
-        member_info = None
-        for node in data["members"]:
-            if node["target"]["address"] == member or node["id"] == member:
-                member_info = node["id"]
+        member_info = self.get_lb_pool_member(lb_info["id"], pool, member)
+        if "errors" in member_info:
+            return member_info
 
         try:
             # Connect to api endpoint for load_balancers
             path = ("/v1/load_balancers/{}/pools/{}/members/{}?version={}"
                     "&generation={}".format(lb_info["id"], pool_info["id"],
-                                            member_info, self.cfg["version"],
+                                            member_info["id"],
+                                            self.cfg["version"],
                                             self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
