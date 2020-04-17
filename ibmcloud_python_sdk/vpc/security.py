@@ -97,7 +97,7 @@ class Security():
 
     def get_security_group_interfaces(self, security_group):
         """
-        Retrieve network interfaces associated to a security group by ID
+        Retrieve network interfaces associated to a security group
         :param security_group: Security group name or ID
         """
         # Retrieve security group information to get the ID
