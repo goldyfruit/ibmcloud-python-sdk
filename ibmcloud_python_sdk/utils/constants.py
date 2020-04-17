@@ -6,5 +6,4 @@ RG_URL = "resource-controller.cloud.ibm.com"
 IS_URL = "iaas.cloud.ibm.com"
 DNS_URL = "api.dns-svcs.cloud.ibm.com"
 EM_URL = "enterprise.cloud.ibm.com"
-
 HTTP_TIMEOUT = 60
