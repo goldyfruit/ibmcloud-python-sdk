@@ -8,14 +8,15 @@ from ibmcloud_python_sdk.utils.common import check_args
 from SoftLayer import DNSManager
 
 class Dns():
-    """Dns public class
+    """Public dns class
     """
+
     def __init__(self):
         self.cfg = params()
         self.client = SoftLayer.create_client_from_env(
             username=self.cfg['cis_username'],
             api_key=self.cfg['cis_apikey'])
-        self.dns = DNSManager(self.client)
+        self.dns = SoftLayer.DNSManager(self.client)
 
 
     # Create zone
@@ -35,7 +36,7 @@ class Dns():
     def create_record(self, **kwargs):
         """Create a resource record on a domain.
 
-        :param integer id: the zone's ID
+        :param zone: zone name
         :param record: the name of the record to add
         :param record_type: the type of record (A, AAAA, CNAME, TXT, etc.)
         :param data: the record's value
@@ -70,10 +71,10 @@ class Dns():
 
     # Get records
     def get_records(self, **kwargs):
-        """Get records for a specified name
-        :param name: zone name
+        """Get records for a specified zone
+        :param zone: zone name
         """
-        zone_id = self.get_zone_id(kwargs.get('name'))
+        zone_id = self.get_zone_id(kwargs.get('zone'))
         if not isinstance(zone_id, int):
             if "errors" in zone_id:
                 for key_name in zone_id["errors"]:
@@ -118,19 +119,119 @@ class Dns():
         """Delete a zone
         """
         zone_id = self.get_zone_id(name)
-        return self.dns.delete_zone(zone_id)
+        if not isinstance(zone_id, int):
+            if "errors" in zone_id:
+                for key_name in zone_id["errors"]:
+                    if key_name["code"] == "not_found":
+                        return zone_id
+        try:
+            self.dns.delete_zone(zone_id)
+        except Exception as error:
+            print("Error deleting dns zone. {}".format(error))
+            raise
+
+    def get_record(self, **kwargs):
+        """Find a record by name or value
+        """
+        required_args = set(["record", "zone"])
+        check_args(required_args, **kwargs)
+
+        args = {
+            'record': kwargs.get('record'),
+            'zone': kwargs.get('zone'),
+        }
+        
+        by_name = self.get_record_by_name(record=args["record"], 
+                                          zone=args["zone"])
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_value = self.get_record_by_value(record=args["record"],
+                                                        zone=args["zone"])
+                    if "errors" in by_value:
+                        return by_value
+                    return by_value
+                return by_name
+        return by_name
+                
+    
 
     # Find a record by name
-    def get_record_by_name(self, name):
+    def get_record_by_name(self, **kwargs):
         """Get record by name
+        :param record: record name
+        :param zone: zone name
         """
-        pass
+        required_args = set(["record", "zone"])
+        check_args(required_args, **kwargs)
+
+        args = {
+            'record': kwargs.get('record'),
+            'zone': kwargs.get('zone'),
+        }
+        zone_id = self.get_zone_id(args['zone'])
+        if not isinstance(zone_id, int):
+            if "errors" in zone_id:
+                for key_name in zone_id["errors"]:
+                    if key_name["code"] == "not_found":
+                        return resource_not_found()
+
+        records = self.get_records(zone=args["zone"])
+        for record in records:
+            if record["host"] == args["record"]:
+                return record
+        return resource_not_found()
+
+    # Find a record by value
+    def get_record_by_value(self, **kwargs):
+        """Get record by name
+        :param record: record data
+        :param zone: zone name
+        """
+        required_args = set(["record", "zone"])
+        check_args(required_args, **kwargs)
+
+        args = {
+            'record': kwargs.get('record'),
+            'zone': kwargs.get('zone'),
+        }
+
+        records = self.get_records(zone=args["zone"])
+        if "errors" in records:
+                for key_name in records["errors"]:
+                    if key_name["code"] == "not_found":
+                        return resource_not_found()
+
+        for record in records:
+            if record["data"] == args["record"]:
+                return record
+        return resource_not_found()
+
 
 
     def delete_record(self, **kwargs):
         """Delete a record
+        :param name: record name
+        :param zone: zone name
         """
-        pass
+        required_args = set(["record", "zone"])
+        check_args(required_args, **kwargs)
+
+        args = {
+            'record': kwargs.get('record'),
+            'zone': kwargs.get('zone'),
+        }
+        record = self.get_record(record=args["record"],
+                                 zone=args["zone"])
+        if "errors" in record:
+            for key_name in record["errors"]:
+                if key_name["code"] == "not_found":
+                    return resource_not_found()                    
+        try:
+            self.dns.delete_record(record["id"])
+        except Exception as error:
+            print("Error while deleting record. {}".format(error))
+            raise
 
     def check_availability(self, **kwargs):
         """Check zone availability
