@@ -147,23 +147,16 @@ class Subnet():
         """
         Create subnet
         :param name: Optional. The unique user-defined name for this subnet.
-
         :param resource_group: Optional. The resource group to use.
-
         :param ipv4_cidr_block: The IPv4 range of the subnet, expressed in CIDR
         format.
-
         :param vpc: The VPC the subnet is to be a part of.
-
         :param zone: The zone the subnet is to reside in.
-
         :param ip_version: Optional. The IP version(s) supported.
-
         :param network_acl: Optional. The network ACL to use for this subnet.
-
         :param public_gateway: Optional. The public gateway to handle internet
         bound traffic for this subnet.
-
+        :param routing_table: Optional. The routing table for this subnet.
         :param total_ipv4_address_count: Optional. The total number of IPv4
         addresses required.
         """
@@ -180,6 +173,7 @@ class Subnet():
             'ip_version': kwargs.get('ip_version', 'ipv4'),
             'network_acl': kwargs.get('network_acl'),
             'public_gateway': kwargs.get('public_gateway'),
+            'routing_table': kwargs.get('routing_table'),
             'total_ipv4_address_count': kwargs.get('total_ipv4_address_count'),
         }
 
@@ -204,6 +198,8 @@ class Subnet():
                     if "errors" in gateway_info:
                         return gateway_info
                     payload["public_gateway"] = {"id": gateway_info["id"]}
+                elif key == "routing_table":
+                    payload["routing_table"] = {"id": args["routing_table"]}
                 elif key == "vpc":
                     vpc_info = self.vpc.get_vpc(args["vpc"])
                     if "errors" in vpc_info:
