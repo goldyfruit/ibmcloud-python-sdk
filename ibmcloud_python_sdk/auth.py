@@ -5,11 +5,27 @@ import json
 from ibmcloud_python_sdk.utils import constants
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.utils import common
+from jwt import decode
 
 cfg = params()
 headers = {}
 
 >>>>>>> 8456b75 ([module] Improve setup.py)
+
+def decode_token():
+    """Decode JWT token
+
+    :return: JSON JWT information
+    :rtype: dict
+    """
+    try:
+        token = get_headers()["Authorization"]
+        return decode(token.split(" ")[1], verify=False)
+
+    except Exception as error:
+        print("Error decoding token. {}".format(error))
+        raise
+
 
 def get_token(url, key):
     # Payload for retrieving token
