@@ -69,7 +69,7 @@ class Resource():
         """
         try:
             # Connect to api endpoint for resource_groups
-            path = ("/v2/resource_groups/{}").format(id)
+            path = ("/v2/resource_groups/{}".format(id))
 
             # Return data
             return qw("rg", "GET", path, headers())["data"]

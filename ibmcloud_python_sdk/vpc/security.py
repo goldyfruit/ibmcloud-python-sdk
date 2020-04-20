@@ -304,10 +304,10 @@ class Security():
         try:
             # Connect to api endpoint for security_groups
             path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
-                    "&generation={}").format(sg_info["id"],
-                                             target,
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(sg_info["id"],
+                                            target,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "PUT", path, headers(), None)["data"]

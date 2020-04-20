@@ -895,10 +895,10 @@ class Vpn():
 
         except Exception as error:
             print("Error adding peer CIDR {}/{} to connection {} on VPN"
-                  " gateway {}. {}").format(args["prefix_address"],
-                                            args["prefix_length"],
-                                            args["connection"],
-                                            args["gateway"], error)
+                  " gateway {}. {}".format(args["prefix_address"],
+                                           args["prefix_length"],
+                                           args["connection"],
+                                           args["gateway"], error))
             raise
 
     def delete_ike_policy(self, policy):

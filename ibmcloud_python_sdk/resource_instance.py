@@ -144,7 +144,7 @@ class ResourceInstance():
         """
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances/{}").format(guid)
+            path = ("/v2/resource_instances/{}".format(guid)
             result = qw("rg", "GET", path, headers())["data"]
 
             if "status_code" in result:
@@ -213,7 +213,7 @@ class ResourceInstance():
 
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances/{}").format(guid)
+            path = ("/v2/resource_instances/{}".format(guid)
             result =  qw("rg", "DELETE", path, headers())
         
             if result["data"] == None:
