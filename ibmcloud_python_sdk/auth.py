@@ -28,6 +28,15 @@ def decode_token():
 
 
 def get_token(url, key):
+    """Generate JWT IAM token
+
+    :param url: IAM URL
+    :type url: string
+    :param key: API Key
+    :type key: string
+    :return: IAM token
+    :rtype: string
+    """
     # Payload for retrieving token
     payload = ("grant_type=urn:ibm:params:oauth:grant-type:"
                "apikey&apikey={}".format(key))
@@ -53,6 +62,11 @@ def get_token(url, key):
 
 
 def get_headers():
+    """Generates the headers used for authenticated HTTP request.
+
+    :return: Dict of headers
+    :rtype: dict
+    """
     if not headers:
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
