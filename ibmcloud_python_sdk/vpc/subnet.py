@@ -26,14 +26,14 @@ class Subnet():
         """
         try:
             # Connect to api endpoint for subnets
-            path = ("/v1/subnets?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/subnets?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching subnets. {}").format(error)
+            print("Error fetching subnets. {}".format(error))
             raise
 
     def get_subnet(self, subnet):
@@ -61,14 +61,14 @@ class Subnet():
         """
         try:
             # Connect to api endpoint for subnets
-            path = ("/v1/subnets/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/subnets/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching subnet with ID {}. {}").format(id, error)
+            print("Error fetching subnet with ID {}. {}".format(id, error))
             raise
 
     def get_subnet_by_name(self, name):
@@ -92,7 +92,7 @@ class Subnet():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching subnet with name {}. {}").format(name, error)
+            print("Error fetching subnet with name {}. {}".format(name, error))
             raise
 
     def get_subnet_network_acl(self, subnet):
@@ -108,15 +108,15 @@ class Subnet():
 
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/network_acl?version={}"
-                    "&generation={}").format(subnet_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(subnet_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching network ACL for subnet {}. {}").format(
-                subnet, error)
+            print("Error fetching network ACL for subnet {}. {}".format(
+                subnet, error))
             raise
 
     def get_subnet_public_gateway(self, subnet):
@@ -132,15 +132,15 @@ class Subnet():
 
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/public_gateway?version={}"
-                    "&generation={}").format(subnet_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(subnet_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching public gateway for subnet {}. {}").format(
-                subnet, error)
+            print("Error fetching public gateway for subnet {}. {}".format(
+                subnet, error))
             raise
 
     def create_subnet(self, **kwargs):
@@ -212,15 +212,15 @@ class Subnet():
 
         try:
             # Connect to api endpoint for subnets
-            path = ("/v1/subnets?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/subnets?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating subnet. {}").format(error)
+            print("Error creating subnet. {}".format(error))
             raise
 
     # Attach network ACL to subnet
@@ -300,17 +300,17 @@ class Subnet():
         try:
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/public_gateway?version={}"
-                    "&generation={}").format(subnet_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(subnet_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "PUT", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error attaching public gateway {} to subnet {}. {}").format(
-                args["public_gateway"], args["subnet"], error)
+            print("Error attaching public gateway {} to subnet {}. {}".format(
+                args["public_gateway"], args["subnet"], error))
             raise
 
     def detach_public_gateway(self, subnet):
@@ -327,9 +327,9 @@ class Subnet():
         try:
             # Connect to api endpoint for subnets
             path = ("/v1/subnets/{}/public_gateway?version={}"
-                    "&generation={}").format(subnet_info["id"],
-                                             self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(subnet_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -342,7 +342,7 @@ class Subnet():
 
         except Exception as error:
             print("Error detaching subnet's public gateway for"
-                  "subnet {}. {}").format(subnet, error)
+                  "subnet {}. {}".format(subnet, error))
             raise
 
     def delete_subnet(self, subnet):
@@ -357,8 +357,9 @@ class Subnet():
                 return subnet_info
 
             # Connect to api endpoint for subnets
-            path = ("/v1/subnets/{}?version={}&generation={}").format(
-                subnet_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/subnets/{}?version={}&generation={}".format(
+                subnet_info["id"], self.cfg["version"],
+                self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -370,6 +371,6 @@ class Subnet():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting subnet with name {}. {}").format(subnet,
-                                                                   error)
+            print("Error deleting subnet with name {}. {}".format(subnet,
+                                                                  error))
             raise
