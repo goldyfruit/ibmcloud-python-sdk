@@ -122,24 +122,21 @@ class Volume():
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching volume with name {}. {}").format(name,
-                                                                   error)
+            print("Error fetching volume with name {}. {}".format(name,
+                                                                  error))
             raise
 
     def create_volume(self, **kwargs):
         """
         Create block volume
         :param name: Optional. The unique user-defined name for this volume.
-
         :param resource_group: Optional. The resource group to use.
-
         :param zone: The location of the volume.
-
         :param iops: Optional. The bandwidth for the volume.
-
         :param profile: The profile to use for this volume.
-
         :param capacity: The capacity of the volume in gigabytes.
+        :param encryption_key: Optional. The key to use for encrypting this
+        volume.
         """
         args = ["profile", "zone", "capacity"]
         check_args(args, **kwargs)
@@ -152,6 +149,7 @@ class Volume():
             'resource_group': kwargs.get('resource_group'),
             'profile': kwargs.get('profile'),
             'capacity': kwargs.get('capacity'),
+            'encryption_key': kwargs.get('encryption_key'),
         }
 
         # Construct payload
@@ -168,6 +166,8 @@ class Volume():
                     payload["profile"] = {"name": args["profile"]}
                 elif key == "zone":
                     payload["zone"] = {"name": args["zone"]}
+                elif key == "encryption_key":
+                    payload["encryption_key"] = {"crn": args["encryption_key"]}
                 else:
                     payload[key] = value
 
