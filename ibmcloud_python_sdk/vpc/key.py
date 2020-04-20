@@ -93,12 +93,9 @@ class Key():
         """
         Create key
         :param name: Optional. The unique user-defined name for this key.
-
         :param resource_group: Optional. The resource group to use.
-
         :param public_key: A unique public SSH key to import, encoded in PEM
         format.
-
         :param type: Optional. The cryptosystem used by this key.
         """
         args = ["public_key"]
@@ -163,5 +160,5 @@ class Key():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting key with name {}. {}".format(key, error))
+            print("Error deleting key {}. {}".format(key, error))
             raise
