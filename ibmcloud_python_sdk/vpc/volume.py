@@ -20,14 +20,14 @@ class Volume():
         """
         try:
             # Connect to api endpoint for volume
-            path = ("/v1/volume/profiles?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/volume/profiles?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching volume profiles. {}").format(error)
+            print("Error fetching volume profiles. {}".format(error))
             raise
 
     def get_volume_profile(self, profile):
@@ -38,15 +38,15 @@ class Volume():
         try:
             # Connect to api endpoint for volume
             path = ("/v1/volume/profiles/{}?version={}"
-                    "&generation={}").format(profile, self.cfg["version"],
-                                             self.cfg["generation"])
+                    "&generation={}".format(profile, self.cfg["version"],
+                                            self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching volume profile {}. {}").format(profile,
-                                                                 error)
+            print("Error fetching volume profile {}. {}".format(profile,
+                                                                error))
             raise
 
     def get_volumes(self):
@@ -56,14 +56,14 @@ class Volume():
         """
         try:
             # Connect to api endpoint for volumes
-            path = ("/v1/volumes?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/volumes?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching volumes. {}").format(error)
+            print("Error fetching volumes. {}".format(error))
             raise
 
     def get_volume(self, volume):
@@ -91,14 +91,14 @@ class Volume():
         """
         try:
             # Connect to api endpoint for volumes
-            path = ("/v1/volumes/{}?version={}&generation={}").format(
-                id, self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/volumes/{}?version={}&generation={}".format(
+                id, self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching volume with ID {}. {}").format(id, error)
+            print("Error fetching volume with ID {}. {}".format(id, error))
             raise
 
     def get_volume_by_name(self, name):
@@ -173,15 +173,15 @@ class Volume():
 
         try:
             # Connect to api endpoint for volumes
-            path = ("/v1/volumes?version={}&generation={}").format(
-                self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/volumes?version={}&generation={}".format(
+                self.cfg["version"], self.cfg["generation"]))
 
             # Return data
             return qw("iaas", "POST", path, headers(),
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating volume. {}").format(error)
+            print("Error creating volume. {}".format(error))
             raise
 
     def delete_volume(self, volume):
@@ -196,8 +196,9 @@ class Volume():
 
         try:
             # Connect to api endpoint for volumes
-            path = ("/v1/volumes/{}?version={}&generation={}").format(
-                volume_info["id"], self.cfg["version"], self.cfg["generation"])
+            path = ("/v1/volumes/{}?version={}&generation={}".format(
+                volume_info["id"], self.cfg["version"],
+                self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
@@ -209,5 +210,5 @@ class Volume():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting volume {}. {}").format(volume, error)
+            print("Error deleting volume {}. {}".format(volume, error))
             raise
