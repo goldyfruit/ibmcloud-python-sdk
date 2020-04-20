@@ -2,10 +2,13 @@ import http.client
 import json
 from . import config as ic
 
+import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
+from ibmcloud_python_sdk.utils.common import check_args
 
 
 class Resource():
@@ -118,4 +121,64 @@ class Resource():
         except Exception as error:
             print("Error fetching resource groups for account {}. {}".format(
                 id, error))
+            raise
+
+    def create_group(self, **kwargs):
+        """
+        Create resource group
+        :param name: The new name of the resource group.
+        :param account_id: The account id of the resource group.
+        """
+        args = ["name", "account_id"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'name': kwargs.get('name'),
+            'account_id': kwargs.get('account_id'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if value is not None:
+                payload[key] = value
+
+        try:
+            # Connect to api endpoint for resource_groups
+            path = ("/v2/resource_groups")
+
+            # Return data
+            return qw("rg", "POST", path, headers(),
+                      json.dumps(payload))["data"]
+
+        except Exception as error:
+            print("Error resource group. {}".format(error))
+            raise
+
+    def delete_group(self, group):
+        """
+        Delete resource group
+        :param group: Resource group name or ID
+        """
+        try:
+            # Check if group exists
+            group_info = self.get_resource_group(group)
+            if "errors" in group_info:
+                return group_info
+
+            # Connect to api endpoint resource_groups keys
+            path = ("/v2/resource_groups/{}".format(group_info["id"]))
+
+            data = qw("rg", "DELETE", path, headers())
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return resource_deleted()
+
+        except Exception as error:
+            print("Error deleting resource group {}. {}".format(group, error))
             raise
