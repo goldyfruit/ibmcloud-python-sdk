@@ -14,7 +14,7 @@ headers = {}
 def get_token(url, key):
     # Payload for retrieving token
     payload = ("grant_type=urn:ibm:params:oauth:grant-type:"
-               "apikey&apikey={}").format(key)
+               "apikey&apikey={}".format(key))
 
     # Required headers
     headers_auth = {
@@ -32,7 +32,7 @@ def get_token(url, key):
 
     # If an error happens while retrieving token
     except Exception as error:
-        print(f"Error getting token. {error}")
+        print("Error getting token. {}".format(error))
         raise
 
 
