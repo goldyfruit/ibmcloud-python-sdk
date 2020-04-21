@@ -27,7 +27,7 @@ class Vpc():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching VPC. {}".format(error))
+            print("Error fetching VPCs. {}".format(error))
             raise
 
     def get_vpc(self, vpc):
