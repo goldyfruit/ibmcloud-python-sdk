@@ -1,5 +1,6 @@
 import SoftLayer
 from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.utils import constants
 
 
 def client():
@@ -12,11 +13,12 @@ def client():
     try:
         client = SoftLayer.create_client_from_env(
             username=cfg['cis_username'],
-            api_key=cfg['cis_apikey']
+            api_key=cfg['cis_apikey'],
+            endpoint_url=constants.SL_API,
         )
 
         return client
 
-    except Exception as error:
-        print("Error creating softlayer client. {}".format(error))
+    except SoftLayer.SoftLayerError as error:
+        print("Error creating SoftLayer client. {}".format(error))
         raise
