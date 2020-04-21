@@ -6,5 +6,5 @@ RG_URL = "resource-controller.cloud.ibm.com"
 IS_URL = "iaas.cloud.ibm.com"
 DNS_URL = "api.dns-svcs.cloud.ibm.com"
 EM_URL = "enterprise.cloud.ibm.com"
-SL_API = "https://api.softlayer.com/rest/v3.1/"
+SL_URL = "api.softlayer.com"
 HTTP_TIMEOUT = 60

@@ -13,6 +13,7 @@ def params():
     option["dns_url"] = constants.DNS_URL
     option["rg_url"] = constants.RG_URL
     option["em_url"] = constants.EM_URL
+    option["sl_url"] = constants.SL_URL
     option["http_timeout"] = constants.HTTP_TIMEOUT
 
     if path.exists(creds):

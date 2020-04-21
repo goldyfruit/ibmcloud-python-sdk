@@ -9,12 +9,12 @@ def client():
     :return: The SoftLayer client
     """
     cfg = params()
-
+    endpoint_url = "https://{}//rest/v3.1/".format(constants.SL_URL)
     try:
         client = SoftLayer.create_client_from_env(
             username=cfg['cis_username'],
             api_key=cfg['cis_apikey'],
-            endpoint_url=constants.SL_API,
+            endpoint_url=endpoint_url,
         )
 
         return client

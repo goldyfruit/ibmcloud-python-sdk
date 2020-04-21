@@ -1,3 +1,4 @@
+import base64
 import http.client
 import json
 from ibmcloud_python_sdk.config import params
@@ -27,6 +28,13 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         conn = http.client.HTTPSConnection(cfg["dns_url"], timeout=timeout)
     elif conn_type == "em":
         conn = http.client.HTTPSConnection(cfg["em_url"], timeout=timeout)
+    elif conn_type == "sl":
+        if headers and cfg["cis_username"] and cfg["cis_apikey"]:
+            header = base64.encodebytes(
+                ('%s:%s' % (cfg["cis_username"], cfg["cis_apikey"]))
+                .encode('utf8')).decode('utf8').replace('\n', '')
+            headers["Authorization"] = "Basic {}".format(header)
+        conn = http.client.HTTPSConnection(cfg["sl_url"], timeout=timeout)
 
     conn.request(method, path, payload, headers)
 
