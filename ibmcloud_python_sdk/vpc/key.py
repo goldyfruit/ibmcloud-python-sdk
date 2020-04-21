@@ -68,7 +68,7 @@ class Key():
     def get_key_by_name(self, name):
         """
         Retrieve specific key by name
-        :param id: Key name
+        :param name: Key name
         """
         try:
             # Retrieve keys
