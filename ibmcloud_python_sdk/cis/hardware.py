@@ -1,4 +1,6 @@
 from ibmcloud_python_sdk.utils import softlayer as sl
+from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 
 
@@ -6,7 +8,6 @@ class Hardware():
 
     def __init__(self):
         self.client = sl.client()
-        self.hw = sl.SoftLayer.HardwareManager(self.client)
 
     def get_baremetals(self):
         """
@@ -14,7 +15,11 @@ class Hardware():
         :return List of baremetal servers
         """
         try:
-            return self.hw.list_hardware()
+            path = ("/rest/v3.1/SoftLayer_Account/getHardware")
+
+            # Return data
+            return qw("sl", "GET", path, headers())["data"]
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             print("Error fetching baremetals. {}".format(error))
             raise
@@ -27,11 +32,14 @@ class Hardware():
         """
         by_name = self.get_baremetal_by_name(baremetal)
         if "errors" in by_name:
-            by_id = self.get_baremetal_by_id(baremetal)
-            if "errors" in by_id:
-                return by_id
-            else:
-                return by_id
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_baremetal_by_id(baremetal)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
         else:
             return by_name
 
@@ -42,7 +50,11 @@ class Hardware():
         :return Baremetal server information as a dict
         """
         try:
-            return self.hw.get_hardware(id)
+            path = ("/rest/v3.1/SoftLayer_Account/getHardware/{}".format(id))
+
+            # Return data
+            return qw("sl", "GET", path, headers())["data"]
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             print("Error fetching baremetal with ID {}. {}".format(id, error))
             raise
@@ -61,7 +73,7 @@ class Hardware():
             for baremetal in data:
                 if baremetal["fullyQualifiedDomainName"] == name:
                     # Return data
-                    return self.hw.get_hardware(baremetal["id"])
+                    return baremetal
 
             # Return error if no baremetal is found
             return resource_not_found()
