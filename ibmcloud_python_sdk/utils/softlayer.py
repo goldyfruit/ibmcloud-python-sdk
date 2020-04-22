@@ -9,7 +9,7 @@ def client():
     :return: The SoftLayer client
     """
     cfg = params()
-    endpoint_url = "https://{}//rest/v3.1/".format(constants.SL_URL)
+    endpoint_url = "https://{}/rest/v3.1/".format(constants.SL_URL)
     try:
         client = SoftLayer.create_client_from_env(
             username=cfg['cis_username'],
