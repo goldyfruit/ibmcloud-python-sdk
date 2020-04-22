@@ -19,7 +19,9 @@ class Hardware():
         try:
             baremetal = {}
             baremetal["baremetals"] = self.hw.list_hardware()
+
             return baremetal
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
 
@@ -52,6 +54,7 @@ class Hardware():
         """
         try:
             return self.hw.get_hardware(id)
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
 
