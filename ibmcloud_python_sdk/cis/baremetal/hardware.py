@@ -14,7 +14,7 @@ class Hardware():
         """
         Retrieve baremetal list
         :return: List of baremetal servers
-        :rtype: list
+        :rtype: dict
         """
         try:
             baremetal = {}
@@ -86,7 +86,7 @@ class Hardware():
         Retrieve baremetal power state
         :param baremetal: Baremetal name or ID
         :return: Baremetal power state
-        :rtype: str
+        :rtype: dict
         """
         # Retrieve baremetal info and check is exists
         bm_info = self.get_baremetal(baremetal)
@@ -106,8 +106,8 @@ class Hardware():
         Set baremetal power state
         :param baremetal: Baremetal name or ID
         :parem power_state: Target power state
-        :return: True if the action went well
-        :rtype: bool
+        :return: Power state
+        :rtype: dict
         """
         args = ["baremetal", "power_state"]
         check_args(args, **kwargs)
