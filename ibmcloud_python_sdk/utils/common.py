@@ -70,7 +70,7 @@ def check_args(arguments, **kwargs):
 
 def resource_not_found(payload=None):
     """Return custom JSON if a resource is not found.
-    :param payload: Optional. Customize the JSON to return is needed.
+    :param payload: Optional. Customize the JSON to return if needed.
     """
     if payload is not None:
         return payload
@@ -80,7 +80,7 @@ def resource_not_found(payload=None):
 
 def resource_deleted(payload=None):
     """Return custom JSON if a resource is deleted.
-    :param payload: Optional. Customize the JSON to return is needed.
+    :param payload: Optional. Customize the JSON to return if needed.
     """
     if payload is not None:
         return payload
@@ -90,7 +90,7 @@ def resource_deleted(payload=None):
 
 def resource_found(payload=None):
     """Return custom JSON if a resource is found but doesn't have output.
-    :param payload: Optional. Customize the JSON to return is needed.
+    :param payload: Optional. Customize the JSON to return if needed.
     """
     if payload is not None:
         return payload
