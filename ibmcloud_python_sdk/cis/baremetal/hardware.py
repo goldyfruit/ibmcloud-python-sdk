@@ -69,7 +69,7 @@ class Hardware():
             for baremetal in data["baremetals"]:
                 if baremetal["fullyQualifiedDomainName"] == name:
                     # Return data
-                    return baremetal
+                    return self.get_baremetal_by_id(baremetal["id"])
 
             # Return error if no baremetal is found
             return resource_not_found()
