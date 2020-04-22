@@ -74,3 +74,49 @@ class Hardware():
 
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
+
+    def get_baremetal_power_state(self, baremetal):
+        """
+        Retrieve baremetal power state
+        :param baremetal: Baremetal name or ID
+        :return Baremetal power state
+        :rtype str
+        """
+        # Retrieve baremetal info and check is exists
+        bm_info = self.get_baremetal(baremetal)
+        if "errors" in bm_info:
+            return bm_info
+
+        try:
+            return self.client.call("Hardware_Server", "getServerPowerState",
+                                    id=bm_info["id"])
+        except sl.SoftLayer.SoftLayerAPIError as error:
+            return resource_error(error.faultCode, error.faultString)
+
+    def set_baremetal_power_state(self, baremetal, state):
+        """
+        Set baremetal power state
+        :return True if the action went well
+        :rtype bool
+        """
+        # Retrieve baremetal info and check is exists
+        bm_info = self.get_baremetal(baremetal)
+        if "errors" in bm_info:
+            return bm_info
+
+        switch = {
+            "off": "powerOff",
+            "on": "powerOn",
+            "reboot": "powerCycle",
+        }
+
+        for state in switch.items():
+            if state not in switch:
+                return resource_error("state_not_valid",
+                                      "available states: {}".format(
+                                          list(switch)))
+        try:
+            return self.client.call("Hardware_Server", switch.get(state),
+                                    id=bm_info["id"])
+        except sl.SoftLayer.SoftLayerAPIError as error:
+            return resource_error(error.faultCode, error.faultString)
