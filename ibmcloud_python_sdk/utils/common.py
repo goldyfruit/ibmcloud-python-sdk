@@ -100,9 +100,24 @@ def resource_found(payload=None):
 
 def resource_created(payload=None):
     """Return custom JSON if a resource is created but doesn't have output.
-    :param payload: Optional. Customize the JSON to return is needed.
+    :param payload: Optional. Customize the JSON to return if needed.
     """
     if payload is not None:
         return payload
     else:
         return {"status": "created"}
+
+
+def resource_error(code, message, payload=None):
+    """Return custom JSON if a resource raised an exception.
+    This will be mostly used during try:|except: on SoftLayer resources.
+    :param code: Code to return.
+    :param message: Message to return.
+    :param payload: Optional. Customize the JSON to return if needed.
+    """
+    if payload is not None:
+        return payload
+    else:
+        if code == 404:
+            code = "not_found"
+        return {"errors": {"code": code, "message": message}}
