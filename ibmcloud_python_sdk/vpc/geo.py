@@ -10,7 +10,11 @@ class Geo():
 
     def get_regions(self):
         """
-        Retrieve region list
+        Retrieve region list.
+
+        :raise: Exception if unable to fetch regions
+        :return: List of regions
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for regions
@@ -26,8 +30,12 @@ class Geo():
 
     def get_region(self, region):
         """
-        Retrieve specific rgion
+        Retrieve specific region
+
         :param region: Region name
+        :raise: Exception if unable to fetch region
+        :return: Region information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for regions
@@ -54,8 +62,8 @@ class Geo():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching zones for region {}. {}".format(region,
-                                                                  error))
+            print("Error fetching zones for region {}. {}".format(
+                region, error))
             raise
 
     # Get specific zone from a region
