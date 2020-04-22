@@ -13,6 +13,7 @@ class Hardware():
         """
         Retrieve baremetal list
         :return List of baremetal servers
+        :rtype list
         """
         try:
             return self.hw.list_hardware()
@@ -23,7 +24,8 @@ class Hardware():
         """
         Retrieve specific baremetal
         :param baremetal: Baremetal name or ID
-        :return Baremetal server information as a dict
+        :return Baremetal server information
+        :rtype dict
         """
         by_name = self.get_baremetal_by_name(baremetal)
         if "errors" in by_name:
@@ -42,7 +44,8 @@ class Hardware():
         """
         Retrieve specific baremetal by ID
         :param id: baremetal ID
-        :return Baremetal server information as a dict
+        :return Baremetal server information
+        :rtype dict
         """
         try:
             return self.hw.get_hardware(id)
@@ -53,7 +56,8 @@ class Hardware():
         """
         Retrieve specific baremetal by name
         :param name: Baremetal name
-        :return Baremetal server information as a dict
+        :return Baremetal server information
+        :rtype dict
         """
         try:
             # Retrieve baremetals
