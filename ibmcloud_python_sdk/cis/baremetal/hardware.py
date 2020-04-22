@@ -94,8 +94,10 @@ class Hardware():
             return bm_info
 
         try:
-            return self.client.call("Hardware_Server", "getServerPowerState",
-                                    id=bm_info["id"])
+            state = self.client.call("Hardware_Server", "getServerPowerState",
+                                     id=bm_info["id"])
+            return {"power_state": state}
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
 
