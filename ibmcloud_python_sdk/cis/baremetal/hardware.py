@@ -12,8 +12,8 @@ class Hardware():
     def get_baremetals(self):
         """
         Retrieve baremetal list
-        :return List of baremetal servers
-        :rtype list
+        :return: List of baremetal servers
+        :rtype: list
         """
         try:
             return self.hw.list_hardware()
@@ -24,8 +24,8 @@ class Hardware():
         """
         Retrieve specific baremetal
         :param baremetal: Baremetal name or ID
-        :return Baremetal server information
-        :rtype dict
+        :return: Baremetal server information
+        :rtype: dict
         """
         by_name = self.get_baremetal_by_name(baremetal)
         if "errors" in by_name:
@@ -44,8 +44,8 @@ class Hardware():
         """
         Retrieve specific baremetal by ID
         :param id: baremetal ID
-        :return Baremetal server information
-        :rtype dict
+        :return: Baremetal server information
+        :rtype: dict
         """
         try:
             return self.hw.get_hardware(id)
@@ -56,8 +56,8 @@ class Hardware():
         """
         Retrieve specific baremetal by name
         :param name: Baremetal name
-        :return Baremetal server information
-        :rtype dict
+        :return: Baremetal server information
+        :rtype: dict
         """
         try:
             # Retrieve baremetals
@@ -79,8 +79,8 @@ class Hardware():
         """
         Retrieve baremetal power state
         :param baremetal: Baremetal name or ID
-        :return Baremetal power state
-        :rtype str
+        :return: Baremetal power state
+        :rtype: str
         """
         # Retrieve baremetal info and check is exists
         bm_info = self.get_baremetal(baremetal)
@@ -96,8 +96,8 @@ class Hardware():
     def set_baremetal_power_state(self, baremetal, state):
         """
         Set baremetal power state
-        :return True if the action went well
-        :rtype bool
+        :return: True if the action went well
+        :rtype: bool
         """
         # Retrieve baremetal info and check is exists
         bm_info = self.get_baremetal(baremetal)
