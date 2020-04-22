@@ -1,13 +1,13 @@
 from ibmcloud_python_sdk.utils import softlayer as sl
-from ibmcloud_python_sdk.auth import get_headers as headers
-from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_error
 
 
 class Hardware():
 
     def __init__(self):
         self.client = sl.client()
+        self.hw = sl.SoftLayer.HardwareManager(self.client)
 
     def get_baremetals(self):
         """
@@ -15,14 +15,9 @@ class Hardware():
         :return List of baremetal servers
         """
         try:
-            path = ("/rest/v3.1/SoftLayer_Account/getHardware")
-
-            # Return data
-            return qw("sl", "GET", path, headers())["data"]
-
+            return self.hw.list_hardware()
         except sl.SoftLayer.SoftLayerAPIError as error:
-            print("Error fetching baremetals. {}".format(error))
-            raise
+            return resource_error(error.faultCode, error.faultString)
 
     def get_baremetal(self, baremetal):
         """
@@ -50,14 +45,9 @@ class Hardware():
         :return Baremetal server information as a dict
         """
         try:
-            path = ("/rest/v3.1/SoftLayer_Account/getHardware/{}".format(id))
-
-            # Return data
-            return qw("sl", "GET", path, headers())["data"]
-
+            return self.hw.get_hardware(id)
         except sl.SoftLayer.SoftLayerAPIError as error:
-            print("Error fetching baremetal with ID {}. {}".format(id, error))
-            raise
+            return resource_error(error.faultCode, error.faultString)
 
     def get_baremetal_by_name(self, name):
         """
@@ -79,6 +69,4 @@ class Hardware():
             return resource_not_found()
 
         except sl.SoftLayer.SoftLayerAPIError as error:
-            print("Error fetching baremetal with name {}. {}".format(
-                name, error))
-            raise
+            return resource_error(error.faultCode, error.faultString)
