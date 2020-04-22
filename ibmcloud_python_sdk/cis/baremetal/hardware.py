@@ -1,6 +1,7 @@
 from ibmcloud_python_sdk.utils import softlayer as sl
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_error
+from ibmcloud_python_sdk.utils.common import check_args
 
 
 class Hardware():
@@ -95,14 +96,24 @@ class Hardware():
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
 
-    def set_baremetal_power_state(self, baremetal, state):
+    def set_baremetal_power_state(self, **kwargs):
         """
         Set baremetal power state
+        :param baremetal: Baremetal name or ID
+        :parem power_state: Target power state
         :return: True if the action went well
         :rtype: bool
         """
+        args = ["baremetal", "power_state"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'baremetal': kwargs.get('baremetal'),
+            'power_state': kwargs.get('power_state'),
+        }
         # Retrieve baremetal info and check is exists
-        bm_info = self.get_baremetal(baremetal)
+        bm_info = self.get_baremetal(args["baremetal"])
         if "errors" in bm_info:
             return bm_info
 
@@ -112,13 +123,15 @@ class Hardware():
             "reboot": "powerCycle",
         }
 
-        for state in switch.items():
-            if state not in switch:
-                return resource_error("state_not_valid",
-                                      "available states: {}".format(
-                                          list(switch)))
+        if args["power_state"] not in switch:
+            return resource_error("state_not_valid",
+                                  "available states: {}".format(list(switch)))
         try:
-            return self.client.call("Hardware_Server", switch.get(state),
-                                    id=bm_info["id"])
+            state = self.client.call("Hardware_Server",
+                                     switch.get(args["power_state"]),
+                                     id=bm_info["id"])
+            if state:
+                return {"power_state": args["power_state"]}
+
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
