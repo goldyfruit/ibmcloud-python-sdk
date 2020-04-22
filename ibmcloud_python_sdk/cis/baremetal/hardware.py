@@ -16,7 +16,9 @@ class Hardware():
         :rtype: list
         """
         try:
-            return self.hw.list_hardware()
+            baremetal = {}
+            baremetal["baremetals"] = self.hw.list_hardware()
+            return baremetal
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
 
@@ -64,7 +66,7 @@ class Hardware():
             data = self.get_baremetals()
 
             # Loop over baremetals until filter match
-            for baremetal in data:
+            for baremetal in data["baremetals"]:
                 if baremetal["fullyQualifiedDomainName"] == name:
                     # Return data
                     return baremetal
