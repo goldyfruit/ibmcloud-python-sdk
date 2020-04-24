@@ -9,8 +9,7 @@ class Geo():
         self.cfg = params()
 
     def get_regions(self):
-        """
-        Retrieve region list.
+        """Retrieve region list.
 
         :raise: Exception if unable to fetch regions
         :return: List of regions
@@ -29,8 +28,7 @@ class Geo():
             raise
 
     def get_region(self, region):
-        """
-        Retrieve specific region
+        """Retrieve specific region
 
         :param region: Region name
         :raise: Exception if unable to fetch region
@@ -50,8 +48,8 @@ class Geo():
             raise
 
     def get_region_zones(self, region):
-        """
-        Retrieve zone list for a specific region
+        """Retrieve zone list for a specific region
+
         :param region: Region name
         """
         try:
@@ -68,8 +66,8 @@ class Geo():
 
     # Get specific zone from a region
     def get_region_zone(self, region, zone):
-        """
-        Retrieve specific zone for a specific region
+        """Retrieve specific zone for a specific region
+
         :param region: Region name
         :param zone: Zone name
         """
