@@ -23,12 +23,16 @@ class Order():
 
         filter = {"items": {"categories": {"categoryCode": {
             "operation": "_= os"}}}}
-        mask = "keyName, description, id"
+        mask = "mask[id, keyName, description]"
 
         try:
+            # Retrieve package ID base on package keyname
+            pkg_id = self.order.get_package_by_key(pkg_name, mask='id')['id']
+
             images = {}
-            images["operating_systens"] = self.order.list_items(
-                pkg_name, filter=filter, mask=mask)
+            images["operating_systems"] = self.client.call(
+                "Product_Package", "getItems", id=pkg_id, filter=filter,
+                mask=mask, iter=True)
 
             return images
 
