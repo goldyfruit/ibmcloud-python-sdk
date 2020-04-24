@@ -13,7 +13,8 @@ class ResourceInstance():
     def __init__(self):
         self.cfg = params()
         self.rg = resource_group.Resource()
-        self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", }
+        self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", 
+                        "object-storage": "dff97f5c-bc5e-4455-b470-411c3edbe49c"}
 
     def create_resource_instance(self, **kwargs):
         """Create a resource instance
@@ -36,7 +37,7 @@ class ResourceInstance():
             'target': kwargs.get('target'),
         }
   
-        resource_plan: kwargs.get('resource_plan')
+        #resource_plan: kwargs.get('resource_plan')
         
         # if a resource instance with the same name exists do nothing but
         # return the existing one
@@ -105,7 +106,7 @@ class ResourceInstance():
             resource_id = "b4ed8a30-936f-11e9-b289-1d079699cbe5"
             ri_type = "service_instance"
     
-        result = []
+        #result = []
 
         try:
             # Connect to api endpoint for resource instances
