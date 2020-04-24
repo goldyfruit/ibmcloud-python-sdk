@@ -48,7 +48,7 @@ class ResourceInstance():
                 # Construct payload
                 payload = {}
                 
-                payload["name"] = args["name"]
+                payload["name"] = args["name"]exit_json
 
                 payload["resource_plan_id"] = self.get_resource_plan_id(
                         kwargs.get('resource_plan'))
@@ -62,7 +62,8 @@ class ResourceInstance():
                     payload["resource_group"] = \
                             self.rg.get_default_resource_group()["id"]
                 else:
-                    payload["resource_group"] = args["resource_group"]
+                    payload["resource_group"] = \
+                        self.rg.get_default_resource_group(args["resource_group"])
 
                 try:
                     # Connect to api endpoint for resource instances
