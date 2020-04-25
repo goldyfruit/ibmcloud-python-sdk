@@ -1,4 +1,5 @@
 from ibmcloud_python_sdk.utils import softlayer as sl
+from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_error
 from ibmcloud_python_sdk.utils.common import check_args
 
@@ -35,6 +36,36 @@ class Order():
                 mask=mask, iter=True)
 
             return images
+
+        except sl.SoftLayer.SoftLayerAPIError as error:
+            return resource_error(error.faultCode, error.faultString)
+
+    def get_operating_system(self, image, package=None):
+        """Retrieve specific baremetal operating systems
+
+        :param image: Image name.
+        :param package: Optional. Package name.
+        :return: Baremetal operating system
+        :rtype: dict
+        """
+        # Package should have "os" category code.
+        # By default BARE_METAL_SERVER will be used.
+        pkg_name = "BARE_METAL_SERVER"
+        if package:
+            pkg_name = package
+
+        try:
+            # Retrieve operating systems
+            data = self.get_operating_systems(pkg_name)
+
+            # Loop over operating systems until filter match
+            for operating_system in data["operating_systems"]:
+                if operating_system["keyName"] == image:
+                    # Return data
+                    return operating_system
+
+            # Return error if no operating system is found
+            return resource_not_found()
 
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
