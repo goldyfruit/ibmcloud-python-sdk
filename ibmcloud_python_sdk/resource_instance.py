@@ -14,8 +14,8 @@ class ResourceInstance():
         self.cfg = params()
         self.rg = resource_group.Resource()
         self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", 
-                        "object-storage": "dff97f5c-bc5e-4455-b470-411c3edbe49c"}
-
+                        "object-storage": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8"}
+                                          #b4ed8a30-936f-11e9-b289-1d079699cbe5
     def create_resource_instance(self, **kwargs):
         """Create a resource instance
 
@@ -48,7 +48,7 @@ class ResourceInstance():
                 # Construct payload
                 payload = {}
                 
-                payload["name"] = args["name"]exit_json
+                payload["name"] = args["name"]
 
                 payload["resource_plan_id"] = self.get_resource_plan_id(
                         kwargs.get('resource_plan'))
@@ -62,13 +62,16 @@ class ResourceInstance():
                     payload["resource_group"] = \
                             self.rg.get_default_resource_group()["id"]
                 else:
-                    payload["resource_group"] = \
-                        self.rg.get_default_resource_group(args["resource_group"])
-
+                    print(args["resource_group"])
+                    rg = self.rg.get_resource_group(args["resource_group"])
+                    if "errors" in rg:
+                        return rg
+                    payload["resource_group"] = rg["id"]            
                 try:
                     # Connect to api endpoint for resource instances
                     path = ("/v2/resource_instances")
 
+                    print ("payload : {}".format(payload))
                     return qw("rg", "POST", path, headers(),
                             json.dumps(payload))["data"]
                 except Exception as error:
