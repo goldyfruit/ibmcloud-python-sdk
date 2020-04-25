@@ -85,11 +85,10 @@ class Resource():
         :param name: Resource group name
         """
         try:
-            # Connect to api endpoint for resource_groups
-            path = ("/v2/resource_groups")
-
-            # Retrieve resources data
-            data = qw("rg", "GET", path, headers())["data"]
+            # Retrieve resource groups
+            data = self.get_resource_groups()
+            if "errors" in data:
+                return data
 
             # Loop over resources until filter match
             for resource in data['resources']:
