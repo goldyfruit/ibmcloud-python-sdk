@@ -12,7 +12,7 @@ class Order():
     def get_operating_systems(self, package=None):
         """Retrieve baremetal operating systems
 
-        :param package: Package name.
+        :param package:  Optional. Package name.
         :return: Baremetal operating systems
         :rtype: dict
         """
@@ -42,8 +42,9 @@ class Order():
     def get_package_items(self, package=None, **kwargs):
         """Retrieve baremetal operating systems
 
-        :param package: Package name.
+        :param package: Optional. Package name.
         :param category: Filter by category.
+        :param mask: Mask fields.
         :return: Baremetal operating systems
         :rtype: dict
         """
@@ -77,7 +78,7 @@ class Order():
     def get_package_presets(self, package=None):
         """Retrieve baremetal package presets
 
-        :param package: Package name.
+        :param package: Optional. Package name.
         :return: Baremetal presets from package
         :rtype: dict
         """
