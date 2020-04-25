@@ -104,7 +104,6 @@ class Resource():
                 name, error))
             raise
 
-    # Get resource groups by account
     def get_resource_groups_by_account(self, id):
         """
         Retrieve resource group list for a specific account
