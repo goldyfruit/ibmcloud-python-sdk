@@ -23,7 +23,7 @@ class Order():
 
         filter = {"items": {"categories": {"categoryCode": {
             "operation": "_= os"}}}}
-        mask = "mask[id, keyName, description]"
+        mask = "mask[id, keyName, description, itemCategory, categories]"
 
         try:
             # Retrieve package ID base on package keyname
