@@ -121,6 +121,89 @@ class Resource():
                 id, error))
             raise
 
+    def get_quota_definitions(self):
+        """Retrieve list of all quota definitions
+
+        :return List of quota definitions
+        :rtype dict
+        """
+        try:
+            # Connect to api endpoint for quota_definitions
+            path = "/v2/quota_definitions"
+
+            # Return data
+            return qw("rg", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching quota_definitions. {}".format(error))
+            raise
+
+    def get_quota_definition(self, quota):
+        """Retrieve specific quota definition by name or by ID
+
+        :param quota: Quota definition name or ID
+        :return Quota definition
+        :rtype dict
+        """
+        by_name = self.get_quota_definition_by_name(quota)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_quota_definition_by_id(quota)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
+    def get_quota_definition_by_id(self, id):
+        """Retrieve specific quota definition by ID
+
+        :param id: Quota definition ID
+        :return Quota definition
+        :rtype dict
+        """
+        try:
+            # Connect to api endpoint for quota_definitions
+            path = ("/v2/quota_definitions/{}".format(id))
+
+            # Return data
+            return qw("rg", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching quota definition with ID {}. {}".format(
+                id, error))
+            raise
+
+    def get_quota_definition_by_name(self, name):
+        """Retrieve specific quota definitnion by name
+
+        :param name: Quota definition name
+        :return Quota definition
+        :rtype dict
+        """
+        try:
+            # Retrieve quota definitions
+            data = self.get_quota_definitions()
+            if "errors" in data:
+                return data
+
+            # Loop over quota definitions until filter match
+            for quota in data['resources']:
+                if quota["name"] == name:
+                    # Return data
+                    return quota
+
+            # Return error if no quota definition is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching quota definition with name {}. {}".format(
+                name, error))
+            raise
+
     def create_group(self, **kwargs):
         """
         Create resource group
