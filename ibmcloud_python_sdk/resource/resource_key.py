@@ -32,7 +32,7 @@ class ResourceKey():
     def get_resource_key(self, key):
         """Retrieve specific resource key by name or by ID
 
-        :param group: Resource key name or ID
+        :param key: Resource key name or ID
         :return Resource key information
         :rtype dict
         """
@@ -96,9 +96,9 @@ class ResourceKey():
         Create resource key
         :param name: The new name of the resource group.
         :param source: The short or long ID of resource instance or alias.
-        :param parameters: Configuration options represented as key-value
-        pairs.
-        :param role: The role name or it's CRN.
+        :param parameters: Optional. Configuration options represented as
+        key-value pairs.
+        :param role: Optional. The role name or it's CRN.
 
         """
         args = ["name", "source"]
