@@ -236,7 +236,7 @@ class Resource():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error resource group. {}".format(error))
+            print("Error create resource group. {}".format(error))
             raise
 
     def delete_group(self, group):
@@ -250,7 +250,7 @@ class Resource():
             if "errors" in group_info:
                 return group_info
 
-            # Connect to api endpoint resource_groups keys
+            # Connect to api endpoint resource_groups
             path = ("/v2/resource_groups/{}".format(group_info["id"]))
 
             data = qw("rg", "DELETE", path, headers())
