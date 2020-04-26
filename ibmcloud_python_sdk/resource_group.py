@@ -3,6 +3,7 @@ import json
 from . import config as ic
 
 import json
+import re
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
@@ -148,7 +149,8 @@ class Resource():
         by_name = self.get_quota_definition_by_name(quota)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
-                if key_name["code"] == "not_found":
+                regex = "Can not find quota definition with id"
+                if re.search(regex, key_name["code"]):
                     by_id = self.get_quota_definition_by_id(quota)
                     if "errors" in by_id:
                         return by_id
