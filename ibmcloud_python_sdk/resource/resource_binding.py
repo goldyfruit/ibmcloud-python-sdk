@@ -32,7 +32,7 @@ class ResourceBinding():
     def get_resource_binding(self, binding):
         """Retrieve specific resource binding by name or by ID
 
-        :param key: Resource binding name or ID
+        :param binding: Resource binding name or ID
         :return Resource binding information
         :rtype dict
         """
@@ -93,7 +93,7 @@ class ResourceBinding():
 
     def create_binding(self, **kwargs):
         """
-        Create resource key
+        Create resource binding
         :param name: The new name of the resource group.
         :param target: The CRN of application to bind to in a specific
         environment.
