@@ -6,7 +6,7 @@ from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.vpc import instance
 
 
@@ -15,7 +15,7 @@ class Security():
     def __init__(self):
         self.cfg = params()
         self.vpc = vpc.Vpc()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
         self.instance = instance.Instance()
 
     def get_security_groups(self):

@@ -12,7 +12,7 @@ from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
 
 
-class Resource():
+class ResourceGroup():
 
     def __init__(self):
         self.cfg = params()

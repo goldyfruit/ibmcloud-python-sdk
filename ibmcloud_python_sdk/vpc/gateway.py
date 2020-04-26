@@ -7,7 +7,7 @@ from ibmcloud_python_sdk.vpc import floating_ip
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 
 
 class Gateway():
@@ -16,7 +16,7 @@ class Gateway():
         self.cfg = params()
         self.vpc = vpc.Vpc()
         self.fip = floating_ip.Fip()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
 
     def get_public_gateways(self):
         """

@@ -2,7 +2,7 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
-from ibmcloud_python_sdk import resource_instance
+from ibmcloud_python_sdk.resource import resource_instance
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import check_args

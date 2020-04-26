@@ -8,7 +8,7 @@ from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import resource_found
 from ibmcloud_python_sdk.utils.common import resource_created
 from ibmcloud_python_sdk.utils.common import check_args
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 
 
 class Vpn():
@@ -16,7 +16,7 @@ class Vpn():
     def __init__(self):
         self.cfg = params()
         self.subnet = subnet.Subnet()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
 
     def get_ike_policies(self):
         """

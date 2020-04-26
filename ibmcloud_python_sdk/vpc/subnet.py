@@ -8,7 +8,7 @@ from ibmcloud_python_sdk.vpc import acl
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 
 
 class Subnet():
@@ -18,7 +18,7 @@ class Subnet():
         self.vpc = vpc.Vpc()
         self.gateway = gw.Gateway()
         self.acl = acl.Acl()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
 
     def get_subnets(self):
         """

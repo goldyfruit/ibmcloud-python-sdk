@@ -10,7 +10,7 @@ from ibmcloud_python_sdk.vpc import volume
 from ibmcloud_python_sdk.vpc import key as keyring
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
 
 
@@ -24,7 +24,7 @@ class Instance():
         self.fip = floating_ip.Fip()
         self.volume = volume.Volume()
         self.keyring = keyring.Key()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
 
     def get_instances(self):
         """

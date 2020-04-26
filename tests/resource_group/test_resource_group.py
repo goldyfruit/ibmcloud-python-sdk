@@ -3,7 +3,7 @@ import unittest
 from mock import patch
 
 import ibmcloud_python_sdk.config
-from ibmcloud_python_sdk.resource_group import Resource
+from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 
 import tests.common as common
 
@@ -13,7 +13,7 @@ class ResourceTestCase(unittest.TestCase):
     def setUp(self):
         self.patcher = patch('ibmcloud_python_sdk.auth.get_token', common.fake_auth)
         self.patcher.start()
-        self.resource = Resource()
+        self.resource = ResourceGroup()
         self.fake_resource = {}
         self.fake_resource['name'] = 'sdk'
         self.fake_resource['id'] = '0737_b06fd819-66d6-4802-ab51-f23061d981dd'
