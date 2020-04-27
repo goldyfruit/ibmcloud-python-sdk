@@ -5,7 +5,7 @@ from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 
-from ibmcloud_python_sdk import resource_group
+from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
 
 class ResourceInstance():
