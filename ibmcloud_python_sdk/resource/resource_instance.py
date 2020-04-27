@@ -15,7 +15,9 @@ class ResourceInstance():
         self.rg = resource_group.Resource()
         self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", 
                         "object-storage": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8"}
-                                          #b4ed8a30-936f-11e9-b289-1d079699cbe5
+        #   ibmcloud catalog service-marketplace  | grep cloud-object-storage
+        #   ibmcloud catalog service dff97f5c-bc5e-4455-b470-411c3edbe49c
+
     def create_resource_instance(self, **kwargs):
         """Create a resource instance
 
@@ -43,40 +45,40 @@ class ResourceInstance():
         # return the existing one
         existing_instance = self.get_resource_instance(args["name"])
         if "errors" in existing_instance:
-            if existing_instance["errors"][0]["code"] == "not_found":
+            for key_name in existing_instance["errors"]:
+                if key_name["code"] == "not_found":
                       
-                # Construct payload
-                payload = {}
-                
-                payload["name"] = args["name"]
+                    # Construct payload
+                    payload = {}
+                    
+                    payload["name"] = args["name"]
 
-                payload["resource_plan_id"] = self.get_resource_plan_id(
-                        kwargs.get('resource_plan'))
+                    payload["resource_plan_id"] = self.get_resource_plan_id(
+                            kwargs.get('resource_plan'))
 
-                if args["target"] == None:
-                    payload["target"] = "bluemix-global"
-                else:
-                    payload["target"] = args["target"]
-      
-                if args["resource_group"] == None:
-                    payload["resource_group"] = \
-                            self.rg.get_default_resource_group()["id"]
-                else:
-                    print(args["resource_group"])
-                    rg = self.rg.get_resource_group(args["resource_group"])
-                    if "errors" in rg:
-                        return rg
-                    payload["resource_group"] = rg["id"]            
-                try:
-                    # Connect to api endpoint for resource instances
-                    path = ("/v2/resource_instances")
+                    if args["target"] == None:
+                        payload["target"] = "bluemix-global"
+                    else:
+                        payload["target"] = args["target"]
+        
+                    if args["resource_group"] == None:
+                        payload["resource_group"] = \
+                                self.rg.get_default_resource_group()["id"]
+                    else:
+                        rg = self.rg.get_resource_group(args["resource_group"])                        
+                        if "errors" in rg:
+                            return rg
+                        payload["resource_group"] = rg["id"]
+                        
+                    try:
+                        # Connect to api endpoint for resource instances
+                        path = ("/v2/resource_instances")
 
-                    print ("payload : {}".format(payload))
-                    return qw("rg", "POST", path, headers(),
-                            json.dumps(payload))["data"]
-                except Exception as error:
-                    print("Error creating resource instance. {}".format(error))
-                    raise
+                        return qw("rg", "POST", path, headers(),
+                                json.dumps(payload))["data"]
+                    except Exception as error:
+                        print("Error creating resource instance. {}".format(error))
+                        raise
         return existing_instance
 
     def get_resource_plan_id(self, resource_plan):
@@ -87,18 +89,12 @@ class ResourceInstance():
         # if ressource_plan is an id, return the id
         rp_pattern = ('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
         rp_compile = re.compile(rp_pattern)
-        
-        if resource_plan is None or resource_plan == '':
-             return self.resource_plan_dict['dns']
 
         # if resource_plan match the regexp, return ressource_plan
         if (bool(rp_compile.search(resource_plan))):
             return resource_plan
         elif resource_plan in self.resource_plan_dict :            
             return self.resource_plan_dict[resource_plan]
-        # return dns resource instance id by default
-        else:
-            return self.resource_plan_dict['dns']
 
     def get_resource_instances(self, resource_plan_id=None):
         """Retrieve all resource instances for a given resource plan.
@@ -109,9 +105,7 @@ class ResourceInstance():
             resource_plan_id = self.resource_plan_dict['dns']
             resource_id = "b4ed8a30-936f-11e9-b289-1d079699cbe5"
             ri_type = "service_instance"
-    
-        #result = []
-
+            
         try:
             # Connect to api endpoint for resource instances
             path = ("/v2/resource_instances?resource_id={}&type={}".format(
@@ -150,15 +144,14 @@ class ResourceInstance():
         try:
             # Connect to api endpoint for resource instances
             path = ("/v2/resource_instances/{}".format(guid))
+
             result = qw("rg", "GET", path, headers())["data"]
 
             if "status_code" in result:
                 if result["status_code"] == 404:
                     return resource_not_found()
-                else:
-                    return result
-            else:
                 return result
+            return result
         except Exception as error:
             print("Error fetching resource resource instance. {}".format(error))
             raise
