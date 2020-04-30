@@ -11,14 +11,16 @@ class Hardware():
         self.hw = sl.SoftLayer.HardwareManager(self.client)
 
     def get_baremetals(self):
-        """
-        Retrieve baremetal list
+        """Retrieve baremetal list
+
         :return: List of baremetal servers
         :rtype: dict
         """
+        # Display all the fields.
+        mask = ""
         try:
             baremetal = {}
-            baremetal["baremetals"] = self.hw.list_hardware()
+            baremetal["baremetals"] = self.hw.list_hardware(mask=mask)
 
             return baremetal
 
@@ -26,8 +28,8 @@ class Hardware():
             return resource_error(error.faultCode, error.faultString)
 
     def get_baremetal(self, baremetal):
-        """
-        Retrieve specific baremetal
+        """Retrieve specific baremetal
+
         :param baremetal: Baremetal name or ID
         :return: Baremetal server information
         :rtype: dict
