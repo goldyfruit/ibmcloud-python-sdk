@@ -154,7 +154,7 @@ class Order():
         :param preset: Optional. Specifies a preset to use for that package.
         :param extras: The extra data for the order in dictionary format.
         :param quantity: Optional. The number of resources to order.
-        :return: The order verification
+        :return: The verified order
         :rtype: dict
         """
         args = ["package", "location", "items", "complex_type", "extras"]
@@ -174,6 +174,45 @@ class Order():
 
         try:
             return self.order.verify_order(
+                args['package'], args['location'], args['items'],
+                hourly=args['hourly'], preset_keyname=args['preset'],
+                complex_type=args['complex_type'], extras=args['extras'],
+                quantity=args['quantity'])
+
+        except sl.SoftLayer.SoftLayerAPIError as error:
+            return resource_error(error.faultCode, error.faultString)
+
+    def place(self, **kwargs):
+        """Place an order
+
+        :param package: The package being ordered.
+        :param location: The datacenter location string for ordering.
+        :param items: The list of item keyname strings to order.
+        :param complex_type: The complex type to send with the order.
+        :param hourly: Optional. If true, uses hourly billing.
+        :param preset: Optional. Specifies a preset to use for that package.
+        :param extras: The extra data for the order in dictionary format.
+        :param quantity: Optional. The number of resources to order.
+        :return: The placed order
+        :rtype: dict
+        """
+        args = ["package", "location", "items", "complex_type", "extras"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'package': kwargs.get('package'),
+            'location': kwargs.get('location'),
+            'items': kwargs.get('items'),
+            'complex_type': kwargs.get('complex_type'),
+            'hourly': kwargs.get('hourly', True),
+            'preset': kwargs.get('preset'),
+            'extras': kwargs.get('extras'),
+            'quantity': kwargs.get('quantity', 1),
+        }
+
+        try:
+            return self.order.place_order(
                 args['package'], args['location'], args['items'],
                 hourly=args['hourly'], preset_keyname=args['preset'],
                 complex_type=args['complex_type'], extras=args['extras'],
