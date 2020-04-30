@@ -29,7 +29,7 @@ To install the `ibmcloud-python-sdk` snap:
     $ sudo snap install ibmcloud-python-sdk
 	
 The most up-to-date version of this library can be found on the IBM-Cloud
-GitHub public repositories at http://github.com/IBM-Cloud. For questions regarding the use of this library please post to Stack Overflow at https://stackoverflow.com/ and tag your posts with `ibmcloud` so our team can easily find your post. To report a bug with this library please create an Issue on Github.
+GitHub public repositories at https://github.com/IBM-Cloud. For questions regarding the use of this library please post to Stack Overflow at https://stackoverflow.com/ and tag your posts with `ibmcloud` so our team can easily find your post. To report a bug with this library please create an Issue on Github.
 
 Getting Help
 ------------
@@ -42,7 +42,7 @@ A curated list of examples on how to use this library can be found at XXXXXXXX
 Requirements
 -------------------
 * Python >= 3.5
-* A valid IBM Cloud account with an valid API key.
+* A valid IBM Cloud account with a valid API key configured.
 
 Python 2.7 Support
 ------------------
@@ -50,13 +50,13 @@ IBM Python Cloud SDK doesn't support python2.7, which is `End Of Life as of 2020
 
 Python Packages
 ---------------
-* PyYAML>=3.12
-* rednose==1.3.0
-* nose==1.3.7
-* mock==4.0.2
-* SoftLayer==5.8.7
-* PyJWT==1.7.1
-* ibm-cos-sdk==2.6.2
+* `PyYAML`>=3.12
+* `rednose`==1.3.0
+* `nose`==1.3.7
+* `mock`==4.0.2
+* `SoftLayer`==5.8.7
+* `PyJWT`==1.7.1
+* `ibm-cos-sdk`==2.6.2
 
 Copyright
 ---------
