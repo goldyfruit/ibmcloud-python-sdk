@@ -142,3 +142,106 @@ class Hardware():
 
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
+
+    def reload_os(self, **kwargs):
+        """Reload operating system and configuration
+
+        :param baremetal: Baremetal name or ID
+        :param spare_pool: Optional. Server will be moved into the spare pool
+        after an sperating system reload.
+        :param script: Optional.  Will be used to download and execute a
+        customer defined script on the host at the end of provisioning.
+        :param retention: Primary drive will be converted to a portable storage
+        volume during an operating system reload.
+        :param erase_drives: Optional. All data will be erased from drives
+        during an sperating system reload.
+        :param hard_drives: Optional. The hard drive partitions that a server
+        can be partitioned with.
+        :param image_template_id: Optional. An image template ID that will be
+        deployed to the host. If provided no item prices are required.
+        :param item_prices: Optional. Item prices that the server can be
+        configured with.
+        :param enable_lvm: Optional. The provision should use LVM for all
+        logical drives.
+        :param reset_ipmi_password: Optional. The remote management cards
+        password will be reset.
+        :param ssh_keys: Optional. SSH keys to add to the server for
+        authentication. SSH Keys will not be added to servers with Microsoft
+        Windows.
+        :param upgrade_bios: Optional. BIOS will be updated when installing the
+        operating system.
+        :param upgrade_firmware: Optional. Firmware on all hard drives will be
+        updated when installing the operating system.
+        :return: Reload status
+        :rtype: dict
+        """
+        args = ["baremetal"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'baremetal': kwargs.get('baremetal'),
+            'spare_pool': kwargs.get('spare_pool'),
+            'script': kwargs.get('provision_script_uri'),
+            'retention': kwargs.get('drive_retention'),
+            'erase_drives': kwargs.get('erase_drives'),
+            'hard_drives': kwargs.get('hard_drives'),
+            'image_template_id': kwargs.get('image_template_id'),
+            'item_prices': kwargs.get('item_prices'),
+            'enable_lvm': kwargs.get('enable_lvm'),
+            'reset_ipmi_password': kwargs.get('reset_ipmi_password'),
+            'ssh_keys': kwargs.get('ssh_keys'),
+            'upgrade_bios': kwargs.get('upgrade_bios'),
+            'upgrade_firmware': kwargs.get('upgrade_firmware'),
+        }
+
+        # Retrieve baremetal info and check is exists
+        bm_info = self.get_baremetal(args['baremetal'])
+        if "errors" in bm_info:
+            return bm_info
+
+        config = {}
+        for key, value in args.items():
+            if key != "baremetal" and value is not None:
+                if key == "spare_pool":
+                    config["addToSparePoolAfterOsReload"] = 1
+                elif key == "script":
+                    config["customProvisionScriptUri"] = args['script']
+                elif key == "retention":
+                    config["driveRetentionFlag"] = 1
+                elif key == "erase_drives":
+                    config["eraseHardDrives"] = 1
+                elif key == "hard_drives":
+                    config["hardDrives"] = args['hard_drives']
+                elif key == "image_template_id":
+                    config["imageTemplateId"] = args['image_template_id']
+                elif key == "item_prices":
+                    ip = []
+                    for item in args["item_prices"]:
+                        tmp_i = {}
+                        tmp_i["id"] = item
+                        ip.append(tmp_i)
+                    config["itemPrices"] = ip
+                elif key == "enable_lvm":
+                    config["lvmFlag"] = 1
+                elif key == "reset_ipmi_password":
+                    config["resetIpmiPassword"] = 1
+                elif key == "ssh_keys":
+                    kp = []
+                    for key_pair in args["ssh_keys"]:
+                        kp.append(key_pair)
+                    config["sshKeyIds"] = kp
+                elif key == "upgrade_bios":
+                    config["upgradeBios"] = 1
+                elif key == "upgrade_firmware":
+                    config["upgradeHardDriveFirmware"] = 1
+
+        try:
+            state = self.client['Hardware_Server'].reloadOperatingSystem(
+                        'FORCE', config, id=bm_info["id"])
+
+            if state:
+                return {"reload_os_status": "requested"}
+
+        except sl.SoftLayer.SoftLayerAPIError as error:
+            return resource_error(error.faultCode, error.faultString)
