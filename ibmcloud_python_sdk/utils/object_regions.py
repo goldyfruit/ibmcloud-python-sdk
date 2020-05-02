@@ -55,7 +55,7 @@ endpoints = {
         "oslo": "s3.osl01.cloud-object-storage.appdomain.cloud",
         "paris": "s3.par01.cloud-object-storage.appdomain.cloud",
         "san-jose": "s3.sjc04.cloud-object-storage.appdomain.cloud",
-        "sao-Paulo": "s3.sao01.cloud-object-storage.appdomain.cloud",
+        "sao-paulo": "s3.sao01.cloud-object-storage.appdomain.cloud",
         "seoul": "s3.seo01.cloud-object-storage.appdomain.cloud",
         "singapore": "s3.sng01.cloud-object-storage.appdomain.cloud",
         "toronto": "s3.tor01.cloud-object-storage.appdomain.cloud",
