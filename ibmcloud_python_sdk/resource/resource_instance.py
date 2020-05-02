@@ -1,5 +1,6 @@
 import json
 import re
+
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
@@ -12,7 +13,7 @@ class ResourceInstance():
 
     def __init__(self):
         self.cfg = params()
-        self.rg = resource_group.Resource()
+        self.rg = resource_group.ResourceGroup()
         self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", 
                         "object-storage": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8"}
         #   ibmcloud catalog service-marketplace  | grep cloud-object-storage
