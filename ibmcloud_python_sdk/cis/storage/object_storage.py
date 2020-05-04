@@ -12,6 +12,7 @@ from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import resource_error
+from ibmcloud_python_sdk.utils.common import resource_created
 from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk.utils.object_regions import endpoints
 
@@ -23,7 +24,7 @@ class ObjectStorage():
         
     def get_endpoint(self, **kwargs):
         """Get endppoint storage url from lookup based on mode and location
-
+from ibmcloud_python_sdk.utils.common import 
         :param: mode: access mode .. default value is regional
         :param: location: region tom host the bucket. default value is us-south
         """
@@ -130,12 +131,22 @@ class ObjectStorage():
         
         :param: acl:  private'|'public-read'|'public-read-write'
             |'authenticated-read' : default is private
-        :param: bucket: bucket name
-        :param: 
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: bucket: bucket's namejames0
+
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
+        :param: grantfullcontrol: allows grantee the read, write, read ACP, 
+            and write ACP permissions on the bucket. 
+        :param: grantread: allows grantee to list the objects in the bucket.
+        :param: grantreadacp: allows grantee to read the bucket ACL.
+        :param: grantwrite: allows grantee to create, overwrite, and delete 
+            any object in the bucket.
+        :param: grantwriteacp: allows grantee to write the ACL for the applicable bucket.
+        :param: ibmssekpencryptionsalgorithm: The encryption algorithm that will be used 
+            for objects stored in the newly created bucket. Defaults to 'AES256'.
+        :param: ibmssekpcustomerrootkeycrn: Container for describing the KMS-KP Key CRN.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -161,8 +172,17 @@ class ObjectStorage():
         cos_client = self.create_cos_client(mode=args["mode"],
                             location=args["location"],
                             service_instance=args["service_instance"])
+        
+        # waiter : wait for the resource to be created
+        waiter = cos_client.get_waiter('bucket_exists')
+
         try:
-            cos_client.create_bucket(**bucket_kwargs)
+            result = cos_client.create_bucket(**bucket_kwargs)
+            if result["ResponseMetadata"]["HTTPStatusCode"] == 200:
+                wait_result = waiter.wait(Bucket=bucket_kwargs.get('Bucket'))
+                if wait_result is None:
+                    # maybe we should return the bucket description
+                    return resource_created()
         except Exception as error:
             return resource_error("unknown", error)
                
@@ -185,6 +205,8 @@ class ObjectStorage():
                             service_instance=args["service_instance"])
         
         page = cos_client.get_paginator('list_objects')
+        # waiter
+        waiter = cos_client.get_waiter('bucket_not_exists')
 
         try:
             # delete all objects in the buckets
@@ -196,6 +218,7 @@ class ObjectStorage():
             # delete the bucket
             result = cos_client.delete_bucket(Bucket=args["bucket"])
             if result is None:
+                waiter.wait(Bucket=args["bucket"])
                 return resource_deleted()
             else:
                 return result
@@ -213,10 +236,10 @@ class ObjectStorage():
         :param: body: b'bytes'|file put in the bucket, 
         :param: key: object key for which the PUT operation was initiated : 
             object name.
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -239,7 +262,38 @@ class ObjectStorage():
                                   Body=args["body"],
                                   Key=args["key"])
         except Exception as error:
-            return resource_error("unknown", error)      
+            return resource_error("unknown", error)
+
+    def upload_file(self, **kwargs):
+        """Upload a file in the bucket for the specified location and service 
+           instance
+        
+        :param: bucket: bucket name
+        :param: path: file path to put in the bucket, 
+        :param: key: object key for which the PUT operation was initiated : 
+            object name.
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
+        :param: service_instance: service instance associated with these 
+            buckets.
+        """
+        args = {
+            'mode': kwargs.get('mode'),
+            'bucket': kwargs.get('bucket'),
+            'location': kwargs.get('location'),
+            'service_instance': kwargs.get('service_instance'),
+            'key': kwargs.get('key'),
+            'path': kwargs.get('path'),
+        }
+
+        cos_client = self.create_cos_client(mode=args["mode"],
+                    location=args["location"],
+                    service_instance=args["service_instance"])
+        
+        try:
+            cos_client.upload_file(args["path"], args["bucket"], args["key"])
+        except Exception as error:
+            return resource_error("unknown", error)            
 
     def get_object(self, **kwargs):
         """Put an object in the bucket for the specified location and service 
@@ -275,11 +329,11 @@ class ObjectStorage():
         """Return a list of objects present in the bucket for the specified 
             location and service instance.
 
-        :param: bucket: bucket name
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: bucket: bucket name.
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
 
         args = {
@@ -295,6 +349,7 @@ class ObjectStorage():
        
         page = cos_client.get_paginator('list_objects')
         objects = []
+        
         try:
             for page in page.paginate(Bucket=args["bucket"]):
                 objects.append(page.get('Contents', []))
