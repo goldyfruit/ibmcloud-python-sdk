@@ -2,6 +2,7 @@ import json
 
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
+from ibmcloud_python_sdk.resource import resource_instance
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_deleted
 
@@ -10,6 +11,7 @@ class Policy():
 
     def __init__(self):
         self.cfg = params()
+        self.ri = resource_instance.ResourceInstance()
 
     def get_policies(self, account):
         """Retrieve policy list per account
@@ -90,11 +92,11 @@ class Policy():
 
         :param type: The policy type; either 'access' or 'authorization'.
         :param subjects: The subject attribute values that must match in
-        order for this policy to apply in a permission decision.
+            order for this policy to apply in a permission decision.
         :param roles: A set of role cloud resource names (CRNs) granted by
-        the policy.
+            the policy.
         :param resources: The attributes of the resource. Note that only one
-        resource is allowed in a policy.
+            resource is allowed in a policy.
         :return Policy response
         :rtype dict
         """
@@ -111,6 +113,13 @@ class Policy():
         for key, value in args.items():
             if value is not None:
                 if key == "subjects":
+                    ri_info = None
+                    for subject in args['subjects']:
+                        for attribute in subject["attributes"]:
+                            if attribute.get("name") == "serviceInstance":
+                                ri_info = self.ri.get_resource_instance(
+                                    attribute.get("value"))
+                                attribute["value"] = ri_info["id"]
                     payload["subjects"] = args['subjects']
                 elif key == "roles":
                     ro = []
@@ -120,6 +129,13 @@ class Policy():
                         ro.append(tmp_r)
                     payload["roles"] = ro
                 elif key == "resources":
+                    ri_info = None
+                    for resource in args['resources']:
+                        for attribute in resource["attributes"]:
+                            if attribute.get("name") == "serviceInstance":
+                                ri_info = self.ri.get_resource_instance(
+                                    attribute.get("value"))
+                                attribute["value"] = ri_info["id"]
                     payload["resources"] = args['resources']
                 else:
                     payload[key] = value
