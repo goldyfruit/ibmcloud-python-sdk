@@ -50,7 +50,7 @@ class Policy():
             print("Error fetching policy {}. {}".format(policy, error))
 
     def get_authorizations(self, account):
-        """Retrieve authorization list per account
+        """Retrieve authorization policy list per account
 
         :param account: Account ID
         :return List of authorizations
@@ -68,8 +68,28 @@ class Policy():
             print("Error fetching authorizations for account {}. {}".format(
                 account, error))
 
+    def get_authorization(self, account, policy):
+        """Retrieve specific authorization policy per account
+
+        :param account: Account ID
+        :param policy: Policy ID
+        :return Authorization policy information
+        :rtype dict
+        """
+        try:
+            # Connect to api endpoint for policies
+            path = ("/v1/policies/{}?account_id={}&type=authorization".format(
+                policy, account))
+
+            # Return data
+            return qw("auth", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching authorization policy {} for account {}."
+                  " {}".format(policy, account, error))
+
     def get_accesses(self, account):
-        """Retrieve access list per account
+        """Retrieve access policy list per account
 
         :param account: Account ID
         :return List of accesses
@@ -86,6 +106,26 @@ class Policy():
         except Exception as error:
             print("Error fetching accesses for account {}. {}".format(
                 account, error))
+
+    def get_access(self, account, policy):
+        """Retrieve specific access policy list per account
+
+        :param account: Account ID
+        :param policy: Policy ID
+        :return Access policy information
+        :rtype dict
+        """
+        try:
+            # Connect to api endpoint for policies
+            path = ("/v1/policies/{}?account_id={}&type=access".format(
+                policy, account))
+
+            # Return data
+            return qw("auth", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching access policy {} for account {}. {}".format(
+                policy, account, error))
 
     def create_policy(self, **kwargs):
         """Create policy
