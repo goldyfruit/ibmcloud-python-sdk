@@ -24,9 +24,10 @@ class ObjectStorage():
         
     def get_endpoint(self, **kwargs):
         """Get endppoint storage url from lookup based on mode and location
-from ibmcloud_python_sdk.utils.common import 
-        :param: mode: access mode .. default value is regional
-        :param: location: region tom host the bucket. default value is us-south
+
+        :param: mode: access mode .. default value is regional.
+        :param: location: region tom host the bucket. default value is 
+            us-south.
         """
 
         args = {
@@ -77,11 +78,11 @@ from ibmcloud_python_sdk.utils.common import
         """Return a bucket for the specified location and service 
            instance and bucket name.
         
-        :param: bucket: bucket name
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: bucket: bucket name.
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with this
-            bucket
+            bucket.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -103,12 +104,12 @@ from ibmcloud_python_sdk.utils.common import
 
     def get_buckets(self, **kwargs):
         """Return a list of buckets for the specified location and service 
-           instance
+           instance.
         
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -137,16 +138,16 @@ from ibmcloud_python_sdk.utils.common import
         :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
             buckets.
-        :param: grantfullcontrol: allows grantee the read, write, read ACP, 
+        :param: grant_full_control: allows grantee the read, write, read ACP, 
             and write ACP permissions on the bucket. 
-        :param: grantread: allows grantee to list the objects in the bucket.
-        :param: grantreadacp: allows grantee to read the bucket ACL.
-        :param: grantwrite: allows grantee to create, overwrite, and delete 
+        :param: grant_read: allows grantee to list the objects in the bucket.
+        :param: grant_read_acp: allows grantee to read the bucket ACL.
+        :param: grant_write: allows grantee to create, overwrite, and delete 
             any object in the bucket.
-        :param: grantwriteacp: allows grantee to write the ACL for the applicable bucket.
-        :param: ibmssekpencryptionsalgorithm: The encryption algorithm that will be used 
+        :param: grant_write_acp: allows grantee to write the ACL for the applicable bucket.
+        :param: ibm_sse_kp_encryptions_algorithm: The encryption algorithm that will be used 
             for objects stored in the newly created bucket. Defaults to 'AES256'.
-        :param: ibmssekpcustomerrootkeycrn: Container for describing the KMS-KP Key CRN.
+        :param: ibm_sse_kp_customer_root_key_crn: Container for describing the KMS-KP Key CRN.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -157,13 +158,13 @@ from ibmcloud_python_sdk.utils.common import
         opt_args = {
             'Bucket': args["bucket"],
             'ACL': kwargs.get('acl') or 'private',
-            'GrantFullControl': kwargs.get('grantfullcontrol'),
-            'GrantRead': kwargs.get('grantread'),
-            'GrantReadACP': kwargs.get('grantreadacp'),
-            'GrantWrite': kwargs.get('grantwrite'),
-            'GrantWriteACP': kwargs.get('grantwriteacp'),
-            'IBMSSEKPEncryptionAlgorithm': kwargs.get('ibmssekpencryptionsalgorithm'),
-            'IBMSSEKPCustomerRootKeyCrn': kwargs.get('ibmssekpcustomerrootkeycrn')
+            'GrantFullControl': kwargs.get('grant_full_control'),
+            'GrantRead': kwargs.get('grant_read'),
+            'GrantReadACP': kwargs.get('grant_read_acp'),
+            'GrantWrite': kwargs.get('grant_write'),
+            'GrantWriteACP': kwargs.get('grant_write_acp'),
+            'IBMSSEKPEncryptionAlgorithm': kwargs.get('ibm_sse_kp_encryptions_algorithm'),
+            'IBMSSEKPCustomerRootKeyCrn': kwargs.get('ibm_sse_kp_customer_root_key_crn')
         }
         
         bucket_kwargs = {key: value for (key, value) in opt_args.items() 
@@ -209,7 +210,8 @@ from ibmcloud_python_sdk.utils.common import
         waiter = cos_client.get_waiter('bucket_not_exists')
 
         try:
-            # delete all objects in the buckets
+            # delete objects in the buckets page per page (1000 objects 
+            # max per page)
             for page in page.paginate(Bucket=args["bucket"]):
                 keys = [{'Key': obj['Key']} for obj in page.get('Contents', [])]
                 if keys:
@@ -227,13 +229,13 @@ from ibmcloud_python_sdk.utils.common import
 
     def put_object(self, **kwargs):
         """Put an object in the bucket for the specified location and service 
-           instance
+           instance.
         
         :param: acl: private'|'public-read'|'public-read-write'|
             'authenticated-read'|'aws-exec-read'|'bucket-owner-read'|
             'bucket-owner-full-control' : default is private.
-        :param: bucket: bucket name
-        :param: body: b'bytes'|file put in the bucket, 
+        :param: bucket: bucket name.
+        :param: body: b'bytes'|file put in the bucket.
         :param: key: object key for which the PUT operation was initiated : 
             object name.
         :param: mode: bucket mode(region, cross-region, etc...).
@@ -257,18 +259,23 @@ from ibmcloud_python_sdk.utils.common import
                     service_instance=args["service_instance"])
         
         try:
-            cos_client.put_object(Bucket=args["bucket"],
+            result = cos_client.put_object(Bucket=args["bucket"],
                                   ACL=acl, 
                                   Body=args["body"],
                                   Key=args["key"])
+            if result is not None:
+                if "error" in result:
+                    return result
+                return resource_created()
+            return result
         except Exception as error:
             return resource_error("unknown", error)
 
     def upload_file(self, **kwargs):
         """Upload a file in the bucket for the specified location and service 
-           instance
+           instance.
         
-        :param: bucket: bucket name
+        :param: bucket: bucket name.
         :param: path: file path to put in the bucket, 
         :param: key: object key for which the PUT operation was initiated : 
             object name.
@@ -287,25 +294,31 @@ from ibmcloud_python_sdk.utils.common import
         }
 
         cos_client = self.create_cos_client(mode=args["mode"],
-                    location=args["location"],
-                    service_instance=args["service_instance"])
+            location=args["location"],
+            service_instance=args["service_instance"])
         
         try:
-            cos_client.upload_file(args["path"], args["bucket"], args["key"])
+            result = cos_client.upload_file(args["path"], 
+                args["bucket"],
+                args["key"])
+
+            if result is not None:
+                return result
+            return resource_created()            
         except Exception as error:
             return resource_error("unknown", error)            
 
     def get_object(self, **kwargs):
         """Put an object in the bucket for the specified location and service 
-           instance
+           instance.
 
-        :param: bucket: bucket name
+        :param: bucket: bucket name.
         :param: key: object key for which the PUT operation was initiated : 
             object name.
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: mode: bucket mode(region, cross-region, etc...).
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -349,26 +362,26 @@ from ibmcloud_python_sdk.utils.common import
        
         page = cos_client.get_paginator('list_objects')
         objects = []
-        
+
         try:
             for page in page.paginate(Bucket=args["bucket"]):
                 objects.append(page.get('Contents', []))
-            return objects
+            return objects[0]
         except Exception as error:
             return resource_error("unknown", error)  
 
 
     def delete_object(self, **kwargs):
         """Delete an object in the bucket for the specified location and service 
-           instance
+           instance.
     
-        :param: bucket: bucket name
-        :param: key: object key for which the PUT operation was initiated : 
+        :param: bucket: bucket name.
+        :param: key: object key for which the DELETE operation was initiated : 
             object name.
-        :param: mode: bucket mode(region, cross-region, etc...)
-        :param: location: buckets geo location
+        :param: mode: bucket mode(region, cross-region, etc...),
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
         args = {
             'mode': kwargs.get('mode'),
@@ -385,8 +398,9 @@ from ibmcloud_python_sdk.utils.common import
         try:
             result = cos_client.delete_object(Bucket=args["bucket"],
                                   Key=args["key"])
-            if result is None:
-                return resource_deleted()
+            if 'ResponseMetadata' in result:
+                if result['ResponseMetadata']['HTTPStatusCode'] == 204:
+                    return resource_deleted()
             else:
                 return(result)                
         except Exception as error:
@@ -395,15 +409,16 @@ from ibmcloud_python_sdk.utils.common import
 
     def delete_objects(self, **kwargs):
         """Delete objects in the bucket for the specified location and service 
-           instance
+           instance.
     
-        :param: bucket: bucket name
-        : 
-        :param: mode: bucket mode(region, cross-region, etc...)
+        :param: bucket: bucket name.
+        :param: key: object key for which the DELETE operation was initiated : 
+            object name.
+        :param: mode: bucket mode(region, cross-region, etc...).
         :param: objects: list of object names to delete.
-        :param: location: buckets geo location
+        :param: location: buckets geo location.
         :param: service_instance: service instance associated with these 
-            buckets
+            buckets.
         """
         args = {
             'mode': kwargs.get('mode'),
