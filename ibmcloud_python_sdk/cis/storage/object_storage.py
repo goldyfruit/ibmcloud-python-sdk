@@ -23,7 +23,7 @@ class ObjectStorage():
         self.ri = resource_instance.ResourceInstance()
         
     def get_endpoint(self, **kwargs):
-        """Get endppoint storage url from lookup based on mode and location
+        """Get endpoint storage url from lookup based on mode and location
 
         :param: mode: access mode .. default value is regional.
         :param: location: region tom host the bucket. default value is 
