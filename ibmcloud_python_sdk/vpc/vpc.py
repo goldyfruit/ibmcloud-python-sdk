@@ -326,7 +326,10 @@ class Vpc():
         payload = {}
         for key, value in args.items():
             if key != "vpc" and value is not None:
-                payload[key] = value
+                if key == "zone":
+                    payload["zone"] = {"name": args["zone"]}
+                else:
+                    payload[key] = value
 
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(args['vpc'])
@@ -336,7 +339,8 @@ class Vpc():
         try:
             # Connect to api endpoint for vpcs
             path = ("/v1/vpcs/{}/address_prefixes?version={}"
-                    "&generation={}".format(self.cfg["version"],
+                    "&generation={}".format(vpc_info["id"],
+                                            self.cfg["version"],
                                             self.cfg["generation"]))
 
             # Return data
