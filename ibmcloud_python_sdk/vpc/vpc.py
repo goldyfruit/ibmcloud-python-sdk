@@ -212,8 +212,8 @@ class Vpc():
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching adress prefix with ID {} in VPC {}."
-                  " {}".format(vpc, id, error))
+            print("Error fetching address prefix with ID {} in VPC {}."
+                  " {}".format(id, vpc, error))
             raise
 
     def get_address_prefix_by_name(self, vpc, name):
@@ -246,7 +246,116 @@ class Vpc():
 
         except Exception as error:
             print("Error fetching address prefix with name {} in VPC {}."
-                  " {}".format(vpc, name, error))
+                  " {}".format(name, vpc, error))
+            raise
+
+    def get_routes(self, vpc):
+        """Retrieve route list from VPC default routing table
+
+        :param vpc: VPC name or ID
+        :return Routing table list
+        :rtype dict
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/vpcs/{}/routes?version={}"
+                    "&generation={}".format(vpc_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
+
+            # Return data
+            return qw("iaas", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching routes from VPC {}. {}".format(
+                vpc, error))
+            raise
+
+    def get_route(self, vpc, route):
+        """Retrieve specific route from VPC default routing table by name or by ID
+
+        :param vpc: VPC name or ID
+        :param table: Routing table name or ID
+        :return Routing table information
+        :rtype dict
+        """
+        by_name = self.get_route_by_name(vpc, route)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "not_found":
+                    by_id = self.get_route_by_id(vpc, route)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
+    def get_route_by_id(self, vpc, id):
+        """Retrieve specific route from VPC default routing table by ID
+
+        :param vpc: VPC name or ID
+        :param id: Routing table ID
+        :return Routing table information
+        :rtype dict
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/vpcs/{}/routes/{}?version={}"
+                    "&generation={}".format(vpc_info["id"], id,
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
+
+            # Return data
+            return qw("iaas", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching route with ID {} in VPC {}. {}".format(
+                id, vpc, error))
+            raise
+
+    def get_route_by_name(self, vpc, name):
+        """Retrieve specific route from VPC default routing table by name
+
+        :param vpc: VPC name or ID
+        :param name: Routing table name
+        :return Routing table information
+        :rtype dict
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
+        try:
+            # Retrieve routes
+            data = self.get_routes(vpc_info["id"])
+            if "errors" in data:
+                return data
+
+            # Loop over routes until filter match
+            for prefix in data['routes']:
+                if prefix["name"] == name:
+                    # Return data
+                    return prefix
+
+            # Return error if no route is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching route with name {} in VPC {}. {}".format(
+                name, vpc, error))
             raise
 
     def create_vpc(self, **kwargs):
@@ -352,6 +461,62 @@ class Vpc():
                 args['vpc'], error))
             raise
 
+    def create_route(self, **kwargs):
+        """Create route in VPC default routing table
+
+        :param vpc: VPC name or ID.
+        :param name: Optional. The user-defined name for this route.
+        :param destination: The destination of the route.
+        :param next_hop: Optional. The next hop that packets will be
+        delivered to.
+        :param zone: The zone to apply the route to.
+        :return Routes list information
+        :rtype dict
+        """
+        args = ["vpc", "destination", "zone"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'vpc': kwargs.get('vpc'),
+            'name': kwargs.get('name'),
+            'destination': kwargs.get('destination'),
+            'next_hop': kwargs.get('next_hop'),
+            'zone': kwargs.get('zone'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if key != "vpc" and value is not None:
+                if key == "zone":
+                    payload["zone"] = {"name": args["zone"]}
+                elif key == "next_hop":
+                    payload["next_hop"] = {"address": args["next_hop"]}
+                else:
+                    payload[key] = value
+
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(args['vpc'])
+        if "errors" in vpc_info:
+            return vpc_info
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/vpcs/{}/routes?version={}"
+                    "&generation={}".format(vpc_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
+
+            # Return data
+            return qw("iaas", "POST", path, headers(),
+                      json.dumps(payload))["data"]
+
+        except Exception as error:
+            print("Error creating route in VPC {}. {}".format(
+                args['vpc'], error))
+            raise
+
     def delete_vpc(self, vpc):
         """
         Delete VPC
@@ -415,6 +580,45 @@ class Vpc():
             return resource_deleted()
 
         except Exception as error:
-            print("Error deleting adress prefix {} in VPC {}. {}".format(
+            print("Error deleting address prefix {} in VPC {}. {}".format(
                 prefix, vpc, error))
+            raise
+
+    def delete_route(self, vpc, route):
+        """Delete route from VPC default routing table
+
+        :param vpc: VPC name or ID
+        :param table: Routing table name or ID
+        :return Deletion status
+        :rtype dict
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
+        # Check if route exists and get information
+        route_info = self.get_route(vpc, route)
+        if "errors" in route_info:
+            return route_info
+
+        try:
+            # Connect to api endpoint for vpcs
+            path = ("/v1/vpcs/{}/routes/{}?version={}"
+                    "&generation={}".format(vpc_info["id"], route_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
+
+            data = qw("iaas", "DELETE", path, headers())
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return resource_deleted()
+
+        except Exception as error:
+            print("Error deleting route {} from VPC {}. {}".format(
+                route, vpc, error))
             raise
