@@ -128,11 +128,11 @@ class Role():
         :return Service role information
         :rtype dict
         """
-        by_name = self.get_service_role_by_name(account, role)
+        by_name = self.get_service_role_by_name(account, service, role)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "role_not_found":
-                    by_id = self.get_service_role_by_id(account, role)
+                    by_id = self.get_service_role_by_id(account, service, role)
                     if "errors" in by_id:
                         return by_id
                     return by_id
