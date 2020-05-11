@@ -14,11 +14,11 @@ class Role():
         self.cfg = params()
         self.ri = resource_instance.ResourceInstance()
 
-    def get_roles(self, account):
-        """Retrieve role list per account
+    def get_system_roles(self, account):
+        """Retrieve system role list per account
 
         :param account: Account ID
-        :return List of roles
+        :return List of system roles
         :rtype dict
         """
         try:
@@ -29,15 +29,82 @@ class Role():
             return qw("auth", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching roles for account {}. {}".format(
+            print("Error fetching system roles for account {}. {}".format(
                 account, error))
 
-    def get_roles_by_service(self, account, service):
-        """Retrieve role list per account and per service
+    def get_system_role(self, account, role):
+        """Retrieve specific system role by name or by ID
+
+        :param account: Account ID
+        :param role: Role name or ID
+        :return System role information
+        :rtype dict
+        """
+        by_name = self.get_system_role_by_name(account, role)
+        if "errors" in by_name:
+            for key_name in by_name["errors"]:
+                if key_name["code"] == "role_not_found":
+                    by_id = self.get_system_role_by_id(account, role)
+                    if "errors" in by_id:
+                        return by_id
+                    return by_id
+                else:
+                    return by_name
+        else:
+            return by_name
+
+    def get_system_role_by_id(self, account, id):
+        """Retrieve specific system role by ID
+
+        :param account: Account ID
+        :param id: Role ID
+        :return System role information
+        :rtype dict
+        """
+        try:
+            # Connect to api endpoint for roles
+            path = ("/v1/roles/{}?account_id={}".format(id, account))
+
+            # Return data
+            return qw("iaas", "GET", path, headers())["data"]
+
+        except Exception as error:
+            print("Error fetching system role with ID {}. {}".format(
+                id, error))
+
+    def get_system_role_by_name(self, account, name):
+        """Retrieve specific system role by name
+
+        :param account: Account ID
+        :param name: Role name
+        :return System role information
+        :rtype dict
+        """
+        try:
+            # Retrieve roles
+            data = self.get_system_roles(account)
+            if "errors" in data:
+                return data
+
+            # Loop over system roles until filter match
+            for role in data['system_roles']:
+                if role["display_name"] == name:
+                    # Return data
+                    return role
+
+            # Return error if no system role is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching system role with name {}. {}".format(
+                name, error))
+
+    def get_service_roles(self, account, service):
+        """Retrieve service role list per account
 
         :param account: Account ID
         :param service: Service name
-        :return List of roles
+        :return List of service roles
         :rtype dict
         """
         try:
@@ -49,22 +116,23 @@ class Role():
             return qw("auth", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching roles for service {} in account {}."
+            print("Error fetching roles from service {} for account {}."
                   " {}".format(service, account, error))
 
-    def get_role(self, account, role):
-        """Retrieve specific role by name or by ID
+    def get_service_role(self, account, service, role):
+        """Retrieve specific system role by name or by ID
 
         :param account: Account ID
+        :param service: Service name
         :param role: Role name or ID
-        :return Role information
+        :return Service role information
         :rtype dict
         """
-        by_name = self.get_role_by_name(account, role)
+        by_name = self.get_service_role_by_name(account, role)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
-                if key_name["code"] == "not_found":
-                    by_id = self.get_role_by_id(account, role)
+                if key_name["code"] == "role_not_found":
+                    by_id = self.get_service_role_by_id(account, role)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -73,51 +141,54 @@ class Role():
         else:
             return by_name
 
-    def get_role_by_id(self, account, id):
-        """Retrieve specific role by ID
+    def get_service_role_by_id(self, account, service, id):
+        """Retrieve specific service role by ID
 
         :param account: Account ID
+        :param service: Service name
         :param id: Role ID
-        :return Role information
+        :return Service role information
         :rtype dict
         """
         try:
             # Connect to api endpoint for roles
-            path = ("/v1/roles/{}?account_id={}".format(id, account))
+            path = ("/v2/roles/{}?account_id={}&format=display"
+                    "&service_name={}".format(id, account, service))
 
             # Return data
             return qw("iaas", "GET", path, headers())["data"]
 
         except Exception as error:
-            print("Error fetching role with ID {}. {}".format(id, error))
-            raise
+            print("Error fetching role from service {} with ID {}. {}".format(
+                service, id, error))
 
-    def get_role_by_name(self, account, name):
-        """Retrieve specific role by name
+    def get_service_role_by_name(self, account, service, name):
+        """Retrieve specific service role by name
 
         :param account: Account ID
+        :param service: Service name
         :param name: Role name
-        :return Role information
+        :return Service role information
         :rtype dict
         """
         try:
-            # Retrieve roles
-            data = self.get_roles(account)
+            # Retrieve service roles
+            data = self.get_service_roles(account, service)
             if "errors" in data:
                 return data
 
-            # Loop over roles until filter match
-            for role in data['system_roles']:
+            # Loop over service roles until filter match
+            for role in data['service_roles']:
                 if role["display_name"] == name:
                     # Return data
                     return role
 
-            # Return error if no role is found
+            # Return error if no service role is found
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching role with name {}. {}".format(name, error))
-            raise
+            print("Error fetching role from service {} with name {}."
+                  " {}".format(service, name, error))
 
     def create_role(self, **kwargs):
         """Create role
