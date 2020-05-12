@@ -5,9 +5,9 @@ from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
-
 from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
+
 
 class ResourceInstance():
 
@@ -97,27 +97,26 @@ class ResourceInstance():
         elif resource_plan in self.resource_plan_dict :            
             return self.resource_plan_dict[resource_plan]
 
-    def get_resource_instances(self, resource_plan_id=None):
-        """Retrieve all resource instances for a given resource plan.
-        If no resource_plan id has been provided, we use the DNS plan.
+    def get_resource_instances(self, resource_group=None):
+        """Retrieve resource instance list
+
+        :param resource_group: Optional. Filter resource instance by resource
+        group.
+        :return Resource instance list
+        :rtype dict
         """
-        # set resource_plan default to DNS 
-        if resource_plan_id == None:
-            resource_plan_id = self.resource_plan_dict['dns']
-            resource_id = "b4ed8a30-936f-11e9-b289-1d079699cbe5"
-            ri_type = "service_instance"
-            
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances?resource_id={}&type={}".format(
-               resource_id, ri_type))
+            path = ("/v2/resource_instances?type=service_instance")
+            if resource_group:
+                path = ("/v2/resource_instances?resource_group={}"
+                        "&type=service_instance".format(resource_group))
 
-            resource_instances = qw("rg", "GET", path, headers())["data"]
-            return resource_instances
+            return qw("rg", "GET", path, headers())["data"]
+
         except Exception as error:
             print("Error fetching resource instances. {}".format(error))
             raise
-
 
     # Get specific resource instance by ID or by name
     # This method is generic and should be used as prefered choice
