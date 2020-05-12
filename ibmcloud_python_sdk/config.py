@@ -14,6 +14,7 @@ def params():
     option["rg_url"] = constants.RG_URL
     option["em_url"] = constants.EM_URL
     option["sl_url"] = constants.SL_URL
+    option["pi_url"] = constants.PI_URL
     option["http_timeout"] = constants.HTTP_TIMEOUT
 
     if path.exists(creds):

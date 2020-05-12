@@ -35,6 +35,8 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
                 .encode('utf8')).decode('utf8').replace('\n', '')
             headers["Authorization"] = "Basic {}".format(header)
         conn = http.client.HTTPSConnection(cfg["sl_url"], timeout=timeout)
+    elif conn_type == "power":
+        conn = http.client.HTTPSConnection(cfg["pi_url"], timeout=timeout)
 
     conn.request(method, path, payload, headers)
 
