@@ -118,16 +118,19 @@ class ResourceInstance():
             print("Error fetching resource instances. {}".format(error))
             raise
 
-    # Get specific resource instance by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_resource_instance(self, resource_instance):
-        """
+        """ Retrieve specific resource instance by name or by ID
+
+        :param resource_instance: Resource instance name or ID
+        :return Resource instance information
+        :rtype dict
         """
         by_name = self.get_resource_instance_by_name(resource_instance)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_guid = self.get_resource_instance_by_guid(resource_instance)
+                    by_guid = self.get_resource_instance_by_guid(
+                        resource_instance)
                     if "errors" in by_guid:
                         return by_guid
                     return by_guid
