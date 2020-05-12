@@ -160,24 +160,6 @@ class ResourceInstance():
                 guid, error))
             raise
 
-# TODO: This function is useless because the API has a function to query by 
-# name. 
-#    # Get specific resource instance by name
-#    def get_resource_instance_by_name(self, name):
-#        resource_instances = self.get_resource_instances(resource_plan_id=None)
-#        
-#        if len(resource_instances) == 0:
-#            return resource_not_found()
-#
-#        if "errors" in resource_instances:
-#            return resource_instances
-#
-#        for resource_instance in resource_instances["resources"]:
-#            if resource_instance["name"] == name:
-#                return resource_instance
-#
-#        return resource_not_found()
-
     def get_resource_instance_by_name(self, name):
         """Retrieve specific resoure instance by name
 
