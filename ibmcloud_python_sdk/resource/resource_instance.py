@@ -175,19 +175,24 @@ class ResourceInstance():
 #        return resource_not_found()
 
     def get_resource_instance_by_name(self, name):
+        """Retrieve specific resoure instance by name
+
+        :param name: Resource instance name
+        :return Resource instance information
+        :rtype dict
+        """
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances?name={}".format(
-               name))
+            path = ("/v2/resource_instances?name={}".format(name))
 
             resource_instance = qw("rg", "GET", path, headers())["data"]
-            if len(resource_instance["resources"]) == 0 or \
-                    resource_instance["resources"] == None:
-                        return resource_not_found()
-            else:
-                return resource_instance["resources"][0]
+            if len(resource_instance["resources"]) <= 1:
+                return resource_not_found()
+
+            return resource_instance["resources"]
         except Exception as error:
-            print("Error fetching resource instances. {}".format(error))
+            print("Error fetching resource instances with name {}. {}".format(
+                name, error))
             raise
 
     def delete_resource_instance(self, instance):
