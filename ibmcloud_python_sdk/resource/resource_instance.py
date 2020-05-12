@@ -174,7 +174,7 @@ class ResourceInstance():
             path = ("/v2/resource_instances?name={}".format(quote(name)))
 
             resource_instance = qw("rg", "GET", path, headers())["data"]
-            if len(resource_instance["resources"]) <= 1:
+            if len(resource_instance["resources"]) == 0:
                 return resource_not_found()
 
             return resource_instance["resources"]

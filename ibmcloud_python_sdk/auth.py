@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import http.client
-import json
-=======
 from ibmcloud_python_sdk.utils import constants
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.utils import common
@@ -10,7 +6,6 @@ from jwt import decode
 cfg = params()
 headers = {}
 
->>>>>>> 8456b75 ([module] Improve setup.py)
 
 def decode_token():
     """Decode JWT token
@@ -76,50 +71,3 @@ def get_headers():
         return headers
 
     return headers
-
-
-def get_power_headers(**kwargs):
-    """Generates the headers used for Power authenticated HTTP request.
-
-    :param region: Region where the resource instance is created.
-    :param account: Account ID.
-    :parem instance: Resource instance name or ID.
-    :return: Dict of headers
-    :rtype: dict
-    """
-    # Build dict of argument and assign default value when needed
-    args = {
-        'region': kwargs.get('region', cfg["region"]),
-        'account': kwargs.get('account', decode_token()['account']['bss']),
-        'instance': kwargs.get('instance'),
-    }
-
-    if args['instance']:
-        resource_instance.get_resource_instance(args['instance'])
-
-    if not headers:
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
-        headers["User-Agent"] = constants.USER_AGENT
-        headers["Authorization"] = get_token(constants.AUTH_URL, cfg["key"])
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-    # If an error happens while retrieving token
-    except Exception as error:
-        print(f"Error getting token. {error}")
-        raise
-=======
-            # Concatenate token type and token value
-            return json_res['token_type'] + ' ' + json_res['access_token']
-
-        # If an error happens while retrieving token
-        except Exception as error:
-            print(f"Error getting token. {error}")
-            raise
->>>>>>> 5410cdd ([git] Ignore .vscode directory)
-=======
-        return headers
-
-    return headers
->>>>>>> 8456b75 ([module] Improve setup.py)
