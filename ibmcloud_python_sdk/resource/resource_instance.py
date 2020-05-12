@@ -136,10 +136,12 @@ class ResourceInstance():
         else:
             return by_name
 
-
-    # Get specific resource instance by GUID
     def get_resource_instance_by_guid(self, guid):
-        """
+        """Retrieve specific resoure instance by GUID
+
+        :param guid: Resource instance GUID
+        :return Resource instance information
+        :rtype dict
         """
         try:
             # Connect to api endpoint for resource instances
@@ -151,9 +153,11 @@ class ResourceInstance():
                 if result["status_code"] == 404:
                     return resource_not_found()
                 return result
+
             return result
         except Exception as error:
-            print("Error fetching resource resource instance. {}".format(error))
+            print("Error fetching resource instance with ID {}. {}".format(
+                guid, error))
             raise
 
 # TODO: This function is useless because the API has a function to query by 
