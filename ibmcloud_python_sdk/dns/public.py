@@ -18,8 +18,6 @@ class Dns():
             api_key=self.cfg['cis_apikey'])
         self.dns = SoftLayer.DNSManager(self.client)
 
-
-    # Create zone
     def create_zone(self, zone, serial=None):
         """Create a zone for the specified zone.
 
@@ -32,7 +30,6 @@ class Dns():
             print("Error creating dns zones. {}".format(error))
             raise
 
-    # Create a record
     def create_record(self, **kwargs):
         """Create a resource record on a domain.
 
@@ -69,7 +66,6 @@ class Dns():
             print("Error creating dns record. {}".format(error))
             raise
 
-    # Get records
     def get_records(self, **kwargs):
         """Get records for a specified zone
         :param zone: zone name
@@ -90,8 +86,6 @@ class Dns():
         }
         return self.dns.get_records(zone_id=zone_id, **args)
 
-
-    # Get zone id
     def get_zone_id(self, name):
         """Get zone id
         :param name: zone name
@@ -102,8 +96,6 @@ class Dns():
                 return zone["id"]
         return resource_not_found()
 
-
-    # List all domains
     def list_zones(self, **kwargs):
         """Get all zones
         """
@@ -113,8 +105,6 @@ class Dns():
             print("Error listing dns zones. {}".format(error))
             raise
 
-
-    # Delete a zone
     def delete_zone(self, name):
         """Delete a zone
         """
@@ -140,8 +130,8 @@ class Dns():
             'record': kwargs.get('record'),
             'zone': kwargs.get('zone'),
         }
-        
-        by_name = self.get_record_by_name(record=args["record"], 
+
+        by_name = self.get_record_by_name(record=args["record"],
                                           zone=args["zone"])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
@@ -153,10 +143,7 @@ class Dns():
                     return by_value
                 return by_name
         return by_name
-                
-    
 
-    # Find a record by name
     def get_record_by_name(self, **kwargs):
         """Get record by name
         :param record: record name
@@ -182,7 +169,6 @@ class Dns():
                 return record
         return resource_not_found()
 
-    # Find a record by value
     def get_record_by_value(self, **kwargs):
         """Get record by name
         :param record: record data
@@ -198,16 +184,14 @@ class Dns():
 
         records = self.get_records(zone=args["zone"])
         if "errors" in records:
-                for key_name in records["errors"]:
-                    if key_name["code"] == "not_found":
-                        return resource_not_found()
+            for key_name in records["errors"]:
+                if key_name["code"] == "not_found":
+                    return resource_not_found()
 
         for record in records:
             if record["data"] == args["record"]:
                 return record
         return resource_not_found()
-
-
 
     def delete_record(self, **kwargs):
         """Delete a record
@@ -226,7 +210,7 @@ class Dns():
         if "errors" in record:
             for key_name in record["errors"]:
                 if key_name["code"] == "not_found":
-                    return resource_not_found()                    
+                    return resource_not_found()
         try:
             self.dns.delete_record(record["id"])
         except Exception as error:
