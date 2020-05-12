@@ -14,7 +14,6 @@ def params():
     option["rg_url"] = constants.RG_URL
     option["em_url"] = constants.EM_URL
     option["sl_url"] = constants.SL_URL
-    option["pi_url"] = constants.PI_URL
     option["http_timeout"] = constants.HTTP_TIMEOUT
 
     if path.exists(creds):
@@ -58,5 +57,6 @@ def params():
         option["cis_username"] = cloud["cis_username"]
         option["cis_apikey"] = cloud["cis_apikey"]
     option["is_url"] = "{}.{}".format(cloud["region"], constants.IS_URL)
+    option["pi_url"] = "{}.{}".format(cloud["region"], constants.PI_URL)
 
     return option
