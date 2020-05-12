@@ -216,5 +216,3 @@ class ResourceInstance():
         except Exception as error:
             print("Error deleting resource instance. {}".format(error))
             raise
-
-
