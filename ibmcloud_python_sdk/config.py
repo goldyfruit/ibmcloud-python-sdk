@@ -57,6 +57,6 @@ def params():
     if "cis_username" in cloud and "cis_apikey" in cloud:
         option["cis_username"] = cloud["cis_username"]
         option["cis_apikey"] = cloud["cis_apikey"]
-    option["is_url"] = "{}.iaas.cloud.ibm.com".format(cloud["region"])
+    option["is_url"] = "{}.{}".format(cloud["region"], constants.IS_URL)
 
     return option
