@@ -1,13 +1,12 @@
 import json
 import re
-
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
-
+from urllib.parse import quote
 
 class ResourceInstance():
 
@@ -172,7 +171,7 @@ class ResourceInstance():
         """
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances?name={}".format(name))
+            path = ("/v2/resource_instances?name={}".format(quote(name)))
 
             resource_instance = qw("rg", "GET", path, headers())["data"]
             if len(resource_instance["resources"]) <= 1:
