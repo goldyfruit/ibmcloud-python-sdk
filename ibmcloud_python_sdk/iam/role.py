@@ -88,7 +88,10 @@ class Role():
 
             # Loop over system roles until filter match
             for role in data['system_roles']:
-                if role["display_name"] == name:
+                if (
+                        role.get("display_name") == name
+                        or role.get("name", "") == name
+                   ):
                     # Return data
                     return role
 
@@ -179,7 +182,10 @@ class Role():
 
             # Loop over service roles until filter match
             for role in data['service_roles']:
-                if role["display_name"] == name:
+                if (
+                        role.get("display_name") == name
+                        or role.get("name", "") == name
+                   ):
                     # Return data
                     return role
 
