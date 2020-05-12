@@ -177,7 +177,7 @@ class ResourceInstance():
             if len(resource_instance["resources"]) == 0:
                 return resource_not_found()
 
-            return resource_instance["resources"]
+            return resource_instance["resources"][0]
         except Exception as error:
             print("Error fetching resource instances with name {}. {}".format(
                 name, error))
