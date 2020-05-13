@@ -8,8 +8,6 @@ from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import check_args
 
 class Dns():
-    """Class implementing private DNS methods
-    """
 
     def __init__(self):
         self.cfg = params()
@@ -21,9 +19,9 @@ class Dns():
 
     # Get all dns zones
     def get_dns_zones(self, **kwargs):
-        """Get all dns zone hosted by a resource instance
+        """Get all dns zone hosted by a resource instance.
 
-        :param resource_instance_guid: the GUID of the resource instance
+        :param resource_instance_guid: the GUID of the resource instance.
         """
         # Required parameters
         required_args = ['resource_instance']
@@ -54,10 +52,10 @@ class Dns():
     # Get specific dns zone by ID or by name
     # This method is generic and should be used as prefered choice
     def get_dns_zone(self, **kwargs):
-        """Get a specific dns zone hosted by a resource instance
+        """Get a specific dns zone hosted by a resource instance.
 
-        param: dns_zone: the DNS zone name or id to query
-        param: resource_instance: name or GUID of the resource instance
+        param: dns_zone: the DNS zone name or id to query.
+        param: resource_instance: name or GUID of the resource instance.
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance']
@@ -93,10 +91,10 @@ class Dns():
 
     # Get specific dns zone by name
     def get_dns_zone_by_name(self, **kwargs):
-        """Get dns zone by name
+        """Get dns zone by name.
 
-        :param: dns_zone: the DNS zone name to query
-        :param: esource_instance_guid: name or GUID of the resource instance
+        :param: dns_zone: the DNS zone name to query.
+        :param: esource_instance_guid: name or GUID of the resource instance.
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance']
@@ -140,7 +138,10 @@ class Dns():
 
     # Get specific dns zone by id
     def get_dns_zone_by_id(self, **kwargs):
-        """Get DNS zone by id
+        """Get DNS zone by id.
+
+        :param dns_zone: the dns zone id.
+        :param resource_instance: the associated resource instance.
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance']
@@ -185,7 +186,10 @@ class Dns():
 
     # Lookup function to get dns zone id and resource instance
     def get_dns_zone_id(self, **kwargs):
-        """Get DNS zone by ID
+        """Get DNS zone by ID.
+
+        :param dns_zone: the dns zone name.
+        :param resource_instance: the associated resource instance.
         """
         required_args = ['dns_zone', 'resource_instance']
         check_args(required_args, **kwargs)
@@ -212,7 +216,7 @@ class Dns():
 
     # Create DNS zone
     def create_zone(self, **kwargs):
-        """Create a zone in a specified resource instance
+        """Create a zone in a specified resource instance.
 
         :param: dns_zone: required. The user-defined name to create.
         :param: description: optional. A description for the domain.
@@ -265,7 +269,7 @@ class Dns():
 
     # Delete DNS zone
     def delete_zone(self, **kwargs):
-        """Create a zone in a specified resource instance
+        """Create a zone in a specified resource instance.
 
         :param: dns_zone: required. The user-defined name to create.
         :param: resource_instance: required. Name or guid of dns
@@ -315,7 +319,7 @@ class Dns():
 
     # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
-        """Add permitted network to dns zone
+        """Add permitted network to dns zone.
 
         :param dns_zone: required. The user-defined name for this domain.
         :param resource_instance: required. Name or guid of dns resource
@@ -372,16 +376,14 @@ class Dns():
             raise
 
 
-
     # Delete permitted network to dns zone's acls
     def delete_permitted_network(self, **kwargs):
-        """Delete permitted network to dns zone
+        """Delete permitted network to dns zone.
 
         :param dns_zone: required. The user-defined name for this domain.
         :param resource_instance: required. Name or guid of dns resource
         instance.
-        :param vpc_crn: required. The allowed VPC's CRN :
-
+        :param vpc_crn: required. The allowed VPC's CRN.
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance', 'vpc']
@@ -431,11 +433,11 @@ class Dns():
 
 
     def create_resource_record(self, **kwargs):
-        """Add record in a specified zone
+        """Add record in a specified zone.
 
         :param name: required. The unique user-defined name for this ima.
-        :param resource_instance: required. The name of the dns resource instance
-        :param record: required. the record to add in the zone
+        :param resource_instance: required. The name of the dns resource instance.
+        :param record: required. the record to add in the zone.
             ex : '{ "name": "testB",
                     "type": "A",
                     "rdata": {
@@ -483,7 +485,7 @@ class Dns():
 
 
     def get_resource_records(self, **kwargs):
-        """Get record for a specified zone
+        """Get record for a specified zone.
 
         :param name: required. The unique user-defined name for this domain.
         :param resource_instance: required. The name of the dns resource instance
@@ -521,9 +523,9 @@ class Dns():
 
 
     def delete_resource_record(self, **kwargs):
-        """Delete record in a specified zone
+        """Delete record in a specified zone.
 
-        :param name: required. The unique user-defined name for this ima.
+        :param dns_zone: required. The dns zone name.
         :param record: required. The dns record name to delete.
         :param resource_instance: required. Name or GUID of dns resource
             instance.
@@ -577,7 +579,12 @@ class Dns():
                                  "message": "No dns record found"}]})
 
     def get_resource_record(self, **kwargs):
-        """Get resource records from a dns zone
+        """Get resource records from a dns zone.
+
+        :param dns_zone: required. The dns zone name.
+        :param record: required. resource record name or id to gather.
+        :param resource_instance: required. Name or GUID of dns resource
+            instance.
         """
         # Required parameters
         required_args = ['dns_zone', 'record', 'resource_instance']
@@ -599,7 +606,6 @@ class Dns():
         by_name = self.get_resource_record_by_name(dns_zone=args['dns_zone'],
                                                    resource_instance=resource_instance_guid,
                                                    record_name=args['record'])
-
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
@@ -618,9 +624,10 @@ class Dns():
     def get_resource_record_by_name(self, **kwargs):
         """Get record from a name
 
-        :param  dns_zone:
-        :param record_name:
-        :param resource_instance
+        :param dns_zone: required. The dns zone name.
+        :param record: required. resource record name to gather.
+        :param resource_instance: required. Name or GUID of dns resource
+            instance.
         """
         # Required parameters
         required_args = ['dns_zone', 'record_name', 'resource_instance']
