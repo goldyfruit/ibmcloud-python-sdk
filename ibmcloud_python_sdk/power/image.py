@@ -64,7 +64,6 @@ class Image():
 
         except Exception as error:
             print("Error fetching image with ID {}. {}".format(id, error))
-            raise
 
     def get_image_by_name(self, name):
         """Retrieve specific image by name
@@ -90,4 +89,3 @@ class Image():
 
         except Exception as error:
             print("Error fetching image with name {}. {}".format(name, error))
-            raise
