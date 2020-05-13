@@ -126,16 +126,16 @@ class Image():
             raise
 
     def create_image(self, **kwargs):
-        """
-        Create image
+        """Create image
+
         :param name: Optional. The unique user-defined name for this image.
-
         :param resource_group: Optional. The resource group to use.
-
-        :param file: Optional. The file from which to create the image format.
-
-        :param operating_system: Optional. The operating system included in
-        this image.
+        :param file: The file from which to create the image.
+        :param format: The format of the image and the image file
+        :param source_volume: The volume from which to create the image.
+        :param operating_system: The operating system included in this image.
+        :return Image information
+        :rtype dict
         """
         args = ["file", "operating_system"]
         check_args(args, **kwargs)
