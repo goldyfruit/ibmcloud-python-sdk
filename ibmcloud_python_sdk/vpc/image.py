@@ -6,6 +6,7 @@ from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.utils.common import check_args
 from ibmcloud_python_sdk.resource import resource_group
+from ibmcloud_python_sdk.vpc import volume
 
 
 class Image():
@@ -13,6 +14,7 @@ class Image():
     def __init__(self):
         self.cfg = params()
         self.rg = resource_group.ResourceGroup()
+        self.volume = volume.Volume()
 
     def get_operating_systems(self):
         """
@@ -161,7 +163,10 @@ class Image():
                 elif key == "file":
                     payload["file"] = {"id": args["file"]}
                 elif key == "source_volume":
-                    payload["source_volume"] = {"id": args["source_volume"]}
+                    vol_info = self.volume.get_volume(args["source_volume"])
+                    if "errors" in vol_info:
+                        return vol_info
+                    payload["source_volume"] = {"id": vol_info["id"]}
                 elif key == "operating_system":
                     payload["operating_system"] = {
                         "name": args["operating_system"]}
