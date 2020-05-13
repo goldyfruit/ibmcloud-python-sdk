@@ -161,7 +161,7 @@ class Image():
                         return rg_info
                     payload["resource_group"] = {"id": rg_info["id"]}
                 elif key == "file":
-                    payload["file"] = {"id": args["file"]}
+                    payload["file"] = {"href": args["file"]}
                 elif key == "source_volume":
                     vol_info = self.volume.get_volume(args["source_volume"])
                     if "errors" in vol_info:
