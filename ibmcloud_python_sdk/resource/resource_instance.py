@@ -147,7 +147,7 @@ class ResourceInstance():
         """
         try:
             # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances/{}".format(guid))
+            path = ("/v2/resource_instances/{}".format(quote(guid)))
 
             result = qw("rg", "GET", path, headers())["data"]
 
