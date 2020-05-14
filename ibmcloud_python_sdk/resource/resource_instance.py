@@ -8,6 +8,7 @@ from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
 from urllib.parse import quote
 
+
 class ResourceInstance():
 
     def __init__(self):
@@ -19,81 +20,88 @@ class ResourceInstance():
         #   ibmcloud catalog service dff97f5c-bc5e-4455-b470-411c3edbe49c
 
     def create_resource_instance(self, **kwargs):
-        """Create a resource instance
+        """Create resource instance
 
-        :param: name: required.
-        :param: resource_group: Optional. The default resource group will be 
-            used resource_group is None
-        :param: resource_plan: Optional. The plan will be the DNS plan by default
-        :param: target: optional. If not set the default value will be 
-            bluemix-global
+        :param: name: The name of the instance.
+        :param: resource_group: Short or long ID of resource group.
+        :param: resource_plan: The unique ID of the plan associated with the
+            offering. This value is provided by and stored in the global
+            catalog.
+        :param: target: The deployment location where the instance should
+            be hosted.
+        :param: tags: Optional. Tags that are attached to the instance after
+            provisioning.
+        :param: allow_cleanup: Optional. TA boolean that dictates if the
+            resource instance should be deleted (cleaned up) during the
+            processing of a region instance delete call.
+        :param: parameters: Optional. Configuration options represented as
+            key-value pairs that are passed through to the target resource
+            brokers.
+        :return Resource instance information
+        :rtype dict
         """
-        # Required parameters
-        required_args = ['name', 'resource_group', 'resource_plan', 'target']
-        check_args(required_args, **kwargs)
- 
-        # Set default value if required paramaters are not defined
+        args = ['name', 'resource_group', 'resource_plan', 'target']
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
         args = {
             'name': kwargs.get('name'),
             'resource_group': kwargs.get('resource_group'),
-            'target': kwargs.get('target'),
+            'resource_plan': kwargs.get('resource_plan'),
+            'tags': kwargs.get('tags'),
+            'allow_cleanup': kwargs.get('allow_cleanup', False),
+            'parameters': kwargs.get('parameters'),
+            'target': kwargs.get('target', 'bluemix-global'),
         }
-  
-        #resource_plan: kwargs.get('resource_plan')
-        
-        # if a resource instance with the same name exists do nothing but
-        # return the existing one
-        existing_instance = self.get_resource_instance(args["name"])
-        if "errors" in existing_instance:
-            for key_name in existing_instance["errors"]:
-                if key_name["code"] == "not_found":
-                      
-                    # Construct payload
-                    payload = {}
-                    
-                    payload["name"] = args["name"]
 
-                    payload["resource_plan_id"] = self.get_resource_plan_id(
-                            kwargs.get('resource_plan'))
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if value is not None:
+                if key == "resource_plan":
+                    rp_info = self.get_resource_plan(args['resource_plan'])
+                    if "errors" in rp_info:
+                        return rp_info
+                    payload["resource_plan_id"] = rp_info
+                elif key == "resource_group":
+                    rg_info = self.rg.get_resource_group(
+                        args["resource_group"])
+                    if "errors" in rg_info:
+                        return rg_info
+                    payload["resource_group"] = rg_info["id"]
+                elif key == "tags":
+                    tg = []
+                    for tag in args["tags"]:
+                        tg.append(tag)
+                    payload["tags"] = tg
+                elif key == "parameters":
+                    payload["parameters"] = args['parameters']
+            else:
+                payload[key] = value
 
-                    if args["target"] == None:
-                        payload["target"] = "bluemix-global"
-                    else:
-                        payload["target"] = args["target"]
-        
-                    if args["resource_group"] == None:
-                        payload["resource_group"] = \
-                                self.rg.get_default_resource_group()["id"]
-                    else:
-                        rg = self.rg.get_resource_group(args["resource_group"])                        
-                        if "errors" in rg:
-                            return rg
-                        payload["resource_group"] = rg["id"]
-                        
-                    try:
-                        # Connect to api endpoint for resource instances
-                        path = ("/v2/resource_instances")
+        try:
+            # Connect to api endpoint for resource_instances
+            path = ("/v2/resource_instances")
 
-                        return qw("rg", "POST", path, headers(),
-                                json.dumps(payload))["data"]
-                    except Exception as error:
-                        print("Error creating resource instance. {}".format(error))
-                        raise
-        return existing_instance
+            return qw("rg", "POST", path, headers(),
+                      json.dumps(payload))["data"]
 
-    def get_resource_plan_id(self, resource_plan):
+        except Exception as error:
+            print("Error creating resource instance. {}".format(error))
+
+    def get_resource_plan(self, resource_plan):
         """Return resource_plan_id based on the input
 
         :param resource_plan: Required. Resource plan Name or ID
         """
         # if ressource_plan is an id, return the id
-        rp_pattern = ('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
-        rp_compile = re.compile(rp_pattern)
+        regex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        result = re.compile(regex)
 
         # if resource_plan match the regexp, return ressource_plan
-        if (bool(rp_compile.search(resource_plan))):
+        if result.search(resource_plan):
             return resource_plan
-        elif resource_plan in self.resource_plan_dict :            
+        elif resource_plan in self.resource_plan_dict:
             return self.resource_plan_dict[resource_plan]
 
     def get_resource_instances(self, resource_group=None):
