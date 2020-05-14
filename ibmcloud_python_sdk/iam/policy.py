@@ -159,7 +159,7 @@ class Policy():
                             if attribute.get("name") == "serviceInstance":
                                 ri_info = self.ri.get_resource_instance(
                                     attribute.get("value"))
-                                attribute["value"] = ri_info["id"]
+                                attribute["value"] = ri_info["guid"]
                     payload["subjects"] = args['subjects']
                 elif key == "roles":
                     ro = []
@@ -175,7 +175,7 @@ class Policy():
                             if attribute.get("name") == "serviceInstance":
                                 ri_info = self.ri.get_resource_instance(
                                     attribute.get("value"))
-                                attribute["value"] = ri_info["id"]
+                                attribute["value"] = ri_info["guid"]
                     payload["resources"] = args['resources']
                 else:
                     payload[key] = value
