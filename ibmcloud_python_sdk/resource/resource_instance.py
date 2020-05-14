@@ -40,7 +40,7 @@ class ResourceInstance():
         :return Resource instance information
         :rtype dict
         """
-        args = ['name', 'resource_group', 'resource_plan', 'target']
+        args = ['name', 'resource_group', 'resource_plan']
         check_args(args, **kwargs)
 
         # Build dict of argument and assign default value when needed
