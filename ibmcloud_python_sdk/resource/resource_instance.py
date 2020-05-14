@@ -76,8 +76,8 @@ class ResourceInstance():
                     payload["tags"] = tg
                 elif key == "parameters":
                     payload["parameters"] = args['parameters']
-            else:
-                payload[key] = value
+                else:
+                    payload[key] = value
 
         try:
             # Connect to api endpoint for resource_instances
