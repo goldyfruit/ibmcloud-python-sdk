@@ -1,5 +1,4 @@
 import json
-import re
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
@@ -14,10 +13,6 @@ class ResourceInstance():
     def __init__(self):
         self.cfg = params()
         self.rg = resource_group.ResourceGroup()
-        self.resource_plan_dict = {"dns": "dc1460a6-37bd-4e2b-8180-d0f86ff39baa", 
-                        "object-storage": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8"}
-        #   ibmcloud catalog service-marketplace  | grep cloud-object-storage
-        #   ibmcloud catalog service dff97f5c-bc5e-4455-b470-411c3edbe49c
 
     def create_resource_instance(self, **kwargs):
         """Create resource instance
@@ -59,10 +54,7 @@ class ResourceInstance():
         for key, value in args.items():
             if value is not None:
                 if key == "resource_plan":
-                    rp_info = self.get_resource_plan(args['resource_plan'])
-                    if "errors" in rp_info:
-                        return rp_info
-                    payload["resource_plan_id"] = rp_info
+                    payload["resource_plan_id"] = args['resource_plan']
                 elif key == "resource_group":
                     rg_info = self.rg.get_resource_group(
                         args["resource_group"])
@@ -88,21 +80,6 @@ class ResourceInstance():
 
         except Exception as error:
             print("Error creating resource instance. {}".format(error))
-
-    def get_resource_plan(self, resource_plan):
-        """Return resource_plan_id based on the input
-
-        :param resource_plan: Required. Resource plan Name or ID
-        """
-        # if ressource_plan is an id, return the id
-        regex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-        result = re.compile(regex)
-
-        # if resource_plan match the regexp, return ressource_plan
-        if result.search(resource_plan):
-            return resource_plan
-        elif resource_plan in self.resource_plan_dict:
-            return self.resource_plan_dict[resource_plan]
 
     def get_resource_instances(self, resource_group=None):
         """Retrieve resource instance list
