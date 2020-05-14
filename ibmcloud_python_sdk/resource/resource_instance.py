@@ -3,6 +3,7 @@ from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.utils.common import resource_not_found
+from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.resource import resource_group
 from ibmcloud_python_sdk.utils.common import check_args
 from urllib.parse import quote
@@ -103,9 +104,9 @@ class ResourceInstance():
             raise
 
     def get_resource_instance(self, resource_instance):
-        """ Retrieve specific resource instance by name or by ID
+        """ Retrieve specific resource instance by name or by GUID
 
-        :param resource_instance: Resource instance name or ID
+        :param resource_instance: Resource instance name or GUID
         :return Resource instance information
         :rtype dict
         """
@@ -136,6 +137,7 @@ class ResourceInstance():
 
             result = qw("rg", "GET", path, headers())["data"]
 
+            # Needed because API doens't return the same output as other API.
             if "status_code" in result:
                 if result["status_code"] == 404:
                     return resource_not_found()
@@ -164,40 +166,33 @@ class ResourceInstance():
 
             return resource_instance["resources"][0]
         except Exception as error:
-            print("Error fetching resource instances with name {}. {}".format(
+            print("Error fetching resource instance with name {}. {}".format(
                 name, error))
             raise
 
     def delete_resource_instance(self, instance):
         """Delete a resource instance
 
-        :param: instance: required. The resource instance id or name
+        :param: instance: The resource instance name or ID
+        :return Deletion status
+        :rtype dict
         """
         try:
-            instance = self.get_resource_instance(instance)
-            if "errors" in instance:
-                for key in instance["errors"]:
-                    if key["code"] == "not_found":
-                       return resource_not_found()
-                    else:
-                        return instance
-            else:
-                guid = instance["guid"]
-        except Exception as error:
-            print("Error finding instance. {}".format(error))
-            raise
+            instance_info = self.get_resource_instance(instance)
+            if "errors" in instance_info:
+                return instance_info
 
-        try:
-            # Connect to api endpoint for resource instances
-            path = ("/v2/resource_instances/{}".format(guid))
-            result =  qw("rg", "DELETE", path, headers())
-        
-            if result["data"] == None:
-                if result["response"].getcode() == 204:
-                    return({"message": "deletion request successfully initiated"})
-                else:
-                    return result
+            # Connect to api endpoint for resource_instances
+            path = ("/v2/resource_instances/{}".format(instance_info['guid']))
+
+            data = qw("rg", "DELETE", path, headers())
+
+            # Return data
+            if data["response"].status != 204:
+                return data["data"]
+
+            # Return status
+            return resource_deleted()
 
         except Exception as error:
             print("Error deleting resource instance. {}".format(error))
-            raise
