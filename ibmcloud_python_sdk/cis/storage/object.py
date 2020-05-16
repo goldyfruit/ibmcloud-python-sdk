@@ -123,7 +123,7 @@ class Object():
         try:
             result = self.client.upload_file(
                 args["path"], args["bucket"], args["key"])
-            if result["ResponseMetadata"]["HTTPStatusCode"] != 200:
+            if result is not None:
                 return result
 
             msg = {"object": args["key"], "bucket": args['bucket'],
