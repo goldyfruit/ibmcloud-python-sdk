@@ -145,6 +145,7 @@ class Image():
         :rtype dict
         """
         try:
+            # Check if cloud instance exists and retrieve information
             ci_info = self.instance.get_instance(instance)
             if "errors" in ci_info:
                 return ci_info
@@ -169,12 +170,13 @@ class Image():
         :rtype dict
         """
         try:
+            # Check if cloud instance exists and retrieve information
             ci_info = self.instance.get_instance(instance)
             if "errors" in ci_info:
                 return ci_info
 
             # Retrieve images for a cloud instance
-            data = self.get_instance_image(ci_info["name"], name)
+            data = self.get_instance_images(ci_info["name"])
             if "errors" in data:
                 return data
 
@@ -190,3 +192,38 @@ class Image():
         except Exception as error:
             print("Error fetching image with name {} for cloud instance {}."
                   "{}".format(name, instance, error))
+
+    def delete_instance_image(self, instance, image):
+        """Delete cloud instance image
+
+        :param instance: Cloud instance ID
+        :param name: Image name
+        :return Deletion status
+        :rtype dict
+        """
+        try:
+            ci_info = self.instance.get_instance(instance)
+            if "errors" in ci_info:
+                return ci_info
+
+            # Check if image exists and retrieve information
+            image_info = self.get_instance_image(instance, image)
+            if "errors" in image_info:
+                return image_info
+
+            # Connect to api endpoint for cloud-instances
+            path = ("/pcloud/v1/cloud-instances/{}/images/{}".format(
+                instance, image))
+
+            data = qw("power", "DELETE", path, headers())
+
+            # Return data
+            if data["response"].status != 200:
+                return data["data"]
+
+            # Return status
+            return resource_deleted()
+
+        except Exception as error:
+            print("Error deleting image {} from cloud instance {}. {}".format(
+                image, instance, error))
