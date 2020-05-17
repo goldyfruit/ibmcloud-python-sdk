@@ -133,6 +133,39 @@ class Object():
         except Exception as error:
             return resource_error("unable_to_upload_object", error)
 
+    def download_file(self, **kwargs):
+        """Downlo a file from an S3 object
+
+        :param bucket: Bucket name.
+        :param path: The path to the file to download to.
+        :param key: The name of the key to download from.
+        :return Download status
+        :rtype dict
+        """
+        args = ["bucket", "path", "key"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'bucket': kwargs.get('bucket'),
+            'key': kwargs.get('key'),
+            'path': kwargs.get('path'),
+        }
+
+        try:
+            result = self.client.download_file(
+                args["bucket"], args["key"], args["path"])
+            if result is not None:
+                return result
+
+            msg = {"object": args["key"], "path": args['path'],
+                   "status": "downloaded"}
+            return resource_created(msg)
+
+        except Exception as error:
+            return resource_error("unable_to_download_object", error)
+
+
     def delete_object(self, bucket, object):
         """Delete an object from the bucket
 
