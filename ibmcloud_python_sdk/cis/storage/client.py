@@ -58,7 +58,7 @@ def cos_client(**kwargs):
         ri_info = None
         if args['service_instance']:
             # Check if resource instance exists and retrieve information
-            ri_info = ri.get_resource_instance(args["service_instance"])["id"]
+            ri_info = ri.get_resource_instance(args["service_instance"])
             if "errors" in ri_info:
                 return ri_info
         else:
@@ -69,12 +69,12 @@ def cos_client(**kwargs):
             data = ri.get_resource_instances()
             for instance in data['resources']:
                 if re.search(regex, instance['id']):
-                    ri_info = instance['id']
+                    ri_info = instance
 
         client = ibm_boto3.client(
             's3',
             ibm_api_key_id=cfg["key"],
-            ibm_service_instance_id=ri_info,
+            ibm_service_instance_id=ri_info['id'],
             config=Config(signature_version='oauth'),
             endpoint_url=endpoint
         )
