@@ -252,6 +252,61 @@ class Image():
             print("Error creating image for cloud instance {}. {}".format(
                 args['instance'], error))
 
+    def export_instance_image(self, **kwargs):
+        """Export an image for a cloud instance
+
+        :param instance: Cloud instance ID
+        :param image: Image ID of existing source image.
+        :param region: Optional. Cloud Storage Region.
+        :param bucket: Cloud Storage bucket name.
+        :param access_key: Cloud Storage access key.
+        :param secret_key: Optional. Cloud Storage secret key.
+        :return Image information
+        :rtype: dict
+        """
+        args = ["instance", "image"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'instance': kwargs.get('source'),
+            'image': kwargs.get('image'),
+            'region': kwargs.get('region'),
+            'bucketName': kwargs.get('bucket'),
+            'accessKey': kwargs.get('access_key'),
+            'secretKey': kwargs.get('secret_key'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if key != "instance" and key != "image" and value is not None:
+                payload[key] = value
+
+        try:
+            # Check if cloud instance exists and retrieve information
+            ci_info = self.instance.get_instance(args['instance'])
+            if "errors" in ci_info:
+                return ci_info
+
+            # Check if image exists and retrieve information
+            image_info = self.get_instance_image(ci_info["name"],
+                                                 args["image"])
+            if "errors" in image_info:
+                return image_info
+
+            # Connect to api endpoint for cloud-instances
+            path = ("/pcloud/v1/cloud-instances/{}/images/{}/export".format(
+                ci_info["name"], image_info["imageID"]))
+
+            # Return data
+            return qw("power", "POST", path, headers(),
+                      json.dumps(payload))["data"]
+
+        except Exception as error:
+            print("Error exporting image {} for cloud instance {}. {}".format(
+                args['image'], args['instance'], error))
+
     def delete_instance_image(self, instance, image):
         """Delete cloud instance image
 
