@@ -193,6 +193,65 @@ class Image():
             print("Error fetching image with name {} for cloud instance {}."
                   "{}".format(name, instance, error))
 
+    def create_instance_image(self, **kwargs):
+        """Create image for a cloud instance
+
+        :param instance: Cloud instance ID
+        :param source: Source of the image.
+        :param image_id: Optional. Image ID of existing source image.
+        :param name: Optional. Name to give created image.
+        :param region: Optional. Cloud Storage Region.
+        :param file: Optional. Cloud Storage image filename.
+        :param bucket: Optional. Cloud Storage bucket name.
+        :param access_key: Optional. Cloud Storage access key.
+        :param secret_key: Optional. Cloud Storage secret key.
+        :param os_type: Optional. Image OS Type.
+        :param disk_type: Optional. Type of Disk.
+        :return Image information
+        :rtype: dict
+        """
+        args = ["instance", "source"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'instance': kwargs.get('source'),
+            'source': kwargs.get('source'),
+            'imageID': kwargs.get('image_id'),
+            'imageName': kwargs.get('name'),
+            'region': kwargs.get('region'),
+            'imageFilename': kwargs.get('file'),
+            'bucketName': kwargs.get('bucket'),
+            'accessKey': kwargs.get('access_key'),
+            'secretKey': kwargs.get('secret_key'),
+            'osType': kwargs.get('os_type'),
+            'diskType': kwargs.get('disk_type'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if key != "instance" and value is not None:
+                payload[key] = value
+
+        try:
+            # Check if cloud instance exists and retrieve information
+            ci_info = self.instance.get_instance(instance)
+            if "errors" in ci_info:
+                return ci_info
+
+            # Connect to api endpoint for sshkeys
+            path = ("/pcloud/v1/cloud-instances/{}/images".format(
+                ci_info["name"]))
+
+            # Return data
+            return qw("power", "POST", path, headers(),
+                      json.dumps(payload))["data"]
+
+        except Exception as error:
+            print("Error creating image for cloud instance {}. {}".format(
+                args['instance'], error))
+
     def delete_instance_image(self, instance, image):
         """Delete cloud instance image
 
