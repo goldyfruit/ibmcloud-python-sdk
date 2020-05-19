@@ -215,7 +215,7 @@ class Image():
 
         # Build dict of argument and assign default value when needed
         args = {
-            'instance': kwargs.get('source'),
+            'instance': kwargs.get('instance'),
             'source': kwargs.get('source'),
             'imageID': kwargs.get('image_id'),
             'imageName': kwargs.get('name'),
@@ -236,11 +236,11 @@ class Image():
 
         try:
             # Check if cloud instance exists and retrieve information
-            ci_info = self.instance.get_instance(instance)
+            ci_info = self.instance.get_instance(args['instance'])
             if "errors" in ci_info:
                 return ci_info
 
-            # Connect to api endpoint for sshkeys
+            # Connect to api endpoint for cloud-instances
             path = ("/pcloud/v1/cloud-instances/{}/images".format(
                 ci_info["name"]))
 
