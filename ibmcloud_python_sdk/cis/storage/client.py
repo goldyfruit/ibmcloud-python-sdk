@@ -58,7 +58,7 @@ def cos_client(**kwargs):
         ri_info = None
         if args['service_instance']:
             # Check if resource instance exists and retrieve information
-            ri_info = ri.get_resource_instance(args["service_instance"])
+            ri_info = ri.get_resource_instance(args["service_instance"])["id"]
             if "errors" in ri_info:
                 return ri_info
         else:
