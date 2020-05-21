@@ -70,8 +70,8 @@ class Image():
     def get_image_by_name(self, name):
         """Retrieve specific image by name
 
-        :param image: Image name
-        :return name information
+        :param name: Image name
+        :return Image information
         :rtype dict
         """
         try:
@@ -311,7 +311,7 @@ class Image():
         """Delete cloud instance image
 
         :param instance: Cloud instance ID
-        :param name: Image name
+        :param image: Image name
         :return Deletion status
         :rtype dict
         """
@@ -327,7 +327,7 @@ class Image():
 
             # Connect to api endpoint for cloud-instances
             path = ("/pcloud/v1/cloud-instances/{}/images/{}".format(
-                instance, image))
+                ci_info["name"], image_info["imageID"]))
 
             data = qw("power", "DELETE", path, headers())
 

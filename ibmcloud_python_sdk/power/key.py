@@ -102,7 +102,8 @@ class Key():
                 return key_info
 
             # Connect to api endpoint for sshkeys
-            path = ("/pcloud/v1/tenants/{}/sshkeys/{}".format(tenant, key))
+            path = ("/pcloud/v1/tenants/{}/sshkeys/{}".format(
+                tenant, key_info["name"]))
 
             data = qw("power", "DELETE", path, headers())
 

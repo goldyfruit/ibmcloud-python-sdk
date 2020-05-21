@@ -41,7 +41,7 @@ class Instance():
                 return ci_info
 
             # Connect to api endpoint for sshkeys
-            path = ("/pcloud/v1/cloud-instances/{}".format(instance))
+            path = ("/pcloud/v1/cloud-instances/{}".format(ci_info["name"]))
 
             data = qw("power", "DELETE", path, headers())
 

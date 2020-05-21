@@ -38,7 +38,7 @@ class Task():
 
         try:
             # Connect to api endpoint for tasks
-            path = ("/pcloud/v1/tasks/{}".format(task))
+            path = ("/pcloud/v1/tasks/{}".format(task_info["taskID"]))
 
             data = qw("power", "DELETE", path, headers())
 
