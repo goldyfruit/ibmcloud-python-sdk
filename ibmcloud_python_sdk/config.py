@@ -16,12 +16,13 @@ def params():
     option["sl_url"] = constants.SL_URL
     option["http_timeout"] = constants.HTTP_TIMEOUT
 
-    if path.exists(creds):
+    if path.isfile(creds):
         with open(creds, "r") as config_file:
             try:
                 config = yaml.safe_load(config_file)
             except yaml.YAMLError as error:
                 print("Error reading config file: {}. {}".format(creds, error))
+                return
     else:
         for var in constants.MANDATORY_ENV_VARS:
             if var not in environ:
