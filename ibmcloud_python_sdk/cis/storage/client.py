@@ -63,6 +63,8 @@ def cos_client(**kwargs):
                 return ri_info
         else:
             # Automatically detect if cloud-object-storage service exists.
+            # If multiple resource instance exist then the last one to match
+            # the regex will be used.
             service = "cloud-object-storage"
             regex = "crn:v1:bluemix:public:{}:global:a/{}".format(
                 service, args['account'])
