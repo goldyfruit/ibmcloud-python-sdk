@@ -134,7 +134,7 @@ class Object():
             return resource_error("unable_to_upload_object", error)
 
     def download_file(self, **kwargs):
-        """Downlo a file from an S3 object
+        """Download file from a S3 object
 
         :param bucket: Bucket name.
         :param path: The path to the file to download to.
@@ -164,7 +164,6 @@ class Object():
 
         except Exception as error:
             return resource_error("unable_to_download_object", error)
-
 
     def delete_object(self, bucket, object):
         """Delete an object from the bucket
