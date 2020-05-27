@@ -43,11 +43,11 @@ IBM Cloud Python SDK has a capability to connect to a caching server *(`memcache
 
 Once configured, a `memcached` server is required. Multiple servers are support.
 
-Podman:
+### Podman
 
     $ podman run -dt -p 11211:11211 --name memcache -d memcached
 
-Docker:
+### Docker
 
     $ sudo docker run -dt -p 11211:11211 --name memcache -d memcached
 
