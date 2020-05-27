@@ -1,9 +1,11 @@
+import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
 from ibmcloud_python_sdk.power import get_power_headers as headers
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.power import instance
+from ibmcloud_python_sdk.utils.common import check_args
 
 
 class Pvm():
@@ -241,6 +243,57 @@ class Pvm():
                   " Instance {} for cloud instance {}. {}".format(
                       name, pvm, instance, error))
 
+    def perform_action(self, **kwargs):
+        """Perform an action on Power Virtual Machine
+
+        :param instance: Instance name or ID
+        :param pvm: Power Virtual Instance name or ID
+        :param action: Name of the action to take.
+        :return Port information
+        :rtype: dict
+        """
+        args = ["instance", "pvm", "action"]
+        check_args(args, **kwargs)
+
+        # Build dict of argument and assign default value when needed
+        args = {
+            'instance': kwargs.get('instance'),
+            'pvm': kwargs.get('pvm'),
+            'action': kwargs.get('action'),
+        }
+
+        # Construct payload
+        payload = {}
+        for key, value in args.items():
+            if key != "instance" and key != "pvm" and value is not None:
+                payload[key] = value
+
+        try:
+            # Check if cloud instance exists and retrieve information
+            ci_info = self.instance.get_instance(args['instance'])
+            if "errors" in ci_info:
+                return ci_info
+
+            # Check if pvm exists and retrieve information
+            pvm_info = self.get_pvm(ci_info["name"], args['pvm'])
+            if "errors" in pvm_info:
+                return pvm_info
+
+            # Connect to api endpoint for cloud-instances
+            path = ("/pcloud/v1/cloud-instances/{}/pvm-instances/{}"
+                    "/action".format(ci_info["name"],
+                                     pvm_info["pvmInstanceID"]))
+
+            # Return data
+            return qw("power", "POST", path, headers(),
+                      json.dumps(payload))["data"]
+
+        except Exception as error:
+            print("Error performing action {} on Power Virtual Machine {} for"
+                  " cloud instance {}. {}".format(args['action'],
+                                                  args['network'],
+                                                  args['instance'], error))
+
     def delete_pvm(self, instance, pvm):
         """Delete Power Virtual Instance
 
@@ -275,3 +328,47 @@ class Pvm():
         except Exception as error:
             print("Error deleting Power Virtual Instance {} from cloud"
                   " instance {}. {}".format(pvm, instance, error))
+
+    def delete_pvm_network(self, instance, pvm, network):
+        """Delete Power Virtual Instance network
+
+        :param instance: Cloud instance ID
+        :param pvm: Power Virtual Instance name or ID
+        :param network: Network name or ID
+        :return Deletion status
+        :rtype dict
+        """
+        try:
+            ci_info = self.instance.get_instance(instance)
+            if "errors" in ci_info:
+                return ci_info
+
+            # Check if pvm exists and retrieve information
+            pvm_info = self.get_pvm(instance, pvm)
+            if "errors" in pvm_info:
+                return pvm_info
+
+            net_info = self.get_pvm_network(ci_info["name"],
+                                            pvm_info["pvmInstanceID"],
+                                            network)
+            if "errors" in net_info:
+                return net_info
+
+            path = ("/pcloud/v1/cloud-instances/{}/pvm-instances/{}"
+                    "/networks/{}".format(ci_info["name"],
+                                          pvm_info["pvmInstanceID"],
+                                          net_info["networkID"]))
+
+            data = qw("power", "DELETE", path, headers())
+
+            # Return data
+            if data["response"].status != 200:
+                return data["data"]
+
+            # Return status
+            return resource_deleted()
+
+        except Exception as error:
+            print("Error deleting network {} from Power Virtual Instance {}"
+                  " for cloud instance {}. {}".format(
+                      network, pvm, instance, error))
