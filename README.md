@@ -40,8 +40,10 @@ IBM Cloud Python SDK has a capability to connect to a caching server *(`memcache
       cache_ttl: 60
       memcached:
         - 127.0.0.1:11211
+        - 127.0.0.1:11212
+        - 127.0.0.1:11213
 
-Once configured, a `memcached` server is required. Multiple servers are support.
+Once configured, a `memcached` server is required.
 
 ### Podman
 
