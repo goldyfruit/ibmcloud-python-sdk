@@ -31,9 +31,25 @@ To install the `ibmcloud-python-sdk` snap:
 The most up-to-date version of this library can be found on the IBM-Cloud
 GitHub public repositories at https://github.com/IBM-Cloud. For questions regarding the use of this library please post to Stack Overflow at https://stackoverflow.com/ and tag your posts with `ibmcloud` so our team can easily find your post. To report a bug with this library please create an Issue on Github.
 
+Caching
+-------
+IBM Cloud Python SDK has a capability to connect to a caching server *(`memcached` only for now)* to increase the HTTP requests speed. To enable the caching system please configure the SDK properly using `~/.ibmcloud/sdk.yaml` file.
+
+    ---
+    sdk:
+      cache_ttl: 60
+      memcached:
+        - 127.0.0.1:11211
+
+Once configured, a `memcached` server is required.
+
+    $ podman run -dt -p 11212:11211 --name memcache2 -d memcached
+
+
 Getting Help
 ------------
 Bugs and feature requests about this library should have a `GitHub issue <https://github.com/IBM-Cloud/ibmcloud-python-sdk/issues>`_ opened about them. 
+
 
 Examples
 --------
