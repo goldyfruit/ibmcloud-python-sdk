@@ -1,7 +1,29 @@
 import base64
 import http.client
 import json
+from jwt import decode
 from ibmcloud_python_sdk.config import params
+from ibmcloud_python_sdk.utils import cache
+
+
+def _account_id(headers):
+    """Retrieve BSS ID and encode it to base64
+
+    :param headers: Headers to parse
+    :type headers: dict
+    :return: BSS ID encoded to base64
+    :rtype: str
+    """
+    auth = headers.get("Authorization")
+    if auth:
+        # Split the Bearer token and decode the JWT
+        jwt = decode(auth.split(" ")[1], verify=False)
+
+        # Encode BSS ID to base64
+        encoded = base64.b64encode(jwt["account"]["bss"].encode("utf-8"))
+
+        # Returns base64 string
+        return encoded.decode()
 
 
 def query_wrapper(conn_type, method, path, headers=None, payload=None):
@@ -38,6 +60,15 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
     elif conn_type == "power":
         conn = http.client.HTTPSConnection(cfg["pi_url"], timeout=timeout)
 
+    if cache.client():
+        if method == "GET" and conn_type != "auth":
+            obj = "{}{}".format(_account_id(headers), path)
+            item = cache.get_item(obj)
+            if item is not None:
+                return {"data": json.loads(item.decode("utf-8"))}
+            else:
+                pass
+
     conn.request(method, path, payload, headers)
 
     # Get and read response data
@@ -49,6 +80,11 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         # due to DELETE request which doesn't return any data
         return {"data": None, "response": res}
     else:
+        if cache.client():
+            obj = "{}{}".format(_account_id(headers), path)
+            # Store item into caching system
+            cache.set_item(obj, data)
+
         # Return data and HTTP response
         return {"data": json.loads(data), "response": res}
 

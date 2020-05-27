@@ -61,3 +61,27 @@ def params():
     option["pi_url"] = "{}.{}".format(cloud["region"], constants.PI_URL)
 
     return option
+
+
+def sdk():
+    sdk_config = "{}/.ibmcloud/sdk.yaml".format(environ.get('HOME'))
+    if "IC_SDK_CONFIG_FILE" in environ:
+        sdk_config = environ.get("IC_SDK_CONFIG_FILE")
+
+    if path.isfile(sdk_config):
+        with open(sdk_config, "r") as config_file:
+            try:
+                config = yaml.safe_load(config_file)
+            except yaml.YAMLError as error:
+                print("Error reading sdk.yaml file: {}. {}".format(
+                    sdk_config, error))
+                return False
+
+    if config:
+        options = {}
+        for option, value in config["sdk"].items():
+            options[option] = value
+
+        return options
+
+    return False
