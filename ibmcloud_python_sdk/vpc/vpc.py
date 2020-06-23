@@ -181,8 +181,18 @@ class Vpc():
                 if key_name["code"] == "not_found":
                     by_id = self.get_address_prefix_by_id(vpc, prefix)
                     if "errors" in by_id:
+                        for key_id in by_id["errors"]:
+                            if key_id["code"] == "not_found":
+                                by_addr = self.get_address_prefix_by_cidr(
+                                    vpc, prefix)
+                                if "errors" in by_addr:
+                                    return by_addr
+                                else:
+                                    return by_addr
+                            else:
+                                return by_id
+                    else:
                         return by_id
-                    return by_id
                 else:
                     return by_name
         else:
@@ -247,6 +257,39 @@ class Vpc():
         except Exception as error:
             print("Error fetching address prefix with name {} in VPC {}."
                   " {}".format(name, vpc, error))
+            raise
+
+    def get_address_prefix_by_cidr(self, vpc, cidr):
+        """Retrieve specific VPC address prefix by cidr
+
+        :param vpc: VPC name or ID
+        :param cidr: Address prefix CIDR
+        :return Address prefix information
+        :rtype dict
+        """
+        # Check if VPC exists and get information
+        vpc_info = self.get_vpc(vpc)
+        if "errors" in vpc_info:
+            return vpc_info
+
+        try:
+            # Retrieve address prefixes
+            data = self.get_address_prefixes(vpc_info["id"])
+            if "errors" in data:
+                return data
+
+            # Loop over address prefixes until filter match
+            for prefix in data['address_prefixes']:
+                if prefix["cidr"] == cidr:
+                    # Return data
+                    return prefix
+
+            # Return error if no address prefix is found
+            return resource_not_found()
+
+        except Exception as error:
+            print("Error fetching address prefix with CIDR {} in VPC {}."
+                  " {}".format(cidr, vpc, error))
             raise
 
     def get_routes(self, vpc):
