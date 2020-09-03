@@ -1,16 +1,12 @@
 import os.path
-import requests
-import re
 import json
 
-from urllib.parse import urlparse
 
 def fake_get_image(self, image):
     """
     Return a false header required by authentication process
     """
     result = {}
-    folder = 'images'
     resource_file = os.path.normpath('tests/resources/images/images.json')
     # Must return a file-like object
     try:
@@ -22,4 +18,3 @@ def fake_get_image(self, image):
         result["data"] = {"error": "not found"}
         return result
         raise
-
