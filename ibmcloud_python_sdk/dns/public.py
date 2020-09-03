@@ -81,7 +81,7 @@ class Dns():
         args = {
             'ttl': kwargs.get('ttl') or None,
             'data': kwargs.get('data') or None,
-            'host': kwargs.get('host')or None,
+            'host': kwargs.get('host') or None,
             'record_type': kwargs.get('record_type') or None
         }
         return self.dns.get_records(zone_id=zone_id, **args)
