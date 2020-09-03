@@ -7,6 +7,7 @@ from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.vpc import vpc
 from ibmcloud_python_sdk.utils.common import check_args
 
+
 class Dns():
 
     def __init__(self):
@@ -66,28 +67,23 @@ class Dns():
             'dns_zone': kwargs.get('dns_zone'),
             'resource_instance':  kwargs.get('resource_instance'),
         }
-
-#        # get resource instance guid
-#        ri = self.resource_instance.get_resource_instance(args['resource_instance'])
-#        if "errors" in ri:
-#            return ri
-#        else:
-#            resource_instance_guid = ri["guid"]
-
         by_name = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
-                                            resource_instance=args['resource_instance'])
+                                            resource_instance=args[
+                                                'resource_instance'
+                                            ])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_guid = self.get_dns_zone_by_id(dns_zone=args['dns_zone'],
-                                                      resource_instance=args['resource_instance'])
+                    by_guid = self.get_dns_zone_by_id(dns_zone=args[
+                                                      'dns_zone'],
+                                                      resource_instance=args[
+                                                      'resource_instance'])
                     if "errors" in by_guid:
                         return by_guid
                     return by_guid
                 return by_name
         else:
             return by_name
-
 
     # Get specific dns zone by name
     def get_dns_zone_by_name(self, **kwargs):
@@ -107,7 +103,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(args[
+                                            'resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -154,7 +151,9 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+                    args['resource_instance']
+                )
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -182,8 +181,6 @@ class Dns():
             print("Error creating dns zone. {}".format(error))
             raise
 
-
-
     # Lookup function to get dns zone id and resource instance
     def get_dns_zone_id(self, **kwargs):
         """Get DNS zone by ID.
@@ -203,7 +200,8 @@ class Dns():
         # Get Zone id
         try:
             zone = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
-                                             resource_instance=args['resource_instance'])
+                                             resource_instance=args[
+                                                 'resource_instance'])
             if "errors" in zone:
                 for key_name in zone["errors"]:
                     if key_name["code"] == "not_found":
@@ -212,7 +210,6 @@ class Dns():
         except Exception as error:
             print("Error getting dns zone id: {}".format(error))
             raise
-
 
     # Create DNS zone
     def create_zone(self, **kwargs):
@@ -236,7 +233,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(kwargs.get('resource_instance'))
+        temp_ri = self.resource_instance.get_resource_instance(kwargs.get(
+            'resource_instance'))
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -286,13 +284,15 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
 
         dns_zone = self.get_dns_zone(dns_zone=args['name'],
-                                     resource_instance=args['resource_instance'])
+                                     resource_instance=args[
+                                         'resource_instance'])
 
         if "errors" in dns_zone:
             return dns_zone
@@ -309,13 +309,13 @@ class Dns():
 
             if result["data"] is None:
                 if result["response"].getcode() == 204:
-                    return({"message": "deletion request successfully initiated"})
+                    return({"message":
+                            "deletion request successfully initiated"})
             return result
 
         except Exception as error:
             print("Error creating dns zone. {}".format(error))
             raise
-
 
     # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
@@ -338,7 +338,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -375,7 +376,6 @@ class Dns():
             print("Error adding permitted network. {}".format(error))
             raise
 
-
     # Delete permitted network to dns zone's acls
     def delete_permitted_network(self, **kwargs):
         """Delete permitted network to dns zone.
@@ -397,7 +397,9 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance']
+        )
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -418,25 +420,27 @@ class Dns():
         # Construct payload
         try:
             # Connect to api endpoint for permitted network
-            path = ("/v1/instances/{}/dnszones/{}/permitted_networks/{}").format(
+            path = (
+                "/v1/instances/{}/dnszones/{}/permitted_networks/{}").format(
                 resource_instance_guid, zone_id, vpc_id)
 
             result = qw("dns", "DELETE", path, headers())
             if result["data"] is None:
                 if result["response"].getcode() == 204:
-                    return({"message": "deletion request successfully initiated"})
+                    return({"message":
+                            "deletion request successfully initiated"})
                 return result
             return result
         except Exception as error:
             print("Error removing permitted network. {}".format(error))
             raise
 
-
     def create_resource_record(self, **kwargs):
         """Add record in a specified zone.
 
         :param name: required. The unique user-defined name for this ima.
-        :param resource_instance: required. The name of the dns resource instance.
+        :param resource_instance: required. The name of the dns resource
+         instance.
         :param record: required. the record to add in the zone.
             ex : '{ "name": "testB",
                     "type": "A",
@@ -457,7 +461,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -465,7 +470,8 @@ class Dns():
         # Get Zone id
         try:
             zone = self.get_dns_zone(dns_zone=args['dns_zone'],
-                                     resource_instance=args['resource_instance'])
+                                     resource_instance=args[
+                                         'resource_instance'])
             zone_id = zone['id']
         except Exception as error:
             print("Error getting zone id. {}".format(error))
@@ -483,12 +489,12 @@ class Dns():
             print("Error adding resource record. {}".format(error))
             raise
 
-
     def get_resource_records(self, **kwargs):
         """Get record for a specified zone.
 
         :param name: required. The unique user-defined name for this domain.
-        :param resource_instance: required. The name of the dns resource instance
+        :param resource_instance: required. The name of the dns resource
+         instance
         """
         # Required parameters
         required_args = ['dns_zone', 'resource_instance']
@@ -501,7 +507,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -520,7 +527,6 @@ class Dns():
         except Exception as error:
             print("Error getting resource records. {}".format(error))
             raise
-
 
     def delete_resource_record(self, **kwargs):
         """Delete record in a specified zone.
@@ -542,7 +548,8 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -554,7 +561,8 @@ class Dns():
 
         # Get record ID
         record = self.get_resource_record(dns_zone=args["dns_zone"],
-                                          resource_instance=args["resource_instance"],
+                                          resource_instance=args[
+                                          "resource_instance"],
                                           record=args["record"])
         if "errors" in record:
             return record
@@ -598,28 +606,29 @@ class Dns():
         }
 
         # get resource instance guid
-        temp_ri = self.resource_instance.get_resource_instance(args['resource_instance'])
+        temp_ri = self.resource_instance.get_resource_instance(
+            args['resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
 
-        by_name = self.get_resource_record_by_name(dns_zone=args['dns_zone'],
-                                                   resource_instance=resource_instance_guid,
-                                                   record_name=args['record'])
+        by_name = self.get_resource_record_by_name(dns_zone=args[
+                                'dns_zone'],
+                                resource_instance=resource_instance_guid,
+                                record_name=args['record'])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_resource_record_by_id(dns_zone=args['dns_zone'],
-                                                           resource_instance=resource_instance_guid,
-                                                           record_id=args['record'])
+                    by_id = self.get_resource_record_by_id(dns_zone=args[
+                                'dns_zone'],
+                                resource_instance=resource_instance_guid,
+                                record_id=args['record'])
                     if "errors" in by_id:
                         return by_id
                     return by_id
                 return by_name
         else:
             return by_name
-
-
 
     def get_resource_record_by_name(self, **kwargs):
         """Get record from a name
@@ -640,21 +649,15 @@ class Dns():
             'record_name': kwargs.get('record_name'),
         }
 
-        # get resource instance guid
-        #ri = self.resource_instance.get_resource_instance(args['resource_instance'])
-        #if "errors" in ri:
-        #    return ri
-        #resource_instance_guid = ri["guid"]
-
         # Get list of records
-        records = self.get_resource_records(\
-                    dns_zone=args['dns_zone'],
-                    resource_instance=args["resource_instance"])['resource_records']
+        records = self.get_resource_records(
+            dns_zone=args['dns_zone'],
+            resource_instance=args["resource_instance"])['resource_records']
         for record in records:
             if record['name'] == args['record_name']:
                 return record
-        return ({"errors": [{"code": "not_found",\
-            "message": "No record found"}]})
+        return ({"errors": [{"code": "not_found",
+                "message": "No record found"}]})
 
     def get_resource_record_by_id(self, **kwargs):
         """Get record from an ID
@@ -674,19 +677,13 @@ class Dns():
             'record_id': kwargs.get('record_id'),
         }
 
-        # get resource instance guid
-        #ri = self.resource_instance.get_resource_instance(args['resource_instance'])
-        #if "errors" in ri:
-        #    return ri
-        #resource_instance_guid = ri["guid"]
-
         # Get zone ID and resource instane GUID
-        records = self.get_resource_records(\
+        records = self.get_resource_records(
             dns_zone=args['dns_zone'],
             resource_instance=args["resource_instance"])['resource_records']
 
         for record in records:
             if record['id'] == args['record_id']:
                 return record
-        return ({"errors": [{"code": "not_found", "message": \
-                "No record found"}]})
+        return ({"errors": [{"code": "not_found",
+                "message": "No record found"}]})
