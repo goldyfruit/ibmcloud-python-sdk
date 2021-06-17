@@ -44,11 +44,11 @@ Once configured, a `memcached` server is required.
 
 Getting Help
 ------------
-Bugs and feature requests about this library should have a `GitHub issue <https://github.com/IBM-Cloud/ibmcloud-python-sdk/issues>`_ opened about them. 
+Bugs and feature requests about this SDK should have a [issue](https://github.com/goldyfruit/ibmcloud-python-sdk/issues) opened about them. 
 
 Examples
 --------
-A curated list of examples on how to use this library can be found at XXXXXXXX
+A curated list of examples on how to use this library can be found at https://github.com/goldyfruit/ibmcloud-python-sdk/tree/main/examples
 
 Requirements
 -------------------
