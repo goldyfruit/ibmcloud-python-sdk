@@ -1,7 +1,3 @@
-import http.client
-import json
-from . import config as ic
-
 import json
 import re
 from ibmcloud_python_sdk.config import params
