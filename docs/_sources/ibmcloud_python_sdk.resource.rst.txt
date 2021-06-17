@@ -1,0 +1,45 @@
+ibmcloud\_python\_sdk.resource package
+======================================
+
+Submodules
+----------
+
+ibmcloud\_python\_sdk.resource.resource\_binding module
+-------------------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.resource.resource_binding
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.resource.resource\_group module
+-----------------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.resource.resource_group
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.resource.resource\_instance module
+--------------------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.resource.resource_instance
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.resource.resource\_key module
+---------------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.resource.resource_key
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ibmcloud_python_sdk.resource
+   :members:
+   :undoc-members:
+   :show-inheritance:

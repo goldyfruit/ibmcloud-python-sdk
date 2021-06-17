@@ -1,0 +1,29 @@
+ibmcloud\_python\_sdk.iam package
+=================================
+
+Submodules
+----------
+
+ibmcloud\_python\_sdk.iam.policy module
+---------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.iam.policy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.iam.role module
+-------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.iam.role
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ibmcloud_python_sdk.iam
+   :members:
+   :undoc-members:
+   :show-inheritance:

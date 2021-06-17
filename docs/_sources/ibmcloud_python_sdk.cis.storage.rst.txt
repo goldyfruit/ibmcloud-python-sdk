@@ -1,0 +1,45 @@
+ibmcloud\_python\_sdk.cis.storage package
+=========================================
+
+Submodules
+----------
+
+ibmcloud\_python\_sdk.cis.storage.bucket module
+-----------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.cis.storage.bucket
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.cis.storage.client module
+-----------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.cis.storage.client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.cis.storage.file module
+---------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.cis.storage.file
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.cis.storage.object module
+-----------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.cis.storage.object
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ibmcloud_python_sdk.cis.storage
+   :members:
+   :undoc-members:
+   :show-inheritance:
