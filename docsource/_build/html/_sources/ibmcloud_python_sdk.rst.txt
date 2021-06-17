@@ -1,0 +1,52 @@
+ibmcloud\_python\_sdk package
+=============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ibmcloud_python_sdk.cis
+   ibmcloud_python_sdk.dns
+   ibmcloud_python_sdk.em
+   ibmcloud_python_sdk.iam
+   ibmcloud_python_sdk.power
+   ibmcloud_python_sdk.resource
+   ibmcloud_python_sdk.utils
+   ibmcloud_python_sdk.vpc
+
+Submodules
+----------
+
+ibmcloud\_python\_sdk.auth module
+---------------------------------
+
+.. automodule:: ibmcloud_python_sdk.auth
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.common module
+-----------------------------------
+
+.. automodule:: ibmcloud_python_sdk.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.config module
+-----------------------------------
+
+.. automodule:: ibmcloud_python_sdk.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ibmcloud_python_sdk
+   :members:
+   :undoc-members:
+   :show-inheritance:

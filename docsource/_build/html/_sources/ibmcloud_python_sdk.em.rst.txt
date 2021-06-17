@@ -1,0 +1,29 @@
+ibmcloud\_python\_sdk.em package
+================================
+
+Submodules
+----------
+
+ibmcloud\_python\_sdk.em.account module
+---------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.em.account
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ibmcloud\_python\_sdk.em.enterprise module
+------------------------------------------
+
+.. automodule:: ibmcloud_python_sdk.em.enterprise
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ibmcloud_python_sdk.em
+   :members:
+   :undoc-members:
+   :show-inheritance:
