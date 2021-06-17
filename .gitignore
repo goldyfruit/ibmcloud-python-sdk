@@ -4,4 +4,3 @@ dist
 ibmcloud_python_sdk.egg-info
 .*.swp
 .vscode
-docs
