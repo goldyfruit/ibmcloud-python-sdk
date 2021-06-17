@@ -22,7 +22,7 @@ Or you can install from source. Download source and run:
     $ python setup.py install
 Caching
 -------
-IBM Cloud Python SDK has a capability to connect to a caching server *(`memcached` only for now)* to increase the HTTP requests speed. To enable the caching system please configure the SDK properly using `~/.ibmcloud/sdk.yaml` file.
+IBM Cloud Python SDK has a capability to connect to a cachr server *(`memcached` only for now)* to increase the HTTP requests speed. To enable the caching system please configure the SDK properly using `~/.ibmcloud/sdk.yaml` file.
 
     ---
     sdk:
@@ -44,11 +44,11 @@ Once configured, a `memcached` server is required.
 
 Getting Help
 ------------
-Bugs and feature requests about this SDK should have a [issue](https://github.com/goldyfruit/ibmcloud-python-sdk/issues) opened about them. 
+Bugs and feature requests about this SDK should have an [issue](https://github.com/goldyfruit/ibmcloud-python-sdk/issues) opened about them. 
 
 Examples
 --------
-A curated list of examples on how to use this library can be found at https://github.com/goldyfruit/ibmcloud-python-sdk/tree/main/examples
+A curated list of examples on how to use this SDK can be found at https://github.com/goldyfruit/ibmcloud-python-sdk/tree/main/examples
 
 Requirements
 -------------------
