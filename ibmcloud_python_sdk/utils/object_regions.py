@@ -63,23 +63,6 @@ endpoints = {
     },
 
     "direct_single_data_center": {
-<<<<<<< HEAD
-        "amsterdam": "s3.direct.ams03.cloud-object-storage.appdomain.cloud",
-        "chennai": "s3.direct.che01.cloud-object-storage.appdomain.cloud",
-        "hong-Kong": "s3.direct.hkg02.cloud-object-storage.appdomain.cloud",
-        "melbourne": "s3.direct.mel01.cloud-object-storage.appdomain.cloud",
-        "mexico": "s3.direct.mex01.cloud-object-storage.appdomain.cloud",
-        "milan": "s3.direct.mil01.cloud-object-storage.appdomain.cloud",
-        "montreal": "s3.direct.mon01.cloud-object-storage.appdomain.cloud",
-        "oslo": "s3.direct.osl01.cloud-object-storage.appdomain.cloud",
-        "paris": "s3.direct.par01.cloud-object-storage.appdomain.cloud",
-        "san-jose": "s3.direct.sjc04.cloud-object-storage.appdomain.cloud",
-        "sao-paulo": "s3.direct.sao01.cloud-object-storage.appdomain.cloud",
-        "seoul": "s3.direct.seo01.cloud-object-storage.appdomain.cloud",
-        "singapore": "s3.direct.sng01.cloud-object-storage.appdomain.cloud",
-        "toronto": "s3.direct.tor01.cloud-object-storage.appdomain.cloud",
-    },
-=======
         "amsterdam": "s3.direct.ams03.{}".format(constants.COS_DOMAIN),
         "chennai": "s3.direct.che01.{}".format(constants.COS_DOMAIN),
         "hong-Kong": "s3.direct.hkg02.{}".format(constants.COS_DOMAIN),
@@ -95,5 +78,4 @@ endpoints = {
         "singapore": "s3.direct.sng01.{}".format(constants.COS_DOMAIN),
         "toronto": "s3.direct.tor01.{}".format(constants.COS_DOMAIN),
     }
->>>>>>> 8ec6dc1 ([object_regions] Remove hardcode value and use constant)
 }
