@@ -17,8 +17,9 @@ Install via `pip`:
 
     $ pip install ibmcloud-python-sdk
 
-Or you can install from source. Download source and run:
+Or you can install from source, clone the repository and run:
 
+    $ pip install -r requirements.txt
     $ python setup.py install
 Caching
 -------
