@@ -65,6 +65,7 @@ def params():
 
 def sdk():
     sdk_config = "{}/.ibmcloud/sdk.yaml".format(environ.get('HOME'))
+    config = None
     if "IC_SDK_CONFIG_FILE" in environ:
         sdk_config = environ.get("IC_SDK_CONFIG_FILE")
 
