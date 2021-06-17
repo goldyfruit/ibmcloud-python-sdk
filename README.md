@@ -1,7 +1,7 @@
 IBM Cloud Python SDK
 ====================
 
-This library provides Python client to interact with IBM Cloud REST APIs.
+This library provides Python SDK to interact with IBM Cloud REST APIs.
 
 IBM Cloud Python SDK leverages existing Python SDKs such as:
   - [SoftLayer](https://github.com/softlayer/softlayer-python)
@@ -9,8 +9,7 @@ IBM Cloud Python SDK leverages existing Python SDKs such as:
 
 Documentation
 -------------
-Documentation for the Python client is available at https://XXXXXXX.XXX.
-
+Documentation for the IBM Cloud Python SDK is available [here](https://goldyfruit.github.io/ibmcloud-python-sdk).
 
 Installation
 ------------
@@ -53,11 +52,9 @@ Once configured, a `memcached` server is required.
 
     $ sudo docker run -dt -p 11211:11211 --name memcache -d memcached
 
-
 Getting Help
 ------------
 Bugs and feature requests about this library should have a `GitHub issue <https://github.com/IBM-Cloud/ibmcloud-python-sdk/issues>`_ opened about them. 
-
 
 Examples
 --------
@@ -67,10 +64,6 @@ Requirements
 -------------------
 * Python >= 3.5
 * A valid IBM Cloud account with a valid API key configured.
-
-Python 2.7 Support
-------------------
-IBM Python Cloud SDK doesn't support python2.7, which is `End Of Life as of 2020 <https://www.python.org/dev/peps/pep-0373/>`_ .
 
 Python Packages
 ---------------
