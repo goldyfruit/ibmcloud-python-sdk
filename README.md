@@ -53,18 +53,8 @@ A curated list of examples on how to use this SDK can be found at https://github
 
 Requirements
 -------------------
-* Python >= 3.5
+* Python >= 3.6
 * A valid IBM Cloud account with a valid API key configured.
-
-Python Packages
----------------
-* `PyYAML`>=3.12
-* `rednose`==1.3.0
-* `nose`==1.3.7
-* `mock`==4.0.2
-* `SoftLayer`==5.8.7
-* `PyJWT`==1.7.1
-* `ibm-cos-sdk`==2.6.2
 
 Copyright
 ---------
