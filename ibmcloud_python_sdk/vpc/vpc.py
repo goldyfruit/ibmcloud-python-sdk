@@ -34,6 +34,7 @@ class Vpc():
     def get_vpc(self, vpc):
         """
         Retrieve specific VPC by name or by ID
+
         :param vpc: VPC name or ID
         """
         by_name = self.get_vpc_by_name(vpc)
@@ -52,6 +53,7 @@ class Vpc():
     def get_vpc_by_id(self, id):
         """
         Retrieve specific VPC by ID
+
         :param id: VPC ID
         """
         try:
@@ -69,6 +71,7 @@ class Vpc():
     def get_vpc_by_name(self, name):
         """
         Retrieve specific VPC by name
+
         :param name: VPC name
         """
         try:
@@ -93,6 +96,7 @@ class Vpc():
     def get_default_network_acl(self, vpc):
         """
         Retrieve VPC's default network ACL
+
         :param vpc: VPC name or ID
         """
         # Check if VPC exists and get information
@@ -118,6 +122,7 @@ class Vpc():
     def get_default_security_group(self, vpc):
         """
         Retrieve VPC's default security group
+
         :param vpc: VPC name or ID
         """
         # Check if VPC exists and get information
@@ -404,6 +409,7 @@ class Vpc():
     def create_vpc(self, **kwargs):
         """
         Create VPC (Virtual Private Cloud)
+
         :param name: Optional. The unique user-defined name for this VPC.
 
         :param resource_group: Optional. The resource group to use.
@@ -563,6 +569,7 @@ class Vpc():
     def delete_vpc(self, vpc):
         """
         Delete VPC
+        
         :param vpc: VPC name or ID
         """
         # Check if VPC exists and get information
