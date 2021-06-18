@@ -1634,11 +1634,11 @@ volume.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.create_vpc">
 <span class="sig-name descname"><span class="pre">create_vpc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.create_vpc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create VPC (Virtual Private Cloud)
-:param name: Optional. The unique user-defined name for this VPC.</p>
+<dd><p>Create VPC (Virtual Private Cloud)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Optional. The unique user-defined name for this VPC.</p></li>
 <li><p><strong>resource_group</strong> – Optional. The resource group to use.</p></li>
 <li><p><strong>address_prefix_management</strong> – Optional. Indicates whether a</p></li>
 </ul>
@@ -1689,8 +1689,12 @@ each zone in this VPC.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.delete_vpc">
 <span class="sig-name descname"><span class="pre">delete_vpc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vpc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.delete_vpc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete VPC
-:param vpc: VPC name or ID</p>
+<dd><p>Delete VPC</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vpc</strong> – VPC name or ID</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1773,15 +1777,23 @@ each zone in this VPC.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.get_default_network_acl">
 <span class="sig-name descname"><span class="pre">get_default_network_acl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vpc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.get_default_network_acl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve VPC’s default network ACL
-:param vpc: VPC name or ID</p>
+<dd><p>Retrieve VPC’s default network ACL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vpc</strong> – VPC name or ID</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.get_default_security_group">
 <span class="sig-name descname"><span class="pre">get_default_security_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vpc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.get_default_security_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve VPC’s default security group
-:param vpc: VPC name or ID</p>
+<dd><p>Retrieve VPC’s default security group</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vpc</strong> – VPC name or ID</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1848,22 +1860,34 @@ each zone in this VPC.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc">
 <span class="sig-name descname"><span class="pre">get_vpc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vpc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific VPC by name or by ID
-:param vpc: VPC name or ID</p>
+<dd><p>Retrieve specific VPC by name or by ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vpc</strong> – VPC name or ID</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc_by_id">
 <span class="sig-name descname"><span class="pre">get_vpc_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific VPC by ID
-:param id: VPC ID</p>
+<dd><p>Retrieve specific VPC by ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – VPC ID</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc_by_name">
 <span class="sig-name descname"><span class="pre">get_vpc_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.vpc.vpc.Vpc.get_vpc_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific VPC by name
-:param name: VPC name</p>
+<dd><p>Retrieve specific VPC by name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – VPC name</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
