@@ -569,7 +569,7 @@ class Vpc():
     def delete_vpc(self, vpc):
         """
         Delete VPC
-        
+
         :param vpc: VPC name or ID
         """
         # Check if VPC exists and get information
