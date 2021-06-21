@@ -41,7 +41,7 @@ The `clouds.yaml` file will be searched at first into `~/.ibmcloud` directory bu
 | `IC_REGION`          | Region were to connect | `us-south` | [x] |
 | `IC_VERSION`         | Requests the version of the API | `2021-06-15` | [x] |
 | `IC_GENERATION`      | The infrastructure generation for the request | `2` | [x] |
-| `IC_SDK_CONFIG_FILE` | Absolute path to the `sdk.yaml` file | `~/config/.ibmcloud/sdk.yaml` | [ ] |
+| `IC_SDK_CONFIG_FILE` | Absolute path to the `sdk.yaml` file | `~/.config/ibmcloud/sdk.yaml` | [ ] |
 | `IC_API_KEY`         | API key created via the IBM Cloud IAM system | `XxX1234567890XxX` | [x] |
 | `SL_USERNAME`        | SoftLayer user | `goldyfruit` | [ ] |
 | `SL_API_KEY`         | SoftLayer API key | `abc123def456ghi789klm0n` | [ ] |
@@ -59,11 +59,12 @@ pip install ibmcloud-python-sdk
 Or you can install from source:
 
 ```shell
+cd ~/Git
 git clone https://github.com/goldyfruit/ibmcloud-python-sdk.git
 python -m venv ~/virtualenvs/ibmcloud-python-sdk
 source ~/virtualenvs/ibmcloud-python-sdk/bin/activate
-pip install -r requirements.txt
-python setup.py install
+cd ~/Git/ibmcloud-python-sdk
+pip install .
 ```
 
 We recommend to use Python virtual environment to install the SDK.
