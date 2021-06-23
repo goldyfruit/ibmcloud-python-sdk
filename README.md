@@ -46,6 +46,15 @@ The `clouds.yaml` file will be searched at first into `~/.ibmcloud` directory bu
 | `SL_USERNAME`        | SoftLayer user | `goldyfruit` | [ ] |
 | `SL_API_KEY`         | SoftLayer API key | `abc123def456ghi789klm0n` | [ ] |
 
+## Documentation
+
+Documentation for the IBM Cloud Python SDK is available [here](https://goldyfruit.github.io/ibmcloud-python-sdk).
+
+IBM Cloud Python SDK leverages existing Python SDKs such as:
+
+- [SoftLayer](https://github.com/softlayer/softlayer-python)
+- [IBM Cloud Object Storage](https://github.com/IBM/ibm-cos-sdk-python)
+
 ## Installation
 
 Install from PyPi via `pip`:
