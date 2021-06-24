@@ -55,6 +55,20 @@ IBM Cloud Python SDK leverages existing Python SDKs such as:
 - [SoftLayer](https://github.com/softlayer/softlayer-python)
 - [IBM Cloud Object Storage](https://github.com/IBM/ibm-cos-sdk-python)
 
+
+## Supported features
+
+Only VPC Gen 2 is supported by this SDK.
+
+| Service  | Feature |
+| CIS      | Baremetal, Object Storage |
+| DNS      | Public Zone, Private Zone |
+| EM       | Get Account, Get Enterprise |
+| IAM      | Policies, Roles |
+| POWER    |  Power System |
+| RESOURCE | Binding, Group, Instance, Key |
+| VPC      | ACL, Floating IP, Gateway, Geo, Image, Instance, Key, Load Balancer, Security, Subnet, Volume, VPC, VPN |
+
 ## Installation
 
 Install from PyPi via `pip`:
