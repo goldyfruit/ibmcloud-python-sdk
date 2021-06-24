@@ -2,7 +2,6 @@
 [![PyPi](https://img.shields.io/pypi/v/ibmcloud-python-sdk.svg)](https://pypi.org/project/ibmcloud-python-sdk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-- [Table of contents](#table-of-contents)
 - [IBM Cloud Python SDK](#ibm-cloud-python-sdk)
   - [Environment variables](#environment-variables)
   - [Documentation](#documentation)
@@ -14,7 +13,6 @@
   - [Examples](#examples)
     - [List VPCs](#list-vpcs)
     - [Create a VPC instance](#create-a-vpc-instance)
-  - [Copyright](#copyright)
 
 # IBM Cloud Python SDK
 
