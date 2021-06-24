@@ -2,6 +2,20 @@
 [![PyPi](https://img.shields.io/pypi/v/ibmcloud-python-sdk.svg)](https://pypi.org/project/ibmcloud-python-sdk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+- [Table of contents](#table-of-contents)
+- [IBM Cloud Python SDK](#ibm-cloud-python-sdk)
+  - [Environment variables](#environment-variables)
+  - [Documentation](#documentation)
+  - [Supported features](#supported-features)
+  - [Installation](#installation)
+  - [Caching](#caching)
+    - [Podman](#podman)
+    - [Docker](#docker)
+  - [Examples](#examples)
+    - [List VPCs](#list-vpcs)
+    - [Create a VPC instance](#create-a-vpc-instance)
+  - [Copyright](#copyright)
+
 # IBM Cloud Python SDK
 
 `ibmcloud-python-sdk` aims to talk to IBM Cloud. To do this, it requires a configuration file. `ibmcloud-python-sdk` favours `clouds.yaml` file, but can also use environment variables *(see [below](#environment-variables))*. An example:
@@ -54,7 +68,6 @@ IBM Cloud Python SDK leverages existing Python SDKs such as:
 
 - [SoftLayer](https://github.com/softlayer/softlayer-python)
 - [IBM Cloud Object Storage](https://github.com/IBM/ibm-cos-sdk-python)
-
 
 ## Supported features
 
