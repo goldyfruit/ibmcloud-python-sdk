@@ -61,6 +61,7 @@ IBM Cloud Python SDK leverages existing Python SDKs such as:
 Only VPC Gen 2 is supported by this SDK.
 
 | Service  | Feature |
+| -------- | ------- |
 | CIS      | Baremetal, Object Storage |
 | DNS      | Public Zone, Private Zone |
 | EM       | Get Account, Get Enterprise |
