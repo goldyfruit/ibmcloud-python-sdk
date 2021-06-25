@@ -96,6 +96,8 @@ class Order():
             pkg_name = package
 
         mask = "id, keyName, description"
+        if args['mask']:
+            mask = args['mask']
 
         try:
             packages = {}
