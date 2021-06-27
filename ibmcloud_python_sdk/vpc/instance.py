@@ -881,9 +881,11 @@ class Instance():
             if "errors" in interface_info:
                 return interface_info
 
-            path = ("/v1/instances/{}?version={}&generation={}".format(
-                instance_info["id"], interface_info["id"], self.cfg["version"],
-                self.cfg["generation"]))
+            path = ("/v1/instances/{}/network_interfaces/{}?version={}"
+                    "&generation={}".format(instance_info["id"],
+                                            interface_info["id"],
+                                            self.cfg["version"],
+                                            self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
 
