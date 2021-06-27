@@ -723,7 +723,7 @@ class Instance():
                         sg.append(tmp_sg)
                     payload["security_groups"] = sg
                 elif key == "subnet":
-                    payload["subnet"]: {"id": subnet_info["id"]}
+                    payload["subnet"] = {"id": subnet_info["id"]}
                 else:
                     payload[key] = value
 
