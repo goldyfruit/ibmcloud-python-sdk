@@ -1,7 +1,7 @@
-from ibmcloud_python_sdk.vpc import resource as ic
+from ibmcloud_python_sdk.resource import resource_group as ic
 
 # Intentiate the class
-resource = ic.Resource()
+resource = ic.ResourceGroup()
 
 # Retrieve resource groups list
 resource.get_resource_groups()
