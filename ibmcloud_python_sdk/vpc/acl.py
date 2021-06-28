@@ -17,8 +17,10 @@ class Acl():
         self.rg = resource_group.ResourceGroup()
 
     def get_network_acls(self):
-        """
-        Retrieve network ACL list
+        """Retrieve network ACL list
+
+        :return: List of network ACLs
+        :rtype: list
         """
         try:
             # Connect to api endpoint for network_acls
@@ -33,9 +35,12 @@ class Acl():
             raise
 
     def get_network_acl(self, acl):
-        """
-        Retrieve specific network ACL
+        """Retrieve specific network ACL
+
         :param acl: Network ACL name or ID
+        :type acl: str
+        :return: Network ACL information
+        :rtype: dict
         """
         by_name = self.get_network_acl_by_name(acl)
         if "errors" in by_name:
@@ -51,9 +56,12 @@ class Acl():
             return by_name
 
     def get_network_acl_by_id(self, id):
-        """
-        Retrieve specific network ACL by ID
+        """Retrieve specific network ACL by ID
+
         :param id: Network ACL ID
+        :type id: str
+        :return: Network ACL information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for network_acls
@@ -69,9 +77,12 @@ class Acl():
             raise
 
     def get_network_acl_by_name(self, name):
-        """
-        Retrieve specific network ACL by name
+        """Retrieve specific network ACL by name
+
         :param name: Network ACL name
+        :type name: str
+        :return: Network ACL information
+        :rtype: dict
         """
         try:
             # Retrieve network ACLs
@@ -94,9 +105,12 @@ class Acl():
             raise
 
     def get_network_acl_rules(self, acl):
-        """
-        Retrieve rules for a specific network ACL
+        """Retrieve rules for a specific network ACL
+
         :param acl: Network ACL
+        :type acl: str
+        :return: Network ACL rules list
+        :rtype: list
         """
         by_name = self.get_network_acl_rules_by_name(acl)
         if "errors" in by_name:
@@ -112,9 +126,12 @@ class Acl():
             return by_name
 
     def get_network_acl_rules_by_id(self, id):
-        """
-        Retrieve rules for a specific network ACL by ID
+        """Retrieve rules for a specific network ACL by ID
+
         :param id: Network ACL ID
+        :type id: str
+        :return: Network ACL rules list
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for network_acls
@@ -131,9 +148,12 @@ class Acl():
             raise
 
     def get_network_acl_rules_by_name(self, name):
-        """
-        Retrieve rules for a specific network ACL by name
+        """Retrieve rules for a specific network ACL by name
+
         :param name: Network ACL name
+        :type name: str
+        :return: Network ACL rules list
+        :rtype: list
         """
         # Retrieve network ACL information to get the ID
         # (mostly useful if a name is provided)
@@ -158,10 +178,14 @@ class Acl():
 
     # Get specific network ACL's rule
     def get_network_acl_rule(self, acl, rule):
-        """
-        Retrieve specific rule for a specific network ACL
+        """Retrieve specific rule for a specific network ACL
+
         :param acl: Network ACL name or ID
+        :type acl: str
         :param rule: Rule name or ID
+        :type rule: str
+        :return: Network ACL rule information
+        :rtype: dict
         """
         # Retrieve network ACL to get the ID
         # (mostly useful if a name is provided)
@@ -183,10 +207,14 @@ class Acl():
             return by_name
 
     def get_network_acl_rule_by_id(self, acl, id):
-        """
-        Retrieve specific rule for a specific network ACL by ID
+        """Retrieve specific rule for a specific network ACL by ID
+
         :param acl: Network ACL name or ID
+        :type acl: str
         :param id: Rule ID
+        :type id: str
+        :return: Network ACL rule information
+        :rtype: dict
         """
         # Retrieve network ACL to get the ID
         # (mostly useful if a name is provided)
@@ -210,10 +238,14 @@ class Acl():
             raise
 
     def get_network_acl_rule_by_name(self, acl, name):
-        """
-        Retrieve specific rule for a specific network ACL by name
+        """Retrieve specific rule for a specific network ACL by name
+
         :param acl: Network ACL name or ID
+        :type acl: str
         :param name: Rule name
+        :type name: str
+        :return: Network ACL rule information
+        :rtype: dict
         """
         # Retrieve network ACL to get the ID
         # (mostly useful if a name is provided)
@@ -242,19 +274,19 @@ class Acl():
             raise
 
     def create_network_acl(self, **kwargs):
-        """
-        Create network ACL
-        :param name: Optional. The unique user-defined name for this network
-        ACL.
+        """Create network ACL
 
-        :param resource_group: Optional. The resource group to use.
-
-        :param vpc: The VPC the network ACL is to be a part of.
-
-        :param rules: Optional. Array of prototype objects for rules to create
-        along with this network ACL.
-
-        :param source_network_acl: Optional. Network ACL to copy rules from.
+        :param name: The unique user-defined name for this network ACL
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param vpc: The VPC the network ACL is to be a part of
+        :type vpc: str
+        :param rules: Array of prototype objects for rules to create along
+            with this network ACL
+        :type rules: list, optional
+        :param source_network_acl: Network ACL to copy rules from
+        :type source_network_acl: str, optional
         """
         args = ["vpc"]
         check_args(args, **kwargs)
@@ -308,17 +340,17 @@ class Acl():
             raise
 
     def create_network_acl_rule(self, **kwargs):
-        """
-        Create network ACL rule
-        :param name: Optional. The unique user-defined name for this network
-        ACL.
+        """Create network ACL rule
 
-        :param resource_group: Optional. The resource group to use.
-
-        :param vpc: The VPC the network ACL is to be a part of.
-
-        :param rules: Optional. Array of prototype objects for rules to create
-        along with this network ACL.
+        :param name: The unique user-defined name for this network ACL
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param vpc: The VPC the network ACL is to be a part of
+        :type vpc: str
+        :param rules: Array of prototype objects for rules to create along
+            with this network ACL
+        :type rules: list, optional
         """
         args = ["acl", "action", "destination", "direction", "source"]
         check_args(args, **kwargs)
@@ -373,9 +405,12 @@ class Acl():
             raise
 
     def delete_network_acl(self, acl):
-        """
-        Delete network ACL
+        """Delete network ACL
+
         :param acl: Network ACL name or ID
+        :type acl: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if network ACL exists
@@ -401,10 +436,14 @@ class Acl():
             raise
 
     def delete_network_acl_rule(self, acl, rule):
-        """
-        Delete network ACL
+        """Delete network ACL rule
+
         :param acl: Network ACL name or ID
+        :type acl: str
         :param rule: Rule name or ID
+        :type rule: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if network ACL and network ACL rule exist

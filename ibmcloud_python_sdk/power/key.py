@@ -15,8 +15,9 @@ class Key():
         """Retrieve keys for a specific tenant
 
         :param tenant: Tenant ID (Account ID)
-        :return List of keys
-        :rtype dict
+        :type tenant: str
+        :return: List of keys
+        :rtype: list
         """
         try:
             # Connect to api endpoint for sshkeys
@@ -33,9 +34,11 @@ class Key():
         """Retrieve specific key for a specific tenant
 
         :param tenant: Tenant ID (Account ID)
+        :type tenant: str
         :param key: Key name
-        :return Key information
-        :rtype dict
+        :type key: str
+        :return: Key information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for sshkeys
@@ -52,9 +55,12 @@ class Key():
         """Create key
 
         :param tenant: Tenant ID (Account ID)
-        :param name: User defined name for the SSH key.
-        :param public_key: A unique public SSH key to import.
-        :return Key information
+        :type tenant: str
+        :param name: User defined name for the SSH key
+        :type name: str
+        :param public_key: A unique public SSH key to import
+        :type public_key: str
+        :return: Key information
         :rtype: dict
         """
         args = ["tenant", "name", "public_key"]
@@ -90,10 +96,12 @@ class Key():
     def delete_key(self, tenant, key):
         """Delete key
 
-        :param tenant: Tenant ID (Account ID).
-        :param key: Key name.
-        :return Deletion status
-        :rtype dict
+        :param tenant: Tenant ID (Account ID)
+        :type tenant: str
+        :param key: Key name
+        :type key: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             # Check if key exists

@@ -27,8 +27,10 @@ class Instance():
         self.rg = resource_group.ResourceGroup()
 
     def get_instances(self):
-        """
-        Retrieve instances list
+        """Retrieve instances list
+
+        :return: List of instances
+        :rtype: list
         """
         try:
             path = ("/v1/instances?version={}&generation={}".format(
@@ -41,9 +43,12 @@ class Instance():
             raise
 
     def get_instance(self, instance):
-        """
-        Retrieve specific instance
+        """Retrieve specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
+        :return: Instance information
+        :rtype: dict
         """
         by_name = self.get_instance_by_name(instance)
         if "errors" in by_name:
@@ -59,9 +64,12 @@ class Instance():
             return by_name
 
     def get_instance_by_id(self, id):
-        """
-        Retrieve specific instance by ID
+        """Retrieve specific instance by ID
+
         :param id: Instance ID
+        :type id: str
+        :return: Instance information
+        :rtype: dict
         """
         try:
             path = ("/v1/instances/{}?version={}&generation={}".format(
@@ -74,9 +82,12 @@ class Instance():
             raise
 
     def get_instance_by_name(self, name):
-        """
-        Retrieve specific instance by name
+        """Retrieve specific instance by name
+
         :param name: Instance name
+        :type name: str
+        :return: Instance information
+        :rtype: dict
         """
         try:
             data = self.get_instances()
@@ -95,9 +106,12 @@ class Instance():
             raise
 
     def get_instance_configuration(self, instance):
-        """
-        Retrieve initial configuration for a specific instance
+        """Retrieve initial configuration for a specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
+        :return: Instance configuration information
+        :rtype: dict
         """
         by_name = self.get_instance_configuration_by_name(instance)
         if "errors" in by_name:
@@ -113,9 +127,12 @@ class Instance():
             return by_name
 
     def get_instance_configuration_by_id(self, id):
-        """
-        Retrieve initial configuration for a specific instance by ID
+        """Retrieve initial configuration for a specific instance by ID
+
         :param id: Instance ID
+        :type id: str
+        :return: Instance configuration information
+        :rtype: dict
         """
         try:
             path = ("/v1/instances/{}/initialization?version={}"
@@ -130,9 +147,12 @@ class Instance():
             raise
 
     def get_instance_configuration_by_name(self, name):
-        """
-        Retrieve initial configuration for a specific instance by name
+        """Retrieve initial configuration for a specific instance by name
+
         :param name: Instance name
+        :type name: str
+        :return: Instance configuration information
+        :rtype: dict
         """
         try:
             instance_info = self.get_instance(name)
@@ -152,9 +172,12 @@ class Instance():
             raise
 
     def get_instance_interfaces(self, instance):
-        """
-        Retrieve network interfaces for a specific instance
+        """Retrieve network interfaces for a specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
+        :return: List of instance's interfaces
+        :rtype: list
         """
         by_name = self.get_instance_interfaces_by_name(instance)
         if "errors" in by_name:
@@ -170,9 +193,12 @@ class Instance():
             return by_name
 
     def get_instance_interfaces_by_id(self, id):
-        """
-        Retrieve network interfaces for a specific instance by ID
+        """Retrieve network interfaces for a specific instance by ID
+
         :param id: Instance ID
+        :type id: str
+        :return: List of instance's interfaces
+        :rtype: list
         """
         try:
             path = ("/v1/instances/{}/network_interfaces?version={}"
@@ -187,9 +213,12 @@ class Instance():
             raise
 
     def get_instance_interfaces_by_name(self, name):
-        """
-        Retrieve network interfaces for a specific instance by name
+        """Retrieve network interfaces for a specific instance by name
+
         :param name: Instance name
+        :type name: str
+        :return: List of instance's interfaces
+        :rtype: list
         """
         instance_info = self.get_instance(name)
         if "errors" in instance_info:
@@ -209,10 +238,14 @@ class Instance():
             raise
 
     def get_instance_interface(self, instance, interface):
-        """
-        Retrieve specific network interface for a specific instance
+        """Retrieve specific network interface for a specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param interface: Interface name or ID
+        :type interface: str
+        :return: Instance's interface information
+        :rtype: dict
         """
         by_name = self.get_instance_interface_by_name(instance, interface)
         if "errors" in by_name:
@@ -229,10 +262,14 @@ class Instance():
             return by_name
 
     def get_instance_interface_by_id(self, instance, id):
-        """
-        Retrieve specific network interface for a specific instance by ID
+        """Retrieve specific network interface for a specific instance by ID
+
         :param instance: Instance name or ID
+        :type instance: str
         :param id: Interface ID
+        :type id: str
+        :return: Instance's interface information
+        :rtype: dict
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -252,10 +289,14 @@ class Instance():
             raise
 
     def get_instance_interface_by_name(self, instance, name):
-        """
-        Retrieve specific network interface for a specific instance by ID
+        """Retrieve specific network interface for a specific instance by ID
+
         :param instance: Instance name or ID
+        :type instance: str
         :param name: Interface name
+        :type name: str
+        :return: Instance's interface information
+        :rtype: dict
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -278,11 +319,15 @@ class Instance():
             raise
 
     def get_instance_interface_fips(self, instance, interface):
-        """
-        Retrieve floating IPs attached to a network interface for a specific
-        instance
+        """Retrieve floating IPs attached to a network interface for a
+        specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param interface: Interface name or ID
+        :type interface: str
+        :return: Floating IP list attached to an interface
+        :rtype: list
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -308,12 +353,17 @@ class Instance():
             raise
 
     def get_instance_interface_fip(self, instance, interface, floating):
-        """
-        Retrieve specific floating IP attached to a network interface for
+        """Retrieve specific floating IP attached to a network interface for
         a specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param interface: Interface name or ID
+        :type interface: str
         :parem floating: Floating IP name, ID or address
+        :type floating: str
+        :return: Floating IP information
+        :rtype: dict
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -355,9 +405,12 @@ class Instance():
             raise
 
     def get_instance_volume_attachments(self, instance):
-        """
-        Retrieve volume attachments to a specific instance
+        """Retrieve volume attachments to a specific instance
+
         :param instance: Instance name or ID
+        :type instance: str
+        :return: List of volume attachments
+        :rtype: list
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -377,11 +430,14 @@ class Instance():
             raise
 
     def get_instance_volume_attachment(self, instance, attachment):
-        """
-        Retrieve specific volume attached to a specific instance
-        :param instance: Instance name or ID
-        :param attachment: Volume attachment name or ID
+        """Retrieve specific volume attached to a specific instance
 
+        :param instance: Instance name or ID
+        :type instance: str
+        :param attachment: Volume attachment name or ID
+        :type attachment: str
+        :return: Volume attachment information
+        :rtype: dict
         """
         instance_info = self.get_instance(instance)
         if "errors" in instance_info:
@@ -411,8 +467,10 @@ class Instance():
             raise
 
     def get_instance_profiles(self):
-        """
-        Retrieve instance profile list
+        """Retrieve instance profile list
+
+        :return: List of instance profiles:
+        :rtype: list
         """
         try:
             path = ("/v1/instance/profiles?version={}&generation={}".format(
@@ -425,9 +483,12 @@ class Instance():
             raise
 
     def get_instance_profile(self, profile):
-        """
-        Retrieve specific instance profile
+        """Retrieve specific instance profile
+
         :param profile: Instance profile name or ID
+        :type profile: str
+        :return: Profile information
+        :rtype: dict
         """
         try:
             path = ("/v1/instance/profiles/{}?version={}"
@@ -442,33 +503,44 @@ class Instance():
             raise
 
     def create_instance(self, **kwargs):
-        """
-        Create VSI
-        :param name: Optional. The unique user-defined name for this virtual
-        server instance.
-        :param keys: Optional. The public SSH keys to install on the virtual
-        server instance.
-        :param network_interfaces: Optional. Collection of additional network
-        interfaces to create for the virtual server instance.
-        :param placement_target: Optional. The placement for the virtual server
-        instance.
-        :param profile: Optional. The profile to use for this virtual server
-        instance.
-        :param resource_group: Optional. The resource group to use.
-        :param user_data: Optional. User data to be made available when setting
-        up the virtual server instance.
-        :param volume_attachments: Optional. Collection of volume attachments.
-        :param boot_volume_attachment: Optional. The boot volume attachment for
-        the virtual server instance.
-        :param source_template: Optional. The unique identifier for this
-        instance template.
-        :param image: Optional. The identity of the image to be used when
-        provisioning the virtual server instance.
-        :param primary_network_interface: Optional. Primary network interface.
-        :param vpc: Optional. The VPC the virtual server instance is to be a
-        part of.
-        :param zone: Optional. The identity of the zone to provision the
-        virtual server instance in.
+        """Create VSI
+
+        :param name: The unique user-defined name for this virtual server
+            instance
+        :type name: str, optional
+        :param keys: The public SSH keys to install on the virtual server
+            instance
+        :type keys: list, optional
+        :param network_interfaces: Collection of additional network interfaces
+            to create for the virtual server instance
+        :type network_interfaces: list, optional
+        :param placement_target: The placement for the virtual server instance
+        :type placement_target: str, optional
+        :param profile: The profile to use for this virtual server instance
+        :type profile: str
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param user_data: User data to be made available when setting up the
+            virtual server instance
+        :type user_data: str, optional
+        :param volume_attachments: Collection of volume attachments
+        :type volume_attachments: list, optional
+        :param boot_volume_attachment: The boot volume attachment for the
+            virtual server instance
+        :type boot_volume_attachment: str, optional
+        :param source_template: The unique identifier for this instance
+            template
+        :type source_template: str, optional
+        :param image: The identity of the image to be used when provisioning
+            the virtual server instance
+        :type image: str, optional
+        :param primary_network_interface: Primary network interface
+        :type primary_network_interface: str, optional
+        :param vpc: The VPC the virtual server instance is to be a part of
+        :type vpc: str
+        :param zone: The identity of the zone to provision the virtual server
+            instance in
+        :type zone: str, optional
         """
         args = {
             'keys': kwargs.get('keys'),
@@ -642,15 +714,15 @@ class Instance():
             raise
 
     def create_instance_action(self, **kwargs):
-        """
-        Create instance action
-        :param instance: The instance name or ID.
+        """Create instance action
 
-        :param type: The type of action.
-
-        :param force: Optional. If set to true, the action will be forced
-        immediately, and all queued actions deleted. Ignored for the start
-        action.
+        :param instance: The instance name or ID
+        :type instance: str
+        :param type: The type of action
+        :type type: str
+        :param force: If set to true, the action will be forced immediately,
+            and all queued actions deleted. Ignored for the start action
+        :type force: bool, optional
         """
         args = ["instance", "type"]
         check_args(args, **kwargs)
@@ -684,15 +756,16 @@ class Instance():
             raise
 
     def create_instance_interface(self, **kwargs):
-        """
-        Create instance interface
-        :param instance: The instance name or ID.
+        """Create instance interface
 
+        :param instance: The instance name or ID
+        :type instance: str
         :param subnet: The associated subnet name or ID
-
-        :param primary_ipv4_address: Optional. The primary IPv4 address.
-
-        :param security_groups: Optional. Collection of security groups.
+        :type subnet: str
+        :param primary_ipv4_address: The primary IPv4 address
+        :type primary_ipv4_address: str, optional
+        :param security_groups: Collection of security groups
+        :type security_groups: str, optional
         """
         args = ["instance", "subnet"]
         check_args(args, **kwargs)
@@ -741,13 +814,14 @@ class Instance():
             raise
 
     def associate_floating_ip(self, **kwargs):
-        """
-        Associate floating IP with a network interface
-        :param instance: The instance name or ID.
+        """Associate floating IP with a network interface on an instance
 
+        :param instance: Instance name or ID
+        :type instance: str
         :param interface: The network interface name or ID
-
+        :type interface: str
         :param fip: The floting IP name, ID or address
+        :type fip: str
         """
         args = ["instance", "interface", "fip"]
         check_args(args, **kwargs)
@@ -789,17 +863,17 @@ class Instance():
             raise
 
     def attach_volume(self, **kwargs):
-        """
-        Attach a volume to an instance
-        :param instance: The instance name or ID.
+        """Attach a volume to an instance
 
-        :param volume: The identity of the volume to attach to the instance.
-
-        :param delete_volume_on_instance_delete: Optional. If set to true, when
-        deleting the instance the volume will also be deleted.
-
-        :param name: Optional. The user-defined name for this volume
-        attachment.
+        :param instance: The instance name or ID
+        :type instance: str
+        :param volume: The identity of the volume to attach to the instance
+        :type volume: str
+        :param delete_volume_on_instance_delete: If set to true, when deleting
+            the instance the volume will also be deleted
+        :type delete_volume_on_instance_delete: bool, optional
+        :param name: The user-defined name for this volume attachment
+        :type name: str
         """
         args = ["instance", "volume"]
         check_args(args, **kwargs)
@@ -842,9 +916,12 @@ class Instance():
             raise
 
     def delete_instance(self, instance):
-        """
-        Delete instance
+        """Delete instance
+
         :param instance: Instance name or ID
+        :type instance: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             instance_info = self.get_instance(instance)
@@ -867,10 +944,14 @@ class Instance():
             raise
 
     def delete_instance_interface(self, instance, interface):
-        """
-        Delete interface from instance
+        """Delete interface from instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param interface: Interface name or ID
+        :type interface: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             instance_info = self.get_instance(instance)
@@ -899,11 +980,14 @@ class Instance():
             raise
 
     def disassociate_floating_ip(self, instance, interface, fip):
-        """
-        Disassociate floating IP from a network interface on an instance
+        """Disassociate floating IP from a network interface on an instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param interface: Interface name or ID
+        :type interface: str
         :parem fip: Floating IP name, ID or address
+        :type fip: str
         """
         try:
             instance_info = self.get_instance(instance)
@@ -939,10 +1023,12 @@ class Instance():
             raise
 
     def detach_volume(self, instance, attachment):
-        """
-        Detach volume from an instance
+        """Detach volume from an instance
+
         :param instance: Instance name or ID
+        :type instance: str
         :param attachment: Volume attachement name or ID
+        :type attachment: str
         """
         try:
             instance_info = self.get_instance(instance)

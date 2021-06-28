@@ -19,8 +19,10 @@ class Gateway():
         self.rg = resource_group.ResourceGroup()
 
     def get_public_gateways(self):
-        """
-        Retrieve public gateways list
+        """Retrieve public gateways list
+
+        :return: List of public gateways
+        :rtype: list
         """
         try:
             # Connect to api endpoint for public_gateways
@@ -35,9 +37,12 @@ class Gateway():
             raise
 
     def get_public_gateway(self, gateway):
-        """
-        Retrieve specific public gateway
+        """Retrieve specific public gateway
+
         :param gateway: Public gateway name or ID
+        :type gateway: str
+        :return: Public gateway information
+        :rtype: dict
         """
         by_name = self.get_public_gateway_by_name(gateway)
         if "errors" in by_name:
@@ -53,9 +58,12 @@ class Gateway():
             return by_name
 
     def get_public_gateway_by_id(self, id):
-        """
-        Retrieve specific public gateway by ID
+        """Retrieve specific public gateway by ID
+
         :param id: Public gateway ID
+        :type id: str
+        :return: Public gateway information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for public_gateways
@@ -71,9 +79,12 @@ class Gateway():
             raise
 
     def get_public_gateway_by_name(self, name):
-        """
-        Retrieve specific public gateway by name
+        """Retrieve specific public gateway by name
+
         :param name: Public gateway name
+        :type name: str
+        :return: Public gateway information
+        :rtype: dict
         """
         try:
             # Retrieve public gateways
@@ -96,14 +107,18 @@ class Gateway():
             raise
 
     def create_public_gateway(self, **kwargs):
-        """
-        Create public gateway
-        :param name: Optional. The unique user-defined name for this subnet.
-        :param resource_group: Optional. The resource group to use.
-        :param floating_ip: Optional. Identifies a floating IP by a unique
-        property.
-        :param vpc: The VPC the public gateway is to be a part of.
-        :param zone: The zone the public gateway is to reside in.
+        """Create public gateway
+
+        :param name: The unique user-defined name for this subnet
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param floating_ip: Identifies a floating IP by a unique property
+        :type floating_ip: str, optional
+        :param vpc: The VPC the public gateway is to be a part of
+        :type vpc: str
+        :param zone: The zone the public gateway is to reside in
+        :type zone: str
         """
         args = ["vpc", "zone"]
         check_args(args, **kwargs)
@@ -156,9 +171,12 @@ class Gateway():
             raise
 
     def delete_public_gateway(self, gateway):
-        """
-        Delete gateway
+        """Delete public gateway
+
         :param gateway: Public gateway name or ID
+        :type gateway: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if public gateway exists

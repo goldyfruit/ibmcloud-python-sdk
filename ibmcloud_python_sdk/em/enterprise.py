@@ -9,8 +9,10 @@ class Enterprise():
         self.cfg = params()
 
     def get_enterprises(self):
-        """
-        Retrieve enterprise list
+        """Retrieve enterprise list
+
+        :return: List of enterprises
+        :rtype: list
         """
         try:
             # Connect to api endpoint for enterprises

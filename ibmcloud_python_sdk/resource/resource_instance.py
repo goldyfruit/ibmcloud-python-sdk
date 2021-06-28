@@ -18,23 +18,28 @@ class ResourceInstance():
     def create_resource_instance(self, **kwargs):
         """Create resource instance
 
-        :param: name: The name of the instance.
-        :param: resource_group: Short or long ID of resource group.
-        :param: resource_plan: The unique ID of the plan associated with the
+        :param name: The name of the instance
+        :type name: str
+        :param resource_group: Short or long ID of resource group
+        :type resource_group: str
+        :param resource_plan: The unique ID of the plan associated with the
             offering. This value is provided by and stored in the global
-            catalog.
-        :param: target: The deployment location where the instance should
-            be hosted.
-        :param: tags: Optional. Tags that are attached to the instance after
-            provisioning.
-        :param: allow_cleanup: Optional. TA boolean that dictates if the
-            resource instance should be deleted (cleaned up) during the
-            processing of a region instance delete call.
-        :param: parameters: Optional. Configuration options represented as
-            key-value pairs that are passed through to the target resource
-            brokers.
-        :return Resource instance information
-        :rtype dict
+            catalog
+        :type resource_plan: str
+        :param target: The deployment location where the instance should
+            be hosted
+        :type target: str
+        :param tags: Tags that are attached to the instance after provisioning
+        :type tags: list, optional
+        :param allow_cleanup: Boolean that dictates if the resource instance
+            should be deleted (cleaned up) during the processing of a region
+            instance delete call
+        :type allow_cleanup: bool, optional
+        :param parameters: Configuration options represented as key-value
+            pairs that are passed through to the target resource brokers
+        :type parameters: dict, optional
+        :return: Resource instance information
+        :rtype: dict
         """
         args = ['name', 'resource_group', 'resource_plan']
         check_args(args, **kwargs)
@@ -85,10 +90,10 @@ class ResourceInstance():
     def get_resource_instances(self, resource_group=None):
         """Retrieve resource instance list
 
-        :param resource_group: Optional. Filter resource instance by resource
-        group.
-        :return Resource instance list
-        :rtype dict
+        :param resource_group: Filter resource instance by resource group
+        :type resource_group: str, optional
+        :return: Resource instance list
+        :rtype: list
         """
         try:
             # Connect to api endpoint for resource instances
@@ -104,11 +109,12 @@ class ResourceInstance():
             raise
 
     def get_resource_instance(self, resource_instance):
-        """ Retrieve specific resource instance by name or by GUID
+        """Retrieve specific resource instance by name or by GUID
 
         :param resource_instance: Resource instance name or GUID
-        :return Resource instance information
-        :rtype dict
+        :type resource_instance: str
+        :return: Resource instance information
+        :rtype: dict
         """
         by_name = self.get_resource_instance_by_name(resource_instance)
         if "errors" in by_name:
@@ -128,8 +134,9 @@ class ResourceInstance():
         """Retrieve specific resoure instance by GUID
 
         :param guid: Resource instance GUID
-        :return Resource instance information
-        :rtype dict
+        :ẗype guid: str
+        :return: Resource instance information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource instances
@@ -153,8 +160,9 @@ class ResourceInstance():
         """Retrieve specific resoure instance by name
 
         :param name: Resource instance name
-        :return Resource instance information
-        :rtype dict
+        :type name: str
+        :return: Resource instance information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource instances
@@ -173,9 +181,10 @@ class ResourceInstance():
     def delete_resource_instance(self, instance):
         """Delete a resource instance
 
-        :param: instance: The resource instance name or ID
-        :return Deletion status
-        :rtype dict
+        :param instance: The resource instance name or ID
+        :type instance: str
+        :return: Deletion status
+        :rtype: resource_deleted()
         """
         try:
             instance_info = self.get_resource_instance(instance)

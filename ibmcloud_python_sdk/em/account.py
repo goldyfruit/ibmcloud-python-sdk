@@ -9,8 +9,10 @@ class Account():
         self.cfg = params()
 
     def get_accounts(self):
-        """
-        Retrieve account list
+        """Retrieve account list
+
+        :return: List of accounts
+        :rtype: list
         """
         try:
             # Connect to api endpoint for accounts

@@ -11,10 +11,11 @@ class Order():
         self.order = sl.SoftLayer.OrderingManager(self.client)
 
     def get_operating_systems(self, package=None):
-        """Retrieve baremetal operating systems
+        """Retrieve baremetal operating system list
 
-        :param package:  Optional. Package name.
-        :return: Baremetal operating systems
+        :param package: Package name, defaults to `BARE_METAL_SERVER`
+        :type package: str, optional
+        :return: Baremetal operating system list
         :rtype: dict
         """
         # Provided package should have "os" category code.
@@ -42,10 +43,12 @@ class Order():
             return resource_error(error.faultCode, error.faultString)
 
     def get_operating_system(self, image, package=None):
-        """Retrieve specific baremetal operating systems
+        """Retrieve specific baremetal operating system
 
-        :param image: Image name.
-        :param package: Optional. Package name.
+        :param image: Image name
+        :type image: str
+        :param package: Package name, defaults to `BARE_METAL_SERVER`
+        :type package: str, optional
         :return: Baremetal operating system
         :rtype: dict
         """
@@ -72,11 +75,14 @@ class Order():
             return resource_error(error.faultCode, error.faultString)
 
     def get_package_items(self, package=None, **kwargs):
-        """Retrieve baremetal operating systems
+        """Retrieve package item list
 
-        :param package: Optional. Package name.
-        :param category: Filter by category.
-        :param mask: Mask fields.
+        :param package: Package name, defaults to `BARE_METAL_SERVER`
+        :type package: str, optional
+        :param category: Filter by category
+        :type category: str, optional
+        :param mask: Mask fields
+        :type mask: str, optional
         :return: Baremetal operating systems
         :rtype: dict
         """
@@ -112,7 +118,8 @@ class Order():
     def get_package_presets(self, package=None):
         """Retrieve baremetal package presets
 
-        :param package: Optional. Package name.
+        :param package: Package name, defaults to `BARE_METAL_SERVER`
+        :type package: str, optional
         :return: Baremetal presets from package
         :rtype: dict
         """
@@ -149,14 +156,22 @@ class Order():
     def verify(self, **kwargs):
         """Verify an order
 
-        :param package: The package being ordered.
-        :param location: The datacenter location string for ordering.
-        :param items: The list of item keyname strings to order.
-        :param complex_type: The complex type to send with the order.
-        :param hourly: Optional. If true, uses hourly billing.
-        :param preset: Optional. Specifies a preset to use for that package.
-        :param extras: The extra data for the order in dictionary format.
-        :param quantity: Optional. The number of resources to order.
+        :param package: The package being ordered
+        :type package: str
+        :param location: The datacenter location string for ordering
+        :type location: str
+        :param items: The list of item keyname strings to order
+        :type items: list
+        :param complex_type: The complex type to send with the order
+        :type complex_type: str
+        :param hourly: If true, uses hourly billing, defaults to `True`
+        :type hourly: bool, optional
+        :param preset: Specifies a preset to use for that package
+        :type preset: str, optional
+        :param extras: The extra data for the order in dictionary format
+        :type extras: dict
+        :param quantity: The number of resources to order, default to `1`
+        :type quantity: int, optional
         :return: The verified order
         :rtype: dict
         """
@@ -188,14 +203,22 @@ class Order():
     def place(self, **kwargs):
         """Place an order
 
-        :param package: The package being ordered.
-        :param location: The datacenter location string for ordering.
-        :param items: The list of item keyname strings to order.
-        :param complex_type: The complex type to send with the order.
-        :param hourly: Optional. If true, uses hourly billing.
-        :param preset: Optional. Specifies a preset to use for that package.
-        :param extras: The extra data for the order in dictionary format.
-        :param quantity: Optional. The number of resources to order.
+        :param package: The package being ordered
+        :type package: str
+        :param location: The datacenter location string for ordering
+        :type location: str
+        :param items: The list of item keyname strings to order
+        :type items: list
+        :param complex_type: The complex type to send with the order
+        :type complex_type: str
+        :param hourly: If true, uses hourly billing, defaults to `True`
+        :type hourly: bool, optional
+        :param preset: Specifies a preset to use for that package
+        :type preset: str, optional
+        :param extras: The extra data for the order in dictionary format
+        :type extras: dict
+        :param quantity: The number of resources to order, default to `1`
+        :type quantity: int, optional
         :return: The placed order
         :rtype: dict
         """

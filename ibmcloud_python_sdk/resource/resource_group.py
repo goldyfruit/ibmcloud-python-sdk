@@ -14,8 +14,10 @@ class ResourceGroup():
         self.cfg = params()
 
     def get_resource_groups(self):
-        """
-        Retrieve resource group list
+        """Retrieve resource group list
+
+        :return: List of resource groups
+        :rtype: list
         """
         try:
             # Connect to api endpoint for resource_groups
@@ -29,8 +31,10 @@ class ResourceGroup():
             raise
 
     def get_default_resource_group(self):
-        """
-        Retrieve the default resource group
+        """Retrieve the default resource group
+
+        :return: Default resource group information
+        :rtype: dict
         """
         resource_groups = self.get_resource_groups()["resources"]
         try:
@@ -42,9 +46,12 @@ class ResourceGroup():
             raise
 
     def get_resource_group(self, group):
-        """
-        Retrieve specific resource group by name or by ID
+        """Retrieve specific resource group by name or by ID
+
         :param group: Resource group name or ID
+        :type group: str
+        :return: Resource group information
+        :rtype: dict
         """
         by_name = self.get_resource_group_by_name(group)
         if "errors" in by_name:
@@ -60,9 +67,12 @@ class ResourceGroup():
             return by_name
 
     def get_resource_group_by_id(self, id):
-        """
-        Retrieve specific resource group by ID
+        """Retrieve specific resource group by ID
+
         :param id: Resource group ID
+        :type id: str
+        :return: Resource group information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource_groups
@@ -77,9 +87,12 @@ class ResourceGroup():
             raise
 
     def get_resource_group_by_name(self, name):
-        """
-        Retrieve specific resource group by name
+        """Retrieve specific resource group by name
+
         :param name: Resource group name
+        :type name: str
+        :return: Resource group information
+        :rtype: dict
         """
         try:
             # Retrieve resource groups
@@ -102,9 +115,12 @@ class ResourceGroup():
             raise
 
     def get_resource_groups_by_account(self, id):
-        """
-        Retrieve resource group list for a specific account
+        """Retrieve resource group list for a specific account
+
         :param id: Account ID
+        :type id: str
+        :return: Resource group information by account
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource_groups
@@ -121,8 +137,8 @@ class ResourceGroup():
     def get_quota_definitions(self):
         """Retrieve list of all quota definitions
 
-        :return List of quota definitions
-        :rtype dict
+        :return: List of quota definitions
+        :rtype: list
         """
         try:
             # Connect to api endpoint for quota_definitions
@@ -139,8 +155,9 @@ class ResourceGroup():
         """Retrieve specific quota definition by name or by ID
 
         :param quota: Quota definition name or ID
-        :return Quota definition
-        :rtype dict
+        :type quota: str
+        :return: Quota definition
+        :rtype: dict
         """
         by_name = self.get_quota_definition_by_name(quota)
         if "errors" in by_name:
@@ -160,8 +177,9 @@ class ResourceGroup():
         """Retrieve specific quota definition by ID
 
         :param id: Quota definition ID
-        :return Quota definition
-        :rtype dict
+        :type id: str
+        :return: Quota definition
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for quota_definitions
@@ -179,8 +197,9 @@ class ResourceGroup():
         """Retrieve specific quota definitnion by name
 
         :param name: Quota definition name
-        :return Quota definition
-        :rtype dict
+        :type name: str
+        :return: Quota definition
+        :rtype: dict
         """
         try:
             # Retrieve quota definitions
@@ -203,10 +222,12 @@ class ResourceGroup():
             raise
 
     def create_group(self, **kwargs):
-        """
-        Create resource group
-        :param name: The new name of the resource group.
-        :param account_id: The account id of the resource group.
+        """Create resource group
+
+        :param name: Name of the resource group
+        :type name: str
+        :param account_id: The account ID of the resource group
+        :type account_id: str
         """
         args = ["name", "account_id"]
         check_args(args, **kwargs)
@@ -236,9 +257,12 @@ class ResourceGroup():
             raise
 
     def delete_group(self, group):
-        """
-        Delete resource group
+        """Delete resource group
+
         :param group: Resource group name or ID
+        :type group:
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         try:
             # Check if group exists

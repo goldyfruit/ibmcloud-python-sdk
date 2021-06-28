@@ -15,8 +15,8 @@ class ResourceKey():
     def get_resource_keys(self):
         """Retrieve resource key list
 
-        :return List of resource keys
-        :rtype dict
+        :return: List of resource keys
+        :rtype: list
         """
         try:
             # Connect to api endpoint for resource_keys
@@ -33,8 +33,9 @@ class ResourceKey():
         """Retrieve specific resource key by name or by ID
 
         :param key: Resource key name or ID
-        :return Resource key information
-        :rtype dict
+        :type key: str
+        :return: Resource key information
+        :rtype: dict
         """
         by_name = self.get_resource_key_by_name(key)
         if "errors" in by_name:
@@ -50,9 +51,12 @@ class ResourceKey():
             return by_name
 
     def get_resource_key_by_id(self, id):
-        """
-        Retrieve specific resource key by ID
+        """Retrieve specific resource key by ID
+
         :param id: Resource key ID
+        :type id: str
+        :return: Resource key information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource_keys
@@ -67,9 +71,12 @@ class ResourceKey():
             raise
 
     def get_resource_key_by_name(self, name):
-        """
-        Retrieve specific resource key by name
+        """Retrieve specific resource key by name
+
         :param name: Resource key name
+        :type name: str
+        :return: Resource key information
+        :rtype: dict
         """
         try:
             # Retrieve resource keys
@@ -92,14 +99,17 @@ class ResourceKey():
             raise
 
     def create_key(self, **kwargs):
-        """
-        Create resource key
-        :param name: The new name of the resource group.
-        :param source: The short or long ID of resource instance or alias.
-        :param parameters: Optional. Configuration options represented as
-        key-value pairs.
-        :param role: Optional. The role name or it's CRN.
+        """Create resource key
 
+        :param name: The new name of the resource group
+        :type name: str
+        :param source: The short or long ID of resource instance or alias
+        :type source: str
+        :param parameters: Configuration options represented as key-value
+            pairs
+        :type parameters: dict optional
+        :param role: The role name or it's CRN
+        :type: role: str, optional
         """
         args = ["name", "source"]
         check_args(args, **kwargs)
@@ -134,8 +144,9 @@ class ResourceKey():
         """Delete resource key
 
         :param key: Resource key name or ID
-        :return JSON code
-        :rtype resource_deleted()
+        :type key: str
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         try:
             # Check if key exists

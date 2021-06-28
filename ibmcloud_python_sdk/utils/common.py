@@ -27,15 +27,23 @@ def _account_id(headers):
 
 
 def query_wrapper(conn_type, method, path, headers=None, payload=None):
-    """Execute HTTP query and return JSON response.
+    """Execute HTTP query and return JSON response
+
     :param conn_type: Define which URL should be used for the connection
-        such as "iaas", "auth", "cis", or "rg" (resource group).
+        such as "iaas", "auth", "cis", or "rg" (resource group)
+    :type conn_type: str
     :param method: HTTP method that should be used such as
         GET, POST, PUT, DELETE, etc...
+    :type method: str
     :param path: Path used by within the query
-    :param headers: Optional. Headers to send with the query is required
-        such authentication token, content type, etc...
-    :param payload: Optional. JSON payload send during the query.
+    :type path: str
+    :param headers: Headers to send with the query is required such
+        authentication token, content type, etc...
+    :type headers: dict, optional
+    :param payload: JSON payload send during the query
+    :type payload: dict, optional
+    :return: JSON response
+    :rtype: dict
     """
     cfg = params()
     timeout = cfg["http_timeout"]
@@ -90,8 +98,10 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
 
 
 def check_args(arguments, **kwargs):
-    """Check that required arguments are passed to the function.
-    :param arguments: List of required arguments.
+    """Check that required arguments are passed to the function
+
+    :param arguments: List of required arguments
+    :type arguments: list
     """
     # Argument required by the function
     required = set(arguments)
@@ -107,8 +117,12 @@ def check_args(arguments, **kwargs):
 
 
 def resource_not_found(payload=None):
-    """Return custom JSON if a resource is not found.
-    :param payload: Optional. Customize the JSON to return if needed.
+    """Return custom JSON if a resource is not found
+
+    :param payload: Customize the JSON to return if needed
+    :type payload: dict, optional
+    :return: A JSON dict with a message
+    :rtype: dict
     """
     if payload is not None:
         return payload
@@ -117,8 +131,12 @@ def resource_not_found(payload=None):
 
 
 def resource_deleted(payload=None):
-    """Return custom JSON if a resource is deleted.
-    :param payload: Optional. Customize the JSON to return if needed.
+    """Return custom JSON if a resource is deleted
+
+    :param payload: Customize the JSON to return if needed
+    :type payload: dict, optional
+    :return: A JSON dict with a message
+    :rtype: dict
     """
     if payload is not None:
         return payload
@@ -127,8 +145,10 @@ def resource_deleted(payload=None):
 
 
 def resource_found(payload=None):
-    """Return custom JSON if a resource is found but doesn't have output.
-    :param payload: Optional. Customize the JSON to return if needed.
+    """Return custom JSON if a resource is found but doesn't have output
+
+    :param payload: Customize the JSON to return if needed
+    :type payload: dict, optional
     """
     if payload is not None:
         return payload
@@ -137,8 +157,12 @@ def resource_found(payload=None):
 
 
 def resource_created(payload=None):
-    """Return custom JSON if a resource is created but doesn't have output.
-    :param payload: Optional. Customize the JSON to return if needed.
+    """Return custom JSON if a resource is created but doesn't have output
+
+    :param payload: Customize the JSON to return if needed
+    :type payload: dict, optional
+    :return: A JSON dict with a message
+    :rtype: dict
     """
     if payload is not None:
         return payload
@@ -147,10 +171,15 @@ def resource_created(payload=None):
 
 
 def resource_error(code, message):
-    """Return custom JSON if a resource raised an exception.
-    This will be mostly used during try:|except: on SoftLayer resources.
-    :param code: Code to return.
-    :param message: Message to return.
+    """Return custom JSON if a resource raised an exception. This will be
+        mostly used during try: / except: on SoftLayer resources
+
+    :param code: Code to return
+    :type code: int
+    :param message: Message to return
+    :type messaage: str
+    :return: A JSON dict with an error message
+    :rtype: dict
     """
     if code == 404:
         code = "not_found"

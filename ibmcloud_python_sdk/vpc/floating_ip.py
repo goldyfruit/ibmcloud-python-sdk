@@ -14,8 +14,10 @@ class Fip():
         self.rg = resource_group.ResourceGroup()
 
     def get_floating_ips(self):
-        """
-        Retrieve floating IP list
+        """Retrieve floating IP list
+
+        :return: List of floating IPs
+        :rtype: list
         """
         try:
             # Connect to api endpoint for floating_ips
@@ -30,9 +32,12 @@ class Fip():
             raise
 
     def get_floating_ip(self, fip):
-        """
-        Retrieve specific floating IP
+        """Retrieve specific floating IP
+
         :param fip: Floating IP name, ID or address
+        :type fip: str
+        :return: Floating IP information
+        :rtype: dict
         """
         by_name = self.get_floating_ip_by_name(fip)
         if "errors" in by_name:
@@ -57,9 +62,12 @@ class Fip():
             return by_name
 
     def get_floating_ip_by_id(self, id):
-        """
-        Retrieve specific floating IP by ID
+        """Retrieve specific floating IP by ID
+
         :param id: Floating IP ID
+        :type id: str
+        :return: Floating IP information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for floating_ips
@@ -75,9 +83,12 @@ class Fip():
             raise
 
     def get_floating_ip_by_name(self, name):
-        """
-        Retrieve specific floating IP by name
+        """Retrieve specific floating IP by name
+
         :param name: Floating IP name
+        :type name: str
+        :return: Floating IP information
+        :rtype: dict
         """
         try:
             # Retrieve floating IPs
@@ -100,9 +111,12 @@ class Fip():
             raise
 
     def get_floating_ip_by_address(self, address):
-        """
-        Retrieve specific floating IP by address
+        """Retrieve specific floating IP by address
+
         :param address: Floating IP address
+        :type address: str
+        :return: Floating IP information
+        :rtype: dict
         """
         try:
             # Retrieve floating IPs
@@ -126,14 +140,16 @@ class Fip():
 
     # Reserve floating IP
     def reserve_floating_ip(self, **kwargs):
-        """
-        Create floating IP
-        :param name: Optional. The unique user-defined name for this floating
-        IP.
-        :param resource_group: Optional. The resource group to use.
-        :param targer: Optional. The target this address is to be bound to.
-        :param zone: Optional. The identity of the zone to provision a
-        floating IP in.
+        """Create floating IP
+
+        :param name: The unique user-defined name for this floating IP
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param target: The target this address is to be bound to
+        :type target: str, optional
+        :param zone: The identity of the zone to provision a floating IP in
+        :type zone: str, optional
         """
         # Build dict of argument and assign default value when needed
         args = {
@@ -174,9 +190,10 @@ class Fip():
             raise
 
     def release_floating_ip(self, fip):
-        """
-        Release floating IP
+        """Release floating IP
+
         :param fip: Floating IP name, ID or address
+        :type fip: str
         """
         try:
             # Check if floating IP exists

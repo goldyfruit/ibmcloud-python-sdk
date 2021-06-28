@@ -19,8 +19,10 @@ class Security():
         self.instance = instance.Instance()
 
     def get_security_groups(self):
-        """
-        Retrieve security group list
+        """Retrieve security group list
+
+        :return: List of security groups
+        :rtype: list
         """
         try:
             # Connect to api endpoint for security_groups
@@ -35,9 +37,12 @@ class Security():
             raise
 
     def get_security_group(self, security_group):
-        """
-        Retrieve specific security group
+        """Retrieve specific security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
+        :return: Security group information
+        :rtype: dict
         """
         by_name = self.get_security_group_by_name(security_group)
         if "errors" in by_name:
@@ -53,9 +58,12 @@ class Security():
             return by_name
 
     def get_security_group_by_id(self, id):
-        """
-        Retrieve specific security group by ID
+        """Retrieve specific security group by ID
+
         :param id: Security group ID
+        :type id: str
+        :return: Security group information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for security_groups
@@ -71,9 +79,12 @@ class Security():
             raise
 
     def get_security_group_by_name(self, name):
-        """
-        Retrieve specific security group by name
+        """Retrieve specific security group by name
+
         :param name: Security group name
+        :type name: str
+        :return: Security group information
+        :rtype: dict
         """
         try:
             # Retrieve security groups
@@ -96,9 +107,12 @@ class Security():
             raise
 
     def get_security_group_interfaces(self, security_group):
-        """
-        Retrieve network interfaces associated to a security group
+        """Retrieve network interfaces associated to a security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
+        :return: List of network interfaces
+        :rtype: list
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -121,10 +135,14 @@ class Security():
             raise
 
     def get_security_group_interface(self, security_group, interface):
-        """
-        Retrieve specific network interface associated to a security group
+        """Retrieve specific network interface associated to a security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :param interface: Network interface name or ID
+        :type interface: str
+        :return: Network interface information
+        :rtype: dict
         """
         by_name = self.get_security_group_interface_by_name(security_group,
                                                             interface)
@@ -142,10 +160,15 @@ class Security():
             return by_name
 
     def get_security_group_interface_by_id(self, security_group, id):
-        """
-        Retrieve specific network interface associated to a security group
+        """Retrieve specific network interface associated to a security group
+        by ID
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :param id: Network interface ID
+        :type id: str
+        :return: Network interface information
+        :rtype: dict
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -169,10 +192,15 @@ class Security():
             raise
 
     def get_security_group_interface_by_name(self, security_group, name):
-        """
-        Retrieve specific network interface associated to a security group
+        """Retrieve specific network interface associated to a security group
+        by name
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :param name: Network interface name
+        :type name: str
+        :return: Network interface information
+        :rtype: dict
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -201,9 +229,12 @@ class Security():
             raise
 
     def get_security_group_rules(self, security_group):
-        """
-        Retrieve rules from a security group
+        """Retrieve rules from a security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
+        :return: List of rules
+        :rtype: list
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -227,10 +258,14 @@ class Security():
             raise
 
     def get_security_group_rule(self, security_group, rule):
-        """
-        Retrieve specific rule from a security group
+        """Retrieve specific rule from a security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :param rule: Rule ID
+        :type rule: str
+        :return: Rule information
+        :rtype: dict
         """
         by_id = self.get_security_group_rule_by_id(security_group, rule)
         if "errors" in by_id:
@@ -239,10 +274,14 @@ class Security():
         return by_id
 
     def get_security_group_rule_by_id(self, security_group, id):
-        """
-        Retrieve specific rule from a security group
+        """Retrieve specific rule from a security group by ID
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :param id: Rule ID
+        :type id: str
+        :return: Rule information
+        :rtype: dict
         """
         # Retrieve security group information to get the ID
         # (mostly useful if a name is provided)
@@ -266,13 +305,14 @@ class Security():
             raise
 
     def add_interface_security_group(self, **kwargs):
-        """
-        Add network interface to a security group
-        :param interface: The network interface ID.
+        """Add network interface to a security group
 
-        :param security_group: The security group name or ID.
-
-        :param instance: Optional. Instance name or ID.
+        :param interface: The network interface ID
+        :type interface: str
+        :param security_group: The security group name or ID
+        :type security_group: str
+        :param instance: Instance name or ID
+        :type instance: str, optional
         """
         args = ["interface", "security_group"]
         check_args(args, **kwargs)
@@ -318,16 +358,17 @@ class Security():
             raise
 
     def create_security_group(self, **kwargs):
-        """
-        Create security group
-        :param name: Optional. The user-defined name for this security group.
+        """Create security group
 
-        :param resource_group: Optional. The resource group to use.
-
-        :param vpc: The VPC this security group is to be a part of.
-
-        :param rules: Optional. Array of rule prototype objects for rules to
-        be created for this security group.
+        :param name: The user-defined name for this security group
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type security_group: str, optional
+        :param vpc: The VPC this security group is to be a part of
+        :type vpc: str
+        :param rules: Array of rule prototype objects for rules to be created
+            for this security group
+        :type rules: list, optional
         """
         args = ["vpc"]
         check_args(args, **kwargs)
@@ -377,16 +418,31 @@ class Security():
             raise
 
     def create_security_group_rule(self, **kwargs):
-        """
-        Create security group rule
-        :param name: Optional. The user-defined name for this security group.
+        """Create security group rule
 
-        :param resource_group: Optional. The resource group to use.
-
-        :param vpc: The VPC this security group is to be a part of.
-
-        :param rules: Array of rule prototype objects for rules to be created
-        for this security group.
+        :param sg: Security group name or ID where to add the rule
+        :type sg: str
+        :param direction: The direction of traffic to enforce, either inbound
+            or outbound
+        :type direction: str
+        :param ip_version: The IP version to enforce
+        :type ip_version: str
+        :param protocol: The protocol to enforce
+        :type protocol: str
+        :param port_min: The inclusive lower bound of TCP/UDP port range
+        :type port_min: int
+        :param port_max: The inclusive upper bound of TCP/UDP port range
+        :type port_max: int
+        :param code: The ICMP traffic code to allow
+        :type code: int
+        :param type: The ICMP traffic type to allow
+        :type type: str
+        :param cidr_block: The CIDR block
+        :type cidr_block: str
+        :param address: The IP address
+        :type address: str
+        :param security_group: The unique identifier for this security group
+        :type security_group: str
         """
         args = ["sg", "direction"]
         check_args(args, **kwargs)
@@ -442,9 +498,12 @@ class Security():
             raise
 
     def delete_security_group(self, security_group):
-        """
-        Delete security group
+        """Delete security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if security group exists
@@ -471,10 +530,14 @@ class Security():
             raise
 
     def remove_interface_security_group(self, security_group, interface):
-        """
-        Remove network interface from a security group
+        """Remove network interface from a security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :parem interface: Interface ID
+        :type interface: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if security group exists
@@ -503,10 +566,14 @@ class Security():
             raise
 
     def delete_security_group_rule(self, security_group, rule):
-        """
-        Delete rule from security group
+        """Delete rule from security group
+
         :param security_group: Security group name or ID
+        :type security_group: str
         :parem rule: Rule name or ID
+        :type rule: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if security group exists

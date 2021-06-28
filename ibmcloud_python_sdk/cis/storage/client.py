@@ -1,5 +1,6 @@
 import ibm_boto3
 import re
+
 from ibmcloud_python_sdk.utils.object_regions import endpoints
 from ibmcloud_python_sdk.resource import resource_instance
 from ibmcloud_python_sdk.utils.common import resource_not_found
@@ -11,8 +12,10 @@ from botocore.client import Config
 def _get_endpoint(**kwargs):
     """Get endpoint storage URL from lookup based on mode and region
 
-    :param: mode: Access mode.
-    :param: region: Region where to host the bucket.
+    :param mode: Access mode
+    :type mode: str
+    :param region: Region where to host the bucket
+    :type region: str
     :return URL endpoint
     :rtype: str
     """
@@ -32,10 +35,13 @@ def _get_endpoint(**kwargs):
 def cos_client(**kwargs):
     """Create Cloud Object Storage client
 
-    :param: mode: Access mode.
-    :param: location: Region where to host the bucket.
-    :param: service_instance: Resource instance name or ID
-    :return Cloud Object Storage client
+    :param mode: Access mode
+    :type mode: str
+    :param location: Region where to host the bucket
+    :type location: str
+    :param service_instance: Resource instance name or ID
+    :type service_instance: str
+    :return: Cloud Object Storage client
     :rtype: dict
     """
     cfg = params()

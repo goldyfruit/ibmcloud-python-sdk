@@ -15,8 +15,10 @@ class Key():
         self.rg = resource_group.ResourceGroup()
 
     def get_keys(self):
-        """
-        Retrieve key list
+        """Retrieve key list
+
+        :return: List of keys
+        :rtype: list
         """
         try:
             # Connect to api endpoint for keys
@@ -31,9 +33,12 @@ class Key():
             raise
 
     def get_key(self, key):
-        """
-        Retrieve specific key
+        """Retrieve specific key
+
         :param key: Key name or ID
+        :type key: str
+        :return: Key information
+        :rtype: dict
         """
         by_name = self.get_key_by_name(key)
         if "errors" in by_name:
@@ -49,9 +54,12 @@ class Key():
             return by_name
 
     def get_key_by_id(self, id):
-        """
-        Retrieve specific key by ID
+        """Retrieve specific key by ID
+
         :param id: Key ID
+        :type id: str
+        :return: Key information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for keys
@@ -66,9 +74,12 @@ class Key():
             raise
 
     def get_key_by_name(self, name):
-        """
-        Retrieve specific key by name
+        """Retrieve specific key by name
+
         :param name: Key name
+        :type name: str
+        :return: Key information
+        :rtype: dict
         """
         try:
             # Retrieve keys
@@ -90,13 +101,17 @@ class Key():
             raise
 
     def create_key(self, **kwargs):
-        """
-        Create key
-        :param name: Optional. The unique user-defined name for this key.
-        :param resource_group: Optional. The resource group to use.
+        """Create key
+
+        :param name: The unique user-defined name for this key
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
         :param public_key: A unique public SSH key to import, encoded in PEM
-        format.
-        :param type: Optional. The cryptosystem used by this key.
+            format
+        :type public_key: str
+        :param type: The cryptosystem used by this key
+        :type type: str, optional
         """
         args = ["public_key"]
         check_args(args, **kwargs)
@@ -136,9 +151,12 @@ class Key():
             raise
 
     def delete_key(self, key):
-        """
-        Delete key
+        """Delete key
+
         :param key: Key name or ID
+        :type key: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if key exists

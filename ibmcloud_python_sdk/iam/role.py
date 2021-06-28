@@ -18,8 +18,9 @@ class Role():
         """Retrieve system role list per account
 
         :param account: Account ID
-        :return List of system roles
-        :rtype dict
+        :type account: str
+        :return: List of system roles
+        :rtype: list
         """
         try:
             # Connect to api endpoint for roles
@@ -36,9 +37,11 @@ class Role():
         """Retrieve specific system role by name or by ID
 
         :param account: Account ID
+        :type account: str
         :param role: Role name or ID
-        :return System role information
-        :rtype dict
+        :type role: str
+        :return: System role information
+        :rtype: dict
         """
         by_name = self.get_system_role_by_name(account, role)
         if "errors" in by_name:
@@ -57,9 +60,11 @@ class Role():
         """Retrieve specific system role by ID
 
         :param account: Account ID
+        :type account: str
         :param id: Role ID
-        :return System role information
-        :rtype dict
+        :type id: str
+        :return: System role information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for roles
@@ -76,9 +81,11 @@ class Role():
         """Retrieve specific system role by name
 
         :param account: Account ID
+        :type account: str
         :param name: Role name
-        :return System role information
-        :rtype dict
+        :type name: str
+        :return: System role information
+        :rtype: dict
         """
         try:
             # Retrieve roles
@@ -106,9 +113,11 @@ class Role():
         """Retrieve service role list per account
 
         :param account: Account ID
+        :type account: str
         :param service: Service name
-        :return List of service roles
-        :rtype dict
+        :type service: str
+        :return: List of service roles
+        :rtype: list
         """
         try:
             # Connect to api endpoint for roles
@@ -126,10 +135,13 @@ class Role():
         """Retrieve specific system role by name or by ID
 
         :param account: Account ID
+        :type account: str
         :param service: Service name
+        :type service: str
         :param role: Role name or ID
-        :return Service role information
-        :rtype dict
+        :type role: str
+        :return: Service role information
+        :rtype: dict
         """
         by_name = self.get_service_role_by_name(account, service, role)
         if "errors" in by_name:
@@ -148,10 +160,13 @@ class Role():
         """Retrieve specific service role by ID
 
         :param account: Account ID
+        :type account: str
         :param service: Service name
+        :type service: str
         :param id: Role ID
-        :return Service role information
-        :rtype dict
+        :type id: str
+        :return: Service role information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for roles
@@ -169,10 +184,13 @@ class Role():
         """Retrieve specific service role by name
 
         :param account: Account ID
+        :type account: str
         :param service: Service name
+        :type service: str
         :param name: Role name
-        :return Service role information
-        :rtype dict
+        :type name: str
+        :return: Service role information
+        :rtype: dict
         """
         try:
             # Retrieve service roles
@@ -199,14 +217,20 @@ class Role():
     def create_role(self, **kwargs):
         """Create role
 
-        :param name: The name of the role.
-        :param account_id: The account GUID.
-        :param service_name: The service name.
-        :param display_name: The display name of the role.
-        :param actions: The actions of the role.
-        :param description: The description of the role.
-        :return Rolle creation response
-        :rtype dict
+        :param name: The name of the role
+        :type name: str
+        :param account_id: The account GUID
+        :type account_id: str
+        :param service_name: The service name
+        :type service_name: str
+        :param display_name: The display name of the role
+        :type display_name: str
+        :param actions: The actions of the role
+        :type actions: list
+        :param description: The description of the role
+        :type description: str
+        :return: Rolle creation response
+        :rtype: dict
         """
         # Build dict of argument and assign default value when needed
         args = {
@@ -245,8 +269,9 @@ class Role():
         """Delete role
 
         :param role: Role name or ID
-        :return Deletion status
-        :rtype dict
+        :type role: str
+        :return: Deletion status
+        :rtype: dict
         """
         # Check if role exists and get information
         role_info = self.get_role(role)

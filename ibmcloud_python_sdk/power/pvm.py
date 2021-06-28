@@ -18,8 +18,9 @@ class Pvm():
         """Retrieve Power Virtual Instance list for specific cloud instance
 
         :param instance: Cloud instance ID
-        :return PVM list
-        :rtype dict
+        :type instance: str
+        :return: PVM list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -42,9 +43,11 @@ class Pvm():
         """Retrieve specific Power Virtual Instance by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
-        :return PVM information
-        :rtype dict
+        :type pvm: str
+        :return: PVM information
+        :rtype: dict
         """
         by_name = self.get_pvm_by_name(instance, pvm)
         if "errors" in by_name:
@@ -63,9 +66,11 @@ class Pvm():
         """Retrieve specific Power Virtual Instance by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param id: Power Virtual Instance ID
-        :return PVM information
-        :rtype dict
+        :type id: str
+        :return: PVM information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -88,9 +93,11 @@ class Pvm():
         """Retrieve specific Power Virtual Instance by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param name: Power Virtual Instance name
-        :return PVM information
-        :rtype dict
+        :type name: str
+        :return: PVM information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -120,9 +127,11 @@ class Pvm():
         """Retrieve networks list for Power Virtual Instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
-        :return PVM network list
-        :rtype dict
+        :type pvm: str
+        :return: PVM network list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -151,10 +160,13 @@ class Pvm():
         """Retrieve specific network from Power Virtual Instance by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param network: Network name or ID
-        :return PVM information
-        :rtype dict
+        :type network: str
+        :return: PVM network information
+        :rtype: dict
         """
         by_name = self.get_pvm_network_by_name(instance, pvm, network)
         if "errors" in by_name:
@@ -173,10 +185,13 @@ class Pvm():
         """Retrieve specific network from Power Virtual Instance by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param id: Network ID
-        :return PVM network information
-        :rtype dict
+        :type id: str
+        :return: PVM network information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -207,10 +222,13 @@ class Pvm():
         """Retrieve specific Power Virtual Instance by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param name: Network name
-        :return PVM network information
-        :rtype dict
+        :type name: str
+        :return: PVM network information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -246,10 +264,13 @@ class Pvm():
     def perform_action(self, **kwargs):
         """Perform an action on Power Virtual Machine
 
-        :param instance: Instance name or ID
+        :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
-        :param action: Name of the action to take.
-        :return Port information
+        :type pvm: str
+        :param action: Name of the action to take
+        :type action: str
+        :return: Action information
         :rtype: dict
         """
         args = ["instance", "pvm", "action"]
@@ -298,9 +319,11 @@ class Pvm():
         """Delete Power Virtual Instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
-        :return Deletion status
-        :rtype dict
+        :type pvm: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)
@@ -333,10 +356,13 @@ class Pvm():
         """Delete Power Virtual Instance network
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param network: Network name or ID
-        :return Deletion status
-        :rtype dict
+        :type network: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)

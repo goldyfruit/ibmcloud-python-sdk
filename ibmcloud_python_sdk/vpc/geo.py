@@ -9,11 +9,10 @@ class Geo():
         self.cfg = params()
 
     def get_regions(self):
-        """Retrieve region list.
+        """Retrieve region list
 
-        :raise: Exception if unable to fetch regions
         :return: List of regions
-        :rtype: dict
+        :rtype: list
         """
         try:
             # Connect to api endpoint for regions
@@ -31,7 +30,7 @@ class Geo():
         """Retrieve specific region
 
         :param region: Region name
-        :raise: Exception if unable to fetch region
+        :type region: str
         :return: Region information
         :rtype: dict
         """
@@ -51,6 +50,9 @@ class Geo():
         """Retrieve zone list for a specific region
 
         :param region: Region name
+        :type region: str
+        :return: List of zones for a specific region
+        :rtype: list
         """
         try:
             # Connect to api endpoint for regions
@@ -64,12 +66,15 @@ class Geo():
                 region, error))
             raise
 
-    # Get specific zone from a region
     def get_region_zone(self, region, zone):
         """Retrieve specific zone for a specific region
 
         :param region: Region name
+        :type region: str
         :param zone: Zone name
+        :type zone: str
+        :return: Zone information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for regions

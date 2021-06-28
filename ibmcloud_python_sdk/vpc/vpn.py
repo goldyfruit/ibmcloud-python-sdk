@@ -19,8 +19,10 @@ class Vpn():
         self.rg = resource_group.ResourceGroup()
 
     def get_ike_policies(self):
-        """
-        Retrieve IKE policy list
+        """Retrieve IKE policy list
+
+        :return: List of IKE policies
+        :rtype: list
         """
         try:
             # Connect to api endpoint for ike_policies
@@ -35,9 +37,12 @@ class Vpn():
             raise
 
     def get_ike_policy(self, policy):
-        """
-        Retrieve specific IKE policy
+        """Retrieve specific IKE policy
+
         :param policy: Policy name or ID
+        :type policy: str
+        :return: IKE policy information
+        :rtype: dict
         """
         by_name = self.get_ike_policy_by_name(policy)
         if "errors" in by_name:
@@ -53,9 +58,12 @@ class Vpn():
             return by_name
 
     def get_ike_policy_by_id(self, id):
-        """
-        Retrieve specific IKE policy by ID
+        """Retrieve specific IKE policy by ID
+
         :param id: IKE policy ID
+        :type id: str
+        :return: IKE policy information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for ike_policies
@@ -70,9 +78,12 @@ class Vpn():
             raise
 
     def get_ike_policy_by_name(self, name):
-        """
-        Retrieve specific IKE policy by name
+        """Retrieve specific IKE policy by name
+
         :param name: IKE policy name
+        :type name: str
+        :return: IKE policy information
+        :rtype: dict
         """
         try:
             # Retrieve policies
@@ -95,9 +106,12 @@ class Vpn():
             raise
 
     def get_ike_policy_connections(self, policy):
-        """
-        Retrieve connections for an IKE policy
+        """Retrieve connections for an IKE policy
+
         :param policy: IKE policy name or ID
+        :type policy: str
+        :return: Connections information
+        :rtype: dict
         """
         # Retrieve policy information
         policy_info = self.get_ike_policy(policy)
@@ -119,8 +133,10 @@ class Vpn():
             raise
 
     def get_ipsec_policies(self):
-        """
-        Retrieve IPsec policy list
+        """Retrieve IPsec policy list
+
+        :return: List of IPSec policies
+        :rtype: list
         """
         try:
             # Connect to api endpoint for ipsec_policies
@@ -135,9 +151,12 @@ class Vpn():
             raise
 
     def get_ipsec_policy(self, policy):
-        """
-        Retrieve specific IPsec policy
+        """Retrieve specific IPsec policy
+
         :param policy: Policy name or ID
+        :type policy: str
+        :return: IPSec policy information
+        :rtype: dict
         """
         by_name = self.get_ipsec_policy_by_name(policy)
         if "errors" in by_name:
@@ -153,9 +172,12 @@ class Vpn():
             return by_name
 
     def get_ipsec_policy_by_id(self, id):
-        """
-        Retrieve specific IPsec policy by ID
+        """Retrieve specific IPsec policy by ID
+
         :param id: IPsec policy ID
+        :type id: str
+        :return: IPSec policy information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for ipsec_policies
@@ -171,9 +193,12 @@ class Vpn():
             raise
 
     def get_ipsec_policy_by_name(self, name):
-        """
-        Retrieve specific IPsec policy by name
+        """Retrieve specific IPsec policy by name
+
         :param name: IPsec policy name
+        :type name: str
+        :return: IPSec policy information
+        :rtype: dict
         """
         try:
             # Retrieve policies
@@ -196,9 +221,12 @@ class Vpn():
             raise
 
     def get_ipsec_policy_connections(self, policy):
-        """
-        Retrieve connections for an IPsec policy
+        """Retrieve connections for an IPsec policy
+
         :param policy: IPsec policy name or ID
+        :type policy: str
+        :return: Connections information
+        :rtype: dict
         """
         try:
             # Retrieve policy information by name to get the ID
@@ -220,8 +248,10 @@ class Vpn():
             raise
 
     def get_vpn_gateways(self):
-        """
-        Retrieve VPN gateway list
+        """Retrieve VPN gateway list
+
+        :return: List of gateways
+        :rtype: list
         """
         try:
             # Connect to api endpoint for vpn_gateways
@@ -236,9 +266,12 @@ class Vpn():
             raise
 
     def get_vpn_gateway(self, gateway):
-        """
-        Retrieve specific VPN gateway
+        """Retrieve specific VPN gateway
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
+        :return: Gateway information
+        :rtype: dict
         """
         by_name = self.get_vpn_gateway_by_name(gateway)
         if "errors" in by_name:
@@ -254,9 +287,12 @@ class Vpn():
             return by_name
 
     def get_vpn_gateway_by_id(self, id):
-        """
-        Retrieve specific VPN gateway by ID
+        """Retrieve specific VPN gateway by ID
+
         :param id: VPN gateway ID
+        :type id: str
+        :return: Gateway information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for vpn_gateways
@@ -272,9 +308,12 @@ class Vpn():
             raise
 
     def get_vpn_gateway_by_name(self, name):
-        """
-        Retrieve specific VPN gateway by name
+        """Retrieve specific VPN gateway by name
+
         :param name: VPN gateway name
+        :type name: str
+        :return: Gateway information
+        :rtype: dict
         """
         try:
             # Retrieve gateways
@@ -297,9 +336,12 @@ class Vpn():
             raise
 
     def get_vpn_gateway_connections(self, gateway):
-        """
-        Retrieve connections for a VPN gateway
+        """Retrieve connections for a VPN gateway
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
+        :return: List of connections
+        :rtype: list
         """
         # Retrieve gateway information by name to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -321,10 +363,14 @@ class Vpn():
             raise
 
     def get_vpn_gateway_connection(self, gateway, connection):
-        """
-        Retrieve specific connection for a VPN gateway
+        """Retrieve specific connection for a VPN gateway
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
+        :return: Connection information
+        :rtype: dict
         """
         by_name = self.get_vpn_gateway_connection_by_name(gateway, connection)
         if "errors" in by_name:
@@ -341,10 +387,14 @@ class Vpn():
             return by_name
 
     def get_vpn_gateway_connection_by_id(self, gateway, id):
-        """
-        Retrieve specific connection for a VPN gateway by ID
+        """Retrieve specific connection for a VPN gateway by ID
+
         :param gateway: VPN gateway name or ID
-        :param id: Connection ID
+        :type gateway: str
+        :param id: Connecton ID
+        :type id: str
+        :return: Connection information
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         # (mostly useful if a name is provided)
@@ -368,10 +418,14 @@ class Vpn():
             raise
 
     def get_vpn_gateway_connection_by_name(self, gateway, name):
-        """
-        Retrieve specific connection for a VPN gateway by name
+        """Retrieve specific connection for a VPN gateway by name
+
         :param gateway: VPN gateway name
+        :type gateway: str
         :param name: Connection name
+        :type name: str
+        :return: Connection information
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         # (mostly useful if a name is provided)
@@ -400,10 +454,14 @@ class Vpn():
             raise
 
     def get_vpn_gateway_local_cidrs(self, gateway, connection):
-        """
-        Retrieve local CIDR list on specific connection for a VPN gateway
+        """Retrieve local CIDR list on specific connection for a VPN gateway
+
         :param gateway: VPN gateway name
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
+        :return: List of local CIDRs
+        :rtype: list
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -433,12 +491,18 @@ class Vpn():
 
     def check_vpn_gateway_local_cidr(self, gateway, connection, prefix_address,
                                      prefix_length):
-        """
-        Check if local CIDR exists on specific connection for a VPN gateway
+        """Check if local CIDR exists on specific connection for a VPN gateway
+
         :param gateway: VPN gateway name
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
         :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
         :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
+        :return: Local CIDR information
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -479,10 +543,14 @@ class Vpn():
             raise
 
     def get_vpn_gateway_peer_cidrs(self, gateway, connection):
-        """
-        Retrieve peer CIDR list on specific connection for a VPN gateway
+        """Retrieve peer CIDR list on specific connection for a VPN gateway
+
         :param gateway: VPN gateway name
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
+        :return: List of peer CIDRs
+        :rtype: list
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -511,12 +579,18 @@ class Vpn():
 
     def check_vpn_gateway_peer_cidr(self, gateway, connection, prefix_address,
                                     prefix_length):
-        """
-        Check if local CIDR exists on specific connection for a VPN gateway
+        """Check if local CIDR exists on specific connection for a VPN gateway
+
         :param gateway: VPN gateway name
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
         :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
         :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
+        :return: Peer CIDR information
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -557,15 +631,22 @@ class Vpn():
             raise
 
     def create_ike_policy(self, **kwargs):
-        """
-        Create IKE policy
-        :param name: Optional. The user-defined name for this IKE policy.
-        :param resource_group: Optional. The resource group to use.
-        :param authentication_algorithm: The authentication algorithm.
-        :param dh_group: The Diffie-Hellman group.
-        :param encryption_algorithm: The encryption algorithm.
-        :param ike_version: The IKE protocol version.
-        :param key_lifetime: The key lifetime in seconds.
+        """Create IKE policy
+
+        :param name: The user-defined name for this IKE policy
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param authentication_algorithm: The authentication algorithm
+        :type authentication_algorithm: str
+        :param dh_group: The Diffie-Hellman group
+        :type dh_group: str
+        :param encryption_algorithm: The encryption algorithm
+        :type encryption_algorithm: str
+        :param ike_version: The IKE protocol version
+        :type ike_version: int
+        :param key_lifetime: The key lifetime in seconds
+        :type key_lifetime: int, optional
         """
         args = ["authentication_algorithm", "dh_group",
                 "encryption_algorithm", "ike_version"]
@@ -609,14 +690,20 @@ class Vpn():
             raise
 
     def create_ipsec_policy(self, **kwargs):
-        """
-        Create IPsec policy
-        :param name: Optional. The user-defined name for this IPsec policy.
-        :param resource_group: Optional. The resource group to use.
-        :param authentication_algorithm: The authentication algorithm.
-        :param pfs: Perfect Forward Secrecy.
-        :param encryption_algorithm: The encryption algorithm.
-        :param key_lifetime: The key lifetime in seconds.
+        """Create IPsec policy
+
+        :param name: The user-defined name for this IPsec policy
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param authentication_algorithm: The authentication algorithm
+        :type authentication_algorithm: str
+        :param pfs: Perfect Forward Secrecy
+        :type pfs: str
+        :param encryption_algorithm: The encryption algorithm
+        :type encryption_algorithm: str
+        :param key_lifetime: The key lifetime in seconds
+        :type key_lifetime: int, optional
         """
         args = ["authentication_algorithm", "pfs",
                 "encryption_algorithm"]
@@ -659,11 +746,14 @@ class Vpn():
             raise
 
     def create_gateway(self, **kwargs):
-        """
-        Create gateway
-        :param name: Optional. The user-defined name for this gateway.
-        :param resource_group: Optional. The resource group to use.
-        :param subnet: Identifies a subnet by a unique property.
+        """Create gateway
+
+        :param name: The user-defined name for this gateway
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param subnet: Identifies a subnet by a unique property
+        :type subnet: str
         """
         args = ["subnet"]
         check_args(args, **kwargs)
@@ -709,22 +799,37 @@ class Vpn():
             raise
 
     def create_connection(self, **kwargs):
-        """
-        Create connection
-        :param gateway: The VPN gateway name or ID.
-        :param name: Optional. The user-defined name for this connection.
-        :param peer_address: The IP address of the peer VPN gateway.
-        :param local_cidrs: Optional. A collection of local CIDRs.
-        :param peer_cidrs: Optional. A collection of peer CIDRs.
-        :param psk: Optional. The preshared key.
-        :param admin_state_up: Optional. VPN connection shutdown if false.
-        :param interval: Optional. Dead Peer Detection interval in seconds.
-        :param timeout: Optional. Dead Peer Detection timeout in seconds.
-        :param action: Optional. Dead Peer Detection actions.
-        :param encryption_algorithm: The encryption algorithm.
-        :param key_lifetime: The key lifetime in seconds.
-        :param ike_policy: The absence of a policy indicates autonegotiation.
-        :param ipsec_policy: The absence of a policy indicates autonegotiation.
+        """Create connection
+
+        :param gateway: The VPN gateway name or ID
+        :type gateway: str
+        :param name: The user-defined name for this connection
+        :type name: str, gateway
+        :param peer_address: The IP address of the peer VPN gateway
+        :type peer_address: str
+        :param local_cidrs: A collection of local CIDRs
+        :type local_cidrs: list, optional
+        :param peer_cidrs: A collection of peer CIDRs
+        :type peer_cidrs: list, optional
+        :param psk: The preshared key
+        :type psk: str
+        :param admin_state_up: VPN connection shutdown if false, defaults to
+            `True`
+        :type admin_state_up: bool, optional
+        :param interval: Dead Peer Detection interval in seconds
+        :type interval: int, optional
+        :param timeout: Dead Peer Detection timeout in seconds
+        :type timeout: int, optional
+        :param action: Dead Peer Detection actions
+        :type action: str, optional
+        :param encryption_algorithm: The encryption algorithm
+        :type encryption_algorithm: str, optional
+        :param key_lifetime: The key lifetime in seconds
+        :type key_lifetime: int, optional
+        :param ike_policy: The absence of a policy indicates autonegotiation
+        :type ike_policy: str, optional
+        :param ipsec_policy: The absence of a policy indicates autonegotiation
+        :type ipsec_policy: str, optional
         """
         args = ["gateway", "peer_address", "psk"]
         check_args(args, **kwargs)
@@ -784,12 +889,16 @@ class Vpn():
             raise
 
     def add_local_cidr_connection(self, **kwargs):
-        """
-        Add local CIDR to a connection
-        :param gateway: The VPN gateway name or ID.
-        :param connection: The connection name or ID.
-        :param prefix_address: The prefix address part of the CIDR.
-        :param prefix_length: The prefix length part of the CIDR.
+        """Add local CIDR to a connection
+
+        :param gateway: The VPN gateway name or ID
+        :type gateway: str
+        :param connection: The connection name or ID
+        :type connection: str
+        :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
+        :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
         """
         args = ["gateway", "connection", "prefix_address", "prefix_length"]
         check_args(args, **kwargs)
@@ -843,12 +952,16 @@ class Vpn():
             raise
 
     def add_peer_cidr_connection(self, **kwargs):
-        """
-        Add peer CIDR to a connection
-        :param gateway: The VPN gateway name or ID.
-        :param connection: The connection name or ID.
-        :param prefix_address: The prefix address part of the CIDR.
-        :param prefix_length: The prefix length part of the CIDR.
+        """Add peer CIDR to a connection
+
+        :param gateway: The VPN gateway name or ID
+        :type gateway: str
+        :param connection: The connection name or ID
+        :type connection: str
+        :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
+        :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
         """
         args = ["gateway", "connection", "prefix_address", "prefix_length"]
         check_args(args, **kwargs)
@@ -902,9 +1015,12 @@ class Vpn():
             raise
 
     def delete_ike_policy(self, policy):
-        """
-        Delete IKE policy
+        """Delete IKE policy
+
         :param policy: IKE policy name or ID
+        :type policy: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if IKE policy exists
         policy_info = self.get_ike_policy(policy)
@@ -931,9 +1047,12 @@ class Vpn():
             raise
 
     def delete_ipsec_policy(self, policy):
-        """
-        Delete IPsec policy
+        """Delete IPsec policy
+
         :param policy: IPsec policy name or ID
+        :type policy: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if IPsec policy exists
         policy_info = self.get_ipsec_policy(policy)
@@ -960,9 +1079,12 @@ class Vpn():
             raise
 
     def delete_gateway(self, gateway):
-        """
-        Delete VPN gateway
+        """Delete VPN gateway
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if gateway exists
         gateway_info = self.get_vpn_gateway(gateway)
@@ -989,10 +1111,14 @@ class Vpn():
             raise
 
     def delete_connection(self, gateway, connection):
-        """
-        Delete connection
+        """Delete connection
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
         :param connection: Connection name or ID
+        :type connection: str
+        :return: Delete status
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -1029,12 +1155,18 @@ class Vpn():
 
     def remove_local_cidr(self, gateway, connection, prefix_address,
                           prefix_length):
-        """
-        Remove local CIDR from a connection
+        """Remove local CIDR from a connection
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
         :param connection: Connection name or ID
-        :param prefix_address: The prefix address part of the CIDR.
-        :param prefix_length: The prefix length part of the CIDR.
+        :type connection: str
+        :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
+        :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
+        :return: Delete status
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)
@@ -1076,12 +1208,18 @@ class Vpn():
     # Remove peer CIDR
     def remove_peer_cidr(self, gateway, connection, prefix_address,
                          prefix_length):
-        """
-        Remove peer CIDR from a connection
+        """Remove peer CIDR from a connection
+
         :param gateway: VPN gateway name or ID
+        :type gateway: str
         :param connection: Connection name or ID
-        :param prefix_address: The prefix address part of the CIDR.
-        :param prefix_length: The prefix length part of the CIDR.
+        :type connection: str
+        :param prefix_address: The prefix address part of the CIDR
+        :type prefix_address: str
+        :param prefix_length: The prefix length part of the CIDR
+        :type prefix_length: int
+        :return: Delete status
+        :rtype: dict
         """
         # Retrieve gateway information to get the ID
         gateway_info = self.get_vpn_gateway(gateway)

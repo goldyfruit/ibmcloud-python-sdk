@@ -31,6 +31,7 @@ class Hardware():
         """Retrieve specific baremetal
 
         :param baremetal: Baremetal name or ID
+        :type baremetal: str
         :return: Baremetal server information
         :rtype: dict
         """
@@ -48,9 +49,10 @@ class Hardware():
             return by_name
 
     def get_baremetal_by_id(self, id):
-        """
-        Retrieve specific baremetal by ID
-        :param id: baremetal ID
+        """Retrieve specific baremetal by ID
+
+        :param id: Baremetal ID
+        :type id: str
         :return: Baremetal server information
         :rtype: dict
         """
@@ -61,9 +63,10 @@ class Hardware():
             return resource_error(error.faultCode, error.faultString)
 
     def get_baremetal_by_name(self, name):
-        """
-        Retrieve specific baremetal by name
+        """Retrieve specific baremetal by name
+
         :param name: Baremetal name
+        :type name: str
         :return: Baremetal server information
         :rtype: dict
         """
@@ -84,9 +87,10 @@ class Hardware():
             return resource_error(error.faultCode, error.faultString)
 
     def get_baremetal_power_state(self, baremetal):
-        """
-        Retrieve baremetal power state
+        """Retrieve baremetal power state
+
         :param baremetal: Baremetal name or ID
+        :type baremetal: str
         :return: Baremetal power state
         :rtype: dict
         """
@@ -104,10 +108,12 @@ class Hardware():
             return resource_error(error.faultCode, error.faultString)
 
     def set_baremetal_power_state(self, **kwargs):
-        """
-        Set baremetal power state
+        """Set baremetal power state
+
         :param baremetal: Baremetal name or ID
+        :type baremetal: str
         :parem power_state: Target power state
+        :type power_state: str
         :return: Power state
         :rtype: dict
         """
@@ -147,31 +153,40 @@ class Hardware():
         """Reload operating system and configuration
 
         :param baremetal: Baremetal name or ID
-        :param spare_pool: Optional. Server will be moved into the spare pool
-        after an sperating system reload.
-        :param script: Optional.  Will be used to download and execute a
-        customer defined script on the host at the end of provisioning.
-        :param retention: Primary drive will be converted to a portable storage
-        volume during an operating system reload.
-        :param erase_drives: Optional. All data will be erased from drives
-        during an sperating system reload.
-        :param hard_drives: Optional. The hard drive partitions that a server
-        can be partitioned with.
-        :param image_template_id: Optional. An image template ID that will be
-        deployed to the host. If provided no item prices are required.
-        :param item_prices: Optional. Item prices that the server can be
-        configured with.
-        :param enable_lvm: Optional. The provision should use LVM for all
-        logical drives.
-        :param reset_ipmi_password: Optional. The remote management cards
-        password will be reset.
-        :param ssh_keys: Optional. SSH keys to add to the server for
-        authentication. SSH Keys will not be added to servers with Microsoft
-        Windows.
-        :param upgrade_bios: Optional. BIOS will be updated when installing the
-        operating system.
-        :param upgrade_firmware: Optional. Firmware on all hard drives will be
-        updated when installing the operating system.
+        :type baremetal: str
+        :param spare_pool: Server will be moved into the spare pool after an
+            sperating system reload
+        :type spare_pool: str, optional
+        :param script: Will be used to download and execute a customer defined
+            script on the host at the end of provisioning
+        :type script: str, optional
+        :param retention: Primary drive will be converted to a portable
+            storage volume during an operating system reload
+        :type retention: str
+        :param erase_drives: All data will be erased from drives during an
+            sperating system reload
+        :type erase_drives: bool, optional
+        :param hard_drives: The hard drive partitions that a server can be
+            partitioned with
+        :param image_template_id: An image template ID that will be deployed
+            to the host. If provided no item prices are required
+        :type image_template_id: str, optional
+        :param item_prices: Item prices that the server can be configured with
+        :type item_prices: list, optional
+        :param enable_lvm: The provision should use LVM for all logical drives
+        :type enable_lvm: bool, optional
+        :param reset_ipmi_password: The remote management cards password will
+            be reset
+        :type reset_ipmi_password: bool, optional
+        :param ssh_keys: SSH keys to add to the server for authentication.
+            SSH Keys will not be added to servers with Microsoft Windows
+        :type ssh_keys: list, optional
+        :param upgrade_bios: BIOS will be updated when installing the
+            operating system.
+        :type upgrade_bios: bool, optional
+        :param upgrade_firmware: Firmware on all hard drives will be updated
+            when installing the operating system
+        :type upgrade_firmware: bool, optional
         :return: Reload status
         :rtype: dict
         """

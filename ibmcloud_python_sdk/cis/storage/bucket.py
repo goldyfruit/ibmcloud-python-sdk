@@ -18,7 +18,7 @@ class Bucket():
         )
 
     def get_buckets(self):
-        """ Retrieve bucket list
+        """Retrieve bucket list
 
         :return List of buckets
         :rtype dict
@@ -35,6 +35,7 @@ class Bucket():
         """Retrieve specific bucket
 
         :param bucket: Bucket name
+        :type bucket: str
         :return: Bucket information
         :rtype: dict
         """
@@ -59,22 +60,31 @@ class Bucket():
     def create_bucket(self, **kwargs):
         """Create bucket
 
-        :param bucket: Bucket name.
-        :param acl: The canned ACL to apply to the bucket.
+        :param bucket: Bucket name
+        :type bucket: str
+        :param acl: The canned ACL to apply to the bucket
+        :type acl: str
         :param grant_full_control: Allows grantee the read, write, read ACP,
-            and write ACP permissions on the bucket.
-        :param grant_read: Allows grantee to list the objects in the bucket.
-        :param grant_read_acp: Allows grantee to read the bucket ACL.
+            and write ACP permissions on the bucket
+        :type grant_full_control: str
+        :param grant_read: Allows grantee to list the objects in the bucket
+        :type grant_read: str
+        :param grant_read_acp: Allows grantee to read the bucket ACL
+        :type grant_read_acp: str
         :param grant_write: Allows grantee to create, overwrite, and delete
-            any object in the bucket.
+            any object in the bucket
+        :type grant_write: str
         :param grant_write_acp: Allows grantee to write the ACL for the
-            applicable bucket.
+            applicable bucket
+        :type grant_write_acp: str
         :param ibm_sse_kp_encryptions_algorithm: The encryption algorithm that
-            will be used for objects stored in the newly created bucket.
+            will be used for objects stored in the newly created bucket
+        :type ibm_sse_kp_encryptions_algorithm: str
         :param ibm_sse_kp_customer_root_key_crn: Container for describing the
-            KMS-KP Key CRN.
-        :return Bucket creation status
-        :rtype dict
+            KMS-KP Key CRN
+        :type ibm_sse_kp_customer_root_key_crn: str
+        :return: Bucket creation status
+        :rtype: dict
         """
         args = ["bucket"]
         check_args(args, **kwargs)
@@ -111,9 +121,10 @@ class Bucket():
     def delete_bucket(self, bucket):
         """Delete bucket
 
-        :param: bucket: Bucket name.
-        :return Deletion status
-        :rtype dict
+        :param bucket: Bucket name
+        :type bucklet: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             # Pagination

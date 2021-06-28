@@ -13,8 +13,9 @@ class Instance():
         """Retrieve information about cloud instance
 
         :param instance: Cloud instance ID
-        :return Cloud instance information
-        :rtype dict
+        :type instance: str
+        :return: Cloud instance information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for cloud-instances
@@ -31,8 +32,9 @@ class Instance():
         """Delete cloud instance
 
         :param instance: Cloud instance ID
-        :return Deletion status
-        :rtype dict
+        :type instance: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information

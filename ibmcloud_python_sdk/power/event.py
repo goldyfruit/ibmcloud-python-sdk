@@ -14,9 +14,11 @@ class Event():
         """Retrieve event list from a timestamp for a specific cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param time: A time in either ISO 8601 or unix epoch format
-        :return List of events
-        :rtype dict
+        :type time: str
+        :return: List of events
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -39,9 +41,11 @@ class Event():
         """Retrieve specific event for a specific cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param event: Event ID
-        :return Event information
-        :rtype dict
+        :type event: str
+        :return: Event information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
