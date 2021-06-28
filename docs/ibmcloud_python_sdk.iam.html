@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.auth">ibmcloud_python_sdk.auth module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.common">ibmcloud_python_sdk.common module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.config">ibmcloud_python_sdk.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk">Module contents</a></li>
 </ul>
@@ -191,127 +190,162 @@
 <span id="ibmcloud-python-sdk-iam-policy-module"></span><h2>ibmcloud_python_sdk.iam.policy module<a class="headerlink" href="#module-ibmcloud_python_sdk.iam.policy" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.iam.policy.</span></span><span class="sig-name descname"><span class="pre">Policy</span></span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.iam.policy.</span></span><span class="sig-name descname"><span class="pre">Policy</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.create_policy">
-<span class="sig-name descname"><span class="pre">create_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.create_policy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.create_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.create_policy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create policy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>type</strong> – The policy type; either ‘access’ or ‘authorization’.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – The policy type; either ‘access’ or ‘authorization’</p></li>
 <li><p><strong>subjects</strong> – The subject attribute values that must match in
-order for this policy to apply in a permission decision.</p></li>
-<li><p><strong>roles</strong> – A set of role cloud resource names (CRNs) granted by
-the policy.</p></li>
-<li><p><strong>resources</strong> – The attributes of the resource. Note that only one
-resource is allowed in a policy.</p></li>
+order for this policy to apply in a permission decision</p></li>
+<li><p><strong>roles</strong> (<em>dict</em>) – A set of role cloud resource names (CRNs) granted by
+the policy</p></li>
+<li><p><strong>resources</strong> (<em>dict</em>) – The attributes of the resource. Note that only one
+resource is allowed in a policy</p></li>
 </ul>
 </dd>
+<dt class="field-even">Typr subjects</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Policy response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
 </dl>
-<p>:return Policy response
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.delete_policy">
-<span class="sig-name descname"><span class="pre">delete_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.delete_policy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">delete_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.delete_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.delete_policy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete policy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>policy</strong> – Policy ID</p>
+<dd class="field-odd"><p><strong>policy</strong> (<em>str</em>) – Policy ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Deletion status</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
-<p>:return Deletion status
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_access">
-<span class="sig-name descname"><span class="pre">get_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_access" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_access" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific access policy list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>policy</strong> – Policy ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>policy</strong> (<em>str</em>) – Policy ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Access policy information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Access policy information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_accesses">
-<span class="sig-name descname"><span class="pre">get_accesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_accesses" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_accesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_accesses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_accesses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve access policy list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>account</strong> – Account ID</p>
+<dd class="field-odd"><p><strong>account</strong> (<em>str</em>) – Account ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of accesses</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p>:return List of accesses
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_authorization">
-<span class="sig-name descname"><span class="pre">get_authorization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_authorization" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_authorization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_authorization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_authorization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific authorization policy per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>policy</strong> – Policy ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>policy</strong> (<em>str</em>) – Policy ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Authorization policy information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Authorization policy information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_authorizations">
-<span class="sig-name descname"><span class="pre">get_authorizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_authorizations" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_authorizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_authorizations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_authorizations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve authorization policy list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>account</strong> – Account ID</p>
+<dd class="field-odd"><p><strong>account</strong> (<em>str</em>) – Account ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of authorizations</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p>:return List of authorizations
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_policies">
-<span class="sig-name descname"><span class="pre">get_policies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_policies" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_policies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_policies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_policies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve policy list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>account</strong> – Account ID</p>
+<dd class="field-odd"><p><strong>account</strong> (<em>str</em>) – Account ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of policies</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p>:return List of policies
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.policy.Policy.get_policy">
-<span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_policy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/policy.html#Policy.get_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.policy.Policy.get_policy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific policy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>policy</strong> – Policy ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>policy</strong> (<em>str</em>) – Policy ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Policy information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Policy information
-:rtype dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -321,167 +355,207 @@ resource is allowed in a policy.</p></li>
 <span id="ibmcloud-python-sdk-iam-role-module"></span><h2>ibmcloud_python_sdk.iam.role module<a class="headerlink" href="#module-ibmcloud_python_sdk.iam.role" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.iam.role.</span></span><span class="sig-name descname"><span class="pre">Role</span></span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.iam.role.</span></span><span class="sig-name descname"><span class="pre">Role</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.create_role">
-<span class="sig-name descname"><span class="pre">create_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.create_role" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.create_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.create_role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create role</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – The name of the role.</p></li>
-<li><p><strong>account_id</strong> – The account GUID.</p></li>
-<li><p><strong>service_name</strong> – The service name.</p></li>
-<li><p><strong>display_name</strong> – The display name of the role.</p></li>
-<li><p><strong>actions</strong> – The actions of the role.</p></li>
-<li><p><strong>description</strong> – The description of the role.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the role</p></li>
+<li><p><strong>account_id</strong> (<em>str</em>) – The account GUID</p></li>
+<li><p><strong>service_name</strong> (<em>str</em>) – The service name</p></li>
+<li><p><strong>display_name</strong> (<em>str</em>) – The display name of the role</p></li>
+<li><p><strong>actions</strong> (<em>list</em>) – The actions of the role</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – The description of the role</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rolle creation response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Rolle creation response
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.delete_role">
-<span class="sig-name descname"><span class="pre">delete_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.delete_role" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">delete_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.delete_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.delete_role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete role</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>role</strong> – Role name or ID</p>
+<dd class="field-odd"><p><strong>role</strong> (<em>str</em>) – Role name or ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Deletion status</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
-<p>:return Deletion status
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_service_role">
-<span class="sig-name descname"><span class="pre">get_service_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_service_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific system role by name or by ID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>service</strong> – Service name</p></li>
-<li><p><strong>role</strong> – Role name or ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>service</strong> (<em>str</em>) – Service name</p></li>
+<li><p><strong>role</strong> (<em>str</em>) – Role name or ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Service role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Service role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_service_role_by_id">
-<span class="sig-name descname"><span class="pre">get_service_role_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role_by_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_role_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_service_role_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific service role by ID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>service</strong> – Service name</p></li>
-<li><p><strong>id</strong> – Role ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>service</strong> (<em>str</em>) – Service name</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – Role ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Service role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Service role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_service_role_by_name">
-<span class="sig-name descname"><span class="pre">get_service_role_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role_by_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_role_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_service_role_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_role_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific service role by name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>service</strong> – Service name</p></li>
-<li><p><strong>name</strong> – Role name</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>service</strong> (<em>str</em>) – Service name</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Role name</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Service role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return Service role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_service_roles">
-<span class="sig-name descname"><span class="pre">get_service_roles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_roles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_service_roles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_service_roles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_service_roles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve service role list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>service</strong> – Service name</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>service</strong> (<em>str</em>) – Service name</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of service roles</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
 </dl>
-<p>:return List of service roles
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_system_role">
-<span class="sig-name descname"><span class="pre">get_system_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_system_role</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_system_role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific system role by name or by ID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>role</strong> – Role name or ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>role</strong> (<em>str</em>) – Role name or ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>System role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return System role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_system_role_by_id">
-<span class="sig-name descname"><span class="pre">get_system_role_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role_by_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_system_role_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_system_role_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific system role by ID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>id</strong> – Role ID</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – Role ID</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>System role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return System role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_system_role_by_name">
-<span class="sig-name descname"><span class="pre">get_system_role_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role_by_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_system_role_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_system_role_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_role_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific system role by name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>account</strong> – Account ID</p></li>
-<li><p><strong>name</strong> – Role name</p></li>
+<li><p><strong>account</strong> (<em>str</em>) – Account ID</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Role name</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>System role information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>:return System role information
-:rtype dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.iam.role.Role.get_system_roles">
-<span class="sig-name descname"><span class="pre">get_system_roles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_roles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_system_roles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/iam/role.html#Role.get_system_roles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.iam.role.Role.get_system_roles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve system role list per account</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>account</strong> – Account ID</p>
+<dd class="field-odd"><p><strong>account</strong> (<em>str</em>) – Account ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of system roles</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p>:return List of system roles
-:rtype dict</p>
 </dd></dl>
 
 </dd></dl>

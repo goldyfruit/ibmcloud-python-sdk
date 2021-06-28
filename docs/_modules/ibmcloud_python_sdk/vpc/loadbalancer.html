@@ -1,0 +1,1620 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.vpc.loadbalancer &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.vpc.loadbalancer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.vpc.loadbalancer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.auth</span> <span class="kn">import</span> <span class="n">get_headers</span> <span class="k">as</span> <span class="n">headers</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">query_wrapper</span> <span class="k">as</span> <span class="n">qw</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">subnet</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_deleted</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.resource</span> <span class="kn">import</span> <span class="n">resource_group</span>
+
+
+<div class="viewcode-block" id="Loadbalancer"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer">[docs]</a><span class="k">class</span> <span class="nc">Loadbalancer</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span> <span class="o">=</span> <span class="n">subnet</span><span class="o">.</span><span class="n">Subnet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">resource_group</span><span class="o">.</span><span class="n">ResourceGroup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Loadbalancer.get_lbs"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lbs">[docs]</a>    <span class="k">def</span> <span class="nf">get_lbs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve load balancer list</span>
+
+<span class="sd">        :return: List of load balancers</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching load balancers. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :return: Load balancer information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_by_name</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_by_id</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific load balancer by ID</span>
+
+<span class="sd">        :param id: Load balancer ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Load balancer information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching load balancer with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific load balancer by name</span>
+
+<span class="sd">        :param name: Load balancer name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Load balancer information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancers</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lbs</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over load balancers until filter match</span>
+            <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;load_balancers&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">lb</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">lb</span>
+
+            <span class="c1"># Return error if no load balancer is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching load balancer with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_stats"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_stats">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve statistics for specific load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :return: Load balancer statistics</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/statistics/?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching statistics for load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listeners"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listeners">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listeners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve listeners for specific load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :return: List of load balancer listeners</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching listeners for load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :return: Listener information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_by_port</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_port</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_port</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_by_id</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_port</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_port</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific listener from load balancer by ID</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param id: Listener ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Listener information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching listener with ID </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_by_port"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_by_port">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_by_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific listener from load balancer by port</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param port: Listener port</span>
+<span class="sd">        :type port: str</span>
+<span class="sd">        :return: Listener information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve listeners</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listeners</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over listeners until filter match</span>
+            <span class="k">for</span> <span class="n">listener</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;listeners&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">listener</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">port</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">listener</span>
+
+            <span class="c1"># Return error if no listener is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching listener with port </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">),</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policies"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policies">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve policies for specific listeners</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :return: List of policies</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Retrieve listener information</span>
+            <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">listener_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching policies for listeners </span><span class="si">{}</span><span class="s2"> on load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policy">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific policy from listener</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Listerner information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy_by_name</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy_by_id</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span>
+                                                              <span class="n">policy</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policy_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policy_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policy_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific policy from listener by ID</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param id: Policy ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Listerner information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching policy with ID </span><span class="si">{}</span><span class="s2"> from listener </span><span class="si">{}</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot; on load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policy_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policy_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policy_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific policy from listener by name</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param name: Policy name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Listerner information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve listener information</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve policies</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policies</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                 <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over policies until filter match</span>
+            <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;policies&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">policy</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">policy</span>
+
+            <span class="c1"># Return error if no policy is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching policy with name </span><span class="si">{}</span><span class="s2"> from listener </span><span class="si">{}</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot; on load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policy_rules"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policy_rules">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policy_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve rules from listener&#39;s policy</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: List of rules</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Retrieve listener information</span>
+            <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">listener_info</span>
+
+            <span class="c1"># Retrieve policy information</span>
+            <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">policy_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">/rules&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching rules in policy </span><span class="si">{}</span><span class="s2"> for listeners </span><span class="si">{}</span><span class="s2"> on&quot;</span>
+                  <span class="s2">&quot; load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_listener_policy_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_listener_policy_rule">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_listener_policy_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific rule from listener&#39;s policy</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :param rule: Rule ID</span>
+<span class="sd">        :type rule: str</span>
+<span class="sd">        :return: Rule information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">/rules/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span>
+                                                       <span class="n">rule</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching rule with ID </span><span class="si">{}</span><span class="s2"> in policy </span><span class="si">{}</span><span class="s2"> from listener&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> on load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span>
+                                                       <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pools"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pools">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve pools from loadbalancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :return: List of load balancer</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching pools from load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :return: Pool information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_by_name</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_by_id</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer by ID</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param id: Pool ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Pool information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching pool with ID </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer by name</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param name: Pool ID</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Pool information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve pools</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pools</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over pools until filter match</span>
+            <span class="k">for</span> <span class="n">pool</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pools&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">pool</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">pool</span>
+
+            <span class="c1"># Return error if no pool is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching pool with name </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_members"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve pools from loadbalancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :return: List of members of a pool</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve load balancer information</span>
+            <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">lb_info</span>
+
+            <span class="c1"># Retrieve pool information</span>
+            <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pool_info</span>
+
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">/members?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching members from pool </span><span class="si">{}</span><span class="s2"> for load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_member"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_member">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">member</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :param member: Member ID</span>
+<span class="sd">        :type member: str</span>
+<span class="sd">        :return: Member information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_member_by_address</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_address</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_address</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_member_by_id</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_address</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_address</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_member_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_member_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_member_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer by ID</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :param id: Member address or ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Member information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve pool information</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pool_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">/members/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching member with ID </span><span class="si">{}</span><span class="s2"> in pool </span><span class="si">{}</span><span class="s2"> from load&quot;</span>
+                  <span class="s2">&quot; balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.get_lb_pool_member_by_address"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.get_lb_pool_member_by_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_lb_pool_member_by_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific pool from load balancer by ID</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :param address: Member address</span>
+<span class="sd">        :type address: str</span>
+<span class="sd">        :return: Member information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve pool information</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pool_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve members</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_members</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over members until filter match</span>
+            <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pools&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">member</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">address</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">member</span>
+
+            <span class="c1"># Return error if no member is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching member with address </span><span class="si">{}</span><span class="s2"> in pool </span><span class="si">{}</span><span class="s2"> from&quot;</span>
+                  <span class="s2">&quot; load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_lb"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_lb">[docs]</a>    <span class="k">def</span> <span class="nf">create_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create load balancer</span>
+
+<span class="sd">        :param name: The user-defined name for this load balancer</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param subnets: The subnets to provision this load balancer</span>
+<span class="sd">        :type subnets: list</span>
+<span class="sd">        :param is_public: The type of this load balancer, public or private</span>
+<span class="sd">        :type is_public: str</span>
+<span class="sd">        :param listeners: The listeners of this load balancer</span>
+<span class="sd">        :type listeners: list, optional</span>
+<span class="sd">        :param pools: The pools of this load balancer</span>
+<span class="sd">        :type pools: list, optional</span>
+<span class="sd">        :param profile: The profile to use for this load balancer</span>
+<span class="sd">        :type profile: str, optional</span>
+<span class="sd">        :param resource_group: The resource group for this load balancer</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;subnets&quot;</span><span class="p">,</span> <span class="s2">&quot;is_public&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;subnets&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subnets&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;is_public&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_public&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;listeners&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;listeners&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;pools&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pools&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;profile&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;profile&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;subnets&quot;</span><span class="p">:</span>
+                    <span class="n">sb</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;subnets&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_s</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">subnet_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span><span class="o">.</span><span class="n">get_subnet</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">subnet_info</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="n">subnet_info</span>
+                        <span class="n">tmp_s</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subnet_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                        <span class="n">sb</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_s</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;subnets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sb</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;listeners&quot;</span><span class="p">:</span>
+                    <span class="n">ln</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">listener</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;listeners&quot;</span><span class="p">]:</span>
+                        <span class="n">ln</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;listeners&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ln</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;pools&quot;</span><span class="p">:</span>
+                    <span class="n">pl</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">pool</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;pools&quot;</span><span class="p">]:</span>
+                        <span class="n">pl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;pools&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pl</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating load balancer. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_listener"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_listener">[docs]</a>    <span class="k">def</span> <span class="nf">create_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create listener</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param certificate_instance: The certificate instance used for SSL</span>
+<span class="sd">            termination</span>
+<span class="sd">        :type certificate_instance: str, optional</span>
+<span class="sd">        :param connection_limit: The connection limit of the listener</span>
+<span class="sd">        :type connection_limit: int, optional</span>
+<span class="sd">        :param default_pool: The default pool associated with the listener</span>
+<span class="sd">        :type default_pool: str, optional</span>
+<span class="sd">        :param policies: The list of policies of this listener</span>
+<span class="sd">        :type policies: list, optional</span>
+<span class="sd">        :param port: The listener port number</span>
+<span class="sd">        :type port:</span>
+<span class="sd">        :param protocol: The listener protocol</span>
+<span class="sd">        :type protocol: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="s2">&quot;protocol&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;certificate_instance&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;certificate_instance&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;connection_limit&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;connection_limit&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;default_pool&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;default_pool&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;policies&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;policies&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;protocol&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;protocol&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;lb&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;certificate_instance&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;certificate_instance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;crn&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;certificate_instance&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;default_pool&quot;</span><span class="p">:</span>
+                    <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;default_pool&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">pool_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;default_pool&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;policies&quot;</span><span class="p">:</span>
+                    <span class="n">pl</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;policies&quot;</span><span class="p">]:</span>
+                        <span class="n">pl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;policies&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pl</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating listener in load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_policy">[docs]</a>    <span class="k">def</span> <span class="nf">create_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create policy</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param action: The policy action</span>
+<span class="sd">        :type action: str</span>
+<span class="sd">        :param name: The user-defined name for this policy</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param priority: Priority of the policy</span>
+<span class="sd">        :type priority: int</span>
+<span class="sd">        :param rules: The list of rules of this policy</span>
+<span class="sd">        :type list: list, optional</span>
+<span class="sd">        :param target: Target depending the action defined</span>
+<span class="sd">        :type target: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">,</span> <span class="s2">&quot;listener&quot;</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;listener&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;listener&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;rules&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rules&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;lb&quot;</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;listener&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;rules&quot;</span><span class="p">:</span>
+                    <span class="n">rl</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;rules&quot;</span><span class="p">]:</span>
+                        <span class="n">rl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;rules&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rl</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve listener information</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;listener&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating policy for listener </span><span class="si">{}</span><span class="s2"> in load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_rule">[docs]</a>    <span class="k">def</span> <span class="nf">create_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create rule</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: The policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :param condition: The condition of the rule</span>
+<span class="sd">        :type condition: str</span>
+<span class="sd">        :param field: HTTP header field</span>
+<span class="sd">        :type field: str</span>
+<span class="sd">        :param type: The type of the rule</span>
+<span class="sd">        :type type: str</span>
+<span class="sd">        :param value: Value to be matched for rule condition</span>
+<span class="sd">        :type value: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">,</span> <span class="s2">&quot;listener&quot;</span><span class="p">,</span> <span class="s2">&quot;policy&quot;</span><span class="p">,</span> <span class="s2">&quot;condition&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;listener&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;listener&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;policy&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;policy&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;condition&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;condition&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;field&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;lb&quot;</span>
+                <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;listener&quot;</span>
+                <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;policy&quot;</span>
+                <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve listener information</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;listener&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="c1"># Retrieve policy information</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                  <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                  <span class="n">args</span><span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">/rules&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating rule for policy </span><span class="si">{}</span><span class="s2"> for listener </span><span class="si">{}</span><span class="s2"> in load&quot;</span>
+                  <span class="s2">&quot; balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_pool"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_pool">[docs]</a>    <span class="k">def</span> <span class="nf">create_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create pool</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param algorithm: The load balancing algorithm</span>
+<span class="sd">        :type algorithm: str</span>
+<span class="sd">        :param health_monitor: The health monitor of this pool</span>
+<span class="sd">        :type health_monitor: str</span>
+<span class="sd">        :param members: The members for this load balancer pool</span>
+<span class="sd">        :type members: list, optional</span>
+<span class="sd">        :param name: The user-defined name for this load balancer pool</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param protocol: The pool protocol</span>
+<span class="sd">        :type protocol: str</span>
+<span class="sd">        :param session_persistence: The session persistence of this pool</span>
+<span class="sd">        :type session_persistence: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">,</span> <span class="s2">&quot;algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;health_monitor&quot;</span><span class="p">,</span> <span class="s2">&quot;protocol&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;health_monitor&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;health_monitor&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;members&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;members&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;protocol&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;protocol&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;session_persistence&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;session_persistence&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;lb&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;health_monitor&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;health_monitor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;health_monitor&quot;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;members&quot;</span><span class="p">:</span>
+                    <span class="n">me</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;members&quot;</span><span class="p">]:</span>
+                        <span class="n">me</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;members&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">me</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;session_persistence&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;session_persistence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span>
+                        <span class="s2">&quot;session_persistence&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating pool in load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.create_member"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.create_member">[docs]</a>    <span class="k">def</span> <span class="nf">create_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create member and add member to the pool</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name or ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :param port: The port number of the application running in the server</span>
+<span class="sd">            member</span>
+<span class="sd">        :type port: int</span>
+<span class="sd">        :param target: The members for this load balancer pool</span>
+<span class="sd">        :type target: str</span>
+<span class="sd">        :param weight: The user-defined name for this load balancer pool</span>
+<span class="sd">        :type weight: int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">,</span> <span class="s2">&quot;pool&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;lb&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lb&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;pool&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pool&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;weight&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;lb&quot;</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;pool&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;target&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve load balancer information</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Retrieve pool information</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;pool&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pool_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">/members?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating member into pool </span><span class="si">{}</span><span class="s2"> for load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_lb"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_lb">[docs]</a>    <span class="k">def</span> <span class="nf">delete_lb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_listener"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_listener">[docs]</a>    <span class="k">def</span> <span class="nf">delete_listener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete listener from load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Check if listener exists</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting listener </span><span class="si">{}</span><span class="s2"> from load balancer </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_policy">[docs]</a>    <span class="k">def</span> <span class="nf">delete_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete policy from listener</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Check if listener exists</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="c1"># Check if policy exists</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                  <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting policy </span><span class="si">{}</span><span class="s2"> in listener </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_rule">[docs]</a>    <span class="k">def</span> <span class="nf">delete_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete rule from policy</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param listener: Listener port or ID</span>
+<span class="sd">        :type listener: str</span>
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :param rule: Rule ID</span>
+<span class="sd">        :type rule: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Check if listener exists</span>
+        <span class="n">listener_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">listener</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">listener_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">listener_info</span>
+
+        <span class="c1"># Check if policy exists</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                  <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="c1"># Check if rule exists</span>
+        <span class="n">rule_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_listener_policy_rule</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                     <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                     <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                     <span class="n">rule</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rule_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rule_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/listeners/</span><span class="si">{}</span><span class="s2">/policies/</span><span class="si">{}</span><span class="s2">/rules/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">listener_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">rule_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting rule </span><span class="si">{}</span><span class="s2"> from policy </span><span class="si">{}</span><span class="s2"> in listener </span><span class="si">{}</span><span class="s2"> for&quot;</span>
+                  <span class="s2">&quot; load balancer </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">listener</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span>
+                                                 <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_pool"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_pool">[docs]</a>    <span class="k">def</span> <span class="nf">delete_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete pool from load balancer</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Check if pool exists</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pool_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting pool </span><span class="si">{}</span><span class="s2"> from load balancer </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Loadbalancer.delete_member"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.loadbalancer.Loadbalancer.delete_member">[docs]</a>    <span class="k">def</span> <span class="nf">delete_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">member</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete member from pool</span>
+
+<span class="sd">        :param lb: Load balancer name or ID</span>
+<span class="sd">        :type lb: str</span>
+<span class="sd">        :param pool: Pool name ID</span>
+<span class="sd">        :type pool: str</span>
+<span class="sd">        :param member: Member address or ID</span>
+<span class="sd">        :type member: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if load balancer exists</span>
+        <span class="n">lb_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">lb_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lb_info</span>
+
+        <span class="c1"># Check if pool exists</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">pool_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pool_info</span>
+
+        <span class="c1"># Check if member exists</span>
+        <span class="n">member_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lb_pool_member</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">member_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">member_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for load_balancers</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/load_balancers/</span><span class="si">{}</span><span class="s2">/pools/</span><span class="si">{}</span><span class="s2">/members/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lb_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">pool_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">member_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting member </span><span class="si">{}</span><span class="s2"> in pool </span><span class="si">{}</span><span class="s2"> from load balancer&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

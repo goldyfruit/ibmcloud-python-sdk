@@ -27,14 +27,6 @@ ibmcloud\_python\_sdk.auth module
    :undoc-members:
    :show-inheritance:
 
-ibmcloud\_python\_sdk.common module
------------------------------------
-
-.. automodule:: ibmcloud_python_sdk.common
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 ibmcloud\_python\_sdk.config module
 -----------------------------------
 

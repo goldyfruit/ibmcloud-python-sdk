@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.resource.resource_instance &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.resource.resource_instance</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.resource.resource_instance</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.auth</span> <span class="kn">import</span> <span class="n">get_headers</span> <span class="k">as</span> <span class="n">headers</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">query_wrapper</span> <span class="k">as</span> <span class="n">qw</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_deleted</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.resource</span> <span class="kn">import</span> <span class="n">resource_group</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span>
+
+
+<div class="viewcode-block" id="ResourceInstance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance">[docs]</a><span class="k">class</span> <span class="nc">ResourceInstance</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">resource_group</span><span class="o">.</span><span class="n">ResourceGroup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ResourceInstance.create_resource_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.create_resource_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_resource_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create resource instance</span>
+
+<span class="sd">        :param name: The name of the instance</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param resource_group: Short or long ID of resource group</span>
+<span class="sd">        :type resource_group: str</span>
+<span class="sd">        :param resource_plan: The unique ID of the plan associated with the</span>
+<span class="sd">            offering. This value is provided by and stored in the global</span>
+<span class="sd">            catalog</span>
+<span class="sd">        :type resource_plan: str</span>
+<span class="sd">        :param target: The deployment location where the instance should</span>
+<span class="sd">            be hosted</span>
+<span class="sd">        :type target: str</span>
+<span class="sd">        :param tags: Tags that are attached to the instance after provisioning</span>
+<span class="sd">        :type tags: list, optional</span>
+<span class="sd">        :param allow_cleanup: Boolean that dictates if the resource instance</span>
+<span class="sd">            should be deleted (cleaned up) during the processing of a region</span>
+<span class="sd">            instance delete call</span>
+<span class="sd">        :type allow_cleanup: bool, optional</span>
+<span class="sd">        :param parameters: Configuration options represented as key-value</span>
+<span class="sd">            pairs that are passed through to the target resource brokers</span>
+<span class="sd">        :type parameters: dict, optional</span>
+<span class="sd">        :return: Resource instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;resource_group&#39;</span><span class="p">,</span> <span class="s1">&#39;resource_plan&#39;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_plan&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_plan&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;allow_cleanup&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;allow_cleanup&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parameters&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;bluemix-global&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_plan&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_plan_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;resource_plan&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;tags&quot;</span><span class="p">:</span>
+                    <span class="n">tg</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]:</span>
+                        <span class="n">tg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tg</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for resource_instances</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating resource instance. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ResourceInstance.get_resource_instances"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.get_resource_instances">[docs]</a>    <span class="k">def</span> <span class="nf">get_resource_instances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve resource instance list</span>
+
+<span class="sd">        :param resource_group: Filter resource instance by resource group</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :return: Resource instance list</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for resource instances</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances?type=service_instance&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_group</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances?resource_group=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                        <span class="s2">&quot;&amp;type=service_instance&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resource_group</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching resource instances. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="ResourceInstance.get_resource_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.get_resource_instance">[docs]</a>    <span class="k">def</span> <span class="nf">get_resource_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific resource instance by name or by GUID</span>
+
+<span class="sd">        :param resource_instance: Resource instance name or GUID</span>
+<span class="sd">        :type resource_instance: str</span>
+<span class="sd">        :return: Resource instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_resource_instance_by_name</span><span class="p">(</span><span class="n">resource_instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_guid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_resource_instance_by_guid</span><span class="p">(</span>
+                        <span class="n">resource_instance</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_guid</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_guid</span>
+                    <span class="k">return</span> <span class="n">by_guid</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="ResourceInstance.get_resource_instance_by_guid"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.get_resource_instance_by_guid">[docs]</a>    <span class="k">def</span> <span class="nf">get_resource_instance_by_guid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific resoure instance by GUID</span>
+
+<span class="sd">        :param guid: Resource instance GUID</span>
+<span class="sd">        :ẗype guid: str</span>
+<span class="sd">        :return: Resource instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for resource instances</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quote</span><span class="p">(</span><span class="n">guid</span><span class="p">)))</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Needed because API doens&#39;t return the same output as other API.</span>
+            <span class="k">if</span> <span class="s2">&quot;status_code&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;status_code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching resource instance with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">guid</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="ResourceInstance.get_resource_instance_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.get_resource_instance_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_resource_instance_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific resoure instance by name</span>
+
+<span class="sd">        :param name: Resource instance name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Resource instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for resource instances</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances?name=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quote</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span>
+
+            <span class="n">resource_instance</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">resource_instance</span><span class="p">[</span><span class="s2">&quot;resources&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">resource_instance</span><span class="p">[</span><span class="s2">&quot;resources&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching resource instance with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="ResourceInstance.delete_resource_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.resource.html#ibmcloud_python_sdk.resource.resource_instance.ResourceInstance.delete_resource_instance">[docs]</a>    <span class="k">def</span> <span class="nf">delete_resource_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a resource instance</span>
+
+<span class="sd">        :param instance: The resource instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: Deletion status</span>
+<span class="sd">        :rtype: resource_deleted()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_resource_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="c1"># Connect to api endpoint for resource_instances</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v2/resource_instances/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s1">&#39;guid&#39;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting resource instance. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

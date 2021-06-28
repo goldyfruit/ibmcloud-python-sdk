@@ -1,0 +1,1261 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.vpc.instance &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.vpc.instance</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.vpc.instance</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.auth</span> <span class="kn">import</span> <span class="n">get_headers</span> <span class="k">as</span> <span class="n">headers</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">query_wrapper</span> <span class="k">as</span> <span class="n">qw</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">vpc</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">image</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">subnet</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">floating_ip</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">volume</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">key</span> <span class="k">as</span> <span class="n">keyring</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_deleted</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.resource</span> <span class="kn">import</span> <span class="n">resource_group</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+
+
+<div class="viewcode-block" id="Instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance">[docs]</a><span class="k">class</span> <span class="nc">Instance</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vpc</span> <span class="o">=</span> <span class="n">vpc</span><span class="o">.</span><span class="n">Vpc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span> <span class="o">=</span> <span class="n">subnet</span><span class="o">.</span><span class="n">Subnet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fip</span> <span class="o">=</span> <span class="n">floating_ip</span><span class="o">.</span><span class="n">Fip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">Volume</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keyring</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">Key</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">resource_group</span><span class="o">.</span><span class="n">ResourceGroup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Instance.get_instances"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instances">[docs]</a>    <span class="k">def</span> <span class="nf">get_instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve instances list</span>
+
+<span class="sd">        :return: List of instances</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching instances. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: Instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_by_name</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_by_id</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific instance by ID</span>
+
+<span class="sd">        :param id: Instance ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching instance with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific instance by name</span>
+
+<span class="sd">        :param name: Instance name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Instance information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instances</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;instances&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">instance</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">instance</span>
+
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching instance with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_configuration"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_configuration">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve initial configuration for a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: Instance configuration information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_configuration_by_name</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_configuration_by_id</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_configuration_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_configuration_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_configuration_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve initial configuration for a specific instance by ID</span>
+
+<span class="sd">        :param id: Instance ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Instance configuration information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/initialization?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching configuration for instance with ID&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_configuration_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_configuration_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_configuration_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve initial configuration for a specific instance by name</span>
+
+<span class="sd">        :param name: Instance name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Instance configuration information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/initialization?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching configuration for instance with name&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interfaces"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interfaces">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interfaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve network interfaces for a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: List of instance&#39;s interfaces</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interfaces_by_name</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interfaces_by_id</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interfaces_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interfaces_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interfaces_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve network interfaces for a specific instance by ID</span>
+
+<span class="sd">        :param id: Instance ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: List of instance&#39;s interfaces</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network interfaces for instance with ID&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interfaces_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interfaces_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interfaces_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve network interfaces for a specific instance by name</span>
+
+<span class="sd">        :param name: Instance name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: List of instance&#39;s interfaces</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network interfaces for instance with name&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interface"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interface">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network interface for a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: Interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :return: Instance&#39;s interface information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface_by_name</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface_by_id</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span>
+                                                              <span class="n">interface</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interface_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interface_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interface_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network interface for a specific instance by ID</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param id: Interface ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Instance&#39;s interface information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network interface </span><span class="si">{}</span><span class="s2"> for instance&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interface_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interface_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interface_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network interface for a specific instance by ID</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param name: Interface name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Instance&#39;s interface information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interfaces</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;network_interfaces&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">interface</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">interface</span>
+
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network interface </span><span class="si">{}</span><span class="s2"> for instance&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interface_fips"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interface_fips">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interface_fips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve floating IPs attached to a network interface for a</span>
+<span class="sd">        specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: Interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :return: Floating IP list attached to an interface</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">interface_into</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                     <span class="n">interface</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">interface_into</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">interface_into</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">/floating_ips&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">interface_into</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching floating IPs attached to network interface&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> for instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_interface_fip"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_interface_fip">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_interface_fip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">floating</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific floating IP attached to a network interface for</span>
+<span class="sd">        a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: Interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :parem floating: Floating IP name, ID or address</span>
+<span class="sd">        :type floating: str</span>
+<span class="sd">        :return: Floating IP information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">interface_into</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface</span><span class="p">(</span>
+            <span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">interface</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">interface_into</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">interface_into</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface_fips</span><span class="p">(</span>
+                <span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">interface_into</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="n">fip_info</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">fip</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;floating_ips&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">fip</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">floating</span>
+                    <span class="ow">or</span> <span class="n">fip</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">floating</span>
+                    <span class="ow">or</span> <span class="n">fip</span><span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">floating</span>
+                <span class="p">):</span>
+                    <span class="n">fip_info</span> <span class="o">=</span> <span class="n">fip</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">/floating_ips/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">interface_into</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">fip_info</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching floating IP </span><span class="si">{}</span><span class="s2"> attached to network interface&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> for instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fip_info</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span>
+                                                   <span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_volume_attachments"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_volume_attachments">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_volume_attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve volume attachments to a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: List of volume attachments</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/volume_attachments&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching volumes attached to instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_volume_attachment"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_volume_attachment">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_volume_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">attachment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific volume attached to a specific instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param attachment: Volume attachment name or ID</span>
+<span class="sd">        :type attachment: str</span>
+<span class="sd">        :return: Volume attachment information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_volume_attachments</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="n">volume_info</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;volume_attachments&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">vol</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">attachment</span> <span class="ow">or</span> <span class="n">vol</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">attachment</span><span class="p">:</span>
+                    <span class="n">volume_info</span> <span class="o">=</span> <span class="n">vol</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/volume_attachments/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">volume_info</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching volume </span><span class="si">{}</span><span class="s2"> attached to instance&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attachment</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_profiles"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve instance profile list</span>
+
+<span class="sd">        :return: List of instance profiles:</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instance/profiles?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching instance profiles. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.get_instance_profile"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.get_instance_profile">[docs]</a>    <span class="k">def</span> <span class="nf">get_instance_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific instance profile</span>
+
+<span class="sd">        :param profile: Instance profile name or ID</span>
+<span class="sd">        :type profile: str</span>
+<span class="sd">        :return: Profile information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instance/profiles/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching instance profile </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">profile</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.create_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.create_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create VSI</span>
+
+<span class="sd">        :param name: The unique user-defined name for this virtual server</span>
+<span class="sd">            instance</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param keys: The public SSH keys to install on the virtual server</span>
+<span class="sd">            instance</span>
+<span class="sd">        :type keys: list, optional</span>
+<span class="sd">        :param network_interfaces: Collection of additional network interfaces</span>
+<span class="sd">            to create for the virtual server instance</span>
+<span class="sd">        :type network_interfaces: list, optional</span>
+<span class="sd">        :param placement_target: The placement for the virtual server instance</span>
+<span class="sd">        :type placement_target: str, optional</span>
+<span class="sd">        :param profile: The profile to use for this virtual server instance</span>
+<span class="sd">        :type profile: str</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param user_data: User data to be made available when setting up the</span>
+<span class="sd">            virtual server instance</span>
+<span class="sd">        :type user_data: str, optional</span>
+<span class="sd">        :param volume_attachments: Collection of volume attachments</span>
+<span class="sd">        :type volume_attachments: list, optional</span>
+<span class="sd">        :param boot_volume_attachment: The boot volume attachment for the</span>
+<span class="sd">            virtual server instance</span>
+<span class="sd">        :type boot_volume_attachment: str, optional</span>
+<span class="sd">        :param source_template: The unique identifier for this instance</span>
+<span class="sd">            template</span>
+<span class="sd">        :type source_template: str, optional</span>
+<span class="sd">        :param image: The identity of the image to be used when provisioning</span>
+<span class="sd">            the virtual server instance</span>
+<span class="sd">        :type image: str, optional</span>
+<span class="sd">        :param primary_network_interface: Primary network interface</span>
+<span class="sd">        :type primary_network_interface: str, optional</span>
+<span class="sd">        :param vpc: The VPC the virtual server instance is to be a part of</span>
+<span class="sd">        :type vpc: str</span>
+<span class="sd">        :param zone: The identity of the zone to provision the virtual server</span>
+<span class="sd">            instance in</span>
+<span class="sd">        :type zone: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;keys&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;keys&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;network_interfaces&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;network_interfaces&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;placement_target&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;placement_target&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;profile&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;user_data&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user_data&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;volume_attachments&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_attachments&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;vpc&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vpc&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;boot_volume_attachment&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;boot_volume_attachment&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;source_template&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source_template&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;primary_network_interface&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;primary_network_interface&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;zone&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;profile&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;keys&quot;</span><span class="p">:</span>
+                    <span class="n">kp</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">key_pair</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_k</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">key_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyring</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="n">key_pair</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">key_info</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="n">key_info</span>
+                        <span class="n">tmp_k</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                        <span class="n">kp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_k</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;network_interfaces&quot;</span><span class="p">:</span>
+                    <span class="n">nics</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;network_interfaces&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_n</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">nic_k</span><span class="p">,</span> <span class="n">nic_v</span> <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">nic_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">nic_k</span> <span class="o">==</span> <span class="s2">&quot;security_groups&quot;</span><span class="p">:</span>
+                                    <span class="n">sg</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="k">for</span> <span class="n">nic_sg</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]:</span>
+                                        <span class="n">tmp_sg</span> <span class="o">=</span> <span class="p">{}</span>
+                                        <span class="n">tmp_sg</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nic_sg</span>
+                                        <span class="n">sg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_sg</span><span class="p">)</span>
+                                    <span class="n">tmp_n</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
+                                <span class="k">elif</span> <span class="n">nic_k</span> <span class="o">==</span> <span class="s2">&quot;ips&quot;</span><span class="p">:</span>
+                                    <span class="n">ip</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="k">for</span> <span class="n">nic_ip</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">[</span><span class="s2">&quot;ips&quot;</span><span class="p">]:</span>
+                                        <span class="n">tmp_ip</span> <span class="o">=</span> <span class="p">{}</span>
+                                        <span class="n">tmp_ip</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nic_ip</span>
+                                        <span class="n">ip</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_ip</span><span class="p">)</span>
+                                    <span class="n">tmp_n</span><span class="p">[</span><span class="s2">&quot;ips&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip</span>
+                                <span class="k">elif</span> <span class="n">nic_k</span> <span class="o">==</span> <span class="s2">&quot;primary_ip&quot;</span><span class="p">:</span>
+                                    <span class="n">tmp_n</span><span class="p">[</span><span class="s2">&quot;primary_ip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="p">[</span><span class="s2">&quot;primary_ip&quot;</span><span class="p">]}</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">tmp_n</span><span class="p">[</span><span class="n">nic_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nic_v</span>
+                        <span class="n">nics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_n</span><span class="p">)</span>
+                        <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;network_interfaces&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nics</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;volume_attachments&quot;</span><span class="p">:</span>
+                    <span class="n">volumes</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">vol_att</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;volume_attachments&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_v</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">vol_k</span><span class="p">,</span> <span class="n">vol_v</span> <span class="ow">in</span> <span class="n">vol_att</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">vol_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">vol_k</span> <span class="o">==</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span>
+                                    <span class="n">tmp_v</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">vol_att</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]}</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">tmp_v</span><span class="p">[</span><span class="n">vol_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">vol_v</span>
+                        <span class="n">volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_v</span><span class="p">)</span>
+                        <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;volume_attachments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">volumes</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;boot_volume_attachment&quot;</span><span class="p">:</span>
+                    <span class="n">tmp_b</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">bva</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;boot_volume_attachment&quot;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">boot_k</span><span class="p">,</span> <span class="n">boot_v</span> <span class="ow">in</span> <span class="n">bva</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">boot_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">boot_k</span> <span class="o">==</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span>
+                                <span class="n">tmp_bv</span> <span class="o">=</span> <span class="p">{}</span>
+                                <span class="k">for</span> <span class="n">boot_vk</span><span class="p">,</span> <span class="n">boot_vv</span> <span class="ow">in</span> <span class="n">bva</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                                    <span class="k">if</span> <span class="n">boot_vv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                        <span class="k">if</span> <span class="n">boot_vk</span> <span class="o">==</span> <span class="s2">&quot;profile&quot;</span><span class="p">:</span>
+                                            <span class="n">tmp_bv</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">boot_vv</span><span class="p">}</span>
+                                        <span class="k">elif</span> <span class="n">boot_vk</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                                            <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                                                <span class="n">boot_vv</span><span class="p">)</span>
+                                            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+                                                <span class="k">return</span> <span class="n">info</span>
+                                            <span class="n">tmp_bv</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                                        <span class="k">elif</span> <span class="n">boot_vk</span> <span class="o">==</span> <span class="s2">&quot;encryption_key&quot;</span><span class="p">:</span>
+                                            <span class="n">tmp_bv</span><span class="p">[</span><span class="s2">&quot;encryption_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                                <span class="s2">&quot;crn&quot;</span><span class="p">:</span> <span class="n">boot_vv</span><span class="p">}</span>
+                                        <span class="k">else</span><span class="p">:</span>
+                                            <span class="n">tmp_bv</span><span class="p">[</span><span class="n">boot_vk</span><span class="p">]</span> <span class="o">=</span> <span class="n">boot_vv</span>
+                                    <span class="n">tmp_b</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_bv</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">tmp_b</span><span class="p">[</span><span class="n">boot_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">boot_v</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;boot_volume_attachment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_b</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;primary_network_interface&quot;</span><span class="p">:</span>
+                    <span class="n">tmp_p</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">pni</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;primary_network_interface&quot;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">pni_k</span><span class="p">,</span> <span class="n">pni_v</span> <span class="ow">in</span> <span class="n">pni</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">pni_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">pni_k</span> <span class="o">==</span> <span class="s2">&quot;security_groups&quot;</span><span class="p">:</span>
+                                <span class="n">sg</span> <span class="o">=</span> <span class="p">[]</span>
+                                <span class="k">for</span> <span class="n">pni_sg</span> <span class="ow">in</span> <span class="n">pni</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]:</span>
+                                    <span class="n">tmp_sg</span> <span class="o">=</span> <span class="p">{}</span>
+                                    <span class="n">tmp_sg</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pni_sg</span>
+                                    <span class="n">sg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_sg</span><span class="p">)</span>
+                                <span class="n">tmp_p</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
+                            <span class="k">elif</span> <span class="n">pni_k</span> <span class="o">==</span> <span class="s2">&quot;ips&quot;</span><span class="p">:</span>
+                                <span class="n">ip</span> <span class="o">=</span> <span class="p">[]</span>
+                                <span class="k">for</span> <span class="n">pni_ip</span> <span class="ow">in</span> <span class="n">pni</span><span class="p">[</span><span class="s2">&quot;ips&quot;</span><span class="p">]:</span>
+                                    <span class="n">tmp_ip</span> <span class="o">=</span> <span class="p">{}</span>
+                                    <span class="n">tmp_ip</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pni_ip</span>
+                                    <span class="n">ip</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_ip</span><span class="p">)</span>
+                                <span class="n">tmp_p</span><span class="p">[</span><span class="s2">&quot;ips&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip</span>
+                            <span class="k">elif</span> <span class="n">pni_k</span> <span class="o">==</span> <span class="s2">&quot;primary_ip&quot;</span><span class="p">:</span>
+                                <span class="n">tmp_p</span><span class="p">[</span><span class="s2">&quot;primary_ip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">pni</span><span class="p">[</span><span class="s2">&quot;primary_ip&quot;</span><span class="p">]}</span>
+                            <span class="k">elif</span> <span class="n">pni_k</span> <span class="o">==</span> <span class="s2">&quot;subnet&quot;</span><span class="p">:</span>
+                                <span class="n">subnet_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span><span class="o">.</span><span class="n">get_subnet</span><span class="p">(</span>
+                                    <span class="n">pni</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">])</span>
+                                <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">subnet_info</span><span class="p">:</span>
+                                    <span class="k">return</span> <span class="n">subnet_info</span>
+                                <span class="n">tmp_p</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">subnet_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">tmp_p</span><span class="p">[</span><span class="n">pni_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pni_v</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;primary_network_interface&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_p</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;vpc&quot;</span><span class="p">:</span>
+                    <span class="n">vpc_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vpc</span><span class="o">.</span><span class="n">get_vpc</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;vpc&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">vpc_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">vpc_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;vpc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">vpc_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+                    <span class="n">image_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">image_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">image_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+                    <span class="n">image_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">image_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">image_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">image_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;source_template&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;source_template&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;source_template&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;zone&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;zone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;zone&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating instance. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.create_instance_action"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.create_instance_action">[docs]</a>    <span class="k">def</span> <span class="nf">create_instance_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create instance action</span>
+
+<span class="sd">        :param instance: The instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param type: The type of action</span>
+<span class="sd">        :type type: str</span>
+<span class="sd">        :param force: If set to true, the action will be forced immediately,</span>
+<span class="sd">            and all queued actions deleted. Ignored for the start action</span>
+<span class="sd">        :type force: bool, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;instance&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;force&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;force&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;instance&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/actions?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating instance action. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.create_instance_interface"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.create_instance_interface">[docs]</a>    <span class="k">def</span> <span class="nf">create_instance_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create instance interface</span>
+
+<span class="sd">        :param instance: The instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param subnet: The associated subnet name or ID</span>
+<span class="sd">        :type subnet: str</span>
+<span class="sd">        :param primary_ipv4_address: The primary IPv4 address</span>
+<span class="sd">        :type primary_ipv4_address: str, optional</span>
+<span class="sd">        :param security_groups: Collection of security groups</span>
+<span class="sd">        :type security_groups: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="s2">&quot;subnet&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;instance&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;subnet&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;forsubnetce&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;primary_ipv4_address&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;primary_ipv4_address&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;security_groups&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;security_groups&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">subnet_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span><span class="o">.</span><span class="n">get_subnet</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">subnet_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">subnet_info</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;instance&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;security_groups&quot;</span><span class="p">:</span>
+                    <span class="n">sg</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">key_sg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_sg</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">tmp_sg</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key_sg</span>
+                        <span class="n">sg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_sg</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;security_groups&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;subnet&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">subnet_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating instance interface. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.associate_floating_ip"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.associate_floating_ip">[docs]</a>    <span class="k">def</span> <span class="nf">associate_floating_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Associate floating IP with a network interface on an instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: The network interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :param fip: The floting IP name, ID or address</span>
+<span class="sd">        :type fip: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="s2">&quot;interface&quot;</span><span class="p">,</span> <span class="s2">&quot;fip&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;instance&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;interface&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;interface&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;fip&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fip&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">interface_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                     <span class="n">args</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">interface_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">interface_info</span>
+
+        <span class="n">fip_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fip</span><span class="o">.</span><span class="n">get_floating_ip</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;fip&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">fip_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fip_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">/floating_ips/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">interface_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">fip_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error associating floating IP </span><span class="si">{}</span><span class="s2"> on network interface </span><span class="si">{}</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot; for instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fip_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                <span class="n">interface_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                <span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.attach_volume"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.attach_volume">[docs]</a>    <span class="k">def</span> <span class="nf">attach_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attach a volume to an instance</span>
+
+<span class="sd">        :param instance: The instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param volume: The identity of the volume to attach to the instance</span>
+<span class="sd">        :type volume: str</span>
+<span class="sd">        :param delete_volume_on_instance_delete: If set to true, when deleting</span>
+<span class="sd">            the instance the volume will also be deleted</span>
+<span class="sd">        :type delete_volume_on_instance_delete: bool, optional</span>
+<span class="sd">        :param name: The user-defined name for this volume attachment</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;instance&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;volume&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;delete_volume_on_instance_delete&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;delete_volume_on_instance_delete&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;instance&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">instance_info</span>
+
+        <span class="n">volume_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">volume_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">volume_info</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;instance&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">volume_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/volume_attachments?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating volume attachment. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.delete_instance"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.delete_instance">[docs]</a>    <span class="k">def</span> <span class="nf">delete_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.delete_instance_interface"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.delete_instance_interface">[docs]</a>    <span class="k">def</span> <span class="nf">delete_instance_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete interface from instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: Interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="n">interface_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">interface_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">interface_info</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">interface_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.disassociate_floating_ip"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.disassociate_floating_ip">[docs]</a>    <span class="k">def</span> <span class="nf">disassociate_floating_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">fip</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Disassociate floating IP from a network interface on an instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param interface: Interface name or ID</span>
+<span class="sd">        :type interface: str</span>
+<span class="sd">        :parem fip: Floating IP name, ID or address</span>
+<span class="sd">        :type fip: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="n">interface_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_interface</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">interface</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">interface_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">interface_info</span>
+
+            <span class="n">fip_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fip</span><span class="o">.</span><span class="n">get_floating_ip</span><span class="p">(</span><span class="n">fip</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">fip_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">fip_info</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/network_interfaces/</span><span class="si">{}</span><span class="s2">/floating_ips/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">interface_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">fip_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error disassociating floating IP </span><span class="si">{}</span><span class="s2"> from network interface&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> on instance </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fip</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span>
+                                                  <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Instance.detach_volume"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.instance.Instance.detach_volume">[docs]</a>    <span class="k">def</span> <span class="nf">detach_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">attachment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detach volume from an instance</span>
+
+<span class="sd">        :param instance: Instance name or ID</span>
+<span class="sd">        :type instance: str</span>
+<span class="sd">        :param attachment: Volume attachement name or ID</span>
+<span class="sd">        :type attachment: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">instance_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">instance_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">instance_info</span>
+
+            <span class="n">attachment_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_instance_volume_attachment</span><span class="p">(</span>
+                <span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">attachment</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">attachment_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">attachment_info</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/instances/</span><span class="si">{}</span><span class="s2">/volume_attachments/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">attachment_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error detaching volume with attachment </span><span class="si">{}</span><span class="s2"> from instance&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attachment</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

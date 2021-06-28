@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.cis.baremetal.order &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.cis.baremetal.order</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.cis.baremetal.order</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils</span> <span class="kn">import</span> <span class="n">softlayer</span> <span class="k">as</span> <span class="n">sl</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_error</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+
+
+<div class="viewcode-block" id="Order"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order">[docs]</a><span class="k">class</span> <span class="nc">Order</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">OrderingManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Order.get_operating_systems"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_systems">[docs]</a>    <span class="k">def</span> <span class="nf">get_operating_systems</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve baremetal operating system list</span>
+
+<span class="sd">        :param package: Package name, defaults to `BARE_METAL_SERVER`</span>
+<span class="sd">        :type package: str, optional</span>
+<span class="sd">        :return: Baremetal operating system list</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Provided package should have &quot;os&quot; category code.</span>
+        <span class="n">pkg_name</span> <span class="o">=</span> <span class="s2">&quot;BARE_METAL_SERVER&quot;</span>
+        <span class="k">if</span> <span class="n">package</span><span class="p">:</span>
+            <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">package</span>
+
+        <span class="nb">filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;categoryCode&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;_= os&quot;</span><span class="p">}}}}</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;mask[id, keyName, description, itemCategory, categories,&quot;</span>
+                <span class="s2">&quot;prices]&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve package ID base on package keyname</span>
+            <span class="n">pkg_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">get_package_by_key</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+            <span class="n">images</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">images</span><span class="p">[</span><span class="s2">&quot;operating_systems&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+                <span class="s2">&quot;Product_Package&quot;</span><span class="p">,</span> <span class="s2">&quot;getItems&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">pkg_id</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+                <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">images</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.get_operating_system"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_system">[docs]</a>    <span class="k">def</span> <span class="nf">get_operating_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific baremetal operating system</span>
+
+<span class="sd">        :param image: Image name</span>
+<span class="sd">        :type image: str</span>
+<span class="sd">        :param package: Package name, defaults to `BARE_METAL_SERVER`</span>
+<span class="sd">        :type package: str, optional</span>
+<span class="sd">        :return: Baremetal operating system</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Package should have &quot;os&quot; category code.</span>
+        <span class="c1"># By default BARE_METAL_SERVER will be used.</span>
+        <span class="n">pkg_name</span> <span class="o">=</span> <span class="s2">&quot;BARE_METAL_SERVER&quot;</span>
+        <span class="k">if</span> <span class="n">package</span><span class="p">:</span>
+            <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">package</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve operating systems</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_operating_systems</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">)</span>
+
+            <span class="c1"># Loop over operating systems until filter match</span>
+            <span class="k">for</span> <span class="n">operating_system</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;operating_systems&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">operating_system</span><span class="p">[</span><span class="s2">&quot;keyName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">image</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">operating_system</span>
+
+            <span class="c1"># Return error if no operating system is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.get_package_items"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_items">[docs]</a>    <span class="k">def</span> <span class="nf">get_package_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve package item list</span>
+
+<span class="sd">        :param package: Package name, defaults to `BARE_METAL_SERVER`</span>
+<span class="sd">        :type package: str, optional</span>
+<span class="sd">        :param category: Filter by category</span>
+<span class="sd">        :type category: str, optional</span>
+<span class="sd">        :param mask: Mask fields</span>
+<span class="sd">        :type mask: str, optional</span>
+<span class="sd">        :return: Baremetal operating systems</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mask&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="nb">filter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]:</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;categoryCode&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;_= </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])}}}}</span>
+
+        <span class="n">pkg_name</span> <span class="o">=</span> <span class="s2">&quot;BARE_METAL_SERVER&quot;</span>
+        <span class="k">if</span> <span class="n">package</span><span class="p">:</span>
+            <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">package</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="s2">&quot;id, keyName, description&quot;</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">packages</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">packages</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">list_items</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+                                                      <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">packages</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.get_package_presets"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_presets">[docs]</a>    <span class="k">def</span> <span class="nf">get_package_presets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve baremetal package presets</span>
+
+<span class="sd">        :param package: Package name, defaults to `BARE_METAL_SERVER`</span>
+<span class="sd">        :type package: str, optional</span>
+<span class="sd">        :return: Baremetal presets from package</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pkg_name</span> <span class="o">=</span> <span class="s2">&quot;BARE_METAL_SERVER&quot;</span>
+        <span class="k">if</span> <span class="n">package</span><span class="p">:</span>
+            <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">package</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">packages</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">packages</span><span class="p">[</span><span class="s2">&quot;presets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">list_presets</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">packages</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.get_locations"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.get_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve all datacenter locations</span>
+
+<span class="sd">        :return: List of datacenter location</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="s2">&quot;id,name,regions[keyname,description]&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">locations</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">locations</span><span class="p">[</span><span class="s2">&quot;datacenters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+                <span class="s2">&quot;SoftLayer_Location&quot;</span><span class="p">,</span> <span class="s2">&quot;getDatacenters&quot;</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">locations</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.verify"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.verify">[docs]</a>    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify an order</span>
+
+<span class="sd">        :param package: The package being ordered</span>
+<span class="sd">        :type package: str</span>
+<span class="sd">        :param location: The datacenter location string for ordering</span>
+<span class="sd">        :type location: str</span>
+<span class="sd">        :param items: The list of item keyname strings to order</span>
+<span class="sd">        :type items: list</span>
+<span class="sd">        :param complex_type: The complex type to send with the order</span>
+<span class="sd">        :type complex_type: str</span>
+<span class="sd">        :param hourly: If true, uses hourly billing, defaults to `True`</span>
+<span class="sd">        :type hourly: bool, optional</span>
+<span class="sd">        :param preset: Specifies a preset to use for that package</span>
+<span class="sd">        :type preset: str, optional</span>
+<span class="sd">        :param extras: The extra data for the order in dictionary format</span>
+<span class="sd">        :type extras: dict</span>
+<span class="sd">        :param quantity: The number of resources to order, default to `1`</span>
+<span class="sd">        :type quantity: int, optional</span>
+<span class="sd">        :return: The verified order</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">,</span> <span class="s2">&quot;complex_type&quot;</span><span class="p">,</span> <span class="s2">&quot;extras&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;complex_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;complex_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hourly&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hourly&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="s1">&#39;preset&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;preset&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;extras&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;extras&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">verify_order</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;package&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">],</span>
+                <span class="n">hourly</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">preset_keyname</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;preset&#39;</span><span class="p">],</span>
+                <span class="n">complex_type</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;complex_type&#39;</span><span class="p">],</span> <span class="n">extras</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">],</span>
+                <span class="n">quantity</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">])</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Order.place"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.order.Order.place">[docs]</a>    <span class="k">def</span> <span class="nf">place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Place an order</span>
+
+<span class="sd">        :param package: The package being ordered</span>
+<span class="sd">        :type package: str</span>
+<span class="sd">        :param location: The datacenter location string for ordering</span>
+<span class="sd">        :type location: str</span>
+<span class="sd">        :param items: The list of item keyname strings to order</span>
+<span class="sd">        :type items: list</span>
+<span class="sd">        :param complex_type: The complex type to send with the order</span>
+<span class="sd">        :type complex_type: str</span>
+<span class="sd">        :param hourly: If true, uses hourly billing, defaults to `True`</span>
+<span class="sd">        :type hourly: bool, optional</span>
+<span class="sd">        :param preset: Specifies a preset to use for that package</span>
+<span class="sd">        :type preset: str, optional</span>
+<span class="sd">        :param extras: The extra data for the order in dictionary format</span>
+<span class="sd">        :type extras: dict</span>
+<span class="sd">        :param quantity: The number of resources to order, default to `1`</span>
+<span class="sd">        :type quantity: int, optional</span>
+<span class="sd">        :return: The placed order</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">,</span> <span class="s2">&quot;complex_type&quot;</span><span class="p">,</span> <span class="s2">&quot;extras&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;complex_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;complex_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hourly&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hourly&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="s1">&#39;preset&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;preset&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;extras&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;extras&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;package&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">],</span>
+                <span class="n">hourly</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">preset_keyname</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;preset&#39;</span><span class="p">],</span>
+                <span class="n">complex_type</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;complex_type&#39;</span><span class="p">],</span> <span class="n">extras</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">],</span>
+                <span class="n">quantity</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">])</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

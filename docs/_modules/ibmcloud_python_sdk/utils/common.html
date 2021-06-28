@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.utils.common &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.utils.common</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.utils.common</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">http.client</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">jwt</span> <span class="kn">import</span> <span class="n">decode</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils</span> <span class="kn">import</span> <span class="n">cache</span>
+
+
+<span class="k">def</span> <span class="nf">_account_id</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Retrieve BSS ID and encode it to base64</span>
+
+<span class="sd">    :param headers: Headers to parse</span>
+<span class="sd">    :type headers: dict</span>
+<span class="sd">    :return: BSS ID encoded to base64</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">auth</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth</span><span class="p">:</span>
+        <span class="c1"># Split the Bearer token and decode the JWT</span>
+        <span class="n">jwt</span> <span class="o">=</span> <span class="n">decode</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Encode BSS ID to base64</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">jwt</span><span class="p">[</span><span class="s2">&quot;account&quot;</span><span class="p">][</span><span class="s2">&quot;bss&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Returns base64 string</span>
+        <span class="k">return</span> <span class="n">encoded</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="query_wrapper"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.query_wrapper">[docs]</a><span class="k">def</span> <span class="nf">query_wrapper</span><span class="p">(</span><span class="n">conn_type</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Execute HTTP query and return JSON response</span>
+
+<span class="sd">    :param conn_type: Define which URL should be used for the connection</span>
+<span class="sd">        such as &quot;iaas&quot;, &quot;auth&quot;, &quot;cis&quot;, or &quot;rg&quot; (resource group)</span>
+<span class="sd">    :type conn_type: str</span>
+<span class="sd">    :param method: HTTP method that should be used such as</span>
+<span class="sd">        GET, POST, PUT, DELETE, etc...</span>
+<span class="sd">    :type method: str</span>
+<span class="sd">    :param path: Path used by within the query</span>
+<span class="sd">    :type path: str</span>
+<span class="sd">    :param headers: Headers to send with the query is required such</span>
+<span class="sd">        authentication token, content type, etc...</span>
+<span class="sd">    :type headers: dict, optional</span>
+<span class="sd">    :param payload: JSON payload send during the query</span>
+<span class="sd">    :type payload: dict, optional</span>
+<span class="sd">    :return: JSON response</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;http_timeout&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;iaas&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;is_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;rg&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;rg_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;auth&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;auth_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;dns&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;dns_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;em&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;em_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;sl&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">and</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cis_username&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cis_apikey&quot;</span><span class="p">]:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodebytes</span><span class="p">(</span>
+                <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cis_username&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cis_apikey&quot;</span><span class="p">]))</span>
+                <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Basic </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;sl_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conn_type</span> <span class="o">==</span> <span class="s2">&quot;power&quot;</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPSConnection</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;pi_url&quot;</span><span class="p">],</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cache</span><span class="o">.</span><span class="n">client</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span> <span class="ow">and</span> <span class="n">conn_type</span> <span class="o">!=</span> <span class="s2">&quot;auth&quot;</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_account_id</span><span class="p">(</span><span class="n">headers</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="n">conn</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+
+    <span class="c1"># Get and read response data</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="c1"># Return empty data and HTTP response this is mostly</span>
+        <span class="c1"># due to DELETE request which doesn&#39;t return any data</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cache</span><span class="o">.</span><span class="n">client</span><span class="p">():</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_account_id</span><span class="p">(</span><span class="n">headers</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+            <span class="c1"># Store item into caching system</span>
+            <span class="n">cache</span><span class="o">.</span><span class="n">set_item</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Return data and HTTP response</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="check_args"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.check_args">[docs]</a><span class="k">def</span> <span class="nf">check_args</span><span class="p">(</span><span class="n">arguments</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check that required arguments are passed to the function</span>
+
+<span class="sd">    :param arguments: List of required arguments</span>
+<span class="sd">    :type arguments: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Argument required by the function</span>
+    <span class="n">required</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+
+    <span class="c1"># Argument passed to the function</span>
+    <span class="n">passed</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="c1"># Check if required arguments are passed</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">required</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">passed</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+            <span class="s2">&quot;Required param(s) is/are missing. Required: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">required</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="resource_not_found"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.resource_not_found">[docs]</a><span class="k">def</span> <span class="nf">resource_not_found</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return custom JSON if a resource is not found</span>
+
+<span class="sd">    :param payload: Customize the JSON to return if needed</span>
+<span class="sd">    :type payload: dict, optional</span>
+<span class="sd">    :return: A JSON dict with a message</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">payload</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;not_found&quot;</span><span class="p">}]}</span></div>
+
+
+<div class="viewcode-block" id="resource_deleted"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.resource_deleted">[docs]</a><span class="k">def</span> <span class="nf">resource_deleted</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return custom JSON if a resource is deleted</span>
+
+<span class="sd">    :param payload: Customize the JSON to return if needed</span>
+<span class="sd">    :type payload: dict, optional</span>
+<span class="sd">    :return: A JSON dict with a message</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">payload</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;deleted&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="resource_found"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.resource_found">[docs]</a><span class="k">def</span> <span class="nf">resource_found</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return custom JSON if a resource is found but doesn&#39;t have output</span>
+
+<span class="sd">    :param payload: Customize the JSON to return if needed</span>
+<span class="sd">    :type payload: dict, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">payload</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;found&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="resource_created"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.resource_created">[docs]</a><span class="k">def</span> <span class="nf">resource_created</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return custom JSON if a resource is created but doesn&#39;t have output</span>
+
+<span class="sd">    :param payload: Customize the JSON to return if needed</span>
+<span class="sd">    :type payload: dict, optional</span>
+<span class="sd">    :return: A JSON dict with a message</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">payload</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="resource_error"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.utils.html#ibmcloud_python_sdk.utils.common.resource_error">[docs]</a><span class="k">def</span> <span class="nf">resource_error</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return custom JSON if a resource raised an exception. This will be</span>
+<span class="sd">        mostly used during try: / except: on SoftLayer resources</span>
+
+<span class="sd">    :param code: Code to return</span>
+<span class="sd">    :type code: int</span>
+<span class="sd">    :param message: Message to return</span>
+<span class="sd">    :type messaage: str</span>
+<span class="sd">    :return: A JSON dict with an error message</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;not_found&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">}}</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

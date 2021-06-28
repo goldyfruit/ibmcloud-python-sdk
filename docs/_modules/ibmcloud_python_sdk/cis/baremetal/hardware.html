@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.cis.baremetal.hardware &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.cis.baremetal.hardware</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.cis.baremetal.hardware</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils</span> <span class="kn">import</span> <span class="n">softlayer</span> <span class="k">as</span> <span class="n">sl</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_error</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+
+
+<div class="viewcode-block" id="Hardware"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware">[docs]</a><span class="k">class</span> <span class="nc">Hardware</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hw</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">HardwareManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Hardware.get_baremetals"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetals">[docs]</a>    <span class="k">def</span> <span class="nf">get_baremetals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve baremetal list</span>
+
+<span class="sd">        :return: List of baremetal servers</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Display all the fields.</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">baremetal</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">baremetal</span><span class="p">[</span><span class="s2">&quot;baremetals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">list_hardware</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">baremetal</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hardware.get_baremetal"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal">[docs]</a>    <span class="k">def</span> <span class="nf">get_baremetal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baremetal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific baremetal</span>
+
+<span class="sd">        :param baremetal: Baremetal name or ID</span>
+<span class="sd">        :type baremetal: str</span>
+<span class="sd">        :return: Baremetal server information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal_by_name</span><span class="p">(</span><span class="n">baremetal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal_by_id</span><span class="p">(</span><span class="n">baremetal</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Hardware.get_baremetal_by_id"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_baremetal_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific baremetal by ID</span>
+
+<span class="sd">        :param id: Baremetal ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Baremetal server information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">get_hardware</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hardware.get_baremetal_by_name"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_baremetal_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific baremetal by name</span>
+
+<span class="sd">        :param name: Baremetal name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Baremetal server information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve baremetals</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetals</span><span class="p">()</span>
+
+            <span class="c1"># Loop over baremetals until filter match</span>
+            <span class="k">for</span> <span class="n">baremetal</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;baremetals&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">baremetal</span><span class="p">[</span><span class="s2">&quot;fullyQualifiedDomainName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal_by_id</span><span class="p">(</span><span class="n">baremetal</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+
+            <span class="c1"># Return error if no baremetal is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hardware.get_baremetal_power_state"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_power_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_baremetal_power_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baremetal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve baremetal power state</span>
+
+<span class="sd">        :param baremetal: Baremetal name or ID</span>
+<span class="sd">        :type baremetal: str</span>
+<span class="sd">        :return: Baremetal power state</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve baremetal info and check is exists</span>
+        <span class="n">bm_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal</span><span class="p">(</span><span class="n">baremetal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">bm_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bm_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;Hardware_Server&quot;</span><span class="p">,</span> <span class="s2">&quot;getServerPowerState&quot;</span><span class="p">,</span>
+                                     <span class="nb">id</span><span class="o">=</span><span class="n">bm_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;power_state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">}</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hardware.set_baremetal_power_state"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.set_baremetal_power_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_baremetal_power_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set baremetal power state</span>
+
+<span class="sd">        :param baremetal: Baremetal name or ID</span>
+<span class="sd">        :type baremetal: str</span>
+<span class="sd">        :parem power_state: Target power state</span>
+<span class="sd">        :type power_state: str</span>
+<span class="sd">        :return: Power state</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;baremetal&quot;</span><span class="p">,</span> <span class="s2">&quot;power_state&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;baremetal&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;baremetal&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;power_state&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;power_state&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="c1"># Retrieve baremetal info and check is exists</span>
+        <span class="n">bm_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;baremetal&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">bm_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bm_info</span>
+
+        <span class="n">switch</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;powerOff&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;powerOn&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;reboot&quot;</span><span class="p">:</span> <span class="s2">&quot;powerCycle&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;power_state&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">switch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="s2">&quot;state_not_valid&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;available states: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">switch</span><span class="p">)))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;Hardware_Server&quot;</span><span class="p">,</span>
+                                     <span class="n">switch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;power_state&quot;</span><span class="p">]),</span>
+                                     <span class="nb">id</span><span class="o">=</span><span class="n">bm_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;power_state&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;power_state&quot;</span><span class="p">]}</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hardware.reload_os"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.baremetal.html#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.reload_os">[docs]</a>    <span class="k">def</span> <span class="nf">reload_os</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reload operating system and configuration</span>
+
+<span class="sd">        :param baremetal: Baremetal name or ID</span>
+<span class="sd">        :type baremetal: str</span>
+<span class="sd">        :param spare_pool: Server will be moved into the spare pool after an</span>
+<span class="sd">            sperating system reload</span>
+<span class="sd">        :type spare_pool: str, optional</span>
+<span class="sd">        :param script: Will be used to download and execute a customer defined</span>
+<span class="sd">            script on the host at the end of provisioning</span>
+<span class="sd">        :type script: str, optional</span>
+<span class="sd">        :param retention: Primary drive will be converted to a portable</span>
+<span class="sd">            storage volume during an operating system reload</span>
+<span class="sd">        :type retention: str</span>
+<span class="sd">        :param erase_drives: All data will be erased from drives during an</span>
+<span class="sd">            sperating system reload</span>
+<span class="sd">        :type erase_drives: bool, optional</span>
+<span class="sd">        :param hard_drives: The hard drive partitions that a server can be</span>
+<span class="sd">            partitioned with</span>
+<span class="sd">        :param image_template_id: An image template ID that will be deployed</span>
+<span class="sd">            to the host. If provided no item prices are required</span>
+<span class="sd">        :type image_template_id: str, optional</span>
+<span class="sd">        :param item_prices: Item prices that the server can be configured with</span>
+<span class="sd">        :type item_prices: list, optional</span>
+<span class="sd">        :param enable_lvm: The provision should use LVM for all logical drives</span>
+<span class="sd">        :type enable_lvm: bool, optional</span>
+<span class="sd">        :param reset_ipmi_password: The remote management cards password will</span>
+<span class="sd">            be reset</span>
+<span class="sd">        :type reset_ipmi_password: bool, optional</span>
+<span class="sd">        :param ssh_keys: SSH keys to add to the server for authentication.</span>
+<span class="sd">            SSH Keys will not be added to servers with Microsoft Windows</span>
+<span class="sd">        :type ssh_keys: list, optional</span>
+<span class="sd">        :param upgrade_bios: BIOS will be updated when installing the</span>
+<span class="sd">            operating system.</span>
+<span class="sd">        :type upgrade_bios: bool, optional</span>
+<span class="sd">        :param upgrade_firmware: Firmware on all hard drives will be updated</span>
+<span class="sd">            when installing the operating system</span>
+<span class="sd">        :type upgrade_firmware: bool, optional</span>
+<span class="sd">        :return: Reload status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;baremetal&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;baremetal&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;baremetal&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;spare_pool&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spare_pool&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;provision_script_uri&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;retention&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;drive_retention&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;erase_drives&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;erase_drives&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hard_drives&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hard_drives&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;image_template_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;image_template_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;item_prices&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;item_prices&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;enable_lvm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enable_lvm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;reset_ipmi_password&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;reset_ipmi_password&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;ssh_keys&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ssh_keys&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;upgrade_bios&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;upgrade_bios&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;upgrade_firmware&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;upgrade_firmware&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Retrieve baremetal info and check is exists</span>
+        <span class="n">bm_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_baremetal</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;baremetal&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">bm_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bm_info</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;baremetal&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spare_pool&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;addToSparePoolAfterOsReload&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;script&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;customProvisionScriptUri&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;retention&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;driveRetentionFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;erase_drives&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;eraseHardDrives&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;hard_drives&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;hardDrives&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;hard_drives&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;image_template_id&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;imageTemplateId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;image_template_id&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;item_prices&quot;</span><span class="p">:</span>
+                    <span class="n">ip</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;item_prices&quot;</span><span class="p">]:</span>
+                        <span class="n">tmp_i</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">tmp_i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                        <span class="n">ip</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_i</span><span class="p">)</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;itemPrices&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;enable_lvm&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;lvmFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;reset_ipmi_password&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;resetIpmiPassword&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;ssh_keys&quot;</span><span class="p">:</span>
+                    <span class="n">kp</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">key_pair</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;ssh_keys&quot;</span><span class="p">]:</span>
+                        <span class="n">kp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key_pair</span><span class="p">)</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;sshKeyIds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;upgrade_bios&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;upgradeBios&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;upgrade_firmware&quot;</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;upgradeHardDriveFirmware&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">[</span><span class="s1">&#39;Hardware_Server&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reloadOperatingSystem</span><span class="p">(</span>
+                        <span class="s1">&#39;FORCE&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">bm_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;reload_os_status&quot;</span><span class="p">:</span> <span class="s2">&quot;requested&quot;</span><span class="p">}</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

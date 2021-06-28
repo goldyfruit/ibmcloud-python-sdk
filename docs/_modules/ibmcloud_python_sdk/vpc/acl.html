@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.vpc.acl &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.vpc.acl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.vpc.acl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.auth</span> <span class="kn">import</span> <span class="n">get_headers</span> <span class="k">as</span> <span class="n">headers</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">query_wrapper</span> <span class="k">as</span> <span class="n">qw</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">vpc</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_deleted</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.resource</span> <span class="kn">import</span> <span class="n">resource_group</span>
+
+
+<div class="viewcode-block" id="Acl"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl">[docs]</a><span class="k">class</span> <span class="nc">Acl</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vpc</span> <span class="o">=</span> <span class="n">vpc</span><span class="o">.</span><span class="n">Vpc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">resource_group</span><span class="o">.</span><span class="n">ResourceGroup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Acl.get_network_acls"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acls">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve network ACL list</span>
+
+<span class="sd">        :return: List of network ACLs</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network ACLs. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network ACL</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :return: Network ACL information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_by_name</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_by_id</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network ACL by ID</span>
+
+<span class="sd">        :param id: Network ACL ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Network ACL information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network ACL with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific network ACL by name</span>
+
+<span class="sd">        :param name: Network ACL name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Network ACL information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve network ACLs</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acls</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over network ACLs until filter match</span>
+            <span class="k">for</span> <span class="n">acl</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;network_acls&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">acl</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">acl</span>
+
+            <span class="c1"># Return error if no network ACL is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network ACL with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_rules"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rules">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve rules for a specific network ACL</span>
+
+<span class="sd">        :param acl: Network ACL</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :return: Network ACL rules list</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rules_by_name</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rules_by_id</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_rules_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rules_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rules_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve rules for a specific network ACL by ID</span>
+
+<span class="sd">        :param id: Network ACL ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Network ACL rules list</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">/rules?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching rules for network ACL with ID&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_rules_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rules_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rules_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve rules for a specific network ACL by name</span>
+
+<span class="sd">        :param name: Network ACL name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Network ACL rules list</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve network ACL information to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">acl_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">/rules/?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching network ACL with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+    <span class="c1"># Get specific network ACL&#39;s rule</span>
+<div class="viewcode-block" id="Acl.get_network_acl_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rule">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific rule for a specific network ACL</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :param rule: Rule name or ID</span>
+<span class="sd">        :type rule: str</span>
+<span class="sd">        :return: Network ACL rule information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve network ACL to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">acl_info</span>
+
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rule_by_name</span><span class="p">(</span><span class="n">acl</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rule_by_id</span><span class="p">(</span><span class="n">acl</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_rule_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rule_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rule_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific rule for a specific network ACL by ID</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :param id: Rule ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Network ACL rule information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve network ACL to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">acl_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">/rules/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching rule with ID </span><span class="si">{}</span><span class="s2"> for network ACL&quot;</span>
+                  <span class="s2">&quot;with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.get_network_acl_rule_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.get_network_acl_rule_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_acl_rule_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific rule for a specific network ACL by name</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :param name: Rule name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Network ACL rule information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve network ACL to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">acl_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve network ACL rules</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rules</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over network ACL rules until filter match</span>
+            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;rules&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">rule</span>
+
+            <span class="c1"># Return error if no network ACL is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching rule with name </span><span class="si">{}</span><span class="s2"> for network ACL&quot;</span>
+                  <span class="s2">&quot;with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.create_network_acl"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.create_network_acl">[docs]</a>    <span class="k">def</span> <span class="nf">create_network_acl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create network ACL</span>
+
+<span class="sd">        :param name: The unique user-defined name for this network ACL</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param vpc: The VPC the network ACL is to be a part of</span>
+<span class="sd">        :type vpc: str</span>
+<span class="sd">        :param rules: Array of prototype objects for rules to create along</span>
+<span class="sd">            with this network ACL</span>
+<span class="sd">        :type rules: list, optional</span>
+<span class="sd">        :param source_network_acl: Network ACL to copy rules from</span>
+<span class="sd">        :type source_network_acl: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vpc&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;vpc&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vpc&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;rules&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rules&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;source_network_acl&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source_network_acl&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;vpc&quot;</span><span class="p">:</span>
+                    <span class="n">vpc_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vpc</span><span class="o">.</span><span class="n">get_vpc</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;vpc&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">vpc_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">vpc_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;vpc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">vpc_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;rules&quot;</span><span class="p">:</span>
+                    <span class="n">rs</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">acl_rules</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;rules&quot;</span><span class="p">]:</span>
+                        <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acl_rules</span><span class="p">)</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;rules&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rs</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;source_network_acl&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;source_network_acl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;source_network_acl&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating network ACL. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.create_network_acl_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.create_network_acl_rule">[docs]</a>    <span class="k">def</span> <span class="nf">create_network_acl_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create network ACL rule</span>
+
+<span class="sd">        :param name: The unique user-defined name for this network ACL</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param vpc: The VPC the network ACL is to be a part of</span>
+<span class="sd">        :type vpc: str</span>
+<span class="sd">        :param rules: Array of prototype objects for rules to create along</span>
+<span class="sd">            with this network ACL</span>
+<span class="sd">        :type rules: list, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;acl&quot;</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="s2">&quot;destination&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;acl&quot;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;acl&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;destination&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;destination&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;direction&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;before&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;before&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;protocol&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;protocol&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;destination_port_max&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;destination_port_max&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;destination_port_min&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;destination_port_min&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;source_port_max&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source_port_max&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;source_port_min&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source_port_min&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># acl argument should not be in the payload</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;acl&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;before&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve network ACL information to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;acl&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">acl_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">/rules?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating network ACL rule. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.delete_network_acl"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.delete_network_acl">[docs]</a>    <span class="k">def</span> <span class="nf">delete_network_acl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete network ACL</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Check if network ACL exists</span>
+            <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">acl_info</span>
+
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting network ACL with </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acl</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Acl.delete_network_acl_rule"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.acl.Acl.delete_network_acl_rule">[docs]</a>    <span class="k">def</span> <span class="nf">delete_network_acl_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acl</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete network ACL rule</span>
+
+<span class="sd">        :param acl: Network ACL name or ID</span>
+<span class="sd">        :type acl: str</span>
+<span class="sd">        :param rule: Rule name or ID</span>
+<span class="sd">        :type rule: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Check if network ACL and network ACL rule exist</span>
+            <span class="n">acl_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl</span><span class="p">(</span><span class="n">acl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">acl_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">acl_info</span>
+
+            <span class="n">rule_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_network_acl_rule</span><span class="p">(</span><span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">rule</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rule_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">rule_info</span>
+
+            <span class="c1"># Connect to api endpoint for network_acls</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/network_acls/</span><span class="si">{}</span><span class="s2">/rules/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acl_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">rule_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting network ACL rule </span><span class="si">{}</span><span class="s2"> for network&quot;</span>
+                  <span class="s2">&quot;ACL </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">acl</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
