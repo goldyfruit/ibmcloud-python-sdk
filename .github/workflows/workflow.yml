@@ -21,7 +21,7 @@ jobs:
         pip install -r requirements.txt
         pip install pytest-cov
         pip install .
-        nosetests --with-coverage --cover-package ibmcloud_python_sdk
+        nosetests --with-coverage --cover-package ibmcloud_python_sdk --cover-xml --cover-xml-file=coverage/reports/coverage1.xml
         pytest --cov=./ --cov-report=xml
       env:
         IC_CONFIG_FILE: "test-credentials.yaml" 
@@ -29,7 +29,7 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage1.xml,./coverage2.xml
+        files: ./coverage1.xml
         directory: ./coverage/reports/
         flags: unittests
         env_vars: OS,PYTHON
