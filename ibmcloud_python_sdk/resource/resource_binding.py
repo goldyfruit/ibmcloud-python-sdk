@@ -15,8 +15,8 @@ class ResourceBinding():
     def get_resource_bindings(self):
         """Retrieve resource binding list
 
-        :return List of resource bindings
-        :rtype dict
+        :return: List of resource bindings
+        :rtype: list
         """
         try:
             # Connect to api endpoint for resource_bindings
@@ -33,8 +33,9 @@ class ResourceBinding():
         """Retrieve specific resource binding by name or by ID
 
         :param binding: Resource binding name or ID
-        :return Resource binding information
-        :rtype dict
+        :type binding: str
+        :return: Resource binding information
+        :rtype: dict
         """
         by_name = self.get_resource_binding_by_name(binding)
         if "errors" in by_name:
@@ -50,9 +51,12 @@ class ResourceBinding():
             return by_name
 
     def get_resource_binding_by_id(self, id):
-        """
-        Retrieve specific resource binding by ID
+        """Retrieve specific resource binding by ID
+
         :param id: Resource binding ID
+        :type id: str
+        :return: Resource binding information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for resource_bindings
@@ -67,9 +71,12 @@ class ResourceBinding():
             raise
 
     def get_resource_binding_by_name(self, name):
-        """
-        Retrieve specific resource binding by name
+        """Retrieve specific resource binding by name
+
         :param name: Resource binding name
+        :type name: str
+        :return: Resource binding information
+        :rtype: dict
         """
         try:
             # Retrieve resource bindings
@@ -92,16 +99,20 @@ class ResourceBinding():
             raise
 
     def create_binding(self, **kwargs):
-        """
-        Create resource binding
-        :param name: The new name of the resource group.
-        :param target: The CRN of application to bind to in a specific
-        environment.
-        :param source: The short or long ID of resource instance or alias.
-        :param parameters: Optional. Configuration options represented as
-        key-value pairs.
-        :param role: Optional. The role name or it's CRN.
+        """Create resource binding
 
+        :param name: The new name of the resource group
+        :type name: str
+        :param target: The CRN of application to bind to in a specific
+            environment
+        :type target: str
+        :param source: The short or long ID of resource instance or alias
+        :type source: str
+        :param parameters: Configuration options represented as key-value
+            pairs
+        :type parameters: dict, optional
+        :param role: The role name or it's CRN
+        :type role: str, optional
         """
         args = ["name", "target", "source"]
         check_args(args, **kwargs)
@@ -137,8 +148,9 @@ class ResourceBinding():
         """Delete resource binding
 
         :param binding: Resource binding name or ID
-        :return JSON code
-        :rtype resource_deleted()
+        :type binding: str
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         try:
             # Check if binding exists

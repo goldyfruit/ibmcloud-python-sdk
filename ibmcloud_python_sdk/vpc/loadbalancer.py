@@ -17,8 +17,10 @@ class Loadbalancer():
         self.rg = resource_group.ResourceGroup()
 
     def get_lbs(self):
-        """
-        Retrieve load balancer list
+        """Retrieve load balancer list
+
+        :return: List of load balancers
+        :rtype: list
         """
         try:
             # Connect to api endpoint for load_balancers
@@ -33,9 +35,12 @@ class Loadbalancer():
             raise
 
     def get_lb(self, lb):
-        """
-        Retrieve specific load balancer
+        """Retrieve specific load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
+        :return: Load balancer information
+        :rtype: dict
         """
         by_name = self.get_lb_by_name(lb)
         if "errors" in by_name:
@@ -51,9 +56,12 @@ class Loadbalancer():
             return by_name
 
     def get_lb_by_id(self, id):
-        """
-        Retrieve specific load balancer by ID
+        """Retrieve specific load balancer by ID
+
         :param id: Load balancer ID
+        :type id: str
+        :return: Load balancer information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for load_balancers
@@ -69,9 +77,12 @@ class Loadbalancer():
             raise
 
     def get_lb_by_name(self, name):
-        """
-        Retrieve specific load balancer by name
+        """Retrieve specific load balancer by name
+
         :param name: Load balancer name
+        :type name: str
+        :return: Load balancer information
+        :rtype: dict
         """
         try:
             # Retrieve load balancers
@@ -94,9 +105,12 @@ class Loadbalancer():
             raise
 
     def get_lb_stats(self, lb):
-        """
-        Retrieve statistics for specific load balancer
+        """Retrieve statistics for specific load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
+        :return: Load balancer statistics
+        :rtype: dict
         """
         try:
             # Retrieve load balancer information
@@ -118,9 +132,12 @@ class Loadbalancer():
             raise
 
     def get_lb_listeners(self, lb):
-        """
-        Retrieve listeners for specific load balancer
+        """Retrieve listeners for specific load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
+        :return: List of load balancer listeners
+        :rtype: list
         """
         try:
             # Retrieve load balancer information
@@ -142,10 +159,14 @@ class Loadbalancer():
             raise
 
     def get_lb_listener(self, lb, listener):
-        """
-        Retrieve specific load balancer
+        """Retrieve specific load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
+        :return: Listener information
+        :rtype: dict
         """
         by_port = self.get_lb_listener_by_port(lb, listener)
         if "errors" in by_port:
@@ -161,10 +182,14 @@ class Loadbalancer():
             return by_port
 
     def get_lb_listener_by_id(self, lb, id):
-        """
-        Retrieve specific listener from load balancer by ID
+        """Retrieve specific listener from load balancer by ID
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param id: Listener ID
+        :type id: str
+        :return: Listener information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -186,10 +211,14 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_by_port(self, lb, port):
-        """
-        Retrieve specific listener from load balancer by port
+        """Retrieve specific listener from load balancer by port
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param port: Listener port
+        :type port: str
+        :return: Listener information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -217,10 +246,14 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_policies(self, lb, listener):
-        """
-        Retrieve policies for specific listeners
+        """Retrieve policies for specific listeners
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
+        :return: List of policies
+        :rtype: list
         """
         try:
             # Retrieve load balancer information
@@ -248,11 +281,16 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_policy(self, lb, listener, policy):
-        """
-        Retrieve specific policy from listener
+        """Retrieve specific policy from listener
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param policy: Policy name or ID
+        :type policy: str
+        :return: Listerner information
+        :rtype: dict
         """
         by_name = self.get_lb_listener_policy_by_name(lb, listener, policy)
         if "errors" in by_name:
@@ -269,11 +307,16 @@ class Loadbalancer():
             return by_name
 
     def get_lb_listener_policy_by_id(self, lb, listener, id):
-        """
-        Retrieve specific policy from listener by ID
+        """Retrieve specific policy from listener by ID
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param id: Policy ID
+        :type id: str
+        :return: Listerner information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for load_balancers
@@ -291,11 +334,16 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_policy_by_name(self, lb, listener, name):
-        """
-        Retrieve specific policy from listener by name
+        """Retrieve specific policy from listener by name
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param name: Policy name
+        :type name: str
+        :return: Listerner information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -329,11 +377,16 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_policy_rules(self, lb, listener, policy):
-        """
-        Retrieve rules from listener's policy
+        """Retrieve rules from listener's policy
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param policy: Policy name or ID
+        :type policy: str
+        :return: List of rules
+        :rtype: list
         """
         try:
             # Retrieve load balancer information
@@ -368,12 +421,18 @@ class Loadbalancer():
             raise
 
     def get_lb_listener_policy_rule(self, lb, listener, policy, rule):
-        """
-        Retrieve specific rule from listener's policy
+        """Retrieve specific rule from listener's policy
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param policy: Policy name or ID
+        :type policy: str
         :param rule: Rule ID
+        :type rule: str
+        :return: Rule information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for load_balancers
@@ -393,9 +452,12 @@ class Loadbalancer():
             raise
 
     def get_lb_pools(self, lb):
-        """
-        Retrieve pools from loadbalancer
+        """Retrieve pools from loadbalancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
+        :return: List of load balancer
+        :rtype: list
         """
         try:
             # Retrieve load balancer information
@@ -417,10 +479,14 @@ class Loadbalancer():
             raise
 
     def get_lb_pool(self, lb, pool):
-        """
-        Retrieve specific pool from load balancer
+        """Retrieve specific pool from load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name or ID
+        :type pool: str
+        :return: Pool information
+        :rtype: dict
         """
         by_name = self.get_lb_pool_by_name(lb, pool)
         if "errors" in by_name:
@@ -436,10 +502,14 @@ class Loadbalancer():
             return by_name
 
     def get_lb_pool_by_id(self, lb, id):
-        """
-        Retrieve specific pool from load balancer by ID
+        """Retrieve specific pool from load balancer by ID
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param id: Pool ID
+        :type id: str
+        :return: Pool information
+        :rtype: dict
         """
         try:
             # Retrieve load balancer information
@@ -462,10 +532,14 @@ class Loadbalancer():
             raise
 
     def get_lb_pool_by_name(self, lb, name):
-        """
-        Retrieve specific pool from load balancer by name
+        """Retrieve specific pool from load balancer by name
+
         :param lb: Load balancer name or ID
-        :param name: Pool name
+        :type lb: str
+        :param name: Pool ID
+        :type name: str
+        :return: Pool information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -493,10 +567,14 @@ class Loadbalancer():
             raise
 
     def get_lb_pool_members(self, lb, pool):
-        """
-        Retrieve pools from loadbalancer
+        """Retrieve pools from loadbalancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name or ID
+        :type pool: str
+        :return: List of members of a pool
+        :rtype: list
         """
         try:
             # Retrieve load balancer information
@@ -524,11 +602,16 @@ class Loadbalancer():
             raise
 
     def get_lb_pool_member(self, lb, pool, member):
-        """
-        Retrieve specific pool from load balancer
+        """Retrieve specific pool from load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name or ID
-        :param member: Member address or ID
+        :type pool: str
+        :param member: Member ID
+        :type member: str
+        :return: Member information
+        :rtype: dict
         """
         by_address = self.get_lb_pool_member_by_address(lb, pool, member)
         if "errors" in by_address:
@@ -544,11 +627,16 @@ class Loadbalancer():
             return by_address
 
     def get_lb_pool_member_by_id(self, lb, pool, id):
-        """
-        Retrieve specific pool from load balancer by ID
+        """Retrieve specific pool from load balancer by ID
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name or ID
-        :param id: Member ID
+        :type pool: str
+        :param id: Member address or ID
+        :type id: str
+        :return: Member information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -576,11 +664,16 @@ class Loadbalancer():
             raise
 
     def get_lb_pool_member_by_address(self, lb, pool, address):
-        """
-        Retrieve specific pool from load balancer by ID
+        """Retrieve specific pool from load balancer by ID
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name or ID
+        :type pool: str
         :param address: Member address
+        :type address: str
+        :return: Member information
+        :rtype: dict
         """
         # Retrieve load balancer information
         lb_info = self.get_lb(lb)
@@ -613,16 +706,22 @@ class Loadbalancer():
             raise
 
     def create_lb(self, **kwargs):
-        """
-        Create load balancer
-        :param name: Optional. The user-defined name for this load balancer.
-        :param subnets: Optional. The subnets to provision this load balancer.
-        :param is_public: The type of this load balancer, public or private.
-        :param listeners: Optional. The listeners of this load balancer.
-        :param pools: Optional. The pools of this load balancer.
-        :param profile: Optional. The profile to use for this load balancer.
-        :param resource_group: Optional. The resource group for this load
-        balancer.
+        """Create load balancer
+
+        :param name: The user-defined name for this load balancer
+        :type name: str, optional
+        :param subnets: The subnets to provision this load balancer
+        :type subnets: list
+        :param is_public: The type of this load balancer, public or private
+        :type is_public: str
+        :param listeners: The listeners of this load balancer
+        :type listeners: list, optional
+        :param pools: The pools of this load balancer
+        :type pools: list, optional
+        :param profile: The profile to use for this load balancer
+        :type profile: str, optional
+        :param resource_group: The resource group for this load balancer
+        :type resource_group: str, optional
         """
         args = ["subnets", "is_public"]
         check_args(args, **kwargs)
@@ -687,19 +786,23 @@ class Loadbalancer():
             raise
 
     def create_listener(self, **kwargs):
-        """
-        Create listener
-        :param lb: Load balancer name or ID.
-        :param certificate_instance: Optional. The certificate instance used
-        for SSLtermination.
-        :param connection_limit: Optional. The connection limit of the
-        listener.
-        :param default_pool: Optional. The default pool associated with the
-        listener.
-        :param policies: Optional. The list of policies of this listener.
-        :param port: The listener port number.
-        :param protocol: The listener protocol.
-        balancer.
+        """Create listener
+
+        :param lb: Load balancer name or ID
+        :type lb: str
+        :param certificate_instance: The certificate instance used for SSL
+            termination
+        :type certificate_instance: str, optional
+        :param connection_limit: The connection limit of the listener
+        :type connection_limit: int, optional
+        :param default_pool: The default pool associated with the listener
+        :type default_pool: str, optional
+        :param policies: The list of policies of this listener
+        :type policies: list, optional
+        :param port: The listener port number
+        :type port:
+        :param protocol: The listener protocol
+        :type protocol: str
         """
         args = ["lb", "port", "protocol"]
         check_args(args, **kwargs)
@@ -757,15 +860,22 @@ class Loadbalancer():
             raise
 
     def create_policy(self, **kwargs):
-        """
-        Create policy
-        :param lb: Load balancer name or ID.
-        :param listener: Listener port or ID.
-        :param action: The policy action.
-        :param name: Optional. The user-defined name for this policy.
-        :param priority: Priority of the policy.
-        :param rules: Optional. The list of rules of this policy.
-        :param target: Optional. Target depending the action defined.
+        """Create policy
+
+        :param lb: Load balancer name or ID
+        :type lb: str
+        :param listener: Listener port or ID
+        :type listener: str
+        :param action: The policy action
+        :type action: str
+        :param name: The user-defined name for this policy
+        :type name: str, optional
+        :param priority: Priority of the policy
+        :type priority: int
+        :param rules: The list of rules of this policy
+        :type list: list, optional
+        :param target: Target depending the action defined
+        :type target: str, optional
         """
         args = ["lb", "listener", "action", "priority"]
         check_args(args, **kwargs)
@@ -820,15 +930,22 @@ class Loadbalancer():
             raise
 
     def create_rule(self, **kwargs):
-        """
-        Create rule
-        :param lb: Load balancer name or ID.
-        :param listener: Listener port or ID.
-        :param policy: The policy name or ID.
-        :param condition: The condition of the rule.
-        :param field: Optional. HTTP header field.
-        :param type: The type of the rule.
-        :param value: Value to be matched for rule condition.
+        """Create rule
+
+        :param lb: Load balancer name or ID
+        :type lb: str
+        :param listener: Listener port or ID
+        :type listener: str
+        :param policy: The policy name or ID
+        :type policy: str
+        :param condition: The condition of the rule
+        :type condition: str
+        :param field: HTTP header field
+        :type field: str
+        :param type: The type of the rule
+        :type type: str
+        :param value: Value to be matched for rule condition
+        :type value: str
         """
         args = ["lb", "listener", "policy", "condition", "type", "value"]
         check_args(args, **kwargs)
@@ -893,17 +1010,22 @@ class Loadbalancer():
             raise
 
     def create_pool(self, **kwargs):
-        """
-        Create pool
-        :param lb: Load balancer name or ID.
-        :param algorithm: The load balancing algorithm.
-        :param health_monitor: The health monitor of this pool.
-        :param members: Optional. The members for this load balancer pool.
-        :param name: Optional. The user-defined name for this load balancer
-        pool.
-        :param protocol: The pool protocol.
-        :param session_persistence: Optional. The session persistence of this
-        pool.
+        """Create pool
+
+        :param lb: Load balancer name or ID
+        :type lb: str
+        :param algorithm: The load balancing algorithm
+        :type algorithm: str
+        :param health_monitor: The health monitor of this pool
+        :type health_monitor: str
+        :param members: The members for this load balancer pool
+        :type members: list, optional
+        :param name: The user-defined name for this load balancer pool
+        :type name: str, optional
+        :param protocol: The pool protocol
+        :type protocol: str
+        :param session_persistence: The session persistence of this pool
+        :type session_persistence: str, optional
         """
         args = ["lb", "algorithm", "health_monitor", "protocol"]
         check_args(args, **kwargs)
@@ -958,15 +1080,19 @@ class Loadbalancer():
             raise
 
     def create_member(self, **kwargs):
-        """
-        Create member and add member to the pool
-        :param lb: Load balancer name or ID.
-        :param pool: Pool name or ID.
+        """Create member and add member to the pool
+
+        :param lb: Load balancer name or ID
+        :type lb: str
+        :param pool: Pool name or ID
+        :type pool: str
         :param port: The port number of the application running in the server
-        member.
-        :param target: Optional. The members for this load balancer pool.
-        :param weight: The user-defined name for this load balancer
-        pool.
+            member
+        :type port: int
+        :param target: The members for this load balancer pool
+        :type target: str
+        :param weight: The user-defined name for this load balancer pool
+        :type weight: int, optional
         """
         args = ["lb", "pool", "port", "target"]
         check_args(args, **kwargs)
@@ -1016,9 +1142,12 @@ class Loadbalancer():
             raise
 
     def delete_lb(self, lb):
-        """
-        Delete load balancer
+        """Delete load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1045,10 +1174,14 @@ class Loadbalancer():
             raise
 
     def delete_listener(self, lb, listener):
-        """
-        Delete listener from load balancer
+        """Delete listener from load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1082,11 +1215,16 @@ class Loadbalancer():
             raise
 
     def delete_policy(self, lb, listener, policy):
-        """
-        Delete policy from listener
+        """Delete policy from listener
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param policy: Policy name or ID
+        :type policy: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1127,12 +1265,18 @@ class Loadbalancer():
             raise
 
     def delete_rule(self, lb, listener, policy, rule):
-        """
-        Delete rule from policy
+        """Delete rule from policy
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param listener: Listener port or ID
+        :type listener: str
         :param policy: Policy name or ID
+        :type policy: str
         :param rule: Rule ID
+        :type rule: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1184,10 +1328,14 @@ class Loadbalancer():
             raise
 
     def delete_pool(self, lb, pool):
-        """
-        Delete pool from load balancer
+        """Delete pool from load balancer
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name ID
+        :type pool: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)
@@ -1221,11 +1369,16 @@ class Loadbalancer():
             raise
 
     def delete_member(self, lb, pool, member):
-        """
-        Delete member from pool
+        """Delete member from pool
+
         :param lb: Load balancer name or ID
+        :type lb: str
         :param pool: Pool name ID
+        :type pool: str
         :param member: Member address or ID
+        :type member: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if load balancer exists
         lb_info = self.get_lb(lb)

@@ -17,8 +17,9 @@ class Policy():
         """Retrieve policy list per account
 
         :param account: Account ID
-        :return List of policies
-        :rtype dict
+        :type account: str
+        :return: List of policies
+        :rtype: list
         """
         try:
             # Connect to api endpoint for policies
@@ -35,9 +36,11 @@ class Policy():
         """Retrieve specific policy
 
         :param account: Account ID
+        :type account: str
         :param policy: Policy ID
-        :return Policy information
-        :rtype dict
+        :type policy: str
+        :return: Policy information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for policies
@@ -53,8 +56,9 @@ class Policy():
         """Retrieve authorization policy list per account
 
         :param account: Account ID
-        :return List of authorizations
-        :rtype dict
+        :type account: str
+        :return: List of authorizations
+        :rtype: list
         """
         try:
             # Connect to api endpoint for policies
@@ -72,9 +76,11 @@ class Policy():
         """Retrieve specific authorization policy per account
 
         :param account: Account ID
+        :type account: str
         :param policy: Policy ID
-        :return Authorization policy information
-        :rtype dict
+        :type policy: str
+        :return: Authorization policy information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for policies
@@ -92,8 +98,9 @@ class Policy():
         """Retrieve access policy list per account
 
         :param account: Account ID
-        :return List of accesses
-        :rtype dict
+        :type account: str
+        :return: List of accesses
+        :rtype: list
         """
         try:
             # Connect to api endpoint for policies
@@ -111,9 +118,11 @@ class Policy():
         """Retrieve specific access policy list per account
 
         :param account: Account ID
+        :type account: str
         :param policy: Policy ID
-        :return Access policy information
-        :rtype dict
+        :type policy: str
+        :return: Access policy information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for policies
@@ -130,15 +139,19 @@ class Policy():
     def create_policy(self, **kwargs):
         """Create policy
 
-        :param type: The policy type; either 'access' or 'authorization'.
+        :param type: The policy type; either 'access' or 'authorization'
+        :type type: str
         :param subjects: The subject attribute values that must match in
-            order for this policy to apply in a permission decision.
+            order for this policy to apply in a permission decision
+        :typr subjects: dict
         :param roles: A set of role cloud resource names (CRNs) granted by
-            the policy.
+            the policy
+        :type roles: dict
         :param resources: The attributes of the resource. Note that only one
-            resource is allowed in a policy.
-        :return Policy response
-        :rtype dict
+            resource is allowed in a policy
+        :type resources: dict
+        :return: Policy response
+        :rtype: dict
         """
         # Build dict of argument and assign default value when needed
         args = {
@@ -195,8 +208,9 @@ class Policy():
         """Delete policy
 
         :param policy: Policy ID
-        :return Deletion status
-        :rtype dict
+        :type policy: str
+        :return: Deletion status
+        :rtype: dict
         """
         # Check if policy exists and get information
         policy_info = self.get_policy(policy)

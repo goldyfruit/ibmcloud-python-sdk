@@ -21,8 +21,10 @@ class Subnet():
         self.rg = resource_group.ResourceGroup()
 
     def get_subnets(self):
-        """
-        Retrieve subnet list
+        """Retrieve subnet list
+
+        :return: List of subnets
+        :rtype: list
         """
         try:
             # Connect to api endpoint for subnets
@@ -37,9 +39,12 @@ class Subnet():
             raise
 
     def get_subnet(self, subnet):
-        """
-        Retrieve specific subnet
+        """Retrieve specific subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
+        :return: Subnet information
+        :rtype: dict
         """
         by_name = self.get_subnet_by_name(subnet)
         if "errors" in by_name:
@@ -55,9 +60,12 @@ class Subnet():
             return by_name
 
     def get_subnet_by_id(self, id):
-        """
-        Retrieve specific subnet by ID
+        """Retrieve specific subnet by ID
+
         :param id: Subnet ID
+        :type id: str
+        :return: Subnet information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for subnets
@@ -72,9 +80,12 @@ class Subnet():
             raise
 
     def get_subnet_by_name(self, name):
-        """
-        Retrieve specific subnet by name
+        """Retrieve specific subnet by name
+
         :param name: Subnet name
+        :type name: str
+        :return: Subnet information
+        :rtype: dict
         """
         try:
             # Retrieve subnets
@@ -96,9 +107,12 @@ class Subnet():
             raise
 
     def get_subnet_network_acl(self, subnet):
-        """
-        Retrieve network ACL for a specific subnet
+        """Retrieve network ACL for a specific subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
+        :return: Network ACL information
+        :rtype: dict
         """
         try:
             # Check if subnet exists and get information
@@ -120,9 +134,12 @@ class Subnet():
             raise
 
     def get_subnet_public_gateway(self, subnet):
-        """
-        Retrieve public gateway for a specific subnet
+        """Retrieve public gateway for a specific subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
+        :return: Public gateway information
+        :rtype: dict
         """
         try:
             # Check if subnet exists and get information
@@ -144,21 +161,31 @@ class Subnet():
             raise
 
     def create_subnet(self, **kwargs):
-        """
-        Create subnet
-        :param name: Optional. The unique user-defined name for this subnet.
-        :param resource_group: Optional. The resource group to use.
-        :param ipv4_cidr_block: The IPv4 range of the subnet, expressed in CIDR
-        format.
-        :param vpc: The VPC the subnet is to be a part of.
-        :param zone: The zone the subnet is to reside in.
-        :param ip_version: Optional. The IP version(s) supported.
-        :param network_acl: Optional. The network ACL to use for this subnet.
-        :param public_gateway: Optional. The public gateway to handle internet
-        bound traffic for this subnet.
-        :param routing_table: Optional. The routing table for this subnet.
-        :param total_ipv4_address_count: Optional. The total number of IPv4
-        addresses required.
+        """Create subnet
+
+        :param name: The unique user-defined name for this subnet
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param ipv4_cidr_block: The IPv4 range of the subnet, expressed in
+            CIDR format
+        :type ipv4_cidr_block: str
+        :param vpc: The VPC the subnet is to be a part of
+        :type vpc: str
+        :param zone: The zone the subnet is to reside in
+        :type zone: str
+        :param ip_version: The IP version(s) supported
+        :type ip_version: str, optional
+        :param network_acl: The network ACL to use for this subnet
+        :type network_acl: str, optional
+        :param public_gateway: The public gateway to handle internet bound
+            traffic for this subnet
+        :type public_gateway: str, optional
+        :param routing_table: The routing table for this subnet
+        :type routing_table: str, optional
+        :param total_ipv4_address_count: The total number of IPv4 addresses
+            required
+        :type total_ipv4_address_count: int, optional
         """
         args = ["vpc"]
         check_args(args, **kwargs)
@@ -225,10 +252,12 @@ class Subnet():
 
     # Attach network ACL to subnet
     def attach_network_acl(self, **kwargs):
-        """
-        Attach network ACL to a subnet
+        """Attach network ACL to a subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
         :param network_acl: Network ACL name or ID
+        :type network_acl: str
         """
         args = ["subnet", "network_acl"]
         check_args(args, **kwargs)
@@ -270,10 +299,12 @@ class Subnet():
             raise
 
     def attach_public_gateway(self, **kwargs):
-        """
-        Attach public gateway to a subnet
+        """Attach public gateway to a subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
         :param public_gateway: Public gateway name or ID
+        :type public_gateway: str
         """
         args = ["subnet", "public_gateway"]
         check_args(args, **kwargs)
@@ -314,9 +345,12 @@ class Subnet():
             raise
 
     def detach_public_gateway(self, subnet):
-        """
-        Detach public gateway from a subnet
+        """Detach public gateway from a subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
+        :return: Detach status
+        :rtype: resource_deleted()
         """
         # Retrieve subnet and public gateway information to get the ID
         # (mostly useful if a name is provided)
@@ -346,9 +380,12 @@ class Subnet():
             raise
 
     def delete_subnet(self, subnet):
-        """
-        Delete subnet
+        """Delete subnet
+
         :param subnet: Subnet name or ID
+        :type subnet: str
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         try:
             # Check if subnet exists

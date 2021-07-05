@@ -24,4 +24,4 @@ fip.reserve_floating_ip(target="0737-968fd5b4-6548-44db-acf0-6ebd6d66a301",
                         resource_group="f328f2cdec6d4b4da2844c214dec9d39")
 
 # Release floating IP
-fip.reserve_floating_ip("ibmcloud-fip-baby")
+fip.release_floating_ip("ibmcloud-fip-baby")

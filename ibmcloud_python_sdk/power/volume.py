@@ -21,8 +21,9 @@ class Volume():
         """Retrieve volume list from cloud instance
 
         :param instance: Cloud instance ID
-        :return Volume list
-        :rtype dict
+        :type instance: str
+        :return: Volume list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -45,9 +46,11 @@ class Volume():
         """Retrieve specific volume by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param volume: Volume name or ID
-        :return Volume information
-        :rtype dict
+        :type volume: str
+        :return: Volume information
+        :rtype: dict
         """
         by_name = self.get_volume_by_name(instance, volume)
         if "errors" in by_name:
@@ -66,9 +69,11 @@ class Volume():
         """Retrieve specific volume by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param id: Volume ID
-        :return Volume information
-        :rtype dict
+        :type id: str
+        :return: Volume information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -91,9 +96,11 @@ class Volume():
         """Retrieve specific volume by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param name: Volume name
-        :return Volume information
-        :rtype dict
+        :type name: str
+        :return: Volume information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -123,9 +130,11 @@ class Volume():
         """Retrieve volumes list for Power Virtual Instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
-        :return PVM volume list
-        :rtype dict
+        :type pvm: str
+        :return: PVM volume list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -154,10 +163,13 @@ class Volume():
         """Retrieve specific volume from Power Virtual Instance by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param volume: Volume name or ID
-        :return PVM volume information
-        :rtype dict
+        :type volume: str
+        :return: PVM volume information
+        :rtype: dict
         """
         by_name = self.get_pvm_volume_by_name(instance, pvm, volume)
         if "errors" in by_name:
@@ -174,12 +186,14 @@ class Volume():
 
     def get_pvm_volume_by_id(self, instance, pvm, id):
         """Retrieve specific volume from Power Virtual Instance by ID
-
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param id: Volume ID
-        :return PVM volume information
-        :rtype dict
+        :type id: str
+        :return: PVM volume information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -210,10 +224,13 @@ class Volume():
         """Retrieve specific volume from Power Virtual Instance by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
         :param name: Volume name
-        :return PVM volume information
-        :rtype dict
+        :type name: str
+        :return: PVM volume information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -249,19 +266,25 @@ class Volume():
     def create_volume(self, **kwargs):
         """Create volume
 
-        :param instance: Instance name or ID.
-        :param size: Volume size.
-        :param name: Volume name.
-        :param disk_type: Optional. Type of Disk, required if affinity_policy
-            not used.
-        :param pool: Optional. Volume pool where the volume will be located.
-        :param shareable: Optional. Indicates if the volume is shareable
-            between VMs.
-        :param affinity_policy: Optional. Affinity policy for data volume
-            being created; requires affinity_volume to be specified.
-        :param affinity_volume: Optional. Volume (ID or Name) to base volume
-            affinity policy against; required if affinity_policy provided.
-        :return Volume information
+        :param instance: Cloud instance ID
+        :type instance: str
+        :param size: Volume size
+        :type size: int
+        :param name: Volume name
+        :type name: str
+        :param disk_type: Type of Disk, required if affinity_policy not used
+        :type disk_type: str, optional
+        :param pool: Volume pool where the volume will be located
+        :type pool: str, optional
+        :param shareable: Indicates if the volume is shareable between VMs
+        :type shareable: str, optional
+        :param affinity_policy: Affinity policy for data volume being created;
+            requires affinity_volume to be specified
+        :type affinity_policy: str, optional
+        :param affinity_volume: Volume (ID or Name) to base volume affinity
+            policy against; required if affinity_policy provided
+        :type affinity_volume: str, optional
+        :return: Volume information
         :rtype: dict
         """
         args = ["instance", "size", "name"]
@@ -306,15 +329,18 @@ class Volume():
     def clone_volume(self, **kwargs):
         """Create a clone from a volume
 
-        :param instance: Instance name or ID.
-        :param volumes: List of volumes to be cloned.
+        :param instance: Instance name or ID
+        :type instance: str
+        :param volumes: List of volumes to be cloned
+        :type volumes: list
         :param name: Display name for the new cloned volumes. Cloned Volume
             names will be prefixed with 'clone-'. If multiple volumes cloned
             they will be suffix with a '-' and an incremental number starting
-            with 1..
-        :param prefix_name: Optional. Prefix to use when naming the new cloned
-            volumes.
-        :return Volume clone information
+            with 1.
+        :type name: str
+        :param prefix_name: Prefix to use when naming the new cloned volumes
+        :type prefix_name: str, optional
+        :return: Volume clone information
         :rtype: dict
         """
         args = ["instance", "volumes", "name"]
@@ -363,10 +389,13 @@ class Volume():
     def attach_volume(self, **kwargs):
         """Attach volume to a Power Virtual Instance
 
-        :param instance: Instance name or ID.
-        :param pvm: Power Virtual Instance name or ID.
-        :param volume: Volume name or ID.
-        :return Attachment status
+        :param instance: Instance name or ID
+        :type instance: str
+        :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
+        :param volume: Volume name or ID
+        :type volume: str
+        :return: Attachment status
         :rtype: dict
         """
         args = ["instance", "pvm", "volume"]
@@ -419,10 +448,13 @@ class Volume():
     def detach_volume(self, **kwargs):
         """Detach volume to a Power Virtual Instance
 
-        :param instance: Instance name or ID.
-        :param pvm: Power Virtual Instance name or ID.
-        :param volume: Volume name or ID.
-        :return Dettachement status
+        :param instance: Instance name or ID
+        :type instance: str
+        :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
+        :param volume: Volume name or ID
+        :type volume: str
+        :return: Dettachement status
         :rtype: dict
         """
         args = ["instance", "pvm", "volume"]
@@ -475,10 +507,12 @@ class Volume():
     def boot_volume(self, **kwargs):
         """Set boot volume to a Power Virtual Instance
 
-        :param instance: Instance name or ID.
-        :param pvm: Power Virtual Instance name or ID.
-        :param volume: Volume name or ID.
-        :return Boot status
+        :param instance: Instance name or ID
+        :type instance: str
+        :param pvm: Power Virtual Instance name or ID
+        :type pvm: str
+        :param volume: Volume name or ID
+        :return: Boot status
         :rtype: dict
         """
         args = ["instance", "pvm", "volume"]
@@ -531,10 +565,12 @@ class Volume():
     def delete_volume(self, instance, volume):
         """Delete volume from cloud instance
 
-        :param instance: Cloud instance ID
+        :param instance: Instance name or ID
+        :type instance: str
         :param volume: Volume name or ID
-        :return Deletion status
-        :rtype dict
+        :type volume: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)

@@ -13,8 +13,9 @@ class Task():
         """Retrieve specific task
 
         :param task: Task ID
-        :return Task information
-        :rtype dict
+        :type task: str
+        :return: Task information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for tasks
@@ -27,9 +28,12 @@ class Task():
             print("Error fetching task {}. {}".format(task, error))
 
     def delete_task(self, task):
-        """
-        Delete task
+        """Delete task
+
         :param task: Task ID
+        :type task: str
+        :return: Deletion status
+        :rtype: dict
         """
         # Check if task exists and get information
         task_info = self.get_task(task)

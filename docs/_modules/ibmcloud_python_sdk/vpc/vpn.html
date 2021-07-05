@@ -1,0 +1,1461 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.vpc.vpn &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.vpc.vpn</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.vpc.vpn</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.config</span> <span class="kn">import</span> <span class="n">params</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.auth</span> <span class="kn">import</span> <span class="n">get_headers</span> <span class="k">as</span> <span class="n">headers</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">query_wrapper</span> <span class="k">as</span> <span class="n">qw</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.vpc</span> <span class="kn">import</span> <span class="n">subnet</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_not_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_deleted</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_found</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_created</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.resource</span> <span class="kn">import</span> <span class="n">resource_group</span>
+
+
+<div class="viewcode-block" id="Vpn"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn">[docs]</a><span class="k">class</span> <span class="nc">Vpn</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span> <span class="o">=</span> <span class="n">subnet</span><span class="o">.</span><span class="n">Subnet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">resource_group</span><span class="o">.</span><span class="n">ResourceGroup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Vpn.get_ike_policies"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ike_policies">[docs]</a>    <span class="k">def</span> <span class="nf">get_ike_policies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve IKE policy list</span>
+
+<span class="sd">        :return: List of IKE policies</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ike_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ike_policies?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IKE policies. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ike_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ike_policy">[docs]</a>    <span class="k">def</span> <span class="nf">get_ike_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IKE policy</span>
+
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: IKE policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy_by_name</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy_by_id</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ike_policy_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ike_policy_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_ike_policy_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IKE policy by ID</span>
+
+<span class="sd">        :param id: IKE policy ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: IKE policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ike_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ike_policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IKE policy with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ike_policy_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ike_policy_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_ike_policy_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IKE policy by name</span>
+
+<span class="sd">        :param name: IKE policy name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: IKE policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve policies</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policies</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over policies until filter match</span>
+            <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ike_policies&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">policy</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">policy</span>
+
+            <span class="c1"># Return error if no IKE policy is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IKE policy with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ike_policy_connections"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ike_policy_connections">[docs]</a>    <span class="k">def</span> <span class="nf">get_ike_policy_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve connections for an IKE policy</span>
+
+<span class="sd">        :param policy: IKE policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Connections information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve policy information</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ike_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ike_policies/</span><span class="si">{}</span><span class="s2">/connections?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching connection for IKE policy </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">policy</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ipsec_policies"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ipsec_policies">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipsec_policies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve IPsec policy list</span>
+
+<span class="sd">        :return: List of IPSec policies</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ipsec_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ipsec_policies?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IPsec policies. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ipsec_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ipsec_policy">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipsec_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IPsec policy</span>
+
+<span class="sd">        :param policy: Policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: IPSec policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ipsec_policy_by_name</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy_by_id</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ipsec_policy_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ipsec_policy_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipsec_policy_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IPsec policy by ID</span>
+
+<span class="sd">        :param id: IPsec policy ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: IPSec policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ipsec_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ipsec_policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IPsec policy with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ipsec_policy_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ipsec_policy_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipsec_policy_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific IPsec policy by name</span>
+
+<span class="sd">        :param name: IPsec policy name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: IPSec policy information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve policies</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ipsec_policies</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over policies until filter match</span>
+            <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ipsec_policies&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">policy</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">policy</span>
+
+            <span class="c1"># Return error if no IPsec policy is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching IPsec policy with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_ipsec_policy_connections"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_ipsec_policy_connections">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipsec_policy_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve connections for an IPsec policy</span>
+
+<span class="sd">        :param policy: IPsec policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Connections information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve policy information by name to get the ID</span>
+            <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ipsec_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">policy_info</span>
+
+            <span class="c1"># Connect to api endpoint for ipsec_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ipsec_policies/</span><span class="si">{}</span><span class="s2">/connections?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching connection for IPsec policy </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">policy</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateways"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateways">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateways</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve VPN gateway list</span>
+
+<span class="sd">        :return: List of gateways</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching VPN gateways. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :return: Gateway information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_by_name</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_by_id</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific VPN gateway by ID</span>
+
+<span class="sd">        :param id: VPN gateway ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Gateway information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching VPN gateway with ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific VPN gateway by name</span>
+
+<span class="sd">        :param name: VPN gateway name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Gateway information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve gateways</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateways</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over gateways until filter match</span>
+            <span class="k">for</span> <span class="n">gateway</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;vpn_gateways&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">gateway</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">gateway</span>
+
+            <span class="c1"># Return error if no VPN gateway is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching VPN gateway with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_connections"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_connections">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve connections for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :return: List of connections</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information by name to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching connections for VPN gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_connection"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_connection">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific connection for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :return: Connection information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection_by_name</span><span class="p">(</span><span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key_name</span> <span class="ow">in</span> <span class="n">by_name</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key_name</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span>
+                    <span class="n">by_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection_by_id</span><span class="p">(</span><span class="n">gateway</span><span class="p">,</span>
+                                                                  <span class="n">connection</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">by_id</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">by_id</span>
+                    <span class="k">return</span> <span class="n">by_id</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">by_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">by_name</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_connection_by_id"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_connection_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_connection_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific connection for a VPN gateway by ID</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param id: Connecton ID</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: Connection information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching connection with ID </span><span class="si">{}</span><span class="s2"> for VPN gateway with&quot;</span>
+                  <span class="s2">&quot; ID </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_connection_by_name"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_connection_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_connection_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific connection for a VPN gateway by name</span>
+
+<span class="sd">        :param gateway: VPN gateway name</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param name: Connection name</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Connection information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Retrieve gateway connections</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connections</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Loop over connections until filter match</span>
+            <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;connections&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">connection</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="c1"># Return data</span>
+                    <span class="k">return</span> <span class="n">connection</span>
+
+            <span class="c1"># Return error if no VPN gateway connection is found</span>
+            <span class="k">return</span> <span class="n">resource_not_found</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching connection with name </span><span class="si">{}</span><span class="s2"> for VPN gateway&quot;</span>
+                  <span class="s2">&quot; with name </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_local_cidrs"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_local_cidrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_local_cidrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve local CIDR list on specific connection for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :return: List of local CIDRs</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/local_cidrs&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching local CIDRs for connection </span><span class="si">{}</span><span class="s2"> in VPN gateway&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.check_vpn_gateway_local_cidr"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.check_vpn_gateway_local_cidr">[docs]</a>    <span class="k">def</span> <span class="nf">check_vpn_gateway_local_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">prefix_address</span><span class="p">,</span>
+                                     <span class="n">prefix_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if local CIDR exists on specific connection for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        :return: Local CIDR information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/local_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">prefix_address</span><span class="p">,</span>
+                                                       <span class="n">prefix_length</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data if error</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return custom JSON</span>
+            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;local_cidr&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span>
+                                                     <span class="n">prefix_length</span><span class="p">))}</span>
+            <span class="k">return</span> <span class="n">resource_found</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching local CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> for connection </span><span class="si">{}</span><span class="s2"> in VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span> <span class="n">prefix_length</span><span class="p">,</span>
+                                           <span class="n">connection</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.get_vpn_gateway_peer_cidrs"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.get_vpn_gateway_peer_cidrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_gateway_peer_cidrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve peer CIDR list on specific connection for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :return: List of peer CIDRs</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/peer_cidrs&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching peer CIDRs for connection </span><span class="si">{}</span><span class="s2"> in VPN gateway&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.check_vpn_gateway_peer_cidr"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.check_vpn_gateway_peer_cidr">[docs]</a>    <span class="k">def</span> <span class="nf">check_vpn_gateway_peer_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">prefix_address</span><span class="p">,</span>
+                                    <span class="n">prefix_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if local CIDR exists on specific connection for a VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        :return: Peer CIDR information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/peer_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">prefix_address</span><span class="p">,</span>
+                                                       <span class="n">prefix_length</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data if error</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return custom JSON</span>
+            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;peer_cidr&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span>
+                                                    <span class="n">prefix_length</span><span class="p">))}</span>
+            <span class="k">return</span> <span class="n">resource_found</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error fetching peer CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> for connection </span><span class="si">{}</span><span class="s2"> in VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span> <span class="n">prefix_length</span><span class="p">,</span>
+                                           <span class="n">connection</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.create_ike_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.create_ike_policy">[docs]</a>    <span class="k">def</span> <span class="nf">create_ike_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create IKE policy</span>
+
+<span class="sd">        :param name: The user-defined name for this IKE policy</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param authentication_algorithm: The authentication algorithm</span>
+<span class="sd">        :type authentication_algorithm: str</span>
+<span class="sd">        :param dh_group: The Diffie-Hellman group</span>
+<span class="sd">        :type dh_group: str</span>
+<span class="sd">        :param encryption_algorithm: The encryption algorithm</span>
+<span class="sd">        :type encryption_algorithm: str</span>
+<span class="sd">        :param ike_version: The IKE protocol version</span>
+<span class="sd">        :type ike_version: int</span>
+<span class="sd">        :param key_lifetime: The key lifetime in seconds</span>
+<span class="sd">        :type key_lifetime: int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;authentication_algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;dh_group&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;encryption_algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;ike_version&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;authentication_algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;authentication_algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;dh_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dh_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;ike_version&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ike_version&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;key_lifetime&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_lifetime&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ike_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ike_policies?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating IKE policy. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.create_ipsec_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.create_ipsec_policy">[docs]</a>    <span class="k">def</span> <span class="nf">create_ipsec_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create IPsec policy</span>
+
+<span class="sd">        :param name: The user-defined name for this IPsec policy</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param authentication_algorithm: The authentication algorithm</span>
+<span class="sd">        :type authentication_algorithm: str</span>
+<span class="sd">        :param pfs: Perfect Forward Secrecy</span>
+<span class="sd">        :type pfs: str</span>
+<span class="sd">        :param encryption_algorithm: The encryption algorithm</span>
+<span class="sd">        :type encryption_algorithm: str</span>
+<span class="sd">        :param key_lifetime: The key lifetime in seconds</span>
+<span class="sd">        :type key_lifetime: int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;authentication_algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;pfs&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;encryption_algorithm&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;authentication_algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;authentication_algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;pfs&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pfs&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;key_lifetime&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_lifetime&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ipsec_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ipsec_policies?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating IPsec policy. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.create_gateway"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.create_gateway">[docs]</a>    <span class="k">def</span> <span class="nf">create_gateway</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create gateway</span>
+
+<span class="sd">        :param name: The user-defined name for this gateway</span>
+<span class="sd">        :type name: str, optional</span>
+<span class="sd">        :param resource_group: The resource group to use</span>
+<span class="sd">        :type resource_group: str, optional</span>
+<span class="sd">        :param subnet: Identifies a subnet by a unique property</span>
+<span class="sd">        :type subnet: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;resource_group&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_group&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;subnet&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subnet&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Retrieve subnet information to get the ID</span>
+        <span class="n">subnet_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subnet</span><span class="o">.</span><span class="n">get_subnet</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">subnet_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">subnet_info</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;resource_group&quot;</span><span class="p">:</span>
+                    <span class="n">rg_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">get_resource_group</span><span class="p">(</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">rg_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rg_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;resource_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">rg_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;subnet&quot;</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;subnet&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">subnet_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating gateway. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.create_connection"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.create_connection">[docs]</a>    <span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create connection</span>
+
+<span class="sd">        :param gateway: The VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param name: The user-defined name for this connection</span>
+<span class="sd">        :type name: str, gateway</span>
+<span class="sd">        :param peer_address: The IP address of the peer VPN gateway</span>
+<span class="sd">        :type peer_address: str</span>
+<span class="sd">        :param local_cidrs: A collection of local CIDRs</span>
+<span class="sd">        :type local_cidrs: list, optional</span>
+<span class="sd">        :param peer_cidrs: A collection of peer CIDRs</span>
+<span class="sd">        :type peer_cidrs: list, optional</span>
+<span class="sd">        :param psk: The preshared key</span>
+<span class="sd">        :type psk: str</span>
+<span class="sd">        :param admin_state_up: VPN connection shutdown if false, defaults to</span>
+<span class="sd">            `True`</span>
+<span class="sd">        :type admin_state_up: bool, optional</span>
+<span class="sd">        :param interval: Dead Peer Detection interval in seconds</span>
+<span class="sd">        :type interval: int, optional</span>
+<span class="sd">        :param timeout: Dead Peer Detection timeout in seconds</span>
+<span class="sd">        :type timeout: int, optional</span>
+<span class="sd">        :param action: Dead Peer Detection actions</span>
+<span class="sd">        :type action: str, optional</span>
+<span class="sd">        :param encryption_algorithm: The encryption algorithm</span>
+<span class="sd">        :type encryption_algorithm: str, optional</span>
+<span class="sd">        :param key_lifetime: The key lifetime in seconds</span>
+<span class="sd">        :type key_lifetime: int, optional</span>
+<span class="sd">        :param ike_policy: The absence of a policy indicates autonegotiation</span>
+<span class="sd">        :type ike_policy: str, optional</span>
+<span class="sd">        :param ipsec_policy: The absence of a policy indicates autonegotiation</span>
+<span class="sd">        :type ipsec_policy: str, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">,</span> <span class="s2">&quot;peer_address&quot;</span><span class="p">,</span> <span class="s2">&quot;psk&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;gateway&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gateway&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;peer_address&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;peer_address&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;local_cidrs&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;local_cidrs&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;peer_cidrs&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;peer_cidrs&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;psk&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;psk&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;admin_state_up&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;admin_state_up&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="s1">&#39;dead_peer_detection&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dead_peer_detection&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;encryption_algorithm&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;key_lifetime&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_lifetime&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;ike_policy&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ike_policy&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;ipsec_policy&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ipsec_policy&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Construct payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;gateway&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;ike_policy&quot;</span><span class="p">:</span>
+                    <span class="n">ike_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;ike_policy&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">ike_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">ike_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;ike_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">ike_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;ipsec_policy&quot;</span><span class="p">:</span>
+                    <span class="n">ipsec_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ipsec_policy</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;ipsec_policy&quot;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">ipsec_info</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">ipsec_info</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;ipsec_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">ipsec_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="c1"># (mostly useful if a name is provided)</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">return</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">(),</span>
+                      <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">))[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error creating connection. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.add_local_cidr_connection"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.add_local_cidr_connection">[docs]</a>    <span class="k">def</span> <span class="nf">add_local_cidr_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add local CIDR to a connection</span>
+
+<span class="sd">        :param gateway: The VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: The connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">,</span> <span class="s2">&quot;connection&quot;</span><span class="p">,</span> <span class="s2">&quot;prefix_address&quot;</span><span class="p">,</span> <span class="s2">&quot;prefix_length&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;gateway&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gateway&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;prefix_address&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prefix_address&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;prefix_length&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prefix_length&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">args</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/local_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                                       <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data if error</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return custom JSON</span>
+            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;local_cidr&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                                     <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">]))}</span>
+            <span class="k">return</span> <span class="n">resource_created</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error addind local CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> to connection </span><span class="si">{}</span><span class="s2"> on VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.add_peer_cidr_connection"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.add_peer_cidr_connection">[docs]</a>    <span class="k">def</span> <span class="nf">add_peer_cidr_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add peer CIDR to a connection</span>
+
+<span class="sd">        :param gateway: The VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: The connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">,</span> <span class="s2">&quot;connection&quot;</span><span class="p">,</span> <span class="s2">&quot;prefix_address&quot;</span><span class="p">,</span> <span class="s2">&quot;prefix_length&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;gateway&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gateway&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;prefix_address&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prefix_address&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;prefix_length&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prefix_length&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">args</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/peer_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                                       <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data if error</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return custom JSON</span>
+            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;peer_cidr&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                                    <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">]))}</span>
+            <span class="k">return</span> <span class="n">resource_created</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error adding peer CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> to connection </span><span class="si">{}</span><span class="s2"> on VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_address&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prefix_length&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;connection&quot;</span><span class="p">],</span>
+                                           <span class="n">args</span><span class="p">[</span><span class="s2">&quot;gateway&quot;</span><span class="p">],</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.delete_ike_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.delete_ike_policy">[docs]</a>    <span class="k">def</span> <span class="nf">delete_ike_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete IKE policy</span>
+
+<span class="sd">        :param policy: IKE policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if IKE policy exists</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ike_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ike_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ike_policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting IKE policy </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.delete_ipsec_policy"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.delete_ipsec_policy">[docs]</a>    <span class="k">def</span> <span class="nf">delete_ipsec_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete IPsec policy</span>
+
+<span class="sd">        :param policy: IPsec policy name or ID</span>
+<span class="sd">        :type policy: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if IPsec policy exists</span>
+        <span class="n">policy_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ipsec_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">policy_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">policy_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for ipsec_policies</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/ipsec_policies/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">policy_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting IPsec policy </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.delete_gateway"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.delete_gateway">[docs]</a>    <span class="k">def</span> <span class="nf">delete_gateway</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete VPN gateway</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if gateway exists</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">202</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting VPN gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.delete_connection"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.delete_connection">[docs]</a>    <span class="k">def</span> <span class="nf">delete_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete connection</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">?version=</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">202</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error deleting connection </span><span class="si">{}</span><span class="s2"> from VPN gateway </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="Vpn.remove_local_cidr"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.remove_local_cidr">[docs]</a>    <span class="k">def</span> <span class="nf">remove_local_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">prefix_address</span><span class="p">,</span>
+                          <span class="n">prefix_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove local CIDR from a connection</span>
+
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/local_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">prefix_address</span><span class="p">,</span>
+                                                       <span class="n">prefix_length</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error removing local CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> in connection </span><span class="si">{}</span><span class="s2"> from VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span> <span class="n">prefix_length</span><span class="p">,</span>
+                                           <span class="n">connection</span><span class="p">,</span>
+                                           <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div>
+
+    <span class="c1"># Remove peer CIDR</span>
+<div class="viewcode-block" id="Vpn.remove_peer_cidr"><a class="viewcode-back" href="../../../ibmcloud_python_sdk.vpc.html#ibmcloud_python_sdk.vpc.vpn.Vpn.remove_peer_cidr">[docs]</a>    <span class="k">def</span> <span class="nf">remove_peer_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">prefix_address</span><span class="p">,</span>
+                         <span class="n">prefix_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove peer CIDR from a connection</span>
+<span class="sd">        </span>
+<span class="sd">        :param gateway: VPN gateway name or ID</span>
+<span class="sd">        :type gateway: str</span>
+<span class="sd">        :param connection: Connection name or ID</span>
+<span class="sd">        :type connection: str</span>
+<span class="sd">        :param prefix_address: The prefix address part of the CIDR</span>
+<span class="sd">        :type prefix_address: str</span>
+<span class="sd">        :param prefix_length: The prefix length part of the CIDR</span>
+<span class="sd">        :type prefix_length: int</span>
+<span class="sd">        :return: Delete status</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve gateway information to get the ID</span>
+        <span class="n">gateway_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway</span><span class="p">(</span><span class="n">gateway</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">gateway_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gateway_info</span>
+
+        <span class="c1"># Retrieve connection information to get the ID</span>
+        <span class="n">connection_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vpn_gateway_connection</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                          <span class="n">connection</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">connection_info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">connection_info</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Connect to api endpoint for vpn_gateways</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;/v1/vpn_gateways/</span><span class="si">{}</span><span class="s2">/connections/</span><span class="si">{}</span><span class="s2">/peer_cidrs/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;?version=</span><span class="si">{}</span><span class="s2">&amp;generation=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gateway_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">connection_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                                       <span class="n">prefix_address</span><span class="p">,</span>
+                                                       <span class="n">prefix_length</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;generation&quot;</span><span class="p">]))</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">qw</span><span class="p">(</span><span class="s2">&quot;iaas&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">())</span>
+
+            <span class="c1"># Return data</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Return status</span>
+            <span class="k">return</span> <span class="n">resource_deleted</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error removing peer CIDR </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2"> in connection </span><span class="si">{}</span><span class="s2"> from VPN&quot;</span>
+                  <span class="s2">&quot; gateway </span><span class="si">{}</span><span class="s2">. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix_address</span><span class="p">,</span> <span class="n">prefix_length</span><span class="p">,</span>
+                                           <span class="n">connection</span><span class="p">,</span>
+                                           <span class="n">gateway</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+            <span class="k">raise</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

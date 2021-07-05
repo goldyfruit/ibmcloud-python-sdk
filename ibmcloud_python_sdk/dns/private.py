@@ -18,22 +18,23 @@ class Dns():
         self.resource_group_id = "aef66560191746fe804b9a66874f62b1"
         self.resource_plan_id = "dc1460a6-37bd-4e2b-8180-d0f86ff39baa"
 
-    # Get all dns zones
     def get_dns_zones(self, **kwargs):
-        """Get all dns zone hosted by a resource instance.
+        """Get all DNS zones hosted by a resource instance
 
-        :param resource_instance_guid: the GUID of the resource instance.
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: DNS zones
+        :rtype: list
         """
-        # Required parameters
-        required_args = ['resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
             'resource_instance':  kwargs.get('resource_instance'),
         }
 
-        # get resource instance guid
+        # Get resource instance guid
         temp_ri = self.resource_instance.get_resource_instance(
             args['resource_instance'])
         if "errors" in temp_ri:
@@ -50,17 +51,19 @@ class Dns():
             print("Error creating dns zone. {}".format(error))
             raise
 
-    # Get specific dns zone by ID or by name
-    # This method is generic and should be used as prefered choice
     def get_dns_zone(self, **kwargs):
-        """Get a specific dns zone hosted by a resource instance.
+        """Get a specific DNS zone hosted by a resource instance
 
-        param: dns_zone: the DNS zone name or id to query.
-        param: resource_instance: name or GUID of the resource instance.
+        :param dns_zone: DNS zone name or ID to query
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: DNS zone information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -85,16 +88,19 @@ class Dns():
         else:
             return by_name
 
-    # Get specific dns zone by name
     def get_dns_zone_by_name(self, **kwargs):
-        """Get dns zone by name.
+        """Get DNS zone by name
 
-        :param: dns_zone: the DNS zone name to query.
-        :param: esource_instance_guid: name or GUID of the resource instance.
+        :param dns_zone: DNS zone name to query
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: DNS zone information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -133,16 +139,19 @@ class Dns():
             print("Error creating dns zone. {}".format(error))
             raise
 
-    # Get specific dns zone by id
     def get_dns_zone_by_id(self, **kwargs):
-        """Get DNS zone by id.
+        """Get DNS zone by id
 
-        :param dns_zone: the dns zone id.
-        :param resource_instance: the associated resource instance.
+        :param dns_zone: DNS zone ID to query
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: DNS zone information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -181,49 +190,51 @@ class Dns():
             print("Error creating dns zone. {}".format(error))
             raise
 
-    # Lookup function to get dns zone id and resource instance
-    def get_dns_zone_id(self, **kwargs):
-        """Get DNS zone by ID.
+    # DO WE NEED TO KEEP THIS FUNCTION?
+    # def get_dns_zone_id(self, **kwargs):
+    #     """Get DNS zone by ID
 
-        :param dns_zone: the dns zone name.
-        :param resource_instance: the associated resource instance.
-        """
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+    #     :param dns_zone: the dns zone name.
+    #     :param resource_instance: the associated resource instance.
+    #     """
+    #     required_args = ['dns_zone', 'resource_instance']
+    #     check_args(required_args, **kwargs)
 
-        # Set default value if required paramaters are not defined
-        args = {
-            'dns_zone': kwargs.get('dns_zone'),
-            'resource_instance':  kwargs.get('resource_instance'),
-        }
+    #     # Set default value if required paramaters are not defined
+    #     args = {
+    #         'dns_zone': kwargs.get('dns_zone'),
+    #         'resource_instance':  kwargs.get('resource_instance'),
+    #     }
 
-        # Get Zone id
-        try:
-            zone = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
-                                             resource_instance=args[
-                                                 'resource_instance'])
-            if "errors" in zone:
-                for key_name in zone["errors"]:
-                    if key_name["code"] == "not_found":
-                        return zone
-            return zone['id']
-        except Exception as error:
-            print("Error getting dns zone id: {}".format(error))
-            raise
+    #     # Get Zone id
+    #     try:
+    #         zone = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
+    #                                          resource_instance=args[
+    #                                              'resource_instance'])
+    #         if "errors" in zone:
+    #             for key_name in zone["errors"]:
+    #                 if key_name["code"] == "not_found":
+    #                     return zone
+    #         return zone['id']
+    #     except Exception as error:
+    #         print("Error getting dns zone id: {}".format(error))
+    #         raise
 
-    # Create DNS zone
     def create_zone(self, **kwargs):
-        """Create a zone in a specified resource instance.
+        """Create a zone in a specified resource instance
 
-        :param: dns_zone: required. The user-defined name to create.
-        :param: description: optional. A description for the domain.
-        :param: label: optional: A label for the domain.
-        :param: resource_instance: required. Name or guid of dns
-            resource instance.
+        :param dns_zone: The user-defined name to create
+        :type dns_zone: str
+        :param description: A description for the domain
+        :type description: str, optional
+        :param label: A label for the domain
+        :type label: str, optional
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -265,17 +276,17 @@ class Dns():
                         raise
         return zone
 
-    # Delete DNS zone
     def delete_zone(self, **kwargs):
-        """Create a zone in a specified resource instance.
+        """Delete a zone in from a specified resource instance
 
-        :param: dns_zone: required. The user-defined name to create.
-        :param: resource_instance: required. Name or guid of dns
-            resource instance.
+        :param dns_zone: DNS zone name to delete
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -317,18 +328,19 @@ class Dns():
             print("Error creating dns zone. {}".format(error))
             raise
 
-    # Add permitted network to dns zone's acls
     def add_permitted_network(self, **kwargs):
-        """Add permitted network to dns zone.
+        """Add permitted network to DNS zone
 
-        :param dns_zone: required. The user-defined name for this domain.
-        :param resource_instance: required. Name or guid of dns resource
-        instance.
-        :param vpc: required. The allowed VPC name or id.
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :param vpc: The allowed VPC name or ID
+        :type vpc: str
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance', 'vpc']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance', 'vpc']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -376,18 +388,19 @@ class Dns():
             print("Error adding permitted network. {}".format(error))
             raise
 
-    # Delete permitted network to dns zone's acls
     def delete_permitted_network(self, **kwargs):
-        """Delete permitted network to dns zone.
+        """Delete permitted network to dns zone
 
-        :param dns_zone: required. The user-defined name for this domain.
-        :param resource_instance: required. Name or guid of dns resource
-        instance.
-        :param vpc_crn: required. The allowed VPC's CRN.
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :param vpc: The allowed VPC name or ID
+        :type vpc: str
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance', 'vpc']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance', 'vpc']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -436,22 +449,19 @@ class Dns():
             raise
 
     def create_resource_record(self, **kwargs):
-        """Add record in a specified zone.
+        """Add record in a specified zone
 
-        :param name: required. The unique user-defined name for this ima.
-        :param resource_instance: required. The name of the dns resource
-         instance.
-        :param record: required. the record to add in the zone.
-            ex : '{ "name": "testB",
-                    "type": "A",
-                    "rdata": {
-                        "ip": "4.5.6.7"
-                     }
-                  }'
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :param record: The record to add in the zone, example:
+            '{"name": "testB", "type": "A", "rdata": {"ip": "4.5.6.7"}}'
+        :type record: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance', 'record']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance', 'record']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -490,15 +500,18 @@ class Dns():
             raise
 
     def get_resource_records(self, **kwargs):
-        """Get record for a specified zone.
+        """Get record list for a specified DNS zone
 
-        :param name: required. The unique user-defined name for this domain.
-        :param resource_instance: required. The name of the dns resource
-         instance
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: Record list
+        :rtype: list
         """
         # Required parameters
-        required_args = ['dns_zone', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -529,16 +542,18 @@ class Dns():
             raise
 
     def delete_resource_record(self, **kwargs):
-        """Delete record in a specified zone.
+        """Delete record in a specified zone
 
-        :param dns_zone: required. The dns zone name.
-        :param record: required. The dns record name to delete.
-        :param resource_instance: required. Name or GUID of dns resource
-            instance.
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param record: Record name to delete
+        :type record: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
         """
         # Required parameters
-        required_args = ['dns_zone', 'record', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'record', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -587,16 +602,20 @@ class Dns():
                                  "message": "No dns record found"}]})
 
     def get_resource_record(self, **kwargs):
-        """Get resource records from a dns zone.
+        """Get specific resource record from a DNS zone
 
-        :param dns_zone: required. The dns zone name.
-        :param record: required. resource record name or id to gather.
-        :param resource_instance: required. Name or GUID of dns resource
-            instance.
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param record: Record name
+        :type record: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: Record information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'record', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'record', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -631,16 +650,20 @@ class Dns():
             return by_name
 
     def get_resource_record_by_name(self, **kwargs):
-        """Get record from a name
+        """Get record by name
 
-        :param dns_zone: required. The dns zone name.
-        :param record: required. resource record name to gather.
-        :param resource_instance: required. Name or GUID of dns resource
-            instance.
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param record_name: Record name
+        :type record_name: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: Record information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'record_name', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'record_name', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {
@@ -660,15 +683,20 @@ class Dns():
                 "message": "No record found"}]})
 
     def get_resource_record_by_id(self, **kwargs):
-        """Get record from an ID
+        """Get record by ID
 
-        :param  dns_zone:
-        :param record_id:
-        :param resource_instance:
+        :param dns_zone: DNS zone name
+        :type dns_zone: str
+        :param record_id: Record ID
+        :type record_name: str
+        :param resource_instance: Name or GUID of the resource instance
+        :type resource_instance: str
+        :return: Record information
+        :rtype: dict
         """
         # Required parameters
-        required_args = ['dns_zone', 'record_id', 'resource_instance']
-        check_args(required_args, **kwargs)
+        args = ['dns_zone', 'record_id', 'resource_instance']
+        check_args(args, **kwargs)
 
         # Set default value if required paramaters are not defined
         args = {

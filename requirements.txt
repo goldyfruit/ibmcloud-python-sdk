@@ -1,8 +1,8 @@
-PyYAML>=3.12 # MIT
+PyYAML>=3.12
 rednose==1.3.0
 nose==1.3.7
 mock==4.0.2
-SoftLayer==5.8.7
+softlayer==5.8.7
 PyJWT==1.7.1
 ibm-cos-sdk==2.6.2
 botocore==1.16.9

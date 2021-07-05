@@ -12,8 +12,9 @@ class Tenant():
         """Retrieve tenant state
 
         :param tenant: Tenant ID (Account ID)
-        :return Tenant information
-        :rtype dict
+        :type tenant: str
+        :return: Tenant information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for tenants

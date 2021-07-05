@@ -16,8 +16,10 @@ class Vpc():
         self.rg = resource_group.ResourceGroup()
 
     def get_vpcs(self):
-        """
-        Retrieve VPC list
+        """Retrieve VPC list
+
+        :return: List of VPCs
+        :rtype: list
         """
         try:
             # Connect to api endpoint for vpcs
@@ -32,9 +34,12 @@ class Vpc():
             raise
 
     def get_vpc(self, vpc):
-        """
-        Retrieve specific VPC by name or by ID
+        """Retrieve specific VPC by name or by ID
+
         :param vpc: VPC name or ID
+        :type vpc: str
+        :return: VPC information
+        :rtype: dict
         """
         by_name = self.get_vpc_by_name(vpc)
         if "errors" in by_name:
@@ -50,9 +55,12 @@ class Vpc():
             return by_name
 
     def get_vpc_by_id(self, id):
-        """
-        Retrieve specific VPC by ID
+        """Retrieve specific VPC by ID
+
         :param id: VPC ID
+        :type id: str
+        :return: VPC information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for vpcs
@@ -67,9 +75,12 @@ class Vpc():
             raise
 
     def get_vpc_by_name(self, name):
-        """
-        Retrieve specific VPC by name
+        """Retrieve specific VPC by name
+
         :param name: VPC name
+        :type name: str
+        :return: VPC information
+        :rtype: dict
         """
         try:
             # Retrieve VPCs
@@ -91,9 +102,12 @@ class Vpc():
             raise
 
     def get_default_network_acl(self, vpc):
-        """
-        Retrieve VPC's default network ACL
+        """Retrieve VPC's default network ACL
+
         :param vpc: VPC name or ID
+        :type vpc: str
+        :return: Default network information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -116,9 +130,12 @@ class Vpc():
             raise
 
     def get_default_security_group(self, vpc):
-        """
-        Retrieve VPC's default security group
+        """Retrieve VPC's default security group
+
         :param vpc: VPC name or ID
+        :type vpc: str
+        :return: Default security group information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -144,8 +161,9 @@ class Vpc():
         """Retrieve VPC address pool prefix list
 
         :param vpc: VPC name or ID
-        :return Address prefix list
-        :rtype dict
+        :type vpc: str
+        :return: List of adress prefixes
+        :rtype: list
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -171,9 +189,11 @@ class Vpc():
         """Retrieve specific VPC address prefix by name or by ID
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param prefix: Address prefix name or ID
-        :return Address prefix information
-        :rtype dict
+        :type prefix: str
+        :return: Address prefix information
+        :rtype: dict
         """
         by_name = self.get_address_prefix_by_name(vpc, prefix)
         if "errors" in by_name:
@@ -202,9 +222,11 @@ class Vpc():
         """Retrieve specific VPC address prefix by ID
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param id: Address prefix ID
-        :return Address prefix information
-        :rtype dict
+        :type id: str
+        :return: Address prefix information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -230,9 +252,11 @@ class Vpc():
         """Retrieve specific VPC address prefix by name
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param name: Address prefix name
-        :return Address prefix information
-        :rtype dict
+        :type name: str
+        :return: Address prefix information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -263,9 +287,11 @@ class Vpc():
         """Retrieve specific VPC address prefix by cidr
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param cidr: Address prefix CIDR
-        :return Address prefix information
-        :rtype dict
+        :type cidr: str
+        :return: Address prefix information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -296,8 +322,9 @@ class Vpc():
         """Retrieve route list from VPC default routing table
 
         :param vpc: VPC name or ID
-        :return Routing table list
-        :rtype dict
+        :type vpc: str
+        :return: List of routing tables
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -320,12 +347,15 @@ class Vpc():
             raise
 
     def get_route(self, vpc, route):
-        """Retrieve specific route from VPC default routing table by name or by ID
+        """Retrieve specific route from VPC default routing table by name or
+        by ID
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param table: Routing table name or ID
-        :return Routing table information
-        :rtype dict
+        :type table: str
+        :return: Routing table information
+        :rtype: dict
         """
         by_name = self.get_route_by_name(vpc, route)
         if "errors" in by_name:
@@ -344,9 +374,11 @@ class Vpc():
         """Retrieve specific route from VPC default routing table by ID
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param id: Routing table ID
-        :return Routing table information
-        :rtype dict
+        :type id: str
+        :return: Routing table information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -372,9 +404,11 @@ class Vpc():
         """Retrieve specific route from VPC default routing table by name
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param name: Routing table name
-        :return Routing table information
-        :rtype dict
+        :type name: str
+        :return: Routing table information
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -402,18 +436,18 @@ class Vpc():
             raise
 
     def create_vpc(self, **kwargs):
-        """
-        Create VPC (Virtual Private Cloud)
-        :param name: Optional. The unique user-defined name for this VPC.
+        """Create VPC (Virtual Private Cloud)
 
-        :param resource_group: Optional. The resource group to use.
-
-        :param address_prefix_management: Optional. Indicates whether a
-        default address prefix should be automatically created for
-        each zone in this VPC.
-
-        :param classic_access: Optional. Indicates whether this VPC should
-        be connected to Classic Infrastructure.
+        :param name: The unique user-defined name for this VPC
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param address_prefix_management: Indicates whether a default address
+            prefix should be automatically created for each zone in this VPC
+        :type address_prefix_management: str, optional
+        :param classic_access: Indicates whether this VPC should be connected
+            to Classic Infrastructure, defaults to `False`
+        :type classic_access: bool, optional
         """
         # Build dict of argument and assign default value when needed
         args = {
@@ -453,14 +487,19 @@ class Vpc():
     def create_address_prefix(self, **kwargs):
         """Create address prefix
 
-        :param vpc: VPC name or ID.
-        :param name: Optional. The user-defined name for this address prefix.
-        :param cidr: The CIDR block for this address prefix.
-        :param is_default: Optional. Indicates whether this is the default
-        prefix for this zone in this VPC.
-        :param zone: The zone this address prefix is to belong to.
-        :return Address prefix information
-        :rtype dict
+        :param vpc: VPC name or ID
+        :type vpc: str
+        :param name: The user-defined name for this address prefix
+        :type name: str, optional
+        :param cidr: The CIDR block for this address prefix
+        :type cidr: str
+        :param is_default: Indicates whether this is the default prefix for
+            this zone in this VPC
+        :type is_default: bool, optional
+        :param zone: The zone this address prefix is to belong to
+        :type zone: str
+        :return: Address prefix information
+        :rtype: dict
         """
         args = ["vpc", "cidr", "zone"]
         check_args(args, **kwargs)
@@ -507,14 +546,18 @@ class Vpc():
     def create_route(self, **kwargs):
         """Create route in VPC default routing table
 
-        :param vpc: VPC name or ID.
-        :param name: Optional. The user-defined name for this route.
-        :param destination: The destination of the route.
-        :param next_hop: Optional. The next hop that packets will be
-        delivered to.
-        :param zone: The zone to apply the route to.
-        :return Routes list information
-        :rtype dict
+        :param vpc: VPC name or ID
+        :type vpc: str
+        :param name: The user-defined name for this route
+        :type name: str, optional
+        :param destination: The destination of the route
+        :type destination: str
+        :param next_hop: The next hop that packets will be delivered to
+        :type next_hop: str, optional
+        :param zone: The zone to apply the route to
+        :type zone: ste
+        :return: Route list information
+        :rtype: dict
         """
         args = ["vpc", "destination", "zone"]
         check_args(args, **kwargs)
@@ -561,9 +604,12 @@ class Vpc():
             raise
 
     def delete_vpc(self, vpc):
-        """
-        Delete VPC
+        """Delete VPC
+
         :param vpc: VPC name or ID
+        :type vpc: str
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -592,9 +638,11 @@ class Vpc():
         """Delete address prefix
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param prefix: Address prefix name or ID
-        :return Deletion status
-        :rtype dict
+        :type prefix: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)
@@ -631,9 +679,11 @@ class Vpc():
         """Delete route from VPC default routing table
 
         :param vpc: VPC name or ID
+        :type vpc: str
         :param table: Routing table name or ID
-        :return Deletion status
-        :rtype dict
+        :type table: str
+        :return: Delete status
+        :rtype: dict
         """
         # Check if VPC exists and get information
         vpc_info = self.get_vpc(vpc)

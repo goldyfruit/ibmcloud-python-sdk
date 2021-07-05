@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ibmcloud_python_sdk.cis.storage.file &mdash; IBM Cloud Python SDK 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> IBM Cloud Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">ibmcloud_python_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IBM Cloud Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ibmcloud_python_sdk.cis.storage.file</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ibmcloud_python_sdk.cis.storage.file</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils</span> <span class="kn">import</span> <span class="n">softlayer</span> <span class="k">as</span> <span class="n">sl</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">resource_error</span>
+<span class="kn">from</span> <span class="nn">ibmcloud_python_sdk.utils.common</span> <span class="kn">import</span> <span class="n">check_args</span>
+<span class="kn">from</span> <span class="nn">SoftLayer</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">sl_utils</span>
+
+
+<div class="viewcode-block" id="File"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File">[docs]</a><span class="k">class</span> <span class="nc">File</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">FileStorageManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+
+<div class="viewcode-block" id="File.authorize_host_to_volume"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.authorize_host_to_volume">[docs]</a>    <span class="k">def</span> <span class="nf">authorize_host_to_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Authorizes hosts to File Storage Volumes</span>
+
+<span class="sd">        :param volume_id: The File volume to authorize hosts to</span>
+<span class="sd">        :type volume_id: str</span>
+<span class="sd">        :param hardware_ids: A List of SoftLayer_Hardware IDs</span>
+<span class="sd">        :type hardware_ids: list</span>
+<span class="sd">        :param virtual_guest_ids: A List of SoftLayer_Virtual_Guest IDs</span>
+<span class="sd">        :type virtual_guest_ids: list</span>
+<span class="sd">        :param ip_address_ids: A List of SoftLayer_Network_Subnet_IpAddress IDs</span>
+<span class="sd">        :type ip_address_ids: list</span>
+<span class="sd">        :param subnet_ids: A List of SoftLayer_Network_Subnet ids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;hardware_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;virtual_guest_ids&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ip_address_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;subnet_ids&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hardware_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hardware_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;ip_address_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ip_address_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;subnet_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subnet_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">authorize_host_to_volume</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;hardware_ids&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;ip_address_ids&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;subnet_ids&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.cancel_file_volume"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.cancel_file_volume">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_file_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cancels the given file storage volume</span>
+
+<span class="sd">        :param volume_id: The volume ID</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param reason: The reason for cancellation</span>
+<span class="sd">        :type reason: str</span>
+<span class="sd">        :param immediate: Cancel immediately or on anniversary date</span>
+<span class="sd">        :type immediate: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="s2">&quot;immediate&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;reason&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;reason&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;immediate&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;immediate&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">cancel_file_volume</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                                <span class="n">reason</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">],</span>
+                                                <span class="n">immediate</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;immediate&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">SoftLayerError</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">({</span><span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Storage Volume was already cancelled&quot;</span><span class="p">})</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.cancel_snapshot_space"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.cancel_snapshot_space">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_snapshot_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cancels snapshot space for a given volume</span>
+
+<span class="sd">        :param volume_id: The volume ID</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param reason: The reason for cancellation</span>
+<span class="sd">        :type reason: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;reason&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;reason&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;reason&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">cancel_snapshot_space</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                <span class="n">reason</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.create_snapshot"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.create_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">create_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a snapshot on the given file volume</span>
+
+<span class="sd">        :param volume_id: The volume ID</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param notes: The notes or &quot;name&quot; to assign the snapshot</span>
+<span class="sd">        :type notes: str</span>
+<span class="sd">        :return: Returns the id of the new snapshot</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;notes&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;notes&#39;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">create_snapshot</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                <span class="n">notes</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;notes&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.deauthorize_host_to_volume"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.deauthorize_host_to_volume">[docs]</a>    <span class="k">def</span> <span class="nf">deauthorize_host_to_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Revokes authorization of hosts to File Storage Volumes</span>
+
+<span class="sd">        :param volume_id: The File volume to deauthorize hosts to</span>
+<span class="sd">        :type volume_id: str</span>
+<span class="sd">        :param hardware_ids: A List of SoftLayer_Hardware IDs</span>
+<span class="sd">        :type hardware_ids: list</span>
+<span class="sd">        :param virtual_guest_ids: A List of SoftLayer_Virtual_Guest IDs</span>
+<span class="sd">        :type virtual_guest_ids: list</span>
+<span class="sd">        :param ip_address_ids: A List of SoftLayer_Network_Subnet_IpAddress IDs</span>
+<span class="sd">        :type ip_address_ids: list</span>
+<span class="sd">        :param subnet_ids: A List of SoftLayer_Network_Subnet ids</span>
+<span class="sd">        :return: Returns an array of SoftLayer_Network_Storage_Allowed_Host</span>
+<span class="sd">            objects which have access to the given File volume</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;hardware_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;virtual_guest_ids&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ip_address_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;subnet_ids&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hardware_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hardware_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;ip_address_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ip_address_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;subnet_ids&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subnet_ids&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">deauthorize_host_to_volume</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                <span class="n">hardware_ids</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hardware_ids&#39;</span><span class="p">],</span>
+                <span class="n">virtual_guest_ids</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;virtual_guest_ids&#39;</span><span class="p">],</span>
+                <span class="n">ip_address_ids</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;ip_address_ids&#39;</span><span class="p">],</span>
+                <span class="n">subnet_ids</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;subnet_ids&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.delete_snapshot"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.delete_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">delete_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snapshot_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deletes the specified snapshot object</span>
+
+<span class="sd">        :param snapshot_id: The ID of the snapshot object to delete</span>
+<span class="sd">        :type snapshot_id: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">delete_snapshot</span><span class="p">(</span><span class="n">snapshot_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.disable_snapshots"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.disable_snapshots">[docs]</a>    <span class="k">def</span> <span class="nf">disable_snapshots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Disables snapshots for a specific file volume at a given schedule</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param schedule_type: &#39;HOURLY&#39;|&#39;DAILY&#39;|&#39;WEEKLY&#39;</span>
+<span class="sd">        :type schedule_type: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;schedule_type&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;schedule_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;schedule_type&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">disable_snapshots</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;schedule_type&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.enable_snapshots"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.enable_snapshots">[docs]</a>    <span class="k">def</span> <span class="nf">enable_snapshots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enables snapshots for a specific file volume at a given schedule</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param schedule_type: &#39;HOURLY&#39;|&#39;DAILY&#39;|&#39;WEEKLY&#39;</span>
+<span class="sd">        :type schedule_type: str</span>
+<span class="sd">        :param retention_count: The number of snapshots to attempt</span>
+<span class="sd">            to retain in this schedule</span>
+<span class="sd">        :type retention_count: int</span>
+<span class="sd">        :param minute: The minute of the hour at which HOURLY, DAILY,</span>
+<span class="sd">            and WEEKLY snapshots should be taken</span>
+<span class="sd">        :type minute: int</span>
+<span class="sd">        :param hour: The hour of the day at which DAILY and WEEKLY</span>
+<span class="sd">            snapshots should be taken</span>
+<span class="sd">        :type hour: int</span>
+<span class="sd">        :param day_of_week: The day of the week on which</span>
+<span class="sd">            WEEKLY snapshots should be taken an integer (&#39;0&#39; is Sunday)</span>
+<span class="sd">        :type day: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;schedule_type&quot;</span><span class="p">,</span> <span class="s2">&quot;retention_count&quot;</span><span class="p">,</span> <span class="s2">&quot;minute&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;schedule_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;schedule_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;retention_count&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retention_count&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;minute&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;minute&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hour&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hour&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;day_of_week&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;day_of_week&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">enable_snapshots</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                              <span class="n">args</span><span class="p">[</span><span class="s1">&#39;schedule_type&#39;</span><span class="p">],</span>
+                                              <span class="n">args</span><span class="p">[</span><span class="s1">&#39;retention_count&#39;</span><span class="p">],</span>
+                                              <span class="n">args</span><span class="p">[</span><span class="s1">&#39;minute&#39;</span><span class="p">],</span>
+                                              <span class="n">args</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">],</span>
+                                              <span class="n">args</span><span class="p">[</span><span class="s1">&#39;day_of_week&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.failback_from_replicant"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.failback_from_replicant">[docs]</a>    <span class="k">def</span> <span class="nf">failback_from_replicant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Failback from a volume replicant</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param replicant_id: ID of replicant to failback from</span>
+<span class="sd">        :type replicant_id: int</span>
+<span class="sd">        :return: Returns whether failback was successful or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;replicant_id&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;replicant_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;replicant_id&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">failback_from_replicant</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                                     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;replicant_id&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.failover_to_replicant"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.failover_to_replicant">[docs]</a>    <span class="k">def</span> <span class="nf">failover_to_replicant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Failover to a volume replicant</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param replicant_id: ID of replicant to failback from</span>
+<span class="sd">        :type replicant_id: int</span>
+<span class="sd">        :param immediate: Flag indicating if failover is immediate</span>
+<span class="sd">        :type immediate: bool</span>
+<span class="sd">        :return: Returns whether failover was successful or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;replicant_id&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;replicant_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;replicant_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;immediate&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;immediate&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">failover_to_replicant</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;replicant_id&#39;</span><span class="p">],</span>
+                <span class="n">immediate</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;immediate&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_file_volume_access_list"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_file_volume_access_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_volume_access_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of authorized hosts for a specified volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :return: Returns a list of authorized hosts for a specified volume</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">get_file_volume_access_list</span><span class="p">(</span><span class="n">volume_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_file_volume_details"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_file_volume_details">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_volume_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns details about the specified volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :return: Returns details about the specified volume</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">get_file_volume_details</span><span class="p">(</span><span class="n">volume_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_file_volume_snapshot_list"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_file_volume_snapshot_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_volume_snapshot_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of snapshots for the specified volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :return: Returns a list of snapshots for the specified volume</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">get_file_volume_snapshot_list</span><span class="p">(</span><span class="n">volume_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_replication_locations"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_replication_locations">[docs]</a>    <span class="k">def</span> <span class="nf">get_replication_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Acquires list of the datacenters to which a volume can be replicated</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :return: Returns an array of SoftLayer_Network_Storage objects</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">get_replication_locations</span><span class="p">(</span><span class="n">volume_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.list_file_volumes"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.list_file_volumes">[docs]</a>    <span class="k">def</span> <span class="nf">list_file_volumes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of file volumes</span>
+
+<span class="sd">        :param datacenter: Datacenter short name `(e.g.: dal09)`</span>
+<span class="sd">        :type datacenter: str</span>
+<span class="sd">        :param username: Name of volume</span>
+<span class="sd">        :type username: str</span>
+<span class="sd">        :param storage_type: Type of volume &quot;Endurance|Performance&quot;</span>
+<span class="sd">        :type storage_type: str</span>
+<span class="sd">        :param order: Volume order ID</span>
+<span class="sd">        :type order: int</span>
+<span class="sd">        :return: Returns a list of file volumes</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;datacenter&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;datacenter&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;storage_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage_type&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="p">}</span>
+
+        <span class="n">_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">_filter</span> <span class="o">=</span> <span class="n">sl_utils</span><span class="o">.</span><span class="n">NestedDict</span><span class="p">({})</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;serviceResource&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="p">(</span><span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span><span class="s1">&#39;!~ NAS&#39;</span><span class="p">))</span>
+
+        <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;storageType&#39;</span><span class="p">][</span><span class="s1">&#39;keyName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span><span class="s1">&#39;*FILE_STORAGE*&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]:</span>
+            <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="p">(</span><span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;datacenter&#39;</span><span class="p">]:</span>
+            <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;serviceResource&#39;</span><span class="p">][</span><span class="s1">&#39;datacenter&#39;</span><span class="p">][</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;datacenter&#39;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;storage_type&#39;</span><span class="p">]:</span>
+            <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;storageType&#39;</span><span class="p">][</span><span class="s1">&#39;keyName&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="p">(</span><span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_FILE_STORAGE*&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;storage_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]:</span>
+            <span class="n">_filter</span><span class="p">[</span><span class="s1">&#39;nasNetworkStorage&#39;</span><span class="p">][</span><span class="s1">&#39;billingItem&#39;</span><span class="p">][</span><span class="s1">&#39;orderItem&#39;</span><span class="p">][</span>
+                <span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sl_utils</span><span class="o">.</span><span class="n">query_filter</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]))</span>
+
+        <span class="n">_kwargs</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_filter</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;Account&#39;</span><span class="p">,</span> <span class="s1">&#39;getNasNetworkStorage&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_file_storages"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_file_storages">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_storages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve file storage list</span>
+
+<span class="sd">        :return: List of file storage</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">file_storage</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">file_storage</span><span class="p">[</span><span class="s2">&quot;file_storages&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">list_file_volumes</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">file_storage</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_file_storage"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.get_file_storage">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_storage</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve specific file storage by ID</span>
+
+<span class="sd">        :param file_storage: File storage ID</span>
+<span class="sd">        :type file_storage: int</span>
+<span class="sd">        :return: File storage information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">get_file_volume_details</span><span class="p">(</span><span class="n">file_storage</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.order_file_volume"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.order_file_volume">[docs]</a>    <span class="k">def</span> <span class="nf">order_file_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Places an order for a file volume</span>
+
+<span class="sd">        :param storage_type: Type of volume &quot;Endurance|Performance&quot;</span>
+<span class="sd">        :type storage_type: str</span>
+<span class="sd">        :param location: Name of the datacenter in which to order the volume</span>
+<span class="sd">        :type location: str</span>
+<span class="sd">        :param size: Size of the desired volume, in GB</span>
+<span class="sd">        :type size: int</span>
+<span class="sd">        :param iops: Number of IOPS for a &quot;Performance&quot; order</span>
+<span class="sd">        :type iops: int</span>
+<span class="sd">        :param tier_level: Tier level to use for an &quot;Endurance&quot; order</span>
+<span class="sd">            (0.25|2|4|10)</span>
+<span class="sd">        :type tier_level: int</span>
+<span class="sd">        :param snapshot_size: The size of optional snapshot space, if snapshot</span>
+<span class="sd">            space should also be ordered (None if not ordered)</span>
+<span class="sd">        :type snapshot_size: int</span>
+<span class="sd">        :param service_offering: Requested offering package to use in the order</span>
+<span class="sd">            (&quot;storage_as_a_service&quot;, &quot;enterprise&quot;, or &quot;performance&quot;)</span>
+<span class="sd">        :type service_offering: str</span>
+<span class="sd">        :param hourly_billing_flag: Billing type, monthly (False) or</span>
+<span class="sd">            hourly (True), default to monthly</span>
+<span class="sd">        :type hourly_billing_flag: bool</span>
+<span class="sd">        :return: Created volume description</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;storage_type&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;storage_type&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;size&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;iops&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;iops&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;tier_level&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tier_level&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;snapshot_size&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;snapshot_size&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;service_offering&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;service_offering&#39;</span><span class="p">,</span>
+                                           <span class="s1">&#39;storage_as_a_service&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;hourly_billing_flag&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hourly_billing_flag&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">False</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">order_file_volume</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;storage_type&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">],</span>
+                <span class="n">iops</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;iops&#39;</span><span class="p">],</span>
+                <span class="n">tier_level</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;tier_level&#39;</span><span class="p">],</span>
+                <span class="n">snapshot_size</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;snapshot_size&#39;</span><span class="p">],</span>
+                <span class="n">service_offering</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;service_offering&#39;</span><span class="p">],</span>
+                <span class="n">hourly_billing_flag</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hourly_billing_flag&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">order</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.order_modified_volume"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.order_modified_volume">[docs]</a>    <span class="k">def</span> <span class="nf">order_modified_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Places an order for modifying an existing file volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume to be modified</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param new_size: The new size/capacity for the volume</span>
+<span class="sd">        :type new_size: int</span>
+<span class="sd">        :param new_iops: The new IOPS for the volume</span>
+<span class="sd">        :type new_iops: int</span>
+<span class="sd">        :param new_tier_level: The new tier level for the volume</span>
+<span class="sd">        :type new_tier_level: str</span>
+<span class="sd">        :return: Returns a SoftLayer_Container_Product_Order_Receipt</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;new_size&quot;</span><span class="p">,</span> <span class="s2">&quot;new_iops&quot;</span><span class="p">,</span> <span class="s2">&quot;new_tier_level&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;new_size&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_size&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;new_iops&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_iops&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;new_tier_level&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_tier_level&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">order_modified_volume</span><span class="p">(</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;new_size&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;new_iops&#39;</span><span class="p">],</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;new_tier_level&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.order_snapshot_space"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.order_snapshot_space">[docs]</a>    <span class="k">def</span> <span class="nf">order_snapshot_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Orders snapshot space for the given file volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param capacity: The capacity to order, in GB</span>
+<span class="sd">        :type capacity: int</span>
+<span class="sd">        :param tier: The tier level of the file volume, in IOPS per GB</span>
+<span class="sd">        :type tier: int</span>
+<span class="sd">        :param upgrade: Flag to indicate if this order is an upgrade</span>
+<span class="sd">        :type upgrade: bool</span>
+<span class="sd">        :return: Returns a SoftLayer_Container_Product_Order_Receipt</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">,</span> <span class="s2">&quot;tier&quot;</span><span class="p">,</span> <span class="s2">&quot;upgrade&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage_type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;capacity&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;tier&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tier&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;upgrade&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;upgrade&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">order_snapshot_space</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                                  <span class="n">args</span><span class="p">[</span><span class="s1">&#39;capacity&#39;</span><span class="p">],</span>
+                                                  <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tier&#39;</span><span class="p">],</span>
+                                                  <span class="n">args</span><span class="p">[</span><span class="s1">&#39;upgrade&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.restore_from_snapshot"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.restore_from_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">restore_from_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Restores a specific volume from a snapshot</span>
+
+<span class="sd">        :param volume_id: The ID of the volume</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param snapshot_id: The ID of the restore point</span>
+<span class="sd">        :type snapshot_id: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;volume_id&quot;</span><span class="p">,</span> <span class="s2">&quot;snapshot_id&quot;</span><span class="p">]</span>
+        <span class="n">check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;snapshot_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;snapshot_id&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">restore_from_snapshot</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                                   <span class="n">args</span><span class="p">[</span><span class="s1">&#39;snapshot_id&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.volume_set_note"><a class="viewcode-back" href="../../../../ibmcloud_python_sdk.cis.storage.html#ibmcloud_python_sdk.cis.storage.file.File.volume_set_note">[docs]</a>    <span class="k">def</span> <span class="nf">volume_set_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the notes for an existing block volume</span>
+
+<span class="sd">        :param volume_id: The ID of the volume to be modified</span>
+<span class="sd">        :type volume_id: int</span>
+<span class="sd">        :param note: Volume&#39;s note</span>
+<span class="sd">        :type note: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Build dict of argument and assign default value when needed</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;volume_id&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;volume_id&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;note&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">volume_set_note</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;volume_id&#39;</span><span class="p">],</span>
+                                               <span class="n">args</span><span class="p">[</span><span class="s1">&#39;note&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="n">sl</span><span class="o">.</span><span class="n">SoftLayer</span><span class="o">.</span><span class="n">SoftLayerAPIError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resource_error</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">faultCode</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">faultString</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Gaëtan Trellu (goldyfruit) &amp; James Régis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

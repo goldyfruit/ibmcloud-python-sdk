@@ -24,11 +24,12 @@ class Object():
             )
 
     def get_objects(self, bucket):
-        """ Retrieve objects list from a bucket
+        """Retrieve objects list from a bucket
 
-        :param: bucket: Bucket name.
-        :return List of objects
-        :rtype dict
+        :param bucket: Bucket name
+        :type bucket: str
+        :return: List of objects
+        :rtype: dict
         """
         try:
             p = self.client.get_paginator('list_objects')
@@ -45,8 +46,10 @@ class Object():
     def get_object(self, bucket, object):
         """Retrieve specific object form a bucket
 
-        :param bucket: Bucket name.
+        :param bucket: Bucket name
+        :type bucket: str
         :param object: Object name
+        :type object: str
         :return: Object information
         :rtype: dict
         """
@@ -66,12 +69,16 @@ class Object():
     def put_object(self, **kwargs):
         """Adds an object to a bucket
 
-        :param acl: The canned ACL to apply to the object.
-        :param bucket: Bucket name.
-        :param body: Object data.
-        :param key: Object key for which the PUT operation was initiated.
-        :return Upload status
-        :rtype dict
+        :param acl: The canned ACL to apply to the object
+        :type acl: str
+        :param bucket: Bucket name
+        :type bucket: str
+        :param body: Object data
+        :type body: str
+        :param key: Object key for which the PUT operation was initiated
+        :type key: str
+        :return: Upload status
+        :rtype: dict
         """
         args = ["bucket", "body", "key"]
         check_args(args, **kwargs)
@@ -104,11 +111,14 @@ class Object():
     def upload_file(self, **kwargs):
         """Upload a file to an S3 object
 
-        :param bucket: Bucket name.
-        :param path: The path to the file to upload.
-        :param key: The name of the key to upload to.
-        :return Upload status
-        :rtype dict
+        :param bucket: Bucket name
+        :type bucket: str
+        :param path: The path to the file to upload
+        :type path: str
+        :param key: The name of the key to upload to
+        :type key: str
+        :return: Upload status
+        :rtype: dict
         """
         args = ["bucket", "path", "key"]
         check_args(args, **kwargs)
@@ -136,11 +146,14 @@ class Object():
     def download_file(self, **kwargs):
         """Download file from a S3 object
 
-        :param bucket: Bucket name.
-        :param path: The path to the file to download to.
-        :param key: The name of the key to download from.
-        :return Download status
-        :rtype dict
+        :param bucket: Bucket name
+        :type bucket: str
+        :param path: The path to the file to download to
+        :type path: str
+        :param key: The name of the key to download from
+        :type key: str
+        :return: Download status
+        :rtype: dict
         """
         args = ["bucket", "path", "key"]
         check_args(args, **kwargs)
@@ -168,10 +181,12 @@ class Object():
     def delete_object(self, bucket, object):
         """Delete an object from the bucket
 
-        :param bucket: Bucket name.
-        :param object: The name of the object to delete.
-        :return Deletion status
-        :rtype dict
+        :param bucket: Bucket name
+        :type bucket: str
+        :param object: The name of the object to delete
+        :type object: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             result = self.client.delete_object(Bucket=bucket, Key=object)
@@ -184,10 +199,12 @@ class Object():
             return resource_error("unable_to_delete_object", error)
 
     def delete_objects(self, bucket, objects):
-        """Delete objects from the bucket.
+        """Delete objects from the bucket
 
-        :param bucket: Bucket name.
-        :param objects: List of objects to delete.
+        :param bucket: Bucket name
+        :type bucket: str
+        :param objects: List of objects to delete
+        :type objects: list
         """
         try:
             for object in objects:

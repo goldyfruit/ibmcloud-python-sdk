@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.auth">ibmcloud_python_sdk.auth module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.common">ibmcloud_python_sdk.common module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.config">ibmcloud_python_sdk.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk">Module contents</a></li>
 </ul>
@@ -193,15 +192,15 @@
 <span id="ibmcloud-python-sdk-cis-baremetal-hardware-module"></span><h2>ibmcloud_python_sdk.cis.baremetal.hardware module<a class="headerlink" href="#module-ibmcloud_python_sdk.cis.baremetal.hardware" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.cis.baremetal.hardware.</span></span><span class="sig-name descname"><span class="pre">Hardware</span></span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.cis.baremetal.hardware.</span></span><span class="sig-name descname"><span class="pre">Hardware</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal">
-<span class="sig-name descname"><span class="pre">get_baremetal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baremetal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_baremetal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baremetal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.get_baremetal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve specific baremetal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>baremetal</strong> – Baremetal name or ID</p>
+<dd class="field-odd"><p><strong>baremetal</strong> (<em>str</em>) – Baremetal name or ID</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Baremetal server information</p>
@@ -214,34 +213,58 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_id">
-<span class="sig-name descname"><span class="pre">get_baremetal_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific baremetal by ID
-:param id: baremetal ID
-:return: Baremetal server information
-:rtype: dict</p>
+<span class="sig-name descname"><span class="pre">get_baremetal_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.get_baremetal_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve specific baremetal by ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – Baremetal ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Baremetal server information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_name">
-<span class="sig-name descname"><span class="pre">get_baremetal_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific baremetal by name
-:param name: Baremetal name
-:return: Baremetal server information
-:rtype: dict</p>
+<span class="sig-name descname"><span class="pre">get_baremetal_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.get_baremetal_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve specific baremetal by name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Baremetal name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Baremetal server information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_power_state">
-<span class="sig-name descname"><span class="pre">get_baremetal_power_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baremetal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_power_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve baremetal power state
-:param baremetal: Baremetal name or ID
-:return: Baremetal power state
-:rtype: dict</p>
+<span class="sig-name descname"><span class="pre">get_baremetal_power_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baremetal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.get_baremetal_power_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetal_power_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve baremetal power state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>baremetal</strong> (<em>str</em>) – Baremetal name or ID</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Baremetal power state</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetals">
-<span class="sig-name descname"><span class="pre">get_baremetals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetals" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_baremetals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.get_baremetals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.get_baremetals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve baremetal list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -255,52 +278,63 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.reload_os">
-<span class="sig-name descname"><span class="pre">reload_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.reload_os" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reload_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.reload_os"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.reload_os" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reload operating system and configuration</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>baremetal</strong> – Baremetal name or ID</p></li>
-<li><p><strong>spare_pool</strong> – Optional. Server will be moved into the spare pool</p></li>
+<li><p><strong>baremetal</strong> (<em>str</em>) – Baremetal name or ID</p></li>
+<li><p><strong>spare_pool</strong> (<em>str</em><em>, </em><em>optional</em>) – Server will be moved into the spare pool after an
+sperating system reload</p></li>
+<li><p><strong>script</strong> (<em>str</em><em>, </em><em>optional</em>) – Will be used to download and execute a customer defined
+script on the host at the end of provisioning</p></li>
+<li><p><strong>retention</strong> (<em>str</em>) – Primary drive will be converted to a portable
+storage volume during an operating system reload</p></li>
+<li><p><strong>erase_drives</strong> (<em>bool</em><em>, </em><em>optional</em>) – All data will be erased from drives during an
+sperating system reload</p></li>
+<li><p><strong>hard_drives</strong> – The hard drive partitions that a server can be
+partitioned with</p></li>
+<li><p><strong>image_template_id</strong> (<em>str</em><em>, </em><em>optional</em>) – An image template ID that will be deployed
+to the host. If provided no item prices are required</p></li>
+<li><p><strong>item_prices</strong> (<em>list</em><em>, </em><em>optional</em>) – Item prices that the server can be configured with</p></li>
+<li><p><strong>enable_lvm</strong> (<em>bool</em><em>, </em><em>optional</em>) – The provision should use LVM for all logical drives</p></li>
+<li><p><strong>reset_ipmi_password</strong> (<em>bool</em><em>, </em><em>optional</em>) – The remote management cards password will
+be reset</p></li>
+<li><p><strong>ssh_keys</strong> (<em>list</em><em>, </em><em>optional</em>) – SSH keys to add to the server for authentication.
+SSH Keys will not be added to servers with Microsoft Windows</p></li>
+<li><p><strong>upgrade_bios</strong> (<em>bool</em><em>, </em><em>optional</em>) – BIOS will be updated when installing the
+operating system.</p></li>
+<li><p><strong>upgrade_firmware</strong> (<em>bool</em><em>, </em><em>optional</em>) – Firmware on all hard drives will be updated
+when installing the operating system</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Reload status</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
 </dl>
-<p>after an sperating system reload.
-:param script: Optional.  Will be used to download and execute a
-customer defined script on the host at the end of provisioning.
-:param retention: Primary drive will be converted to a portable storage
-volume during an operating system reload.
-:param erase_drives: Optional. All data will be erased from drives
-during an sperating system reload.
-:param hard_drives: Optional. The hard drive partitions that a server
-can be partitioned with.
-:param image_template_id: Optional. An image template ID that will be
-deployed to the host. If provided no item prices are required.
-:param item_prices: Optional. Item prices that the server can be
-configured with.
-:param enable_lvm: Optional. The provision should use LVM for all
-logical drives.
-:param reset_ipmi_password: Optional. The remote management cards
-password will be reset.
-:param ssh_keys: Optional. SSH keys to add to the server for
-authentication. SSH Keys will not be added to servers with Microsoft
-Windows.
-:param upgrade_bios: Optional. BIOS will be updated when installing the
-operating system.
-:param upgrade_firmware: Optional. Firmware on all hard drives will be
-updated when installing the operating system.
-:return: Reload status
-:rtype: dict</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.set_baremetal_power_state">
-<span class="sig-name descname"><span class="pre">set_baremetal_power_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.set_baremetal_power_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set baremetal power state
-:param baremetal: Baremetal name or ID
-:parem power_state: Target power state
-:return: Power state
-:rtype: dict</p>
+<span class="sig-name descname"><span class="pre">set_baremetal_power_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/hardware.html#Hardware.set_baremetal_power_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.hardware.Hardware.set_baremetal_power_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set baremetal power state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>baremetal</strong> (<em>str</em>) – Baremetal name or ID</p>
+</dd>
+<dt class="field-even">Parem power_state</dt>
+<dd class="field-even"><p>Target power state</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Power state</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -310,11 +344,11 @@ updated when installing the operating system.
 <span id="ibmcloud-python-sdk-cis-baremetal-order-module"></span><h2>ibmcloud_python_sdk.cis.baremetal.order module<a class="headerlink" href="#module-ibmcloud_python_sdk.cis.baremetal.order" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.cis.baremetal.order.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.cis.baremetal.order.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.get_locations">
-<span class="sig-name descname"><span class="pre">get_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_locations" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.get_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_locations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all datacenter locations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -328,13 +362,13 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_system">
-<span class="sig-name descname"><span class="pre">get_operating_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_system" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve specific baremetal operating systems</p>
+<span class="sig-name descname"><span class="pre">get_operating_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.get_operating_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve specific baremetal operating system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>image</strong> – Image name.</p></li>
-<li><p><strong>package</strong> – Optional. Package name.</p></li>
+<li><p><strong>image</strong> (<em>str</em>) – Image name</p></li>
+<li><p><strong>package</strong> (<em>str</em><em>, </em><em>optional</em>) – Package name, defaults to <cite>BARE_METAL_SERVER</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -348,14 +382,14 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_systems">
-<span class="sig-name descname"><span class="pre">get_operating_systems</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_systems" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve baremetal operating systems</p>
+<span class="sig-name descname"><span class="pre">get_operating_systems</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.get_operating_systems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_operating_systems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve baremetal operating system list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>package</strong> – Optional. Package name.</p>
+<dd class="field-odd"><p><strong>package</strong> (<em>str</em><em>, </em><em>optional</em>) – Package name, defaults to <cite>BARE_METAL_SERVER</cite></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Baremetal operating systems</p>
+<dd class="field-even"><p>Baremetal operating system list</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -365,14 +399,14 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_items">
-<span class="sig-name descname"><span class="pre">get_package_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_items" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve baremetal operating systems</p>
+<span class="sig-name descname"><span class="pre">get_package_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.get_package_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve package item list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>package</strong> – Optional. Package name.</p></li>
-<li><p><strong>category</strong> – Filter by category.</p></li>
-<li><p><strong>mask</strong> – Mask fields.</p></li>
+<li><p><strong>package</strong> (<em>str</em><em>, </em><em>optional</em>) – Package name, defaults to <cite>BARE_METAL_SERVER</cite></p></li>
+<li><p><strong>category</strong> (<em>str</em><em>, </em><em>optional</em>) – Filter by category</p></li>
+<li><p><strong>mask</strong> (<em>str</em><em>, </em><em>optional</em>) – Mask fields</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -386,11 +420,11 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_presets">
-<span class="sig-name descname"><span class="pre">get_package_presets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_presets" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_package_presets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.get_package_presets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.get_package_presets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve baremetal package presets</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>package</strong> – Optional. Package name.</p>
+<dd class="field-odd"><p><strong>package</strong> (<em>str</em><em>, </em><em>optional</em>) – Package name, defaults to <cite>BARE_METAL_SERVER</cite></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Baremetal presets from package</p>
@@ -403,19 +437,19 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.place">
-<span class="sig-name descname"><span class="pre">place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.place" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.place"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.place" title="Permalink to this definition">¶</a></dt>
 <dd><p>Place an order</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>package</strong> – The package being ordered.</p></li>
-<li><p><strong>location</strong> – The datacenter location string for ordering.</p></li>
-<li><p><strong>items</strong> – The list of item keyname strings to order.</p></li>
-<li><p><strong>complex_type</strong> – The complex type to send with the order.</p></li>
-<li><p><strong>hourly</strong> – Optional. If true, uses hourly billing.</p></li>
-<li><p><strong>preset</strong> – Optional. Specifies a preset to use for that package.</p></li>
-<li><p><strong>extras</strong> – The extra data for the order in dictionary format.</p></li>
-<li><p><strong>quantity</strong> – Optional. The number of resources to order.</p></li>
+<li><p><strong>package</strong> (<em>str</em>) – The package being ordered</p></li>
+<li><p><strong>location</strong> (<em>str</em>) – The datacenter location string for ordering</p></li>
+<li><p><strong>items</strong> (<em>list</em>) – The list of item keyname strings to order</p></li>
+<li><p><strong>complex_type</strong> (<em>str</em>) – The complex type to send with the order</p></li>
+<li><p><strong>hourly</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, uses hourly billing, defaults to <cite>True</cite></p></li>
+<li><p><strong>preset</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies a preset to use for that package</p></li>
+<li><p><strong>extras</strong> (<em>dict</em>) – The extra data for the order in dictionary format</p></li>
+<li><p><strong>quantity</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of resources to order, default to <cite>1</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -429,19 +463,19 @@ updated when installing the operating system.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.cis.baremetal.order.Order.verify">
-<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.verify" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/cis/baremetal/order.html#Order.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.cis.baremetal.order.Order.verify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify an order</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>package</strong> – The package being ordered.</p></li>
-<li><p><strong>location</strong> – The datacenter location string for ordering.</p></li>
-<li><p><strong>items</strong> – The list of item keyname strings to order.</p></li>
-<li><p><strong>complex_type</strong> – The complex type to send with the order.</p></li>
-<li><p><strong>hourly</strong> – Optional. If true, uses hourly billing.</p></li>
-<li><p><strong>preset</strong> – Optional. Specifies a preset to use for that package.</p></li>
-<li><p><strong>extras</strong> – The extra data for the order in dictionary format.</p></li>
-<li><p><strong>quantity</strong> – Optional. The number of resources to order.</p></li>
+<li><p><strong>package</strong> (<em>str</em>) – The package being ordered</p></li>
+<li><p><strong>location</strong> (<em>str</em>) – The datacenter location string for ordering</p></li>
+<li><p><strong>items</strong> (<em>list</em>) – The list of item keyname strings to order</p></li>
+<li><p><strong>complex_type</strong> (<em>str</em>) – The complex type to send with the order</p></li>
+<li><p><strong>hourly</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, uses hourly billing, defaults to <cite>True</cite></p></li>
+<li><p><strong>preset</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies a preset to use for that package</p></li>
+<li><p><strong>extras</strong> (<em>dict</em>) – The extra data for the order in dictionary format</p></li>
+<li><p><strong>quantity</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of resources to order, default to <cite>1</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

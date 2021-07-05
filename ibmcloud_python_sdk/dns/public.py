@@ -1,11 +1,9 @@
-import json
 import SoftLayer
 
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import check_args
 
-from SoftLayer import DNSManager
 
 class Dns():
     """Public dns class
@@ -19,11 +17,14 @@ class Dns():
         self.dns = SoftLayer.DNSManager(self.client)
 
     def create_zone(self, zone, serial=None):
-        """Create a zone for the specified zone.
+        """Create a zone for the specified zone
 
-        :param zone: the zone name to create
-        :param serial: serial value on the zone (default: strftime(%Y%m%d01))
-         """
+        :param zone: Zone name
+        :type zone: str
+        :param serial: serial value on the zone, defaults to
+            `strftime(%Y%m%d01)`
+        :type serial: str
+        """
         try:
             return self.dns.create_zone(zone, serial)
         except Exception as error:
@@ -31,17 +32,21 @@ class Dns():
             raise
 
     def create_record(self, **kwargs):
-        """Create a resource record on a domain.
+        """Create a resource record on a domain
 
-        :param zone: zone name
-        :param record: the name of the record to add
-        :param record_type: the type of record (A, AAAA, CNAME, TXT, etc.)
-        :param data: the record's value
-        :param integer ttl: the TTL or time-to-live value (default: 60)
+        :param zone: Zone name
+        :type zone: str
+        :param record: Record name
+        :type record: str
+        :param record_type: Type of record (A, AAAA, CNAME, TXT, etc...)
+        :type record_type: str
+        :param data: Record's value
+        :type data: str
+        :param ttl: Time-To-Live, defaults to `60`
+        :type ttl: int
         """
-        required_args = set(["zone", "record", "record_type",
-                             "data"])
-        check_args(required_args, **kwargs)
+        args = set(["zone", "record", "record_type", "data"])
+        check_args(args, **kwargs)
 
         zone_id = self.get_zone_id(kwargs.get('zone'))
         if not isinstance(zone_id, int):
@@ -56,7 +61,7 @@ class Dns():
             'record': kwargs.get('record'),
             'record_type': kwargs.get('record_type'),
             'data': kwargs.get('data'),
-            'ttl': kwargs.get('ttl') or '60',
+            'ttl': kwargs.get('ttl', 60),
         }
         try:
             return (self.dns.create_record(args['zone'], args['record'],
@@ -67,8 +72,10 @@ class Dns():
             raise
 
     def get_records(self, **kwargs):
-        """Get records for a specified zone
-        :param zone: zone name
+        """Get record list for a specified zone
+
+        :param zone: Zone name
+        :type zone: str
         """
         zone_id = self.get_zone_id(kwargs.get('zone'))
         if not isinstance(zone_id, int):
@@ -146,8 +153,11 @@ class Dns():
 
     def get_record_by_name(self, **kwargs):
         """Get record by name
-        :param record: record name
-        :param zone: zone name
+
+        :param record: Record name
+        :type record: str
+        :param zone: Zone name
+        :type zone: str
         """
         required_args = set(["record", "zone"])
         check_args(required_args, **kwargs)
@@ -170,12 +180,15 @@ class Dns():
         return resource_not_found()
 
     def get_record_by_value(self, **kwargs):
-        """Get record by name
-        :param record: record data
-        :param zone: zone name
+        """Get record by value
+        
+        :param record: Record value
+        :type record: str
+        :param zone: Zone name
+        :type zone: str
         """
-        required_args = set(["record", "zone"])
-        check_args(required_args, **kwargs)
+        args = set(["record", "zone"])
+        check_args(args, **kwargs)
 
         args = {
             'record': kwargs.get('record'),
@@ -195,11 +208,14 @@ class Dns():
 
     def delete_record(self, **kwargs):
         """Delete a record
-        :param name: record name
-        :param zone: zone name
+
+        :param record: Record name
+        :type record: str
+        :param zone: Zone name
+        :type zone: str
         """
-        required_args = set(["record", "zone"])
-        check_args(required_args, **kwargs)
+        args = set(["record", "zone"])
+        check_args(args, **kwargs)
 
         args = {
             'record': kwargs.get('record'),

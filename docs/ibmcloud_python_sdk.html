@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ibmcloud_python_sdk.auth">ibmcloud_python_sdk.auth module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-ibmcloud_python_sdk.common">ibmcloud_python_sdk.common module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ibmcloud_python_sdk.config">ibmcloud_python_sdk.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ibmcloud_python_sdk">Module contents</a></li>
 </ul>
@@ -293,7 +292,7 @@
 <span id="ibmcloud-python-sdk-auth-module"></span><h2>ibmcloud_python_sdk.auth module<a class="headerlink" href="#module-ibmcloud_python_sdk.auth" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.auth.decode_token">
-<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">decode_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.auth.decode_token" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">decode_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/auth.html#decode_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.auth.decode_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decode JWT token</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -307,7 +306,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.auth.get_headers">
-<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">get_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.auth.get_headers" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">get_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/auth.html#get_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.auth.get_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the headers used for authenticated HTTP request.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -321,7 +320,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.auth.get_token">
-<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">get_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.auth.get_token" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.auth.</span></span><span class="sig-name descname"><span class="pre">get_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/auth.html#get_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.auth.get_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate JWT IAM token</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -340,47 +339,16 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-ibmcloud_python_sdk.common">
-<span id="ibmcloud-python-sdk-common-module"></span><h2>ibmcloud_python_sdk.common module<a class="headerlink" href="#module-ibmcloud_python_sdk.common" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ibmcloud_python_sdk.common.Common">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.common.</span></span><span class="sig-name descname"><span class="pre">Common</span></span><a class="headerlink" href="#ibmcloud_python_sdk.common.Common" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ibmcloud_python_sdk.common.Common.query_wrapper">
-<span class="sig-name descname"><span class="pre">query_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conn_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.common.Common.query_wrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute HTTP query and return JSON response.
-:param conn_type: Define which URL should be used for the connection</p>
-<blockquote>
-<div><p>such as “iaas”, “auth” or “rg” (resource group).</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> – HTTP method that should be used such as
-GET, POST, PUT, DELETE, etc…</p></li>
-<li><p><strong>path</strong> – Path used by within the query</p></li>
-<li><p><strong>headers</strong> – Optional. Headers to send with the query is required
-such authentication token, content type, etc…</p></li>
-<li><p><strong>payload</strong> – Optional. JSON payload send during the query.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-ibmcloud_python_sdk.config">
 <span id="ibmcloud-python-sdk-config-module"></span><h2>ibmcloud_python_sdk.config module<a class="headerlink" href="#module-ibmcloud_python_sdk.config" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.config.params">
-<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.config.</span></span><span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.config.params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.config.</span></span><span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/config.html#params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.config.params" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.config.sdk">
-<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.config.</span></span><span class="sig-name descname"><span class="pre">sdk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.config.sdk" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.config.</span></span><span class="sig-name descname"><span class="pre">sdk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/config.html#sdk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.config.sdk" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

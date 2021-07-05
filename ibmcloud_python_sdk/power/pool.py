@@ -14,8 +14,9 @@ class Pool():
         """Retrieve system pools for a specific cloud instance
 
         :param instance: Cloud instance ID
-        :return List of system pools
-        :rtype dict
+        :type instance: str
+        :return: List of system pools
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information

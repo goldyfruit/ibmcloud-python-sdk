@@ -104,7 +104,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.auth">ibmcloud_python_sdk.auth module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.common">ibmcloud_python_sdk.common module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk.config">ibmcloud_python_sdk.config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ibmcloud_python_sdk.html#module-ibmcloud_python_sdk">Module contents</a></li>
 </ul>
@@ -191,50 +190,34 @@
 <span id="ibmcloud-python-sdk-dns-private-module"></span><h2>ibmcloud_python_sdk.dns.private module<a class="headerlink" href="#module-ibmcloud_python_sdk.dns.private" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.dns.private.</span></span><span class="sig-name descname"><span class="pre">Dns</span></span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.dns.private.</span></span><span class="sig-name descname"><span class="pre">Dns</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.add_permitted_network">
-<span class="sig-name descname"><span class="pre">add_permitted_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.add_permitted_network" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add permitted network to dns zone.</p>
+<span class="sig-name descname"><span class="pre">add_permitted_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.add_permitted_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.add_permitted_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add permitted network to DNS zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – required. The user-defined name for this domain.</p></li>
-<li><p><strong>resource_instance</strong> – required. Name or guid of dns resource</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+<li><p><strong>vpc</strong> (<em>str</em>) – The allowed VPC name or ID</p></li>
 </ul>
 </dd>
 </dl>
-<p>instance.
-:param vpc: required. The allowed VPC name or id.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.create_resource_record">
-<span class="sig-name descname"><span class="pre">create_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.create_resource_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add record in a specified zone.</p>
+<span class="sig-name descname"><span class="pre">create_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.create_resource_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.create_resource_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add record in a specified zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – required. The unique user-defined name for this ima.</p></li>
-<li><p><strong>resource_instance</strong> – required. The name of the dns resource
-instance.</p></li>
-<li><p><strong>record</strong> – <p>required. the record to add in the zone.
-ex : ‘{ “name”: “testB”,</p>
-<blockquote>
-<div><blockquote>
-<div><p>”type”: “A”,
-“rdata”: {</p>
-<blockquote>
-<div><blockquote>
-<div><p>”ip”: “4.5.6.7”</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-</div></blockquote>
-<p>}’</p>
-</div></blockquote>
-</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+<li><p><strong>record</strong> (<em>dict</em>) – The record to add in the zone, example:
+‘{“name”: “testB”, “type”: “A”, “rdata”: {“ip”: “4.5.6.7”}}’</p></li>
 </ul>
 </dd>
 </dl>
@@ -242,52 +225,45 @@ ex : ‘{ “name”: “testB”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.create_zone">
-<span class="sig-name descname"><span class="pre">create_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.create_zone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a zone in a specified resource instance.</p>
+<span class="sig-name descname"><span class="pre">create_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.create_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.create_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a zone in a specified resource instance</p>
 <dl class="field-list simple">
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>dns_zone: required. The user-defined name to create.</p>
-</dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>description: optional. A description for the domain.</p>
-</dd>
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>label: optional: A label for the domain.</p>
-</dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>resource_instance: required. Name or guid of dns
-resource instance.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dns_zone</strong> (<em>str</em>) – The user-defined name to create</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description for the domain</p></li>
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – A label for the domain</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.delete_permitted_network">
-<span class="sig-name descname"><span class="pre">delete_permitted_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_permitted_network" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete permitted network to dns zone.</p>
+<span class="sig-name descname"><span class="pre">delete_permitted_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.delete_permitted_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_permitted_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete permitted network to dns zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – required. The user-defined name for this domain.</p></li>
-<li><p><strong>resource_instance</strong> – required. Name or guid of dns resource</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+<li><p><strong>vpc</strong> (<em>str</em>) – The allowed VPC name or ID</p></li>
 </ul>
 </dd>
 </dl>
-<p>instance.
-:param vpc_crn: required. The allowed VPC’s CRN.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.delete_resource_record">
-<span class="sig-name descname"><span class="pre">delete_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_resource_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete record in a specified zone.</p>
+<span class="sig-name descname"><span class="pre">delete_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.delete_resource_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_resource_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete record in a specified zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – required. The dns zone name.</p></li>
-<li><p><strong>record</strong> – required. The dns record name to delete.</p></li>
-<li><p><strong>resource_instance</strong> – required. Name or GUID of dns resource
-instance.</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>record</strong> (<em>str</em>) – Record name to delete</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
 </dd>
 </dl>
@@ -295,138 +271,174 @@ instance.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.delete_zone">
-<span class="sig-name descname"><span class="pre">delete_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_zone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a zone in a specified resource instance.</p>
+<span class="sig-name descname"><span class="pre">delete_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.delete_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.delete_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a zone in from a specified resource instance</p>
 <dl class="field-list simple">
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>dns_zone: required. The user-defined name to create.</p>
-</dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>resource_instance: required. Name or guid of dns
-resource instance.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name to delete</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_dns_zone">
-<span class="sig-name descname"><span class="pre">get_dns_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a specific dns zone hosted by a resource instance.</p>
-<p>param: dns_zone: the DNS zone name or id to query.
-param: resource_instance: name or GUID of the resource instance.</p>
+<span class="sig-name descname"><span class="pre">get_dns_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_dns_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a specific DNS zone hosted by a resource instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name or ID to query</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DNS zone information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_id">
-<span class="sig-name descname"><span class="pre">get_dns_zone_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get DNS zone by id.</p>
+<span class="sig-name descname"><span class="pre">get_dns_zone_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_dns_zone_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get DNS zone by id</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – the dns zone id.</p></li>
-<li><p><strong>resource_instance</strong> – the associated resource instance.</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone ID to query</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DNS zone information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_name">
-<span class="sig-name descname"><span class="pre">get_dns_zone_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get dns zone by name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>dns_zone: the DNS zone name to query.</p>
-</dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>esource_instance_guid: name or GUID of the resource instance.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_id">
-<span class="sig-name descname"><span class="pre">get_dns_zone_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get DNS zone by ID.</p>
+<span class="sig-name descname"><span class="pre">get_dns_zone_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_dns_zone_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zone_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get DNS zone by name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – the dns zone name.</p></li>
-<li><p><strong>resource_instance</strong> – the associated resource instance.</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name to query</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DNS zone information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_dns_zones">
-<span class="sig-name descname"><span class="pre">get_dns_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zones" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all dns zone hosted by a resource instance.</p>
+<span class="sig-name descname"><span class="pre">get_dns_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_dns_zones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_dns_zones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all DNS zones hosted by a resource instance</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>resource_instance_guid</strong> – the GUID of the resource instance.</p>
+<dd class="field-odd"><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DNS zones</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_resource_record">
-<span class="sig-name descname"><span class="pre">get_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get resource records from a dns zone.</p>
+<span class="sig-name descname"><span class="pre">get_resource_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_resource_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get specific resource record from a DNS zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – required. The dns zone name.</p></li>
-<li><p><strong>record</strong> – required. resource record name or id to gather.</p></li>
-<li><p><strong>resource_instance</strong> – required. Name or GUID of dns resource
-instance.</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>record</strong> (<em>str</em>) – Record name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Record information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_id">
-<span class="sig-name descname"><span class="pre">get_resource_record_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get record from an ID</p>
+<span class="sig-name descname"><span class="pre">get_resource_record_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_resource_record_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record by ID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – </p></li>
-<li><p><strong>record_id</strong> – </p></li>
-<li><p><strong>resource_instance</strong> – </p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>record_id</strong> – Record ID</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Record information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_name">
-<span class="sig-name descname"><span class="pre">get_resource_record_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get record from a name</p>
+<span class="sig-name descname"><span class="pre">get_resource_record_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_resource_record_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_record_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record by name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dns_zone</strong> – required. The dns zone name.</p></li>
-<li><p><strong>record</strong> – required. resource record name to gather.</p></li>
-<li><p><strong>resource_instance</strong> – required. Name or GUID of dns resource
-instance.</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>record_name</strong> (<em>str</em>) – Record name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Record information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.private.Dns.get_resource_records">
-<span class="sig-name descname"><span class="pre">get_resource_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_records" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get record for a specified zone.</p>
+<span class="sig-name descname"><span class="pre">get_resource_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/private.html#Dns.get_resource_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.private.Dns.get_resource_records" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record list for a specified DNS zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – required. The unique user-defined name for this domain.</p></li>
-<li><p><strong>resource_instance</strong> – required. The name of the dns resource
-instance</p></li>
+<li><p><strong>dns_zone</strong> (<em>str</em>) – DNS zone name</p></li>
+<li><p><strong>resource_instance</strong> (<em>str</em>) – Name or GUID of the resource instance</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Record list</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -438,27 +450,27 @@ instance</p></li>
 <span id="ibmcloud-python-sdk-dns-public-module"></span><h2>ibmcloud_python_sdk.dns.public module<a class="headerlink" href="#module-ibmcloud_python_sdk.dns.public" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.dns.public.</span></span><span class="sig-name descname"><span class="pre">Dns</span></span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ibmcloud_python_sdk.dns.public.</span></span><span class="sig-name descname"><span class="pre">Dns</span></span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Public dns class</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.check_availability">
-<span class="sig-name descname"><span class="pre">check_availability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.check_availability" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_availability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.check_availability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.check_availability" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check zone availability</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.create_record">
-<span class="sig-name descname"><span class="pre">create_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.create_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a resource record on a domain.</p>
+<span class="sig-name descname"><span class="pre">create_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.create_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.create_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resource record on a domain</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>zone</strong> – zone name</p></li>
-<li><p><strong>record</strong> – the name of the record to add</p></li>
-<li><p><strong>record_type</strong> – the type of record (A, AAAA, CNAME, TXT, etc.)</p></li>
-<li><p><strong>data</strong> – the record’s value</p></li>
-<li><p><strong>ttl</strong> (<em>integer</em>) – the TTL or time-to-live value (default: 60)</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – Zone name</p></li>
+<li><p><strong>record</strong> (<em>str</em>) – Record name</p></li>
+<li><p><strong>record_type</strong> (<em>str</em>) – Type of record (A, AAAA, CNAME, TXT, etc…)</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Record’s value</p></li>
+<li><p><strong>ttl</strong> (<em>int</em>) – Time-To-Live, defaults to <cite>60</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -466,13 +478,14 @@ instance</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.create_zone">
-<span class="sig-name descname"><span class="pre">create_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.create_zone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a zone for the specified zone.</p>
+<span class="sig-name descname"><span class="pre">create_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.create_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.create_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a zone for the specified zone</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>zone</strong> – the zone name to create</p></li>
-<li><p><strong>serial</strong> – serial value on the zone (default: strftime(%Y%m%d01))</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – Zone name</p></li>
+<li><p><strong>serial</strong> (<em>str</em>) – serial value on the zone, defaults to
+<cite>strftime(%Y%m%d01)</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -480,57 +493,79 @@ instance</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.delete_record">
-<span class="sig-name descname"><span class="pre">delete_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.delete_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a record
-:param name: record name
-:param zone: zone name</p>
+<span class="sig-name descname"><span class="pre">delete_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.delete_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.delete_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a record</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>record</strong> (<em>str</em>) – Record name</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – Zone name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.delete_zone">
-<span class="sig-name descname"><span class="pre">delete_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.delete_zone" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">delete_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.delete_zone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.delete_zone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a zone</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.get_record">
-<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.get_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a record by name or value</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.get_record_by_name">
-<span class="sig-name descname"><span class="pre">get_record_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get record by name
-:param record: record name
-:param zone: zone name</p>
+<span class="sig-name descname"><span class="pre">get_record_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.get_record_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record by name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>record</strong> (<em>str</em>) – Record name</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – Zone name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.get_record_by_value">
-<span class="sig-name descname"><span class="pre">get_record_by_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record_by_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get record by name
-:param record: record data
-:param zone: zone name</p>
+<span class="sig-name descname"><span class="pre">get_record_by_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.get_record_by_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_record_by_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record by value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>record</strong> (<em>str</em>) – Record value</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – Zone name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.get_records">
-<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_records" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get records for a specified zone
-:param zone: zone name</p>
+<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.get_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_records" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get record list for a specified zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>str</em>) – Zone name</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.get_zone_id">
-<span class="sig-name descname"><span class="pre">get_zone_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_zone_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_zone_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.get_zone_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.get_zone_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get zone id
 :param name: zone name</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ibmcloud_python_sdk.dns.public.Dns.list_zones">
-<span class="sig-name descname"><span class="pre">list_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.list_zones" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ibmcloud_python_sdk/dns/public.html#Dns.list_zones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibmcloud_python_sdk.dns.public.Dns.list_zones" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all zones</p>
 </dd></dl>
 

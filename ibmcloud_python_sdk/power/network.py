@@ -18,8 +18,9 @@ class Network():
         """Retrieve network list from cloud instance
 
         :param instance: Cloud instance ID
-        :return Network list
-        :rtype dict
+        :type instance: str
+        :return: Network list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -42,9 +43,11 @@ class Network():
         """Retrieve specific network by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param network: Network name or ID
-        :return Network information
-        :rtype dict
+        :type network: str
+        :return: Network information
+        :rtype: dict
         """
         by_name = self.get_pvm_by_name(instance, network)
         if "errors" in by_name:
@@ -63,9 +66,11 @@ class Network():
         """Retrieve specific network by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param id: Network ID
-        :return Network information
-        :rtype dict
+        :type id: str
+        :return: Network information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -88,9 +93,11 @@ class Network():
         """Retrieve specific network by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param name: Network name
-        :return Network information
-        :rtype dict
+        :type name: str
+        :return: Network information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -120,9 +127,11 @@ class Network():
         """Retrieve port list from from network
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param network: Network name or ID
-        :return Port list
-        :rtype dict
+        :type netowkr: str
+        :return: Port list
+        :rtype: list
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -150,10 +159,13 @@ class Network():
         """Retrieve specific port by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param network: Network name or ID
+        :type netowkr: str
         :param port: Port ID
-        :return Port information
-        :rtype dict
+        :type port: str
+        :return: Port information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -183,13 +195,20 @@ class Network():
         """Create network
 
         :param instance: Instance name or ID
-        :param type: Type of network.
-        :param name: Network name.
-        :param cidr: Network in CIDR notation.
-        :param gateway: Optional. Gateway IP address.
-        :param dns_servers: Optional. DNS servers.
-        :param ip_address_ranges: IP address ranges.
-        :return Network information
+        :type instance: str
+        :param type: Type of network
+        :type type: str
+        :param name: Network name
+        :type name: str
+        :param cidr: Network in CIDR notation
+        :type cidr: str
+        :param gateway: Gateway IP address
+        :type gateway: str, optional
+        :param dns_servers: DNS servers
+        :type dns_servers: list, optional
+        :param ip_address_ranges: IP address ranges
+        :type ip_address_ranges: list, optional
+        :return: Network information
         :rtype: dict
         """
         args = ["instance", "type", "name", "cidr"]
@@ -239,10 +258,14 @@ class Network():
         """Create network
 
         :param instance: Instance name or ID
+        :type instance: str
         :param network: Network name or ID
-        :param description: Optional. Description of the port.
-        :param ip_address: Optional. The requested ip address of this port.
-        :return Port information
+        :type network: str
+        :param description: Description of the port
+        :type description: str, optional
+        :param ip_address: The requested ip address of this port
+        :type ip_address: str, optional
+        :return: Port information
         :rtype: dict
         """
         args = ["instance", "network"]
@@ -292,9 +315,11 @@ class Network():
         """Delete network from cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param network: Network name or ID
-        :return Deletion status
-        :rtype dict
+        :type network: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)
@@ -326,10 +351,13 @@ class Network():
         """Delete port from network
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param network: Network name or ID
+        :type network: str
         :param port: Port name or ID
-        :return Deletion status
-        :rtype dict
+        :type port: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)

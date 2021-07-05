@@ -16,8 +16,9 @@ class Sanpshot():
         """Retrieve snapshot list for a specific cloud instance
 
         :param instance: Cloud instance ID
-        :return List of snapshots
-        :rtype dict
+        :type instance: str
+        :return: List of snapshots
+        :rtype: list
         """
         try:
             # Connect to api endpoint for cloud-instances
@@ -34,9 +35,11 @@ class Sanpshot():
         """Retrieve specific snapshot by name or by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param snapshot: Snapshot name or ID
-        :return Snapshot information
-        :rtype dict
+        :type snapshot: str
+        :return: Snapshot information
+        :rtype: dict
         """
         by_name = self.get_snapshot_by_name(instance, snapshot)
         if "errors" in by_name:
@@ -55,9 +58,11 @@ class Sanpshot():
         """Retrieve specific snapshot by ID
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param id: Snapshot ID
-        :return Snapshot information
-        :rtype dict
+        :type id: str
+        :return: Snapshot information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for images
@@ -75,9 +80,11 @@ class Sanpshot():
         """Retrieve specific snapshot by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param name: Snapshot name
-        :return Snapshot information
-        :rtype dict
+        :type name: str
+        :return: Snapshot information
+        :rtype: dict
         """
         try:
             # Retrieve snapshots
@@ -102,9 +109,11 @@ class Sanpshot():
         """Delete cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param snapshot: Snapshot name or ID
-        :return Deletion status
-        :rtype dict
+        :type snapshot: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information

@@ -18,7 +18,7 @@ class Image():
         """Retrieve image list
 
         :return: List of images
-        :rtype: dict
+        :rtype: list
         """
         try:
             # Connect to api endpoint for images
@@ -34,8 +34,9 @@ class Image():
         """Retrieve specific image by name or by ID
 
         :param image: Image name or ID
-        :return Image information
-        :rtype dict
+        :type image: str
+        :return: Image information
+        :rtype: dict
         """
         by_name = self.get_image_by_name(image)
         if "errors" in by_name:
@@ -54,8 +55,9 @@ class Image():
         """Retrieve specific image by ID
 
         :param id: Image ID
-        :return Image information
-        :rtype dict
+        :type id: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for images
@@ -71,8 +73,9 @@ class Image():
         """Retrieve specific image by name
 
         :param name: Image name
-        :return Image information
-        :rtype dict
+        :type name: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Retrieve images
@@ -96,8 +99,9 @@ class Image():
         """Retrieve images for a cloud instance
 
         :param instance: Cloud instance ID
-        :return: List of images
-        :rtype: dict
+        :type instance: str
+        :return: List of images per instance
+        :rtype: list
         """
         try:
             ci_info = self.instance.get_instance(instance)
@@ -119,9 +123,11 @@ class Image():
         """Retrieve specific image by name or by ID for a cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param image: Image name or ID
-        :return Image information
-        :rtype dict
+        :type image: str
+        :return: Image information
+        :rtype: dict
         """
         by_name = self.get_instance_image_by_name(image)
         if "errors" in by_name:
@@ -140,9 +146,11 @@ class Image():
         """Retrieve specific image by ID for a cloud instance
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param id: Image ID
-        :return Image information
-        :rtype dict
+        :type id: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -165,9 +173,11 @@ class Image():
         """Retrieve specific image by name
 
         :param instance: Cloud instance ID
+        :type instance: str
         :param name: Image name
-        :return Image information
-        :rtype dict
+        :type name: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Check if cloud instance exists and retrieve information
@@ -197,17 +207,28 @@ class Image():
         """Create image for a cloud instance
 
         :param instance: Cloud instance ID
-        :param source: Source of the image.
-        :param image_id: Optional. Image ID of existing source image.
-        :param name: Optional. Name to give created image.
-        :param region: Optional. Cloud Storage Region.
-        :param file: Optional. Cloud Storage image filename.
-        :param bucket: Optional. Cloud Storage bucket name.
-        :param access_key: Optional. Cloud Storage access key.
-        :param secret_key: Optional. Cloud Storage secret key.
-        :param os_type: Optional. Image OS Type.
-        :param disk_type: Optional. Type of Disk.
-        :return Image information
+        :type instance: str
+        :param source: Source of the image
+        :type source: str
+        :param image_id: Image ID of existing source image
+        :type image_id: str, optional
+        :param name: Name to give created image
+        :type name: str, optional
+        :param region: Cloud Storage Region
+        :type region: str, optional
+        :param file: Cloud Storage image filename
+        :type file: str, optional
+        :param bucket: Cloud Storage bucket name
+        :type bucket: str, optional
+        :param access_key: Cloud Storage access key
+        :type access_key: str, optional
+        :param secret_key: Cloud Storage secret key
+        :type secret_key: str, optional
+        :param os_type: Image OS Type
+        :type os_type: str, optional
+        :param disk_type: Type of Disk
+        :type disk_type: str, optional
+        :return: Image information
         :rtype: dict
         """
         args = ["instance", "source"]
@@ -256,12 +277,18 @@ class Image():
         """Export an image for a cloud instance
 
         :param instance: Cloud instance ID
-        :param image: Image ID of existing source image.
-        :param region: Optional. Cloud Storage Region.
-        :param bucket: Cloud Storage bucket name.
-        :param access_key: Cloud Storage access key.
-        :param secret_key: Optional. Cloud Storage secret key.
-        :return Image information
+        :type instance: str
+        :param image: Image ID of existing source image
+        :type image: str
+        :param region: Cloud Storage Region
+        :type region: str, optional
+        :param bucket: Cloud Storage bucket name
+        :type bucket: str, optional
+        :param access_key: Cloud Storage access key
+        :type access_key: str, optional
+        :param secret_key: Cloud Storage secret key
+        :type secret_key: str, optional
+        :return: Export image information
         :rtype: dict
         """
         args = ["instance", "image"]
@@ -311,9 +338,11 @@ class Image():
         """Delete cloud instance image
 
         :param instance: Cloud instance ID
-        :param image: Image name
-        :return Deletion status
-        :rtype dict
+        :type instance: str
+        :param image: Image ID of existing source image
+        :type image: str
+        :return: Deletion status
+        :rtype: dict
         """
         try:
             ci_info = self.instance.get_instance(instance)

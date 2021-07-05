@@ -15,8 +15,10 @@ class Volume():
         self.rg = resource_group.ResourceGroup()
 
     def get_volume_profiles(self):
-        """
-        Retrieve volume profile list
+        """Retrieve volume profile list
+
+        :return: List of profiles
+        :rtype: list
         """
         try:
             # Connect to api endpoint for volume
@@ -31,9 +33,12 @@ class Volume():
             raise
 
     def get_volume_profile(self, profile):
-        """
-        Retrieve specific volume profile
+        """Retrieve specific volume profile
+
         :param profile: Volume profile name
+        :type profile: str
+        :return: Profile information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for volume
@@ -50,9 +55,10 @@ class Volume():
             raise
 
     def get_volumes(self):
-        """
-        Retrieve volume list
-        :param profile: Volume profile name
+        """Retrieve volume list
+
+        :return: List of volumes
+        :rtype: list
         """
         try:
             # Connect to api endpoint for volumes
@@ -67,9 +73,12 @@ class Volume():
             raise
 
     def get_volume(self, volume):
-        """
-        Retrieve specific volume by name or by ID
+        """Retrieve specific volume by name or by ID
+
         :param volume: Volume name or ID
+        :type volume: str
+        :return: Volume information
+        :rtype: dict
         """
         by_name = self.get_volume_by_name(volume)
         if "errors" in by_name:
@@ -85,9 +94,12 @@ class Volume():
             return by_name
 
     def get_volume_by_id(self, id):
-        """
-        Retrieve specific volume by ID
+        """Retrieve specific volume by ID
+
         :param id: Volume ID
+        :type id: str
+        :return: Volume information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for volumes
@@ -102,9 +114,12 @@ class Volume():
             raise
 
     def get_volume_by_name(self, name):
-        """
-        Retrieve specific volume by name
+        """Retrieve specific volume by name
+
         :param name: Volume name
+        :type name: str
+        :return: Volume information
+        :rtype: dict
         """
         try:
             # Retrieve volumes
@@ -127,16 +142,22 @@ class Volume():
             raise
 
     def create_volume(self, **kwargs):
-        """
-        Create block volume
-        :param name: Optional. The unique user-defined name for this volume.
-        :param resource_group: Optional. The resource group to use.
-        :param zone: The location of the volume.
-        :param iops: Optional. The bandwidth for the volume.
-        :param profile: The profile to use for this volume.
-        :param capacity: The capacity of the volume in gigabytes.
-        :param encryption_key: Optional. The key to use for encrypting this
-        volume.
+        """Create block volume
+
+        :param name: The unique user-defined name for this volume
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param zone: The location of the volume
+        :type zone: str
+        :param iops: The bandwidth for the volume
+        :type iops: int, optional
+        :param profile: The profile to use for this volume
+        :type profile: str
+        :param capacity: The capacity of the volume in gigabytes
+        :type capacity: int
+        :param encryption_key: The key to use for encrypting this volume
+        :type encryption_key: str, optional
         """
         args = ["profile", "zone", "capacity"]
         check_args(args, **kwargs)
@@ -185,9 +206,12 @@ class Volume():
             raise
 
     def delete_volume(self, volume):
-        """
-        Delete volume
+        """Delete volume
+
         :param volume: Volume name or ID
+        :type volume: str
+        :return: Delete status
+        :rtype: resource_deleted()
         """
         # Check if volume exists and get information
         volume_info = self.get_volume(volume)

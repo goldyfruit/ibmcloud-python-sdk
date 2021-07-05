@@ -17,8 +17,10 @@ class Image():
         self.volume = volume.Volume()
 
     def get_operating_systems(self):
-        """
-        Retrieve operating system list
+        """Retrieve operating system list
+
+        :return: List of operating systems
+        :rtype: list
         """
         try:
             # Connect to api endpoint for operating_systems
@@ -33,9 +35,12 @@ class Image():
             raise
 
     def get_operating_system(self, name):
-        """
-        Retrieve specific operating system
+        """Retrieve specific operating system
+
         :param name: Operating system name
+        :type name: str
+        :return: Operating system information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for operating_systems
@@ -51,8 +56,10 @@ class Image():
             raise
 
     def get_images(self):
-        """
-        Retrieve image list
+        """Retrieve image list
+
+        :return: List of images
+        :rtype: list
         """
         try:
             # Connect to api endpoint for images
@@ -67,9 +74,12 @@ class Image():
             raise
 
     def get_image(self, image):
-        """
-        Retrieve specific image
+        """Retrieve specific image
+
         :param image: Image name or ID
+        :type image: str
+        :return: Image information
+        :rtype: dict
         """
         by_name = self.get_image_by_name(image)
         if "errors" in by_name:
@@ -85,9 +95,12 @@ class Image():
             return by_name
 
     def get_image_by_id(self, id):
-        """
-        Retrieve specific image by ID
+        """Retrieve specific image by ID
+
         :param id: Image ID
+        :type id: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Connect to api endpoint for images
@@ -102,9 +115,12 @@ class Image():
             raise
 
     def get_image_by_name(self, name):
-        """
-        Retrieve specific image by name
+        """Retrieve specific image by name
+
         :param name: Image name
+        :type name: str
+        :return: Image information
+        :rtype: dict
         """
         try:
             # Retrieve images
@@ -128,14 +144,20 @@ class Image():
     def create_image(self, **kwargs):
         """Create image
 
-        :param name: Optional. The unique user-defined name for this image.
-        :param resource_group: Optional. The resource group to use.
-        :param file: The file from which to create the image.
+        :param name: The unique user-defined name for this image
+        :type name: str, optional
+        :param resource_group: The resource group to use
+        :type resource_group: str, optional
+        :param file: The file from which to create the image
+        :type file: str
         :param format: The format of the image and the image file
-        :param source_volume: The volume from which to create the image.
-        :param operating_system: The operating system included in this image.
-        :return Image information
-        :rtype dict
+        :type format: str
+        :param source_volume: The volume from which to create the image
+        :type source_volume: str
+        :param operating_system: The operating system included in this image
+        :type operating_system: str
+        :return: Image information
+        :rtype: dict
         """
         args = ["file", "operating_system"]
         check_args(args, **kwargs)
@@ -186,9 +208,12 @@ class Image():
             raise
 
     def delete_image(self, image):
-        """
-        Delete image
+        """Delete image
+
         :param image: Image name or ID
+        :type image: str
+        :return: Delete status
+        :rtype: dict
         """
         try:
             # Check if image exists
