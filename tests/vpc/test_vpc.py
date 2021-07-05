@@ -20,10 +20,8 @@ class VPCTestCase(unittest.TestCase):
         self.fake_vpc = {}
         self.fake_vpc['name'] = 'sdk'
         self.fake_vpc['id'] = 'r006-74ff2772-9f3a-4263-bcaa-12fcffa3ed82'
-        self.fake_vpc['default_security_group'] = 'fruit-average\
-                                        -shaping-gone-denture-rumor'
-        self.fake_vpc['default_network_acl'] = 'unpainted-crucial\
-                                        -trimmer-perennial-zipfile-barcode'
+        self.fake_vpc['default_security_group'] ='fruit-average-shaping-gone-denture-rumor'
+        self.fake_vpc['default_network_acl'] = 'unpainted-crucial-trimmer-perennial-zipfile-barcode'
 
     def tearDown(self):
         self.patcher.stop()
@@ -61,6 +59,7 @@ class VPCTestCase(unittest.TestCase):
     def test_get_vpc_default_network_acl(self):
         """Test get_vpc_default_network_acl."""
         response = self.vpc.get_default_network_acl(self.fake_vpc['id'])
+        print(response)
         self.assertEqual(response['default_network_acl']['name'],
                          self.fake_vpc['default_network_acl'])
 
