@@ -556,7 +556,9 @@ class Vpc():
         :param next_hop: The next hop that packets will be delivered to
         :type next_hop: str, optional
         :param zone: The zone to apply the route to
-        :type zone: ste
+        :type zone: str
+        :param action: The action to perform with a packet matching the route
+        :type action: str
         :return: Route list information
         :rtype: dict
         """
@@ -570,6 +572,7 @@ class Vpc():
             'destination': kwargs.get('destination'),
             'next_hop': kwargs.get('next_hop'),
             'zone': kwargs.get('zone'),
+            'action': kwargs.get('action')
         }
 
         # Construct payload
