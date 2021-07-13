@@ -443,7 +443,8 @@ class Vpc():
         :param resource_group: The resource group to use
         :type resource_group: str, optional
         :param address_prefix_management: Indicates whether a default address
-            prefix should be automatically created for each zone in this VPC
+            prefix should be automatically created for each zone in this VPC,
+            defaults to `auto`
         :type address_prefix_management: str, optional
         :param classic_access: Indicates whether this VPC should be connected
             to Classic Infrastructure, defaults to `False`
