@@ -14,6 +14,7 @@
   - [Examples](#examples)
     - [List VPCs](#list-vpcs)
     - [Create a VPC instance](#create-a-vpc-instance)
+  - [FAQ](#faq)
 
 # IBM Cloud Python SDK
 
@@ -194,6 +195,11 @@ else:
     print(response)
 
 ```
+
+## FAQ
+
+- `CRN` or `HREF` could not be used as ID to retrieve resources
+- `PATCH` method *(update)* is not yet supported which means a resource cannot be updated
 
 ## Copyright
 
