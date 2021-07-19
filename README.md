@@ -15,6 +15,7 @@
   - [Examples](#examples)
     - [List VPCs](#list-vpcs)
     - [Create a VPC instance](#create-a-vpc-instance)
+  - [FAQ](#faq)
 
 # IBM Cloud Python SDK
 
@@ -161,19 +162,45 @@ vpc.get_vpc("ibmcloud-vpc-baby")
 ### Create a VPC instance
 
 ```python
-from ibmcloud_python_sdk.vpc import instance as ic
+from ibmcloud_python_sdk.vpc import vpc as icv
+from ibmcloud_python_sdk.resource import resource_group as icr
+import sys
 
 
-instance = ic.Instance()
-instance.create_instance(
-    name="vm001", profile="cx2-4x8",
-    resource_group="f328f2cdec6d4b4da2844c214dec9d39",
-    vpc="r006-ea930372-2abd-4aa1-bf8c-3db3ac8cb765",
-    image="r006-931515d2-fcc3-11e9-896d-3baa2797200f",
-    pni_subnet="0737-f763775a-05d4-41fb-9da3-3cbd64530",
-    zone="us-south-3"
-)
+# Variables
+vpc_name = 'ibmcloud-vpc-baby'
+resource_group_name = 'ibmcloud-resource-group-baby'
+
+# Intentiate classes
+vpc = icv.Vpc()
+rg = icr.ResourceGroup()
+
+# Retrieve resource group ID and check for error
+resource_group_info = rg.get_resource_group(resource_group_name)
+if 'errors' in resource_group_info:
+    print(resource_group_info['errors'])
+    sys.exit()
+
+# Create the VPC based on variable and resource group ID
+response = vpc.create_vpc(
+            name=vpc_name,
+            resource_group=resource_group_info['id'],
+            address_prefix_management='auto',
+            classic_access=True
+        )
+
+# Check for error during the VPC creation process
+if 'errors' in response:
+    print(response['errors'])
+else:
+    print(response)
+
 ```
+
+## FAQ
+
+- `CRN` or `HREF` could not be used as ID to retrieve resources
+- `PATCH` method *(update)* is not yet supported which means a resource cannot be updated
 
 ## Copyright
 
