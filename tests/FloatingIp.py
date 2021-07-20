@@ -15,9 +15,9 @@ class FloatingIp(Common):
 
     @classmethod
     def reserve_floating_ip(self, service, verb, path, headers, payload):
-        """
-        This function will replace the original API.
-        """
+        # """
+        # This function will replace the original API.
+        # """
         # result = {}
         # result['data'] = {}
         # folder = self.set_folder(path)
