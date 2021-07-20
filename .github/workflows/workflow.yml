@@ -8,7 +8,7 @@ jobs:
         os: [ubuntu-latest]
     env:
       OS: ${{ matrix.os }}
-      PYTHON: '3.7'
+      PYTHON: 3.7
     steps:
     - uses: actions/checkout@master
     - name: Setup Python
@@ -17,13 +17,10 @@ jobs:
         python-version: 3.7
     - name: Generate coverage report
       run: |
-        pip install pytest nose mock
-        pip install -r requirements.txt
-        pip install pytest-cov
-        pip install .
+        pip install -r requirements.txt requirements-test.txt .
         nosetests --with-coverage --cover-package ibmcloud_python_sdk --cover-xml --cover-xml-file=coverage/reports/coverage1.xml
       env:
-        IC_CONFIG_FILE: "test-credentials.yaml" 
+        IC_CONFIG_FILE: test-credentials.yaml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
