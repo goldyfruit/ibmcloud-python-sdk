@@ -14,10 +14,16 @@ class FloatingIp(Common):
     address = json_content["floating_ips"][0]["address"]
 
     @classmethod
+    def get_resource_group(self, fip):
+        result = Common.get_resource_group("floating_ips")
+        return(result["data"])
+
+
+    @classmethod
     def reserve_floating_ip(self, service, verb, path, headers, payload):
-        # """
-        # This function will replace the original API.
-        # """
+        """
+        This function will replace the original API.
+        """
         # result = {}
         # result['data'] = {}
         # folder = self.set_folder(path)
