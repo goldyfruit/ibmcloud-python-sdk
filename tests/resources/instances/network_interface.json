@@ -1,0 +1,35 @@
+{
+    "allow_ip_spoofing": false,
+    "created_at": "2019-01-31T03:42:32.993Z",
+    "floating_ips": [
+      {
+        "address": "192.0.2.2",
+        "crn": "crn:[...]",
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/181b8670-52bf-47af-a5ca-7aff7f3824d1",
+        "id": "181b8670-52bf-47af-a5ca-7aff7f3824d1",
+        "name": "my-floating-ip"
+      }
+    ],
+    "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/123a490a-9e64-4254-a93b-9a3af3ede270/network_interfaces/35bd3f19-bdd4-434b-ad6a-5e9358d65e20",
+    "id": "35bd3f19-bdd4-434b-ad6a-5e9358d65e20",
+    "name": "molecule-find-wild-name-dictionary-trench",
+    "port_speed": 1000,
+    "primary_ipv4_address": "10.0.0.32",
+    "resource_type": "network_interface",
+    "security_groups": [
+      {
+        "crn": "crn:[...]",
+        "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/a929f12d-fb45-4e5e-9864-95e171ae3589",
+        "id": "a929f12d-fb45-4e5e-9864-95e171ae3589",
+        "name": "before-entrance-mountain-paralegal-photo-uninstall"
+      }
+    ],
+    "status": "available",
+    "subnet": {
+      "crn": "crn:[...]",
+      "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/9270d819-c05e-4352-99e4-80c4680cdb7c",
+      "id": "9270d819-c05e-4352-99e4-80c4680cdb7c",
+      "name": "my-subnet"
+    },
+    "type": "primary"
+  }
