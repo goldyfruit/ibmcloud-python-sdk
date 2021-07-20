@@ -1,37 +1,31 @@
-import unittest
+# import unittest
 
-from mock import patch
+# from mock import patch
 
-# import ibmcloud_python_sdk.config
-from ibmcloud_python_sdk.vpc.vpn import Vpn
+# # import ibmcloud_python_sdk.config
+# from ibmcloud_python_sdk.vpc.vpn import Vpn
 
-import tests.common as common
+# import tests.Common as Common
 
 
-class VpnTestCase(unittest.TestCase):
-    """Test case for the client methods."""
+# class VpnTestCase(unittest.TestCase):
+#     """Test case for the client methods."""
 
-    def setUp(self):
-        self.patcher = patch('ibmcloud_python_sdk.auth.get_token',
-                             common.fake_auth)
-        self.patcher.start()
-        self.vpn = Vpn()
-        self.fake_vpn = {}
-        self.fake_vpn['name'] = 'sdk'
-        self.fake_vpn['id'] = '0737_b06fd819-66d6-4802-ab51-f23061d981dd'
-        self.fake_vpn['default_security_group'] = "fruit-average-shaping-gone-\
-                                                    denture-rumor"
-        self.fake_vpn['default_network_acl'] = "unpainted-crucial-trimmer-\
-                                                    perennial-zipfile-barcode"
+#     def setUp(self):
+#         self.patcher = patch('ibmcloud_python_sdk.auth.get_token',
+#                              common.fake_auth)
+#         self.patcher.start()
+#         self.vpn = Vpn()
+#         self.fake_vpn = {}
 
-    def tearDown(self):
-        self.patcher.stop()
+#     def tearDown(self):
+#         self.patcher.stop()
 
-    @patch('ibmcloud_python_sdk.vpc.vpn.qw', common.fake_get_call)
-    def test_get_vpn_gateways(self):
-        """Test get_vpns ."""
-        response = self.vpn.get_vpn_gateways()
-        self.assertNotEqual(len(response), 0)
+#     @patch('ibmcloud_python_sdk.vpc.vpn.qw', common.fake_get_call)
+#     def test_get_vpn_gateways(self):
+#         """Test get_vpns ."""
+#         response = self.vpn.get_vpn_gateways()
+#         self.assertNotEqual(len(response), 0)
 
 #    @patch('ibmcloud_python_sdk.vpc.vpn.qw', common.fake_get_call)
 #    def test_get_vpn_with_name(self):
