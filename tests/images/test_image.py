@@ -7,12 +7,9 @@ from ibmcloud_python_sdk.vpc.image import Image as Image
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup as ResourceGroup
 from ibmcloud_python_sdk.vpc.volume import Volume as Volume
 
-import tests.common as common
-from tests.common import Image as image
-from tests.common import OperatingSystem as operating_system
-from tests.common import Common as Common
-
-
+from tests.Image import Image as image
+from tests.Image import OperatingSystem as operating_system
+# from tests.Common import Common
 class ImageTestCase(unittest.TestCase):
     """Test case for the client methods."""
 
