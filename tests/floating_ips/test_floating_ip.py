@@ -5,11 +5,7 @@ import unittest
 from mock import patch
 from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
 
-import tests.common as common
-
-from tests.common import FloatingIp as fip
-
-
+from tests.FloatingIp import FloatingIp as fip
 class FloatingIPTestCase(unittest.TestCase):
     """Test case for the client methods."""
 
@@ -46,7 +42,6 @@ class FloatingIPTestCase(unittest.TestCase):
     def test_get_floating_ip_with_id(self):
         """Test get_floating_ip with id as parameter."""
         response = self.floating_ip.get_floating_ip(fip.id)
-        print(response['id'])
         self.assertEqual(response['id'], fip.id)
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
