@@ -1,18 +1,14 @@
-from ibmcloud_python_sdk.vpc import floating_ip
 import unittest
 
 from mock import patch
 
-# import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.gateway import Gateway as Gateway
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup as ResourceGroup
 from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
 from ibmcloud_python_sdk.vpc.vpc import Vpc as Vpc
 
-import tests.common as common
-
-from tests.common import PublicGateway as pgw
-from tests.common import Common as Common
+from tests.PublicGateway import PublicGateway as pgw
+from tests.Common import Common
 
 class GatewayTestCase(unittest.TestCase):
     """Test case for the client methods."""
