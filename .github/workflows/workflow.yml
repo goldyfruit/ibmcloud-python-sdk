@@ -1,0 +1,39 @@
+name: Codecov for ibmcloud-python-sdk
+on: [push]
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: '3.7'
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Python
+      uses: actions/setup-python@master
+      with:
+        python-version: 3.7
+    - name: Generate coverage report
+      run: |
+        pip install pytest nose mock
+        pip install -r requirements.txt
+        pip install pytest-cov
+        pip install .
+        nosetests --with-coverage --cover-package ibmcloud_python_sdk --cover-xml --cover-xml-file=coverage/reports/coverage1.xml
+        pytest --cov=./ --cov-report=xml
+      env:
+        IC_CONFIG_FILE: "test-credentials.yaml" 
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/reports/coverage1.xml
+        directory: ./coverage/reports/
+        flags: unittests
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: true
+        path_to_write_report: ./coverage/codecov_report.txt
+        verbose: true
