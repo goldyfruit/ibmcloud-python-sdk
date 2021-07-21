@@ -182,7 +182,7 @@ class FloatingIPTestCase(unittest.TestCase):
                 zone='us-south-1',
                 payload="random payload")
         self.assertEqual(response["name"], fip.name)
-        
+
     # TODO: check this function
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.create)
     def test_reserve_floating_ip(self):

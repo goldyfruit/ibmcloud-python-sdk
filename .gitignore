@@ -5,3 +5,5 @@ ibmcloud_python_sdk.egg-info
 .*.swp
 .vscode
 docsource/_build
+coverage
+.coverage

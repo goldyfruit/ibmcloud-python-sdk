@@ -1,10 +1,9 @@
-from ibmcloud_python_sdk.resource import resource_group
 import unittest
 
 from mock import patch
 
-from ibmcloud_python_sdk.vpc.image import Image as Image
-from ibmcloud_python_sdk.resource.resource_group import ResourceGroup as ResourceGroup
+from ibmcloud_python_sdk.vpc.image import Image
+from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.volume import Volume as Volume
 
 from tests.Image import Image as image
