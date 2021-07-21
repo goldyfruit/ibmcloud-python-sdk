@@ -1,9 +1,8 @@
-from ibmcloud_python_sdk.resource import resource_group
 import unittest
 
-
 from mock import patch
-from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
+
+from ibmcloud_python_sdk.vpc.floating_ip import Fip
 
 from tests.FloatingIp import FloatingIp as fip
 class FloatingIPTestCase(unittest.TestCase):
@@ -13,7 +12,7 @@ class FloatingIPTestCase(unittest.TestCase):
         self.patcher = patch('ibmcloud_python_sdk.auth.get_token',
                              fip.authentication)
         self.patcher.start()
-        self.floating_ip = FloatingIP()
+        self.floating_ip = Fip()
 
     def tearDown(self):
         self.patcher.stop()
@@ -51,21 +50,21 @@ class FloatingIPTestCase(unittest.TestCase):
         self.assertEqual(response["address"], fip.address)
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_name', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_name', fip.return_error)
     def test_get_floating_ip_error_by_name(self):
         """Test get_floating_ip (error by_name)."""
         response = self.floating_ip.get_floating_ip("10.0.0.1")
         self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_id', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_id', fip.return_error)
     def test_get_floating_ip_error_by_id(self):
         """Test get_floating_ip (error by_id)."""
         response = self.floating_ip.get_floating_ip("10.0.0.1")
         self.assertNotEqual(response['errors'][0]["code"], "not_found")
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_address', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_address', fip.return_error)
     def test_get_floating_ip_error_by_address(self):
         """Test get_floating_ip (error by_address)."""
         response = self.floating_ip.get_floating_ip("10.0.0.1")
@@ -77,7 +76,7 @@ class FloatingIPTestCase(unittest.TestCase):
         response = self.floating_ip.get_floating_ip("random name")
         self.assertNotEqual(len(response['errors']), 0)
 
-# get floating_ip_by_id
+    # get floating_ip_by_id
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
     def test_get_floating_ip_with_id(self):
         """Test get_floating_ip_with_id as parameter."""
@@ -90,7 +89,7 @@ class FloatingIPTestCase(unittest.TestCase):
         response = self.floating_ip.get_floating_ip_by_id(fip.id)
         self.assertNotEqual(len(response['errors']), 0)
 
-# get_floating_ip_by_name
+    # get_floating_ip_by_name
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
     def test_get_floating_ip_by_name(self):
         """Test get_floating_ip_by_name."""
@@ -115,7 +114,7 @@ class FloatingIPTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.floating_ip.get_floating_ip_by_id(fip.id)
 
-#  get_floating_ip_by_address
+    #  get_floating_ip_by_address
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
     def test_get_floating_ip_by_address(self):
         """Test get_floating_ip_by_address."""
@@ -141,7 +140,7 @@ class FloatingIPTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.floating_ip.get_floating_ip_by_address("10.10.10.1")
 
-# reserve_floating_ip
+    # reserve_floating_ip
     @patch('ibmcloud_python_sdk.resource.resource_group.qw', fip.get_resource_group)
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.reserve_floating_ip)
     def test_reserve_floating_ip(self):
@@ -166,7 +165,7 @@ class FloatingIPTestCase(unittest.TestCase):
                 zone='us-south-1',
                 payload="random payload")
 
-# TODO: check this function
+    # TODO: check this function
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.create)
     def test_reserve_floating_ip(self):
         """Test reserve_floating_ip."""
