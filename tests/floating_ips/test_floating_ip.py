@@ -1,8 +1,7 @@
-from ibmcloud_python_sdk.resource import resource_group
 import unittest
 
 from mock import patch
-from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
+from ibmcloud_python_sdk.vpc.floating_ip import Fip
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 
 from tests.FloatingIp import FloatingIp as fip
@@ -13,7 +12,7 @@ class FloatingIPTestCase(unittest.TestCase):
         self.patcher = patch('ibmcloud_python_sdk.auth.get_token',
                              fip.authentication)
         self.patcher.start()
-        self.floating_ip = FloatingIP()
+        self.floating_ip = Fip()
 
     def tearDown(self):
         self.patcher.stop()
@@ -57,21 +56,21 @@ class FloatingIPTestCase(unittest.TestCase):
         self.assertEqual(response["address"], fip.address)
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_name', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_name', fip.return_error)
     def test_get_floating_ip_error_by_name(self):
         """Test get_floating_ip (error by_name)."""
         response = self.floating_ip.get_floating_ip("10.0.0.1")
         self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_id', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_id', fip.return_error)
     def test_get_floating_ip_error_by_id(self):
         """Test get_floating_ip (error by_id)."""
         response = self.floating_ip.get_floating_ip("121345")
         self.assertNotEqual(response['errors'][0]["code"], "not_found")
 
     @patch('ibmcloud_python_sdk.vpc.floating_ip.qw', fip.qw)
-    @patch.object(FloatingIP, 'get_floating_ip_by_address', fip.return_error)
+    @patch.object(Fip, 'get_floating_ip_by_address', fip.return_error)
     def test_get_floating_ip_error_by_address(self):
         """Test get_floating_ip (error by_address)."""
         response = self.floating_ip.get_floating_ip("10.0.0.1")
