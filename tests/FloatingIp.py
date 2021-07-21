@@ -1,8 +1,3 @@
-from os import CLD_CONTINUED
-import os.path
-import json
-import re
-
 from tests.Common import Common
 
 class FloatingIp(Common):
@@ -12,6 +7,12 @@ class FloatingIp(Common):
     name = json_content["floating_ips"][0]["name"]
     id = json_content["floating_ips"][0]["id"]
     address = json_content["floating_ips"][0]["address"]
+
+    @classmethod
+    def get_resource_group(self, fip):
+        result = Common.get_resource_group("floating_ips")
+        return(result["data"])
+
 
     @classmethod
     def reserve_floating_ip(self, service, verb, path, headers, payload):
