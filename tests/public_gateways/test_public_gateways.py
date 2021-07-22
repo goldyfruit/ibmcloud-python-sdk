@@ -3,12 +3,13 @@ import unittest
 from mock import patch
 
 from ibmcloud_python_sdk.vpc.gateway import Gateway as Gateway
-from ibmcloud_python_sdk.resource.resource_group import ResourceGroup as ResourceGroup
+from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.floating_ip import Fip as FloatingIP
 from ibmcloud_python_sdk.vpc.vpc import Vpc as Vpc
 
 from tests.PublicGateway import PublicGateway as pgw
 from tests.Common import Common
+
 
 class GatewayTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -18,8 +19,6 @@ class GatewayTestCase(unittest.TestCase):
                              pgw.authentication)
         self.patcher.start()
         self.gateway = Gateway()
-
-
 
     def tearDown(self):
         self.patcher.stop()
@@ -35,35 +34,35 @@ class GatewayTestCase(unittest.TestCase):
     def test_get_gateways_error_by_exception(self):
         """Test get_gateways (return exception)."""
         with self.assertRaises(Exception):
-            response = self.gateway.get_public_gateways()
+            self.gateway.get_public_gateways()
 
 # get_public_gateway
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     def test_get_gateway_with_name(self):
-       """Test get_public_gateway_with_name."""
-       response = self.gateway.get_public_gateway(pgw.name)
-       self.assertEqual(response['name'], pgw.name)
+        """Test get_public_gateway_with_name."""
+        response = self.gateway.get_public_gateway(pgw.name)
+        self.assertEqual(response['name'], pgw.name)
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     @patch.object(Gateway, 'get_public_gateway_by_name', pgw.return_error)
-    def test_get_gateway_with_name(self):
-       """Test get_public_gateway_with_id (with error)."""
-       response = self.gateway.get_public_gateway(pgw.name)
-       self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
+    def test_get_gateway_with_name_error_by_name(self):
+        """Test get_public_gateway (error by name)."""
+        response = self.gateway.get_public_gateway(pgw.name)
+        self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     def test_get_gateway_with_id(self):
-       """Test get_public_gateway_with_id."""
-       response = self.gateway.get_public_gateway(pgw.id)
-       self.assertEqual(response['id'], pgw.id)
+        """Test get_public_gateway_with_id."""
+        response = self.gateway.get_public_gateway(pgw.id)
+        self.assertEqual(response['id'], pgw.id)
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     @patch.object(Gateway, 'get_public_gateway_by_id', pgw.return_error)
-    def test_get_gateway_with_id(self):
-       """Test get_public_gateway_with_id (with error)."""
-       response = self.gateway.get_public_gateway(pgw.id)
-       self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
+    def test_get_gateway_with_id_error(self):
+        """Test get_public_gateway with id (error by id)."""
+        response = self.gateway.get_public_gateway(pgw.id)
+        self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     @patch.object(Gateway, 'get_public_gateway_by_name', pgw.return_error)
@@ -76,15 +75,15 @@ class GatewayTestCase(unittest.TestCase):
     def test_get_gateway_with_name_error_by_exception(self):
         """Test get_public_gateway_with_name (with exception)."""
         with self.assertRaises(Exception):
-            response = self.gateway.get_public_gateway(pgw.name)
+            self.gateway.get_public_gateway(pgw.name)
 
 
 # get_public_gateway_by_id
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     def test_get_gateway_by_id(self):
-       """Test get_public_gateway_by_id as parameter."""
-       response = self.gateway.get_public_gateway_by_id(pgw.id)
-       self.assertEqual(response['name'], pgw.name)
+        """Test get_public_gateway_by_id as parameter."""
+        response = self.gateway.get_public_gateway_by_id(pgw.id)
+        self.assertEqual(response['name'], pgw.name)
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw)
     @patch.object(Gateway, 'get_public_gateway_by_id', pgw.return_error)
@@ -97,7 +96,7 @@ class GatewayTestCase(unittest.TestCase):
     def test_get_gateway_by_id_with_exception(self):
         """Test get_public_gateway_by_id (with exception)."""
         with self.assertRaises(Exception):
-            response = self.gateway.get_public_gateway_by_id(pgw.id)
+            self.gateway.get_public_gateway_by_id(pgw.id)
 
 # create_public_gateway
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.create)
@@ -157,30 +156,21 @@ class GatewayTestCase(unittest.TestCase):
         )
         self.assertEqual(response['errors'][0]["code"], "not_found")
 
-    @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.return_exception)
-    def test_get_gateway_with_name(self):
-        """Test get_create_public_gateway (with exception)."""
+    @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.return_exception_5_args)
+    @patch.object(Vpc, 'get_vpc', pgw.get_vpc)
+    def test_create_gateway_with_name_error_by_exception(self):
+        """Test create_create_public_gateway (error by exception)."""
         with self.assertRaises(Exception):
             self.gateway.create_public_gateway(
                 vpc="my-vpc",
                 zone="my-zone"
             )
 
-# get_public_gateway_by_id
-    @patch('ibmcloud_python_sdk.vpc.gateway.qw', Common.qw)
-    def test_get_gateway_with_name(self):
-       """Test get_public_gateway_by_id."""
-       response = self.gateway.get_public_gateway_by_id(pgw.id)
-       print(response['id'])
-       self.assertEqual(response['id'], pgw.id)
-
 # delete_public_gateway
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', Common.qw)
     def test_delete_public_gateway(self):
         """Test delete_public_gateway."""
         response = self.gateway.delete_public_gateway(pgw.name)
-        print("*****")
-        print(response)
         self.assertEqual(response["status"], 'deleted')
 
     @patch('ibmcloud_python_sdk.vpc.gateway.qw', pgw.qw_404_on_delete)
