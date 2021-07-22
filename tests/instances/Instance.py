@@ -1,8 +1,5 @@
-import os.path
-import json
-import re
-
 from tests.Common import Common
+
 
 class Instance(Common):
     json_content = Common.get_json_resource_content("instances")

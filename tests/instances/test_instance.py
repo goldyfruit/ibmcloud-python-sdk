@@ -3,8 +3,9 @@ import unittest
 from mock import patch
 from ibmcloud_python_sdk.vpc.instance import Instance
 
-from tests.Instance import Instance as instance
+from .Instance import Instance as instance
 from tests.Common import Common
+
 
 class InstanceTestCase(unittest.TestCase):
     """Test case for the client methods."""
