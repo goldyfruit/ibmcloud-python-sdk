@@ -1,6 +1,3 @@
-from os import CLD_CONTINUED
-import os.path
-import json
 import re
 
 from tests.Common import Common
@@ -18,11 +15,11 @@ class Image(Common):
 
     @classmethod
     def return_not_found(self, image):
-        service, verb, path, headers="null","null","null","null"
+        service, verb, path, headers = "null", "null", "null", "null"
         result = Common.return_not_found(service, verb, path, headers)
         return(result["data"])
 
-    def return_exception(self, image):
+    def return_exception(image):
         """
         Will raise an exception
         """
@@ -32,8 +29,8 @@ class Image(Common):
         result = Common.get_resource_group("images")
         return(result["data"])
 
-
-    def qw_with_payload_return_exception(self, service, verb, path, headers, payload):
+    def qw_with_payload_return_exception(self, service, verb, path, headers,
+                                         payload):
         """
         Will raise an exception
         """
@@ -55,13 +52,13 @@ class Image(Common):
         if verb == "GET":
             get_one = re.findall('.'+folder+'/'+uuid_regexp, path)
 
-            # we want all the data: if the uuid regexp doesn't match but if we pass a string
-            # we should return a  "not_found" error.
+            # we want all the data: if the uuid regexp doesn't match but if we
+            # pass a string we should return a  "not_found" error.
             if get_one == []:
                 return_error = re.findall('.'+folder+'/', path)
-                if  return_error == []:
-                        result["data"] = json_content
-                        return(result)
+                if return_error == []:
+                    result["data"] = json_content
+                    return(result)
 
                 if return_error != []:
                     result['data'] = {
@@ -103,7 +100,6 @@ class OperatingSystem(Common):
         folder = Common.set_folder(path)
         json_content = Common.get_json_resource_content(path)
 
-        # regexp = "([a-z]|[a-z][-a-z0-9]*[a-z0-9]|[0-9][-a-z0-9]*([a-z]|[-a-z][-a-z0-9]*[a-z0-9]))$"
         regexp = "([a-z0-9-]*)"
 
         if verb == "GET":
@@ -113,9 +109,9 @@ class OperatingSystem(Common):
             # we should return a  "not_found" error.
             if get_one == []:
                 return_error = re.findall('.'+folder+'/', path)
-                if  return_error == []:
-                        result["data"] = json_content
-                        return(result)
+                if return_error == []:
+                    result["data"] = json_content
+                    return(result)
 
                 if return_error != []:
                     result['data'] = {

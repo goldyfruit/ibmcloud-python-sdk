@@ -8,7 +8,8 @@ from ibmcloud_python_sdk.vpc.volume import Volume as Volume
 
 from tests.Image import Image as image
 from tests.Image import OperatingSystem as operating_system
-# from tests.Common import Common
+
+
 class ImageTestCase(unittest.TestCase):
     """Test case for the client methods."""
 
@@ -32,7 +33,7 @@ class ImageTestCase(unittest.TestCase):
     def test_get_operating_systems_error_by_exception(self):
         """Test get_operating_systems (error by_exception)."""
         with self.assertRaises(Exception):
-            response = self.image.get_operating_systems()
+            self.image.get_operating_systems()
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', operating_system.qw)
     def test_get_operating_system(self):
@@ -44,7 +45,7 @@ class ImageTestCase(unittest.TestCase):
     def test_get_operating_system_error_by_exception(self):
         """Test get_operating_system (error by_exception)."""
         with self.assertRaises(Exception):
-            response = self.image.get_operating_system(operating_system.name)
+            self.image.get_operating_system(operating_system.name)
 
 # get_images
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
@@ -57,7 +58,7 @@ class ImageTestCase(unittest.TestCase):
     def test_get_images_error_by_exception(self):
         """Test get_images (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.image.get_images()
+            self.image.get_images()
 
 # get_image_by_name
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
@@ -71,15 +72,14 @@ class ImageTestCase(unittest.TestCase):
     def test_get_image_by_name_error_by_exception(self):
         """Test get_image_by_name (by_name return exception)."""
         with self.assertRaises(Exception):
-            response = self.image.get_image_by_name(image.name)
+            self.image.get_image_by_name(image.name)
 
-    # @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
-    # @patch.object(Image, 'get_images', image.return_error)
-    # def test_get_image_by_name_error_by_name(self):
-    #     """Test get_image_by_name (error by_name)."""
-    #     response = self.image.get_image_by_name(image.name)
-    #     print(response)
-    #     self.assertNotEqual(response['errors'][0]["code"], "not_found")
+    @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
+    @patch.object(Image, 'get_images', image.return_error_1_args)
+    def test_get_image_by_name_error_by_name(self):
+        """Test get_image_by_name (error by_name)."""
+        response = self.image.get_image_by_name(image.name)
+        self.assertNotEqual(response['errors'][0]["code"], "not_found")
 
 
     # TODO: to verify
@@ -88,14 +88,24 @@ class ImageTestCase(unittest.TestCase):
     #     """Test get_image_by_name (with image not found)."""
     #     response = self.image.get_image_by_name(image.name)
     #     self.assertEqual(response["errors"][0]["code"], "not_found")
-
 # get_image
+    @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
+    def test_get_image_with_name(self):
+        """Test get_image (by name))."""
+        response = self.image.get_image(image.name)
+        self.assertEqual(response["name"], image.name)
+
+    @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
+    def test_get_image_with_id(self):
+        """Test get_image (by_id return not_found)."""
+        response = self.image.get_image(image.id)
+        self.assertEqual(response["id"], image.id)
+
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
     @patch.object(Image, 'get_image_by_name', image.return_not_found)
     def test_get_image_with_by_name_not_found(self):
         """Test get_image (by_name return not_found)."""
         response = self.image.get_image(image.name)
-        print(response)
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
@@ -114,10 +124,9 @@ class ImageTestCase(unittest.TestCase):
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
     @patch.object(Image, 'get_image_by_id', image.return_not_found)
-    def test_get_image_with_by_id_not_found(self):
+    def test_get_image_by_id_not_found(self):
         """Test get_image (by_id return not_found)."""
         response = self.image.get_image(image.id)
-        print(response)
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
 # get_image_by_id
@@ -139,7 +148,8 @@ class ImageTestCase(unittest.TestCase):
 
 # create_image
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw_with_payload)
-    @patch.object(ResourceGroup, 'get_resource_group', image.get_resource_group)
+    @patch.object(ResourceGroup, 'get_resource_group',
+                  image.get_resource_group)
     @patch.object(Volume, 'get_volume', image.get_volume)
     def test_create_image(self):
         """Test create_image."""
@@ -153,7 +163,8 @@ class ImageTestCase(unittest.TestCase):
             )
         self.assertEqual(response["id"], image.id)
 
-    @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw_with_payload_return_exception)
+    @patch('ibmcloud_python_sdk.vpc.image.qw',
+           image.qw_with_payload_return_exception)
     @patch.object(ResourceGroup, 'get_resource_group', image.return_not_found)
     @patch.object(Volume, 'get_volume', image.get_volume)
     def test_create_image_error_rg_not_found(self):
@@ -169,7 +180,8 @@ class ImageTestCase(unittest.TestCase):
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw_with_payload)
-    @patch.object(ResourceGroup, 'get_resource_group', image.get_resource_group)
+    @patch.object(ResourceGroup, 'get_resource_group',
+                  image.get_resource_group)
     @patch.object(Volume, 'get_volume', image.return_not_found)
     def test_create_image_error_volume_not_found(self):
         """Test create_image (error volume not found)."""
@@ -183,21 +195,17 @@ class ImageTestCase(unittest.TestCase):
             )
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
-    @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw_with_payload)
-    @patch.object(ResourceGroup, 'get_resource_group', image.get_resource_group)
+    @patch('ibmcloud_python_sdk.vpc.image.qw', image.return_exception_5_args)
+    @patch.object(ResourceGroup, 'get_resource_group',
+                  image.get_resource_group)
     @patch.object(Volume, 'get_volume', image.get_volume)
     def test_create_image_error_by_exception(self):
         """Test create_image (error by exception)."""
-        response = self.image.create_image(
-            name=image.id,
-            resource_group="my-resource-group",
-            file="my-file",
-            format="qcow2",
-            source_volume="my-volume",
-            operating_system="my-operating-system"
-            )
         with self.assertRaises(Exception):
-            self.assertEqual(response["errors"][0]["code"], "not_found")
+            self.image.create_image(
+                file="my-file",
+                operating_system="my-operating-system"
+            )
 
 # delete_image
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
@@ -217,19 +225,17 @@ class ImageTestCase(unittest.TestCase):
     def test_delete_image_with_404(self):
         """Test delete_image (with 404)."""
         response = self.image.delete_image(image.name)
-        print(response)
         self.assertEqual(response, "Forbiden")
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
-    def test_delete_image_with_(self):
+    def test_delete_image_with_name(self):
         """Test delete_image (with 404)."""
         response = self.image.delete_image(image.name)
-        print(response)
         self.assertEqual(response["status"], "deleted")
 
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
-    @patch.object(Image, 'get_image_by_name', image.return_exception)
-    def test_get_image_by_name_error_by_exception(self):
-        """Test get_image_by_name (by_name return exception)."""
+    @patch.object(Image, 'get_images', image.return_exception)
+    def test_delete_image_error_by_exception(self):
+        """Test delete_image (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.image.delete_image(image.name)
+            self.image.delete_image(image.name)
