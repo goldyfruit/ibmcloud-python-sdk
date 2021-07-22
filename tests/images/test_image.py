@@ -81,13 +81,6 @@ class ImageTestCase(unittest.TestCase):
         response = self.image.get_image_by_name(image.name)
         self.assertNotEqual(response['errors'][0]["code"], "not_found")
 
-
-    # TODO: to verify
-    # @patch('ibmcloud_python_sdk.vpc.image.qw', image.return_not_found)
-    # def test_get_image_by_name_with_image_not_found(self):
-    #     """Test get_image_by_name (with image not found)."""
-    #     response = self.image.get_image_by_name(image.name)
-    #     self.assertEqual(response["errors"][0]["code"], "not_found")
 # get_image
     @patch('ibmcloud_python_sdk.vpc.image.qw', image.qw)
     def test_get_image_with_name(self):
