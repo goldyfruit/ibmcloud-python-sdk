@@ -116,8 +116,9 @@ class KeyTestCase(unittest.TestCase):
 
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
-    @patch('ibmcloud_python_sdk.vpc.key.qw', key.return_exception_with_payload)
-    @patch('ibmcloud_python_sdk.resource.resource_group.qw', key.get_resource_group)
+    @patch('ibmcloud_python_sdk.vpc.key.qw', key.return_exception_5_args)
+    @patch('ibmcloud_python_sdk.resource.resource_group.qw',
+           key.get_resource_group)
     def test_create_key_error_by_exception(self):
         """Test create_key (error by exception)."""
         with self.assertRaises(Exception):
