@@ -1,15 +1,12 @@
-from ibmcloud_python_sdk.resource import resource_group
 import unittest
 
 from mock import patch
 
-# import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.key import Key
-
-# import tests.Common as common
 
 from tests.Key import Key as key
 from tests.Common import Common
+
 
 class KeyTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -82,8 +79,8 @@ class KeyTestCase(unittest.TestCase):
 # get_key_by_id
     @patch('ibmcloud_python_sdk.vpc.key.qw', key.return_exception)
     # @patch.object(Key, 'get_keys', key.return_exception)
-    def test_get_keys_error_by_exception(self):
-        """Test get_key (error by exception)"""
+    def test_get_keys_by_id_error_by_exception(self):
+        """Test get_key_by_id (error by exception)"""
         with self.assertRaises(Exception):
             self.key.get_key_by_id(key.id)
 
@@ -92,7 +89,7 @@ class KeyTestCase(unittest.TestCase):
     def test_create_key(self):
         """Test create_key."""
         response = self.key.create_key(name=key.name,
-                                        public_key='public_key')
+                                       public_key='public_key')
         self.assertEqual(response['name'], key.name)
 
     @patch('ibmcloud_python_sdk.vpc.key.qw', key.qw_with_payload)
@@ -100,19 +97,20 @@ class KeyTestCase(unittest.TestCase):
     def test_create_key_with_payload(self):
         """Test create_key (with payload)."""
         response = self.key.create_key(name=key.name,
-                                        public_key="public_key",
-                                        resource_group="my-resource-group",
-                                        type="rsa")
+                                       public_key="public_key",
+                                       resource_group="my-resource-group",
+                                       type="rsa")
         self.assertEqual(response['name'], key.name)
 
     @patch('ibmcloud_python_sdk.vpc.key.qw', key.qw_with_payload)
-    @patch('ibmcloud_python_sdk.resource.resource_group.qw', Common.return_not_found)
+    @patch('ibmcloud_python_sdk.resource.resource_group.qw',
+           Common.return_not_found)
     def test_create_key_with_rg_not_found(self):
         """Test create_key (rg not found)."""
         response = self.key.create_key(name=key.name,
-                                        public_key="public_key",
-                                        resource_group="my-resource-group",
-                                        type="rsa")
+                                       public_key="public_key",
+                                       resource_group="my-resource-group",
+                                       type="rsa")
 
         self.assertEqual(response["errors"][0]["code"], "not_found")
 
@@ -122,10 +120,10 @@ class KeyTestCase(unittest.TestCase):
     def test_create_key_error_by_exception(self):
         """Test create_key (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.key.create_key(name=key.name,
-                                        public_key="public_key",
-                                        resource_group="my-resource-group",
-                                        type="rsa")
+            self.key.create_key(name=key.name,
+                                public_key="public_key",
+                                resource_group="my-resource-group",
+                                type="rsa")
 # delete_key
 
     @patch('ibmcloud_python_sdk.vpc.key.qw', key.qw)
@@ -154,12 +152,10 @@ class KeyTestCase(unittest.TestCase):
     def test_delete_key_error_by_exception(self):
         """Test delete_key (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.key.delete_key(key.name)
+            self.key.delete_key(key.name)
 
-    # @patch('ibmcloud_python_sdk.vpc.key.qw', key.qw)
-    # def test_get_key_with_name(self):
-    #     """Test get_key with name as parameter."""
-    #     response = self.key.get_key(self.fake_key['name'])
-    #     print(response)
-    #     self.assertEqual(response['name'], self.fake_key['name'])
-
+    @patch('ibmcloud_python_sdk.vpc.key.qw', key.return_exception)
+    def test_get_key_by_name_error_by_exception(self):
+        """Test get_key_by_name (error by exception)."""
+        with self.assertRaises(Exception):
+            self.key.get_key_by_name(key.name)
