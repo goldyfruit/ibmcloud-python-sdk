@@ -2,12 +2,11 @@ import unittest
 
 from mock import patch
 
-# import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.vpc.geo import Geo as Region
 
 from tests.Region import Region as region
 from tests.Zone import Zone as zone
-from tests.Common import Common as Common
+
 
 class RegionTestCase(unittest.TestCase):
     """Test case for the client methods."""
@@ -31,7 +30,7 @@ class RegionTestCase(unittest.TestCase):
     def test_get_regions_error_by_exception(self):
         """Test get_regions (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.region.get_regions()
+            self.region.get_regions()
 
     @patch('ibmcloud_python_sdk.vpc.geo.qw', region.qw)
     def test_get_region(self):
@@ -43,7 +42,7 @@ class RegionTestCase(unittest.TestCase):
     def test_get_region_error_by_exception(self):
         """Test get_region with name as parameter (return exception)."""
         with self.assertRaises(Exception):
-            response = self.region.get_region(region.name)
+            self.region.get_region(region.name)
 
     @patch('ibmcloud_python_sdk.vpc.geo.qw', zone.qw)
     def test_get_region_zones(self):
@@ -55,7 +54,7 @@ class RegionTestCase(unittest.TestCase):
     def test_get_region_zones_error_by_exception(self):
         """Test get_region_zones (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.region.get_region_zones('us-south')
+            self.region.get_region_zones('us-south')
 
     @patch('ibmcloud_python_sdk.vpc.geo.qw', zone.qw)
     def test_get_region_zone(self):
@@ -68,4 +67,5 @@ class RegionTestCase(unittest.TestCase):
     def test_get_region_zone_error_by_exception(self):
         """Test get_region_zone (error by exception)."""
         with self.assertRaises(Exception):
-            response = self.region.get_region_zones('us-south', 'random_zone')
+            self.region.get_region_zone('us-south',
+                                        'random_zone')
