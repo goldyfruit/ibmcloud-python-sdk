@@ -1,5 +1,6 @@
 from tests.Common import Common
 
+
 class FloatingIp(Common):
 
     json_content = Common.get_json_resource_content("floating_ips")
@@ -12,6 +13,28 @@ class FloatingIp(Common):
     def get_resource_group(self, fip):
         result = Common.get_resource_group("floating_ips")
         return(result["data"])
+
+    @classmethod
+    def get_resource_group_5_args(self, fip, service, verb, path):
+        result = {}
+        result["resources"] = Common.get_resource_group("floating_ips")
+        return(result)
+
+    @classmethod
+    def fip_return_not_found(self, service):
+        """
+        Will return an not_found error
+        """
+        result = {}
+        result = {
+            "errors": [
+             {
+                "code": "not_found",
+                "message": "Resource not found"
+             }
+            ]
+        }
+        return(result)
 
 
     @classmethod
