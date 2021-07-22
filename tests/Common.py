@@ -75,12 +75,6 @@ class Common(object):
         """
         raise Exception
 
-    def return_exception_with_payload(service, verb, path, headers, payload):
-        """
-        Will raise an exception
-        """
-        raise Exception
-
     def return_not_found(service, verb, path, headers):
         """
         Will return an not_found error
@@ -96,8 +90,8 @@ class Common(object):
         }
         return(result)
 
-    def return_not_found_with_payload(service, verb, path, headers,
-                                      payload):
+    def return_not_found_5_args(service, verb, path, headers,
+                                payload):
         """
         Will return a "not_found" error
         """
@@ -141,6 +135,20 @@ class Common(object):
             }]
         }
         return(result)
+
+    def return_error_1_args(data):
+        """
+        Will return an error (simulate API errors)
+        """
+        result = {}
+        result = {
+            "errors": [{
+                "code": "unpredictable_error",
+                "message": "Resource has disappeared"
+            }]
+        }
+        return(result)
+
 
     def qw(service, verb, path, headers):
         """
