@@ -1,4 +1,4 @@
-from ibmcloud_python_sdk.vpc import fip as ic
+from ibmcloud_python_sdk.vpc import floating_ip as ic
 
 # Intentiate the class
 fip = ic.Fip()
