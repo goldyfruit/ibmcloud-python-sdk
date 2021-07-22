@@ -1,4 +1,3 @@
-from os import CLD_CONTINUED
 import os.path
 import json
 import re
@@ -6,10 +5,15 @@ import re
 
 class Return202(object):
     status = 202
+
+
 class Return204(object):
     status = 204
+
+
 class Return404(object):
     status = 404
+
 
 class Common(object):
 
@@ -19,8 +23,9 @@ class Common(object):
     def authentication(self, auth_url, key):
         """ Return a false header required by authentication process """
         return {'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer eyJraWQiOiIyMDIwMDMyNjE4MjgiLCJhbGciOiJSUzI1NiJ9.e'}
+                'Accept': 'application/json',
+                'Authorization':
+                'Bearer eyJraWQiOiIyMDIwMDMyNjE4MjgiLCJhbGciOiJSUzI1NiJ9.e'}
 
     # @classmethod
     def set_folder(path):
@@ -28,8 +33,8 @@ class Common(object):
         Set folder variable based on path
         """
         paths = ['vpcs', 'vpn_gateways', 'instances', 'images', 'public_gateways',
-                'keys', 'regions', 'zones', 'resource_groups', 'floating_ips',
-                'resource_instances', 'operating_systems']
+                 'keys', 'regions', 'zones', 'resource_groups', 'floating_ips',
+                 'resource_instances', 'operating_systems']
         for p in paths:
             if p in path:
                 folder = p
@@ -37,13 +42,11 @@ class Common(object):
 
     # @classmethod
     def get_json_resource_content(path):
-        result = {}
         folder = Common.set_folder(path)
 
         try:
-            resource_file = os.path.normpath('tests/resources/{}/{}.json').format(
-                folder,
-                folder
+            resource_file = os.path.normpath(
+                'tests/resources/{}/{}.json').format(folder, folder
             )
             json_file = open(resource_file, mode='rb')
             json_content = json.load(json_file)
@@ -52,7 +55,6 @@ class Common(object):
             return {"error": "test data file not found"}
 
     def open_and_load_json_file(full_path):
-        result = {}
         resource_file = os.path.normpath(full_path)
         try:
             json_file = open(resource_file, mode='rb')
@@ -61,22 +63,25 @@ class Common(object):
         except IOError:
             return {"error": "test data file not found"}
 
-    @classmethod
-    def return_exception(self, service, verb, path, headers):
+    def return_exception(service, verb, path, headers):
         """
         Will raise an exception
         """
         raise Exception
 
-    @classmethod
-    def return_exception_with_payload(self, service, verb, path, headers, payload):
+    def return_exception_5_args(service, verb, path, headers, payload):
         """
         Will raise an exception
         """
         raise Exception
 
-    @classmethod
-    def return_not_found(self, service, verb, path, headers):
+    def return_exception_with_payload(service, verb, path, headers, payload):
+        """
+        Will raise an exception
+        """
+        raise Exception
+
+    def return_not_found(service, verb, path, headers):
         """
         Will return an not_found error
         """
@@ -91,8 +96,8 @@ class Common(object):
         }
         return(result)
 
-    @classmethod
-    def return_not_found_with_payload(self, service, verb, path, headers, payload):
+    def return_not_found_with_payload(service, verb, path, headers,
+                                      payload):
         """
         Will return a "not_found" error
         """
@@ -156,9 +161,9 @@ class Common(object):
             # we should return a  "not_found" error.
             if get_one == []:
                 return_error = re.findall('.'+folder+'/', path)
-                if  return_error == []:
-                        result["data"] = json_content
-                        return(result)
+                if return_error == []:
+                    result["data"] = json_content
+                    return(result)
 
                 if return_error != []:
                     result['data'] = {
@@ -191,7 +196,6 @@ class Common(object):
         """
 
         result = {}
-        resource_file = ""
 
         uuid_regexp = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
         folder = self.set_folder(path)
@@ -204,9 +208,9 @@ class Common(object):
         # we should return a  "not_found" error.
         if get_one == []:
             return_error = re.findall('.'+folder+'/', path)
-            if  return_error == []:
-                    result["data"] = json_content
-                    return(result)
+            if return_error == []:
+                result["data"] = json_content
+                return(result)
 
             if return_error != []:
                 result['data'] = {
