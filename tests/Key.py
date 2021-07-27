@@ -4,7 +4,7 @@ from tests.Common import Common
 class Key(Common):
     path = "keys"
 
-    json_content = Common.get_json_resource_content("keys")
+    json_content = Common.get_json_resource_content(path)
 
     name = json_content[path][0]["name"]
     id = json_content[path][0]["id"]
@@ -29,7 +29,7 @@ class Key(Common):
     @classmethod
     def get_resource_group(self, service, verb, path, headers):
         result = {}
-        result["data"] = { "resources": [ {
+        result["data"] = {"resources": [{
             "id": "fee82deba12e4c0fb69c3b09d1f12345",
             "name": "my-resource-group"
             }
