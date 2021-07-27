@@ -1,6 +1,6 @@
 [![PyPi](https://img.shields.io/pypi/v/ibmcloud-python-sdk.svg)](https://pypi.org/project/ibmcloud-python-sdk)
-[![Downloads](https://pepy.tech/badge/ibmcloud-python-sdk/month)](https://pepy.tech/project/ibmcloud-python-sdk)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Downloads](https://static.pepy.tech/personalized-badge/ibmcloud-python-sdk?period=month&units=international_system&left_color=grey&right_color=orange&left_text=Downloads)](https://pepy.tech/project/ibmcloud-python-sdk)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![codecov](https://codecov.io/gh/goldyfruit/ibmcloud-python-sdk/branch/main/graph/badge.svg?token=UW2HGIIV11)](https://codecov.io/gh/goldyfruit/ibmcloud-python-sdk)
 
 - [IBM Cloud Python SDK](#ibm-cloud-python-sdk)
