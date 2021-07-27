@@ -1,16 +1,12 @@
-from ibmcloud_python_sdk.resource import resource_group
 import unittest
-
 
 from mock import patch
 from ibmcloud_python_sdk.vpc.subnet import Subnet
-
-import tests.Common as Common
-
+from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from tests.Subnet import Subnet as subnet
 
 
-class FloatingIPTestCase(unittest.TestCase):
+class SubnetTestCase(unittest.TestCase):
     """Test case for the client methods."""
 
     def setUp(self):
@@ -22,10 +18,63 @@ class FloatingIPTestCase(unittest.TestCase):
     def tearDown(self):
         self.patcher.stop()
 
-# get_subnets
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnets(self):
+        """Test get_subnets."""
+        response = self.subnet.get_subnets()
+        self.assertNotEqual(len(response), 0)
 
-# get_subnet
-# get_subnet_by_id
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnets_false(self):
+        """Test get_subnets should not work."""
+        response = self.subnet.get_subnets()
+        self.assertNotEqual(len(response), 0)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnets_error_by_exception(self):
+        """Test get_subnets should not work."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnets()
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnet_with_name(self):
+        """Test get_subnet with name as parameter."""
+        response = self.subnet.get_subnet(subnet.name)
+        self.assertEqual(response['name'], subnet.name)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnet_with_id(self):
+        """Test get_subnet with id as parameter."""
+        response = self.subnet.get_subnet(subnet.id)
+        self.assertEqual(response['id'], subnet.id)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    @patch.object(Subnet, 'get_subnet_by_name', subnet.return_error)
+    def test_get_subnet_error_by_name(self):
+        """Test get_subnet (error by_name)."""
+        response = self.subnet.get_subnet("10.0.0.1")
+        self.assertEqual(response['errors'][0]["code"], "unpredictable_error")
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    @patch.object(Subnet, 'get_subnet_by_id', subnet.return_error)
+    def test_get_subnet_error_by_id(self):
+        """Test get_subnet (error by_id)."""
+        response = self.subnet.get_subnet("121345")
+        self.assertNotEqual(response['errors'][0]["code"], "not_found")
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_not_found)
+    def test_get_subnet_with_error(self):
+        """Test get_subnet_with_id (not_found)."""
+        response = self.subnet.get_subnet("random name")
+        self.assertNotEqual(len(response['errors']), 0)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnet_by_id(self):
+        """Test get_subnet_with_id as parameter."""
+        response = self.subnet.get_subnet_by_id(subnet.id)
+        self.assertEqual(response['id'], subnet.id)
+
+
 # get_subnet_by_name
 # get_subnet_network_acl
 # get_subnet_public_gateway
@@ -33,4 +82,4 @@ class FloatingIPTestCase(unittest.TestCase):
 # attach_network_acl
 # attach_public_gateway
 # detach_public_gateway
-# delete_subnet
+# delete_su

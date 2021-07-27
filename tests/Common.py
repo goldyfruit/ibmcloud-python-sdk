@@ -35,7 +35,7 @@ class Common(object):
         paths = ['vpcs', 'vpn_gateways', 'instances', 'images',
                  'public_gateways', 'keys', 'regions', 'zones',
                  'resource_groups', 'floating_ips', 'resource_instances',
-                 'operating_systems']
+                 'operating_systems', 'subnets']
         for p in paths:
             if p in path:
                 folder = p
@@ -352,6 +352,30 @@ class Common(object):
             }
         }
         return(result)
+
+    def get_subnet(path):
+        """
+        This function will get resource group name, href and id from the first
+        resource record.
+        """
+        result = {}
+
+        folder = Common.set_folder(path)
+
+        json_content = Common.get_json_resource_content(path)
+
+        name = json_content[folder][0]["subnet"]["name"]
+        href = json_content[folder][0]["subnet"]["href"]
+        id = json_content[folder][0]["subnet"]["id"]
+
+        result = {"data": {
+            "href": href,
+            "id": id,
+            "name": name
+            }
+        }
+        return(result)
+
 
     @classmethod
     def get_volume(self, resource):
