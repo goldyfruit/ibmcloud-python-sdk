@@ -1,9 +1,7 @@
-from os import CLD_CONTINUED
-import os.path
-import json
 import re
 
 from tests.Common import Common
+
 
 class Region(Common):
 
@@ -23,19 +21,18 @@ class Region(Common):
         folder = Common.set_folder(path)
         json_content = Common.get_json_resource_content(path)
 
-        # regexp = "([a-z]|[a-z][-a-z0-9]*[a-z0-9]|[0-9][-a-z0-9]*([a-z]|[-a-z][-a-z0-9]*[a-z0-9]))$"
         regexp = "([a-z][a-z]-[a-z0-9]*)"
 
         if verb == "GET":
             get_one = re.findall('.'+folder+'/'+regexp, path)
 
-            # we want all the data: if the region regexp doesn't match but if we pass a string
-            # we should return a  "not_found" error.
+            # we want all the data: if the region regexp doesn't match but if
+            # we pass a string we should return a "not_found" error.
             if get_one == []:
                 return_error = re.findall('.'+folder+'/', path)
-                if  return_error == []:
-                        result["data"] = json_content
-                        return(result)
+                if return_error == []:
+                    result["data"] = json_content
+                    return(result)
 
                 if return_error != []:
                     result['data'] = {
