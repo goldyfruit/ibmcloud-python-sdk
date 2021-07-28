@@ -9,13 +9,24 @@ class Subnet(Common):
     name = json_content[path][0]["name"]
     id = json_content[path][0]["id"]
     href = json_content[path][0]["href"]
+    resource_group_id = json_content[path][0]["resource_group"]["id"]
+
+    def get_vpc(self, subnet):
+        result = Common.get_vpc("subnets")
+        return(result["data"])
+
 
     @classmethod
-    def subnet_return_not_found(self):
+    def get_resource_group(self, subnet):
+        result = Common.get_resource_group("subnets")
+        return(result["data"])
+
+
+    @classmethod
+    def subnet_return_not_found(self, service):
         """
         Will return an not_found error
         """
-        result = {}
         result = {
             "errors": [
              {

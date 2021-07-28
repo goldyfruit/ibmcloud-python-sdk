@@ -3,6 +3,8 @@ import unittest
 from mock import patch
 from ibmcloud_python_sdk.vpc.subnet import Subnet
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
+from ibmcloud_python_sdk.vpc.vpc import Vpc as Vpc
+
 from tests.Subnet import Subnet as subnet
 
 
@@ -74,10 +76,47 @@ class SubnetTestCase(unittest.TestCase):
         response = self.subnet.get_subnet_by_id(subnet.id)
         self.assertEqual(response['id'], subnet.id)
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnet_network_acl(self):
+        """Test get_subnet_network_acl as parameter."""
+        response = self.subnet.get_subnet_network_acl(subnet.id)
+        self.assertEqual(response['id'], subnet.id)
 
-# get_subnet_by_name
-# get_subnet_network_acl
-# get_subnet_public_gateway
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_get_subnet_public_gateway(self):
+        """Test get_subnet_public_gateway as parameter."""
+        response = self.subnet.get_subnet_public_gateway(subnet.id)
+        self.assertEqual(response['id'], subnet.id)
+
+    @patch('ibmcloud_python_sdk.resource.resource_group.qw',
+           subnet.qw_with_payload)
+    @patch.object(ResourceGroup, 'get_resource_group',
+                  subnet.subnet_return_not_found)
+    @patch.object(Vpc, 'get_vpc', subnet.get_vpc)
+    def test_create_subnet_rg_return_error(self):
+        """Test create_subnet (rg return error)."""
+        response = self.subnet.create_subnet(
+            name="my-name",
+            total_ipv4_address_count=256,
+            resource_group=subnet.resource_group_id,
+            zone='us-south-1',
+            vpc="my-vpc")
+        self.assertEqual(response['errors'][0]["code"], "not_found")
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.create)
+    @patch.object(ResourceGroup, 'get_resource_group',
+                  subnet.get_resource_group)
+    @patch.object(Vpc, 'get_vpc', subnet.get_vpc)
+    def test_create_subnet(self):
+        """Test create_subnet."""
+        response = self.subnet.create_subnet(
+            name="my-name",
+            total_ipv4_address_count=256,
+            resource_group=subnet.resource_group_id,
+            zone="my-zone",
+            vpc="my-vpc")
+        self.assertEqual(response["id"], subnet.id)
+
 # create_subnet
 # attach_network_acl
 # attach_public_gateway
