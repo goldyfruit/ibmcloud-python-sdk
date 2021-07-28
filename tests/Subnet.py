@@ -15,14 +15,10 @@ class Subnet(Common):
         result = Common.get_vpc("subnets")
         return(result["data"])
 
-
-    @classmethod
     def get_resource_group(self, subnet):
         result = Common.get_resource_group("subnets")
         return(result["data"])
 
-
-    @classmethod
     def subnet_return_not_found(self, service):
         """
         Will return an not_found error

@@ -88,6 +88,12 @@ class SubnetTestCase(unittest.TestCase):
         response = self.subnet.get_subnet_public_gateway(subnet.id)
         self.assertEqual(response['id'], subnet.id)
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnet_by_id_error_by_exception(self):
+        """Test get_subnet_by_id (error by exception)."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_by_id(subnet.id)
+
     @patch('ibmcloud_python_sdk.resource.resource_group.qw',
            subnet.qw_with_payload)
     @patch.object(ResourceGroup, 'get_resource_group',
