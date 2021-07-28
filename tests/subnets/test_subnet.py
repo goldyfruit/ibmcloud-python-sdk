@@ -32,12 +32,6 @@ class SubnetTestCase(unittest.TestCase):
         response = self.subnet.get_subnets()
         self.assertNotEqual(len(response), 0)
 
-    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
-    def test_get_subnets_error_by_exception(self):
-        """Test get_subnets should not work."""
-        with self.assertRaises(Exception):
-            self.subnet.get_subnets()
-
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
     def test_get_subnet_with_name(self):
         """Test get_subnet with name as parameter."""
@@ -89,10 +83,28 @@ class SubnetTestCase(unittest.TestCase):
         self.assertEqual(response['id'], subnet.id)
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnets_error_by_exception(self):
+        """Test get_subnets should not work."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnets()
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
     def test_get_subnet_by_id_error_by_exception(self):
         """Test get_subnet_by_id (error by exception)."""
         with self.assertRaises(Exception):
             self.subnet.get_subnet_by_id(subnet.id)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnet_network_acl_error_by_exception(self):
+        """Test get_subnet_network_acl (error by exception)."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_network_acl(subnet.name)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnet_public_gateway_error_by_exception(self):
+        """Test get_subnet_ublic_gatewa (error by exception)."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_public_gateway(subnet.name)
 
     @patch('ibmcloud_python_sdk.resource.resource_group.qw',
            subnet.qw_with_payload)
