@@ -147,6 +147,23 @@ class SubnetTestCase(unittest.TestCase):
             vpc="my-vpc")
         self.assertEqual(response["id"], subnet.id)
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_delete_subnet(self):
+        """Test delete_subnet."""
+        response = self.subnet.delete_subnet(subnet.name)
+        self.assertEqual(response["status"], 'deleted')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw_404_on_delete)
+    def test_delete_subnet_with_error(self):
+        """Test delete_subnet (with error)."""
+        response = self.subnet.delete_subnet(subnet.name)
+        self.assertEqual(response, 'Forbiden')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_not_found)
+    def test_delete_subnety_with_not_found(self):
+        """Test delete_subet (with not_found)."""
+        response = self.subnet.delete_subnet(subnet.name)
+        self.assertNotEqual(response['errors'], "")
 
 # create_subnet
 # attach_network_acl
