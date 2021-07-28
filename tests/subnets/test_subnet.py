@@ -107,8 +107,14 @@ class SubnetTestCase(unittest.TestCase):
             self.subnet.get_subnet_by_id(subnet.id)
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
+    def test_get_subnet_network_acl_error_by_exception(self):
+        """Test get_subnet_network_acl (error by exception)."""
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_network_acl(subnet.name)
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_exception)
     def test_get_subnet_public_gateway_error_by_exception(self):
-        """Test get_subnet_ublic_gatewa (error by exception)."""
+        """Test get_subnet_public_gateway (error by exception)."""
         with self.assertRaises(Exception):
             self.subnet.get_subnet_public_gateway(subnet.name)
 
@@ -140,6 +146,7 @@ class SubnetTestCase(unittest.TestCase):
             zone="my-zone",
             vpc="my-vpc")
         self.assertEqual(response["id"], subnet.id)
+
 
 # create_subnet
 # attach_network_acl
