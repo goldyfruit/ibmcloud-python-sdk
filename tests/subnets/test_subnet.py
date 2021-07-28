@@ -148,6 +148,24 @@ class SubnetTestCase(unittest.TestCase):
         self.assertEqual(response["id"], subnet.id)
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
+    def test_detach_public_gateway(self):
+        """Test detach_public_gateway."""
+        response = self.subnet.detach_public_gateway(subnet.name)
+        self.assertEqual(response["status"], 'deleted')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw_404_on_delete)
+    def test_detach_public_gateway_with_error(self):
+        """Test detach_public_gateway (with error)."""
+        response = self.subnet.detach_public_gateway(subnet.name)
+        self.assertEqual(response, 'Forbiden')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_not_found)
+    def test_detach_public_gateway_with_not_found(self):
+        """Test detach_public_gateway (with not_found)."""
+        response = self.subnet.detach_public_gateway(subnet.name)
+        self.assertNotEqual(response['errors'], "")
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
     def test_delete_subnet(self):
         """Test delete_subnet."""
         response = self.subnet.delete_subnet(subnet.name)
@@ -160,10 +178,11 @@ class SubnetTestCase(unittest.TestCase):
         self.assertEqual(response, 'Forbiden')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.return_not_found)
-    def test_delete_subnety_with_not_found(self):
-        """Test delete_subet (with not_found)."""
+    def test_delete_subnet_with_not_found(self):
+        """Test delete_subnet (with not_found)."""
         response = self.subnet.delete_subnet(subnet.name)
         self.assertNotEqual(response['errors'], "")
+
 
 # create_subnet
 # attach_network_acl
