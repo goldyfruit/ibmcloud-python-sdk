@@ -133,46 +133,11 @@ class SubnetTestCase(unittest.TestCase):
             vpc="my-vpc")
         self.assertEqual(response['errors'][0]["code"], "not_found")
 
-
-    @patch('ibmcloud_python_sdk.resource.resource_group.qw',
-           subnet.qw)
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)
     @patch.object(ResourceGroup, 'get_resource_group',
                   subnet.get_resource_group)
     @patch.object(Subnet, 'get_subnet_network_acl',
-                  subnet.subnet_return_not_found)
-    @patch.object(Vpc, 'get_vpc', subnet.get_vpc)
-    def test_create_subnet_network_acl_return_error(self):
-        """Test create_subnet (network acl return error)."""
-        response = self.subnet.create_subnet(
-            name="my-name",
-            network_acl="my-acl",
-            total_ipv4_address_count=256,
-            resource_group=subnet.resource_group_id,
-            zone='us-south-1',
-            vpc="my-vpc")
-        self.assertEqual(response['errors'][0]["code"], "not_found")
-
-    @patch('ibmcloud_python_sdk.resource.resource_group.qw',
-           subnet.qw)
-    @patch.object(ResourceGroup, 'get_resource_group',
-                  subnet.get_resource_group)
-    @patch.object(Subnet, 'get_subnet_public_gateway',
-                  subnet.subnet_return_not_found)
-    @patch.object(Vpc, 'get_vpc', subnet.get_vpc)
-    def test_create_subnet_public_gateway_return_error(self):
-        """Test create_subnet (public gateway return error)."""
-        response = self.subnet.create_subnet(
-            name="my-name",
-            public_gateway="my-pgw",
-            total_ipv4_address_count=256,
-            resource_group=subnet.resource_group_id,
-            zone='us-south-1',
-            vpc="my-vpc")
-        self.assertEqual(response['errors'][0]["code"], "not_found")
-
-    @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.create)
-    @patch.object(ResourceGroup, 'get_resource_group',
-                  subnet.get_resource_group)
+                  subnet.get_network_acl)
     @patch.object(Vpc, 'get_vpc', subnet.get_vpc)
     def test_create_subnet(self):
         """Test create_subnet."""
@@ -180,9 +145,10 @@ class SubnetTestCase(unittest.TestCase):
             name="my-name",
             total_ipv4_address_count=256,
             resource_group=subnet.resource_group_id,
-            routing_table="my-table",
+            network_acl="my-network-acl",
             zone="my-zone",
             vpc="my-vpc")
+
         self.assertEqual(response["id"], subnet.id)
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', subnet.qw)

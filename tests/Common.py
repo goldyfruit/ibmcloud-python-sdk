@@ -178,7 +178,7 @@ class Common(object):
         }
         return(result)
 
-    def qw(service, verb, path, headers):
+    def qw(service, verb, path, headers, payload=False):
         """
         This function will replace the original qw function.
         """
