@@ -180,6 +180,7 @@ class SubnetTestCase(unittest.TestCase):
             name="my-name",
             total_ipv4_address_count=256,
             resource_group=subnet.resource_group_id,
+            routing_table="my-table",
             zone="my-zone",
             vpc="my-vpc")
         self.assertEqual(response["id"], subnet.id)
