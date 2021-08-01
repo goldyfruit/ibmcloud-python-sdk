@@ -1,5 +1,7 @@
 from unittest import TestCase
+from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.subnet import Subnet
+from ibmcloud_python_sdk.vpc.vpc import Vpc
 from mock import patch
 from tests.common import get_headers, qw, qw_api_error, qw_not_found, \
     qw_exception, qw_api_error, get_one
@@ -15,6 +17,22 @@ class SubnetTestCase(TestCase):
 
     def tearDown(self):
         self.patcher.stop()
+
+    def get_subnet_network_acl(path, vpc):
+        content = get_one('subnets')
+        return {'id': content['data']['network_acl']['id']}
+
+    def get_subnet_public_gateway(path, vpc):
+        content = get_one('subnets')
+        return {'id': content['data']['public_gateway']['id']}
+
+    def get_resource_group(path, group):
+        data = get_one('subnets')
+        return {'id': data['data']['resource_group']['id']}
+
+    def get_vpc(path, vpc):
+        data = get_one('subnets')
+        return {'id': data['data']['vpc']['id']}
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     def test_get_subnets(self):
@@ -107,3 +125,21 @@ class SubnetTestCase(TestCase):
     def test_get_subnet_network_acl_exception(self):
         with self.assertRaises(Exception):
             self.subnet.get_subnet_network_acl(self.content['data']['id'])
+
+    # Create
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
+    @patch.object(Subnet, 'get_subnet_network_acl', get_subnet_network_acl)
+    @patch.object(Subnet, 'get_subnet_public_gateway', get_subnet_public_gateway)
+    @patch.object(Vpc, 'get_vpc', get_vpc)
+    def test_create_subnet(self):
+        response = self.subnet.create_subnet(
+            name="my-subnet-1",
+            total_ipv4_address_count=256,
+            resource_group="4bbce614c13444cd8fc5e7e878ef8e21",
+            network_acl="my-network-acl",
+            public_gateway="my-public-gateway",
+            routing_table="my-routing-table",
+            zone="us-south-1",
+            vpc="my-vpc")
+        self.assertEqual(response['subnets'][0]['id'], self.content['data']['id'])
