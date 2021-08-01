@@ -23,8 +23,8 @@ def get_all(path):
     uri = None
 
     if is_uuid:
-        #/v1/subnets/8722d01c-9c78-4555-82b5-53ad1266f959?...
-        uri = re.match(r'/v1/(.*)\/', path).group(1)
+        #/v1/subnets/...
+        uri = re.match(r'/v1/([^/]+)', path).group(1)
     else:
         #/v1/subnets?...
         uri = re.match(r'/v1/(.*)\?', path).group(1)
