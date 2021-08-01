@@ -45,7 +45,13 @@ def get_all(path):
 def qw(conn_type, method, path, headers=None, payload=None):
     return get_all(path)
 
-def qw_not_found(conn_type, method, path, headers=None, payload=None):
+def qw_not_found(arg1, arg2, path=None, headers=None, payload=None):
+    if arg2 == 'not_found':
+        return  {'errors': [{
+                    'code': 'not_found',
+                    'message': 'Resource not found'
+                    }]
+                }
     return  {'data': {
                 'errors': [{
                     'code': 'not_found',
