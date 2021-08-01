@@ -58,13 +58,28 @@ class SubnetTestCase(TestCase):
     # Not found
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_not_found)
     def test_get_subnet_not_found(self):
-        response = self.subnet.get_subnet('wrong_name')
+        response = self.subnet.get_subnet('wrong_subnet_name')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_not_found)
+    def test_get_subnet_network_acl_not_found(self):
+        response = self.subnet.get_subnet_network_acl('wrong_subnet_name')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_not_found)
+    def test_get_subnet_public_gateway_not_found(self):
+        response = self.subnet.get_subnet_public_gateway('wrong_subnet_name')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     # API error
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_api_error)
     def test_get_subnet_api_error(self):
         response = self.subnet.get_subnet(self.content['data']['id'])
+        self.assertEqual(response['errors'][0]['code'], 'unpredictable_error')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_api_error)
+    def test_get_subnet_network_acl_api_error(self):
+        response = self.subnet.get_subnet_network_acl(self.content['data']['id'])
         self.assertEqual(response['errors'][0]['code'], 'unpredictable_error')
 
     # Exception
@@ -82,3 +97,13 @@ class SubnetTestCase(TestCase):
     def test_get_subnet_by_name_exception(self):
         with self.assertRaises(Exception):
             self.subnet.get_subnet_by_name(self.content['data']['name'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    def test_get_subnet_public_gateway_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_public_gateway(self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    def test_get_subnet_network_acl_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_network_acl(self.content['data']['id'])
