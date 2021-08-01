@@ -58,3 +58,13 @@ class SubnetTestCase(TestCase):
     def test_get_subnets_exception(self):
         with self.assertRaises(Exception):
             self.subnet.get_subnets()
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    def test_get_subnet_by_id_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_by_id(self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    def test_get_subnet_by_name_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.get_subnet_by_name(self.content['data']['name'])
