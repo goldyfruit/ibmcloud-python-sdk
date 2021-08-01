@@ -30,6 +30,13 @@
           "name": "my-routing-table",
           "resource_type": "routing_table"
         },
+        "public_gateway": {
+          "id": "r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "crn": "crn:v1:bluemix:public:is:us-south-3:a/2d171b8a90e246fd9ffe0e5e8c191c9e::public-gateway:r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "name": "my-public-gateway",
+          "resource_type": "public_gateway"
+        },
         "status": "pending",
         "total_ipv4_address_count": 256,
         "vpc": {
@@ -68,6 +75,13 @@
           "id": "6885e83f-03b2-4603-8a86-db2a0f55c840",
           "name": "my-routing-table",
           "resource_type": "routing_table"
+        },
+        "public_gateway": {
+          "id": "r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "crn": "crn:v1:bluemix:public:is:us-south-3:a/2d171b8a90e246fd9ffe0e5e8c191c9e::public-gateway:r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/r006-a4dfe209-5ade-44b8-8819-40145ed333ec",
+          "name": "my-public-gateway",
+          "resource_type": "public_gateway"
         },
         "status": "pending",
         "total_ipv4_address_count": 256,
