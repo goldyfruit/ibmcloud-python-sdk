@@ -2,6 +2,8 @@ from unittest import TestCase
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.subnet import Subnet
 from ibmcloud_python_sdk.vpc.vpc import Vpc
+from ibmcloud_python_sdk.vpc.acl import Acl
+
 from mock import patch
 from tests.common import get_headers, qw, qw_api_error, qw_not_found, \
     qw_exception, qw_api_error, get_one
@@ -33,6 +35,10 @@ class SubnetTestCase(TestCase):
     def get_vpc(path, vpc):
         data = get_one('subnets')
         return {'id': data['data']['vpc']['id']}
+
+    def get_subnet(path, vpc):
+        data = get_one('subnets')
+        return {'id': data['data']['id']}
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     def test_get_subnets(self):
@@ -100,8 +106,6 @@ class SubnetTestCase(TestCase):
         response = self.subnet.get_subnet_network_acl(self.content['data']['id'])
         self.assertEqual(response['errors'][0]['code'], 'unpredictable_error')
 
-
-
     # Exception
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     def test_get_subnets_exception(self):
@@ -128,11 +132,20 @@ class SubnetTestCase(TestCase):
         with self.assertRaises(Exception):
             self.subnet.get_subnet_network_acl(self.content['data']['id'])
 
-    @patch.object(Vpc, 'get_vpc', get_vpc)
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet_exception(self):
         with self.assertRaises(Exception):
             self.subnet.create_subnet(vpc='my-vpc')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_attach_network_acl_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.attach_network_acl(
+                subnet='my-subnet-1',
+                network_acl='my-network-acl')
 
     # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -215,4 +228,29 @@ class SubnetTestCase(TestCase):
             routing_table='my-routing-table',
             zone='us-south-1',
             vpc='not_found')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
+    def test_attach_network_acl(self):
+        response = self.subnet.attach_network_acl(
+            subnet='my-subnet-1',
+            network_acl='my-network-acl')
+        self.assertEqual(response['id'], self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Acl, 'get_network_acl', qw_not_found)
+    def test_attach_network_acl_not_found(self):
+        response = self.subnet.attach_network_acl(
+            subnet='my-subnet-1',
+            network_acl='not_found')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
+    @patch.object(Subnet, 'get_subnet', qw_not_found)
+    def test_attach_subnet_not_found(self):
+        response = self.subnet.attach_network_acl(
+            subnet='not_found',
+            network_acl='my-network-acl')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
