@@ -134,26 +134,77 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet(self):
         response = self.subnet.create_subnet(
-            name="my-subnet-1",
+            name='my-subnet-1',
             total_ipv4_address_count=256,
-            resource_group="4bbce614c13444cd8fc5e7e878ef8e21",
-            network_acl="my-network-acl",
-            public_gateway="my-public-gateway",
-            routing_table="my-routing-table",
-            zone="us-south-1",
-            vpc="my-vpc")
+            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
+            network_acl='my-network-acl',
+            public_gateway='my-public-gateway',
+            routing_table='my-routing-table',
+            zone='us-south-1',
+            vpc='my-vpc')
         self.assertEqual(response['subnets'][0]['id'], self.content['data']['id'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     @patch.object(ResourceGroup, 'get_resource_group', qw_not_found)
-    def test_create_subnet_not_found(self):
+    def test_create_subnet_resource_group_not_found(self):
         response = self.subnet.create_subnet(
-            name="my-subnet-1",
+            name='my-subnet-1',
             total_ipv4_address_count=256,
-            resource_group="not_found",
-            network_acl="my-network-acl",
-            public_gateway="my-public-gateway",
-            routing_table="my-routing-table",
-            zone="us-south-1",
-            vpc="my-vpc")
+            resource_group='not_found',
+            network_acl='my-network-acl',
+            public_gateway='my-public-gateway',
+            routing_table='my-routing-table',
+            zone='us-south-1',
+            vpc='my-vpc')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
+    @patch.object(Subnet, 'get_subnet_network_acl', qw_not_found)
+    @patch.object(Subnet, 'get_subnet_public_gateway', get_subnet_public_gateway)
+    @patch.object(Vpc, 'get_vpc', get_vpc)
+    def test_create_subnet_network_acl_not_found(self):
+        response = self.subnet.create_subnet(
+            name='my-subnet-1',
+            total_ipv4_address_count=256,
+            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
+            network_acl='not_found',
+            public_gateway='my-public-gateway',
+            routing_table='my-routing-table',
+            zone='us-south-1',
+            vpc='my-vpc')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
+    @patch.object(Subnet, 'get_subnet_network_acl', get_subnet_network_acl)
+    @patch.object(Subnet, 'get_subnet_public_gateway', qw_not_found)
+    @patch.object(Vpc, 'get_vpc', get_vpc)
+    def test_create_subnet_public_gateway_not_found(self):
+        response = self.subnet.create_subnet(
+            name='my-subnet-1',
+            total_ipv4_address_count=256,
+            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
+            network_acl='my-network-acl',
+            public_gateway='not_found',
+            routing_table='my-routing-table',
+            zone='us-south-1',
+            vpc='my-vpc')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
+    @patch.object(Subnet, 'get_subnet_network_acl', get_subnet_network_acl)
+    @patch.object(Subnet, 'get_subnet_public_gateway', get_subnet_public_gateway)
+    @patch.object(Vpc, 'get_vpc', qw_not_found)
+    def test_create_subnet_vpc_not_found(self):
+        response = self.subnet.create_subnet(
+            name='my-subnet-1',
+            total_ipv4_address_count=256,
+            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
+            network_acl='my-network-acl',
+            public_gateway='my-public-gateway',
+            routing_table='my-routing-table',
+            zone='us-south-1',
+            vpc='not_found')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
