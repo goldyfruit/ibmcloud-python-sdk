@@ -100,6 +100,8 @@ class SubnetTestCase(TestCase):
         response = self.subnet.get_subnet_network_acl(self.content['data']['id'])
         self.assertEqual(response['errors'][0]['code'], 'unpredictable_error')
 
+
+
     # Exception
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     def test_get_subnets_exception(self):
@@ -125,6 +127,12 @@ class SubnetTestCase(TestCase):
     def test_get_subnet_network_acl_exception(self):
         with self.assertRaises(Exception):
             self.subnet.get_subnet_network_acl(self.content['data']['id'])
+
+    @patch.object(Vpc, 'get_vpc', get_vpc)
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    def test_create_subnet_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.create_subnet(vpc='my-vpc')
 
     # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
