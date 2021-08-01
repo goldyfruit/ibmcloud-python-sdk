@@ -143,3 +143,17 @@ class SubnetTestCase(TestCase):
             zone="us-south-1",
             vpc="my-vpc")
         self.assertEqual(response['subnets'][0]['id'], self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(ResourceGroup, 'get_resource_group', qw_not_found)
+    def test_create_subnet_not_found(self):
+        response = self.subnet.create_subnet(
+            name="my-subnet-1",
+            total_ipv4_address_count=256,
+            resource_group="not_found",
+            network_acl="my-network-acl",
+            public_gateway="my-public-gateway",
+            routing_table="my-routing-table",
+            zone="us-south-1",
+            vpc="my-vpc")
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
