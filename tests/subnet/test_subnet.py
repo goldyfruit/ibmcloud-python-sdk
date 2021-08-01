@@ -41,6 +41,20 @@ class SubnetTestCase(TestCase):
         response = self.subnet.get_subnet(self.content['data']['name'])
         self.assertEqual(response['name'], self.content['data']['name'])
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    def test_get_subnet_network_acl(self):
+        response = self.subnet.get_subnet_network_acl(
+            self.content['data']['id'])
+        self.assertEqual(response['network_acl']['name'],
+                         self.content['data']['network_acl']['name'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    def test_get_subnet_public_gateway(self):
+        response = self.subnet.get_subnet_public_gateway(
+            self.content['data']['id'])
+        self.assertEqual(response['public_gateway']['name'],
+                         self.content['data']['public_gateway']['name'])
+
     # Not found
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_not_found)
     def test_get_subnet_not_found(self):
