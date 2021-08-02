@@ -3,6 +3,7 @@ from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.subnet import Subnet
 from ibmcloud_python_sdk.vpc.vpc import Vpc
 from ibmcloud_python_sdk.vpc.acl import Acl
+from ibmcloud_python_sdk.vpc.gateway import Gateway
 
 from mock import patch
 from tests.common import get_headers, qw, qw_api_error, qw_not_found, \
@@ -147,6 +148,15 @@ class SubnetTestCase(TestCase):
                 subnet='my-subnet-1',
                 network_acl='my-network-acl')
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    @patch.object(Gateway, 'get_public_gateway', get_subnet_public_gateway)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_attach_public_gateway_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.attach_public_gateway(
+                subnet='my-subnet-1',
+                public_gateway='my-public-gateway')
+
     # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
@@ -249,8 +259,33 @@ class SubnetTestCase(TestCase):
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
     @patch.object(Subnet, 'get_subnet', qw_not_found)
-    def test_attach_subnet_not_found(self):
+    def test_attach_network_acl_subnet_not_found(self):
         response = self.subnet.attach_network_acl(
             subnet='not_found',
             network_acl='my-network-acl')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Gateway, 'get_public_gateway', get_subnet_public_gateway)
+    def test_attach_public_gateway(self):
+        response = self.subnet.attach_public_gateway(
+            subnet='my-subnet-1',
+            public_gateway='my-public-gateway')
+        self.assertEqual(response['id'], self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Gateway, 'get_public_gateway', qw_not_found)
+    def test_attach_public_gateway_not_found(self):
+        response = self.subnet.attach_public_gateway(
+            subnet='my-subnet-1',
+            public_gateway='not_found')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Gateway, 'get_public_gateway', get_subnet_public_gateway)
+    @patch.object(Subnet, 'get_subnet', qw_not_found)
+    def test_attach_public_gateway_subnet_not_found(self):
+        response = self.subnet.attach_public_gateway(
+            subnet='not_found',
+            public_gateway='my-public-gateway')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
