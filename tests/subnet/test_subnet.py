@@ -315,3 +315,22 @@ class SubnetTestCase(TestCase):
     def test_detach_public_gateway_bad_request(self):
         response = self.subnet.detach_public_gateway(self.content['data']['id'])
         self.assertEqual(response, 'bad_request')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_delete_code_204)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_delete_subnet(self):
+        response = self.subnet.delete_subnet(
+            self.content['data']['id'])
+        self.assertEqual(response["status"], 'deleted')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Subnet, 'get_subnet', qw_not_found)
+    def test_delete_subnet_not_found(self):
+        response = self.subnet.delete_subnet('not_found')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_delete_code_400)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_delete_subnet_bad_request(self):
+        response = self.subnet.delete_subnet(self.content['data']['id'])
+        self.assertEqual(response, 'bad_request')
