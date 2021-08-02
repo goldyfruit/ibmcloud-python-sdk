@@ -312,6 +312,6 @@ class SubnetTestCase(TestCase):
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_delete_code_400)
     @patch.object(Subnet, 'get_subnet', get_subnet)
-    def test_detach_public_gateway_not_found(self):
+    def test_detach_public_gateway_bad_request(self):
         response = self.subnet.detach_public_gateway(self.content['data']['id'])
         self.assertEqual(response, 'bad_request')
