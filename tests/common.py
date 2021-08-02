@@ -2,6 +2,7 @@ import json
 import os
 import re
 from tests.constants import FOLDERS, UUID_REGEXP
+from types import SimpleNamespace
 
 def get_headers(url, key):
     return {'Content-Type': 'application/json'}
@@ -69,3 +70,8 @@ def qw_api_error(conn_type, method, path, headers=None, payload=None):
 
 def qw_exception(conn_type, method, path, headers=None, payload=None):
     raise Exception
+
+def qw_delete(conn_type, method, path, headers=None, payload=None):
+    response = SimpleNamespace()
+    response.status = 204
+    return {'response': response }

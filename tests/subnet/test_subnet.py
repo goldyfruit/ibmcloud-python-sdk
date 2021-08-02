@@ -6,8 +6,8 @@ from ibmcloud_python_sdk.vpc.acl import Acl
 from ibmcloud_python_sdk.vpc.gateway import Gateway
 
 from mock import patch
-from tests.common import get_headers, qw, qw_api_error, qw_not_found, \
-    qw_exception, qw_api_error, get_one
+from tests.common import get_headers, qw, qw_api_error, qw_delete, qw_not_found, \
+    qw_exception, qw_api_error, get_one, qw_delete
 
 
 class SubnetTestCase(TestCase):
@@ -289,3 +289,10 @@ class SubnetTestCase(TestCase):
             subnet='not_found',
             public_gateway='my-public-gateway')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_delete)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_detach_public_gateway(self):
+        response = self.subnet.detach_public_gateway(
+            self.content['data']['id'])
+        self.assertEqual(response["status"], 'deleted')
