@@ -1,14 +1,12 @@
 from unittest import TestCase
+from mock import patch
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from ibmcloud_python_sdk.vpc.subnet import Subnet
 from ibmcloud_python_sdk.vpc.vpc import Vpc
 from ibmcloud_python_sdk.vpc.acl import Acl
 from ibmcloud_python_sdk.vpc.gateway import Gateway
-
-from mock import patch
-from tests.common import get_headers, get_one, qw, qw_api_error, \
-    qw_not_found, qw_exception, qw_api_error, qw_delete_code_204, \
-    qw_delete_code_400
+from tests.common import get_headers, get_one, qw,  qw_not_found, \
+    qw_exception, qw_api_error, qw_delete_code_204, qw_delete_code_400
 
 
 class SubnetTestCase(TestCase):
@@ -81,7 +79,6 @@ class SubnetTestCase(TestCase):
         self.assertEqual(response['public_gateway']['name'],
                          self.content['data']['public_gateway']['name'])
 
-    # Not found
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_not_found)
     def test_get_subnet_not_found(self):
         response = self.subnet.get_subnet('wrong_subnet_name')
@@ -97,7 +94,6 @@ class SubnetTestCase(TestCase):
         response = self.subnet.get_subnet_public_gateway('wrong_subnet_name')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
-    # API error
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_api_error)
     def test_get_subnet_api_error(self):
         response = self.subnet.get_subnet(self.content['data']['id'])
@@ -108,7 +104,6 @@ class SubnetTestCase(TestCase):
         response = self.subnet.get_subnet_network_acl(self.content['data']['id'])
         self.assertEqual(response['errors'][0]['code'], 'unpredictable_error')
 
-    # Exception
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     def test_get_subnets_exception(self):
         with self.assertRaises(Exception):
@@ -170,7 +165,6 @@ class SubnetTestCase(TestCase):
         with self.assertRaises(Exception):
             self.subnet.delete_subnet(self.content['data']['id'])
 
-    # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
     @patch.object(Subnet, 'get_subnet_network_acl', get_subnet_network_acl)

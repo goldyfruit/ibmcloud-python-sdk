@@ -1,8 +1,8 @@
 import json
 import os
 import re
-from tests.constants import FOLDERS, UUID_REGEXP
 from types import SimpleNamespace
+from tests.constants import FOLDERS, UUID_REGEXP
 
 
 def get_headers(url, key):
