@@ -146,7 +146,7 @@ class SubnetTestCase(TestCase):
     def test_attach_network_acl_exception(self):
         with self.assertRaises(Exception):
             self.subnet.attach_network_acl(
-                subnet='my-subnet-1',
+                subnet=self.content['data']['id'],
                 network_acl='my-network-acl')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
@@ -155,14 +155,20 @@ class SubnetTestCase(TestCase):
     def test_attach_public_gateway_exception(self):
         with self.assertRaises(Exception):
             self.subnet.attach_public_gateway(
-                subnet='my-subnet-1',
+                subnet=self.content['data']['id'],
                 public_gateway='my-public-gateway')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     @patch.object(Subnet, 'get_subnet', get_subnet)
     def test_detach_public_gateway_exception(self):
         with self.assertRaises(Exception):
-            self.subnet.detach_public_gateway('my-subnet-1')
+            self.subnet.detach_public_gateway(self.content['data']['id'])
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_delete_subnet_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.delete_subnet(self.content['data']['id'])
 
     # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -172,7 +178,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet(self):
         response = self.subnet.create_subnet(
-            name='my-subnet-1',
+            name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
             network_acl='my-network-acl',
@@ -186,7 +192,7 @@ class SubnetTestCase(TestCase):
     @patch.object(ResourceGroup, 'get_resource_group', qw_not_found)
     def test_create_subnet_resource_group_not_found(self):
         response = self.subnet.create_subnet(
-            name='my-subnet-1',
+            name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='not_found',
             network_acl='my-network-acl',
@@ -203,7 +209,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet_network_acl_not_found(self):
         response = self.subnet.create_subnet(
-            name='my-subnet-1',
+            name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
             network_acl='not_found',
@@ -220,7 +226,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet_public_gateway_not_found(self):
         response = self.subnet.create_subnet(
-            name='my-subnet-1',
+            name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
             network_acl='my-network-acl',
@@ -237,7 +243,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', qw_not_found)
     def test_create_subnet_vpc_not_found(self):
         response = self.subnet.create_subnet(
-            name='my-subnet-1',
+            name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
             network_acl='my-network-acl',
@@ -251,7 +257,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
     def test_attach_network_acl(self):
         response = self.subnet.attach_network_acl(
-            subnet='my-subnet-1',
+            subnet=self.content['data']['name'],
             network_acl='my-network-acl')
         self.assertEqual(response['id'], self.content['data']['id'])
 
@@ -259,7 +265,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Acl, 'get_network_acl', qw_not_found)
     def test_attach_network_acl_not_found(self):
         response = self.subnet.attach_network_acl(
-            subnet='my-subnet-1',
+            subnet=self.content['data']['name'],
             network_acl='not_found')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
@@ -276,7 +282,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Gateway, 'get_public_gateway', get_subnet_public_gateway)
     def test_attach_public_gateway(self):
         response = self.subnet.attach_public_gateway(
-            subnet='my-subnet-1',
+            subnet=self.content['data']['name'],
             public_gateway='my-public-gateway')
         self.assertEqual(response['id'], self.content['data']['id'])
 
@@ -284,7 +290,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Gateway, 'get_public_gateway', qw_not_found)
     def test_attach_public_gateway_not_found(self):
         response = self.subnet.attach_public_gateway(
-            subnet='my-subnet-1',
+            subnet=self.content['data']['name'],
             public_gateway='not_found')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
