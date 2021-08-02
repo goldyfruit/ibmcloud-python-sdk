@@ -5,8 +5,8 @@ from ibmcloud_python_sdk.vpc.subnet import Subnet
 from ibmcloud_python_sdk.vpc.vpc import Vpc
 from ibmcloud_python_sdk.vpc.acl import Acl
 from ibmcloud_python_sdk.vpc.gateway import Gateway
-from tests.common import get_headers, get_one, qw,  qw_not_found, \
-    qw_exception, qw_api_error, qw_delete_code_204, qw_delete_code_400
+from tests.common import get_headers, get_one, qw, qw_not_found, qw_exception, \
+    qw_api_error, qw_delete_code_204, qw_delete_code_400
 
 
 class SubnetTestCase(TestCase):
@@ -133,7 +133,7 @@ class SubnetTestCase(TestCase):
     @patch.object(Vpc, 'get_vpc', get_vpc)
     def test_create_subnet_exception(self):
         with self.assertRaises(Exception):
-            self.subnet.create_subnet(vpc='my-vpc')
+            self.subnet.create_subnet(vpc=self.content['data']['vpc']['name'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     @patch.object(Acl, 'get_network_acl', get_subnet_network_acl)
@@ -142,7 +142,7 @@ class SubnetTestCase(TestCase):
         with self.assertRaises(Exception):
             self.subnet.attach_network_acl(
                 subnet=self.content['data']['id'],
-                network_acl='my-network-acl')
+                network_acl=self.content['data']['network_acl']['name'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     @patch.object(Gateway, 'get_public_gateway', get_subnet_public_gateway)
@@ -151,7 +151,7 @@ class SubnetTestCase(TestCase):
         with self.assertRaises(Exception):
             self.subnet.attach_public_gateway(
                 subnet=self.content['data']['id'],
-                public_gateway='my-public-gateway')
+                public_gateway=self.content['data']['public_gateway']['name'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
     @patch.object(Subnet, 'get_subnet', get_subnet)
@@ -174,12 +174,12 @@ class SubnetTestCase(TestCase):
         response = self.subnet.create_subnet(
             name=self.content['data']['name'],
             total_ipv4_address_count=256,
-            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
-            network_acl='my-network-acl',
-            public_gateway='my-public-gateway',
-            routing_table='my-routing-table',
-            zone='us-south-1',
-            vpc='my-vpc')
+            resource_group=self.content['data']['resource_group']['name'],
+            network_acl=self.content['data']['network_acl']['name'],
+            public_gateway=self.content['data']['public_gateway']['name'],
+            routing_table=self.content['data']['routing_table']['name'],
+            zone=self.content['data']['zone']['name'],
+            vpc=self.content['data']['vpc']['name'])
         self.assertEqual(response['subnets'][0]['id'], self.content['data']['id'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -189,11 +189,11 @@ class SubnetTestCase(TestCase):
             name=self.content['data']['name'],
             total_ipv4_address_count=256,
             resource_group='not_found',
-            network_acl='my-network-acl',
-            public_gateway='my-public-gateway',
-            routing_table='my-routing-table',
-            zone='us-south-1',
-            vpc='my-vpc')
+            network_acl=self.content['data']['network_acl']['name'],
+            public_gateway=self.content['data']['public_gateway']['name'],
+            routing_table=self.content['data']['routing_table']['name'],
+            zone=self.content['data']['zone']['name'],
+            vpc=self.content['data']['vpc']['name'])
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -205,12 +205,12 @@ class SubnetTestCase(TestCase):
         response = self.subnet.create_subnet(
             name=self.content['data']['name'],
             total_ipv4_address_count=256,
-            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
+            resource_group=self.content['data']['resource_group']['name'],
             network_acl='not_found',
-            public_gateway='my-public-gateway',
-            routing_table='my-routing-table',
-            zone='us-south-1',
-            vpc='my-vpc')
+            public_gateway=self.content['data']['public_gateway']['name'],
+            routing_table=self.content['data']['routing_table']['name'],
+            zone=self.content['data']['zone']['name'],
+            vpc=self.content['data']['vpc']['name'])
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -222,12 +222,12 @@ class SubnetTestCase(TestCase):
         response = self.subnet.create_subnet(
             name=self.content['data']['name'],
             total_ipv4_address_count=256,
-            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
-            network_acl='my-network-acl',
+            resource_group=self.content['data']['resource_group']['name'],
+            network_acl=self.content['data']['network_acl']['name'],
             public_gateway='not_found',
-            routing_table='my-routing-table',
-            zone='us-south-1',
-            vpc='my-vpc')
+            routing_table=self.content['data']['routing_table']['name'],
+            zone=self.content['data']['zone']['name'],
+            vpc=self.content['data']['vpc']['name'])
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -239,11 +239,11 @@ class SubnetTestCase(TestCase):
         response = self.subnet.create_subnet(
             name=self.content['data']['name'],
             total_ipv4_address_count=256,
-            resource_group='4bbce614c13444cd8fc5e7e878ef8e21',
-            network_acl='my-network-acl',
-            public_gateway='my-public-gateway',
-            routing_table='my-routing-table',
-            zone='us-south-1',
+            resource_group=self.content['data']['resource_group']['name'],
+            network_acl=self.content['data']['network_acl']['name'],
+            public_gateway=self.content['data']['public_gateway']['name'],
+            routing_table=self.content['data']['routing_table']['name'],
+            zone=self.content['data']['zone']['name'],
             vpc='not_found')
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
@@ -252,7 +252,7 @@ class SubnetTestCase(TestCase):
     def test_attach_network_acl(self):
         response = self.subnet.attach_network_acl(
             subnet=self.content['data']['name'],
-            network_acl='my-network-acl')
+            network_acl=self.content['data']['network_acl']['name'])
         self.assertEqual(response['id'], self.content['data']['id'])
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -269,7 +269,7 @@ class SubnetTestCase(TestCase):
     def test_attach_network_acl_subnet_not_found(self):
         response = self.subnet.attach_network_acl(
             subnet='not_found',
-            network_acl='my-network-acl')
+            network_acl=self.content['data']['network_acl']['name'])
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
@@ -294,7 +294,7 @@ class SubnetTestCase(TestCase):
     def test_attach_public_gateway_subnet_not_found(self):
         response = self.subnet.attach_public_gateway(
             subnet='not_found',
-            public_gateway='my-public-gateway')
+            public_gateway=self.content['data']['public_gateway']['name'])
         self.assertEqual(response['errors'][0]['code'], 'not_found')
 
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_delete_code_204)
