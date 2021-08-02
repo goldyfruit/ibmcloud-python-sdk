@@ -157,6 +157,12 @@ class SubnetTestCase(TestCase):
                 subnet='my-subnet-1',
                 public_gateway='my-public-gateway')
 
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw_exception)
+    @patch.object(Subnet, 'get_subnet', get_subnet)
+    def test_detach_public_gateway_exception(self):
+        with self.assertRaises(Exception):
+            self.subnet.detach_public_gateway('my-subnet-1')
+
     # Create
     @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
     @patch.object(ResourceGroup, 'get_resource_group', get_resource_group)
@@ -296,3 +302,9 @@ class SubnetTestCase(TestCase):
         response = self.subnet.detach_public_gateway(
             self.content['data']['id'])
         self.assertEqual(response["status"], 'deleted')
+
+    @patch('ibmcloud_python_sdk.vpc.subnet.qw', qw)
+    @patch.object(Subnet, 'get_subnet', qw_not_found)
+    def test_detach_public_gateway_not_found(self):
+        response = self.subnet.detach_public_gateway('not_found')
+        self.assertEqual(response['errors'][0]['code'], 'not_found')
