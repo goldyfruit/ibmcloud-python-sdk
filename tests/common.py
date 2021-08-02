@@ -4,6 +4,7 @@ import re
 from tests.constants import FOLDERS, UUID_REGEXP
 from types import SimpleNamespace
 
+
 def get_headers(url, key):
     return {'Content-Type': 'application/json'}
 
@@ -71,7 +72,12 @@ def qw_api_error(conn_type, method, path, headers=None, payload=None):
 def qw_exception(conn_type, method, path, headers=None, payload=None):
     raise Exception
 
-def qw_delete(conn_type, method, path, headers=None, payload=None):
+def qw_delete_code_204(arg1, arg2, path, headers=None, payload=None):
     response = SimpleNamespace()
     response.status = 204
-    return {'response': response }
+    return {'response': response}
+
+def qw_delete_code_400(arg1, arg2, path, headers=None, payload=None):
+    response = SimpleNamespace()
+    response.status = 400
+    return {'response': response, 'data': 'bad_request'}
