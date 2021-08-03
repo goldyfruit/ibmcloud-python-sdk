@@ -55,3 +55,10 @@ class AuthTestCase(TestCase):
         )
         self.assertEqual(response,
                          f'Bearer {AuthTestCase.read_token()["access_token"]}')
+
+    @patch('ibmcloud_python_sdk.utils.common.query_wrapper', qw_exception)
+    def test_get_token_exception(self):
+        with self.assertRaises(Exception):
+            get_token(constants.AUTH_URL,
+            '60230291428a3576752104555fa0f623b5045f08'
+        )
