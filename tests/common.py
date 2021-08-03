@@ -9,7 +9,10 @@ def get_headers(arg1=None, arg2=None):
     """This function adds hearders that are required by
     ibmcloud_python_sdk.auth.get_token method. arg1 and arg2 are not used.
     """
-    return {'Content-Type': 'application/json'}
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiaXR'
+    }
 
 def get_one(path, index=0):
     """This function returns only one item of the list. The
