@@ -2,7 +2,7 @@ import json
 import os
 import re
 from types import SimpleNamespace
-from tests.constants import FOLDERS, UUID_REGEXP
+from tests.constants import FOLDERS, UUID_REGEXP, ID_REGEXP
 
 
 def get_headers(arg1=None, arg2=None):
@@ -20,37 +20,52 @@ def get_one(path, index=0):
     """
     for key, value in FOLDERS.items():
         if path == key:
+            data_dict = key
+            if key == 'resource_groups':
+                data_dict = 'resources'
             data_file = f'{os.path.dirname(__file__)}/{value}/{key}.json'
             with open(data_file, 'r') as json_file:
                 try:
-                    return {"data": json.load(json_file)[key][index]}
+                    return {"data": json.load(json_file)[data_dict][index]}
                 except json.JSONDecodeError as err:
                     return err
 
     return {'error': 'unable to read data'}
 
-def get_all(path):
+def get_all(path, index=0):
     """This function returns all the items from the JSON file except if a
     UUID is detected in the URL path then only one item will be returned.
     """
     is_uuid = re.findall(UUID_REGEXP, path)
+    is_id = re.findall(ID_REGEXP, path)
+    
     uri = None
 
     if is_uuid:
         #/v1/subnets/...
         #/v1/subnets/.../...
         uri = re.match(r'/v1/([^/]+)', path).group(1)
+    elif is_id:
+        #/v2/resource_groups/...
+        uri = re.match(r'/v2/([^/]+)', path).group(1)
     else:
-        #/v1/subnets?...
-        uri = re.match(r'/v1/(.*)\?', path).group(1)
+        #/v2/resource_groups/...
+        if re.match(r'/v2/(.*)', path):
+            uri = re.match(r'/v2/(.*)', path).group(1)
+        else:
+            #/v1/subnets?...
+            uri = re.match(r'/v1/(.*)\?', path).group(1)
 
     for key, value in FOLDERS.items():
         if uri == key:
+            data_dict = key
+            if key == 'resource_groups':
+                data_dict = 'resources'
             data_file = f'{os.path.dirname(__file__)}/{value}/{key}.json'
             with open(data_file, 'r') as json_file:
                 try:
-                    if is_uuid:
-                        return {'data': json.load(json_file)[key][0]}
+                    if is_uuid or is_id:
+                        return {'data': json.load(json_file)[data_dict][index]}
                     return {'data': json.load(json_file)}
                 except json.JSONDecodeError as err:
                     return err

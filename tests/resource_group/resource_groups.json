@@ -1,0 +1,37 @@
+{
+    "resources": [
+      {
+        "id": "4a6b6755259e4400bb75f770ab58a20b",
+        "crn": "crn:v1:bluemix:public:resource-controller::a/2d171b8a90e246fd9ffe0e5e8c191c9e::resource-group:4a6b6755259e4400bb75f770ab58a20b",
+        "account_id": "2d171b8a90e246fd9ffe0e5e8c191c9e",
+        "name": "Default",
+        "state": "ACTIVE",
+        "default": true,
+        "enable_reclamation": false,
+        "quota_id": "a3d7b8d01e261c24677937c29ab33f3c",
+        "quota_url": "/v2/quota_definitions/a3d7b8d01e261c24677937c29ab33f3c",
+        "payment_methods_url": "/v2/resource_groups/4a6b6755259e4400bb75f770ab58a20b/payment_methods",
+        "resource_linkages": [],
+        "teams_url": "/v2/resource_groups/4a6b6755259e4400bb75f770ab58a20b/teams",
+        "created_at": "2019-03-26T15:01:26.444Z",
+        "updated_at": "2019-11-05T22:47:41.888Z"
+      },
+      {
+        "id": "17ab91f0bf6747c1884da789bed4c590",
+        "crn": "crn:v1:bluemix:public:resource-controller::a/2d171b8a90e246fd9ffe0e5e8c191c9e::resource-group:17ab91f0bf6747c1884da789bed4c590",
+        "account_id": "2d171b8a90e246fd9ffe0e5e8c191c9e",
+        "name": "resource-group-custom",
+        "state": "ACTIVE",
+        "default": false,
+        "enable_reclamation": false,
+        "quota_id": "a3d7b8d01e261c24677937c29ab33f3c",
+        "quota_url": "/v2/quota_definitions/a3d7b8d01e261c24677937c29ab33f3c",
+        "payment_methods_url": "/v2/resource_groups/17ab91f0bf6747c1884da789bed4c590/payment_methods",
+        "resource_linkages": [],
+        "teams_url": "/v2/resource_groups/17ab91f0bf6747c1884da789bed4c590/teams",
+        "created_at": "2020-03-05T13:59:49.229Z",
+        "updated_at": "2020-03-05T13:59:49.229Z"
+      }
+    ]
+  }
+  

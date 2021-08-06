@@ -11,6 +11,8 @@ FOLDERS = {
     'vpcs': 'vpc',
     'vpns': 'vpn',
     'subnets': 'subnet',
-    'regions': 'geo'
+    'regions': 'geo',
+    'resource_groups': 'resource_group'
 }
 UUID_REGEXP = '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'
+ID_REGEXP = '[a-f0-9]{32}'

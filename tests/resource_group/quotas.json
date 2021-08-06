@@ -1,0 +1,604 @@
+{
+  "resources": [
+    {
+      "_id": "3ecd977560ea1d54e893b8312785a54f",
+      "_rev": "2-5a03dd005e64d81e4e99be71683be653",
+      "name": "Pay-as-you-go Quota",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "673f7d3c-bfb8-11e9-9cb5-2a2ae2dbcce4",
+          "resource_id": "3889a488-7de9-4a20-b7fc-0b65a2194ccb",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:3889a488-7de9-4a20-b7fc-0b65a2194ccb",
+          "limit": 50
+        }
+      ],
+      "created_at": "2019-08-15T17:12:52.925Z",
+      "updated_at": "2019-10-18T17:12:52.925Z"
+    },
+    {
+      "_id": "635e204410d9c629a06bd86e4b65bcbf",
+      "_rev": "3-142d8a96e36610e7e879c2bfb424296e",
+      "name": "Pay-as-you-go Quota",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "651cc032-ef4b-4a39-b79e-d3008fbc3292",
+          "resource_id": "0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "limit": 50
+        }
+      ],
+      "created_at": "2019-08-15T17:12:52.925Z",
+      "updated_at": "2019-10-18T17:12:52.925Z"
+    },
+    {
+      "_id": "6ea926c8255744c62947cb7e7a53c589",
+      "_rev": "2-f787ced5fad608403937b0d8aa4c180a",
+      "name": "Trial Quota",
+      "type": "SDQ",
+      "number_of_service_instances": 1000,
+      "number_of_apps": 4,
+      "instances_per_app": 4,
+      "instance_memory": "1G",
+      "total_app_memory": "1G",
+      "vsi_limit": 1,
+      "enable_reclamation": false,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 101
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "dc58dfb4-5212-4717-ac49-c93cdf5461d9",
+          "resource_id": "57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "limit": 10
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2019-01-09T17:12:52.925Z"
+    },
+    {
+      "_id": "7ca0ef2108144e683fac77cb6a32ab26",
+      "_rev": "4-bfdc2dd887fecb0d79d6212a0a471a51",
+      "name": "Trial Quota",
+      "type": "SDQ",
+      "number_of_service_instances": 1000,
+      "number_of_apps": 4,
+      "instances_per_app": 4,
+      "instance_memory": "1G",
+      "total_app_memory": "1G",
+      "vsi_limit": 1,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 101
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "dc58dfb4-5212-4717-ac49-c93cdf5461d9",
+          "resource_id": "57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "limit": 10
+        },
+        {
+          "_id": "651cc032-ef4b-4a39-b79e-d3008fbc3292",
+          "resource_id": "0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "limit": 50
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2019-10-18T20:07:52.925Z"
+    },
+    {
+      "_id": "7ce89f4a-4381-4600-b814-3cd9a4f4bdf4",
+      "_rev": "18-ea560600f11b9c98e729b42ee58a40df",
+      "name": "Trial Quota",
+      "type": "SDQ",
+      "number_of_service_instances": 1000,
+      "number_of_apps": 4,
+      "instances_per_app": 4,
+      "instance_memory": "1G",
+      "total_app_memory": "1G",
+      "vsi_limit": 1,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 101
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "dc58dfb4-5212-4717-ac49-c93cdf5461d9",
+          "resource_id": "57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "limit": 10
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2019-10-18T20:06:52.925Z"
+    },
+    {
+      "_id": "9e7a7d56daba3941d71b494212b69daf",
+      "_rev": "7-9093ca4f787d7d9b3f4bfb2eb443ebca",
+      "name": "Performance Test Quota",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 45000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 45000
+        },
+        {
+          "_id": "0b3060b81d434ab9a4b3ba8ac17342be",
+          "resource_id": "59b735ee-5938-4ebd-a6b2-541aef2d1f68",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::service:59b735ee-5938-4ebd-a6b2-541aef2d1f68",
+          "limit": 1
+        }
+      ],
+      "created_at": "2018-03-06T17:12:52.925Z",
+      "updated_at": "2019-10-18T17:12:52.925Z"
+    },
+    {
+      "_id": "a3d7b8d01e261c24677937c29ab33f3c",
+      "_rev": "16-22257099ca4c6c2e82fd67cb2dff6999",
+      "name": "Pay-as-you-go Quota",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2019-10-18T20:06:52.925Z"
+    },
+    {
+      "_id": "b348b15b-09c8-4f81-a275-e58398ee0370",
+      "_rev": "4-13ed31cdb497663a6a935adeb827a36d",
+      "name": "Pay-as-you-go Quota Deprecated",
+      "type": "SDQ",
+      "number_of_service_instances": 1000,
+      "number_of_apps": 100,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2017-05-16T17:12:52.925Z"
+    },
+    {
+      "_id": "c4dd88cdb84f4a5418581fdeb365f6fa",
+      "_rev": "2-f4340ba38362bdb78c6cef87465c2f5f",
+      "name": "Pay-as-you-go Quota for Testing",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": false,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2019-01-09T17:12:52.925Z"
+    },
+    {
+      "_id": "cdb7d56eebff9e03319bc0b7fd9800d2",
+      "_rev": "2-8483b86ccd758db9dad72574cecb6ecd",
+      "name": "Pay-as-you-go Quota for reclmation",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2020-06-10T17:12:52.925Z"
+    },
+    {
+      "_id": "d65eed3227e50f139f3cf42451acc33c",
+      "_rev": "5-6e5e5b2ce08850c9dacd2da2a880b5a6",
+      "name": "Pay-as-you-go Quota",
+      "type": "SDQ",
+      "number_of_apps": 100,
+      "number_of_service_instances": 30000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "instances_per_app": 32,
+      "instance_memory": "512G",
+      "total_app_memory": "512G",
+      "vsi_limit": 100,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "65012f5b6fa84ecaaac5eab4abc2d0fd",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 1
+        },
+        {
+          "_id": "8b35eb93b6b14f50b6c4f3ff0dfd0358",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 1
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 10001
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "651cc032-ef4b-4a39-b79e-d3008fbc3292",
+          "resource_id": "0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:0744b2e2-b3b4-4e68-9c52-f2a9446a9511",
+          "limit": 50
+        },
+        {
+          "_id": "673f7d3c-bfb8-11e9-9cb5-2a2ae2dbcce4",
+          "resource_id": "3889a488-7de9-4a20-b7fc-0b65a2194ccb",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:3889a488-7de9-4a20-b7fc-0b65a2194ccb",
+          "limit": 50
+        }
+      ],
+      "created_at": "2019-06-25T17:12:52.925Z",
+      "updated_at": "2019-10-18T20:08:52.925Z"
+    },
+    {
+      "_id": "e1bcfd09-a2ac-483a-8796-6ce5df94d25f",
+      "_rev": "16-482fb471d919333219e6a433ec539ea0",
+      "name": "Standard Quota",
+      "type": "SDQ",
+      "number_of_service_instances": 1000,
+      "default_number_of_instances_per_lite_plan": 1,
+      "allow_only_lite_services": true,
+      "number_of_apps": 4,
+      "instances_per_app": 2,
+      "instance_memory": "1G",
+      "total_app_memory": "1G",
+      "vsi_limit": 1,
+      "enable_reclamation": true,
+      "resource_quotas": [
+        {
+          "_id": "8431f8c7f2f247a5b1aaeeed83986d81",
+          "resource_id": "63403cd2-34c7-4c0c-ad8d-2d692309ec07",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:63403cd2-34c7-4c0c-ad8d-2d692309ec07",
+          "limit": -1
+        },
+        {
+          "_id": "7431f8c7f2f247a5b1aaeeed83986d80",
+          "resource_id": "rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcf0c17db8-35ad-11e7-a919-92ebcb67fe33",
+          "limit": 3
+        },
+        {
+          "_id": "903e65341d8d4b35a124768e952b6e2e",
+          "resource_id": "rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global:::rcd1a5a758-03a1-11e7-93ae-92361f002671",
+          "limit": 3
+        },
+        {
+          "_id": "2331f9be88d54548acf6d87173d460f7",
+          "resource_id": "2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::flavor:2fdf0c08-2d32-4f46-84b5-32e0c92fffd8",
+          "limit": 1
+        },
+        {
+          "_id": "5bd4805bef834f40a2b0cfe31e93dc2f",
+          "resource_id": "dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "crn": "crn:v1:bluemix:public:resource-catalog::global::iaas:dff97f5c-bc5e-4455-b470-411c3edbe49c",
+          "limit": 101
+        },
+        {
+          "_id": "0eb7ad85-bc65-446e-8954-d25b5144370c",
+          "resource_id": "c0258a22-160a-403b-845d-1588ad61204c",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:c0258a22-160a-403b-845d-1588ad61204c",
+          "limit": 1
+        },
+        {
+          "_id": "dc58dfb4-5212-4717-ac49-c93cdf5461d9",
+          "resource_id": "57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "crn": "crn:v1:bluemix:public:globalcatalog::::plan:57ab89c2-a46f-4995-8c2a-940af359a1f1",
+          "limit": 10
+        }
+      ],
+      "created_at": "2017-05-16T17:12:52.925Z",
+      "updated_at": "2018-10-18T17:12:52.925Z"
+    }
+  ]
+}

@@ -162,8 +162,9 @@ class ResourceGroup():
         by_name = self.get_quota_definition_by_name(quota)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
-                regex = "Can not find quota definition with id"
-                if re.search(regex, key_name["code"]):
+                # regex = "Can not find quota definition with id"
+                # if re.search(regex, key_name["code"]):
+                if key_name["code"] == "not_found":
                     by_id = self.get_quota_definition_by_id(quota)
                     if "errors" in by_id:
                         return by_id
@@ -172,6 +173,8 @@ class ResourceGroup():
                     return by_name
         else:
             return by_name
+
+
 
     def get_quota_definition_by_id(self, id):
         """Retrieve specific quota definition by ID
