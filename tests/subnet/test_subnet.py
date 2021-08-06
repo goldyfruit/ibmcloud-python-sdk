@@ -10,12 +10,10 @@ from tests.common import get_headers, get_one, qw, qw_not_found, qw_exception, \
 
 
 class SubnetTestCase(TestCase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.module = 'subnets'
 
     def setUp(self):
-        self.content = get_one(self.module)
+        self.type = 'subnets'
+        self.content = get_one(self.type)
         self.subnet = Subnet()
         self.patcher = patch('ibmcloud_python_sdk.auth.get_token', get_headers)
         self.patcher.start()
@@ -23,8 +21,9 @@ class SubnetTestCase(TestCase):
     def tearDown(self):
         self.patcher.stop()
 
-    def get_subnet_network_acl(self, arg1):
-        content = get_one(self.module)
+
+    def get_subnet_network_acl(path, vpc):
+        content = get_one('subnets')
         return {'id': content['data']['network_acl']['id']}
 
     def get_subnet_public_gateway(path, vpc):

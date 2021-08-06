@@ -7,7 +7,7 @@ from ibmcloud_python_sdk.auth import decode_token, get_token
 from tests.common import get_headers, qw_exception
 
 
-class AuthTestCase(TestCase):    
+class AuthTestCase(TestCase):
     def read_token():
         """This function returns a generated JSON token.
         """

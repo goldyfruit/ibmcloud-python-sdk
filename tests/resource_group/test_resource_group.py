@@ -3,18 +3,15 @@ import json
 import re
 from unittest import TestCase
 from mock import patch
-
-# import ibmcloud_python_sdk.config
 from ibmcloud_python_sdk.resource.resource_group import ResourceGroup
 from tests.constants import ID_REGEXP
 from tests.common import get_headers, read_one, qw, qw_not_found, \
     qw_exception, qw_api_error, qw_delete_code_204, qw_delete_code_400
 
 
-import tests.Common as Common
-
 class ResourceGroupTestCase(TestCase):
     def setUp(self):
+        self.type = 'resource_groups'
         self.content = read_one('resource_group/resource_groups.json', 'resources')
         self.quota = read_one('resource_group/quotas.json', 'resources')
         self.resource_group = ResourceGroup()
@@ -75,14 +72,14 @@ class ResourceGroupTestCase(TestCase):
 
     @patch('ibmcloud_python_sdk.resource.resource_group.qw', qw)
     def test_get_resource_group_with_name(self):
-        response = self.resource_group.get_resource_group(
-            self.content['name'])
+        response = self.resource_group.get_resource_group(self.content['name'])
         self.assertEqual(response['name'], self.content['name'])
 
     @patch('ibmcloud_python_sdk.resource.resource_group.qw', qw_not_found)
     def test_get_default_resource_group_not_found(self):
         response = self.resource_group.get_default_resource_group()
         self.assertEqual(response['errors'][0]['code'], 'not_found')
+
 
     @patch('ibmcloud_python_sdk.resource.resource_group.qw', qw_exception)
     def test_get_resource_groups_exception(self):
@@ -108,6 +105,7 @@ class ResourceGroupTestCase(TestCase):
     def test_get_resource_group_by_name_exception(self):
         with self.assertRaises(Exception):
             self.resource_group.get_resource_group_by_name(self.content['name'])
+
 
     @patch('ibmcloud_python_sdk.resource.resource_group.qw', qw_quotas)
     def test_get_quota_definitions(self):
