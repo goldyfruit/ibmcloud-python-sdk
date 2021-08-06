@@ -36,14 +36,20 @@ class ResourceGroup():
         :return: Default resource group information
         :rtype: dict
         """
-        resource_groups = self.get_resource_groups()["resources"]
-        try:
-            for resource_group in resource_groups:
-                if resource_group['default'] is True:
-                    return resource_group
-        except Exception as error:
-            print("Error fetching default resource group. {}".format(error))
-            raise
+        resource_groups = self.get_resource_groups()
+        if "errors" in resource_groups:
+            return resource_groups
+
+        for resource_group in resource_groups["resources"]:
+            if resource_group['default']:
+                return resource_group
+        # try:
+        #     for resource_group in resource_groups:
+        #         if resource_group['default']:
+        #             return resource_group
+        # except Exception as error:
+        #     print("Error fetching default resource group. {}".format(error))
+        #     raise
 
     def get_resource_group(self, group):
         """Retrieve specific resource group by name or by ID
