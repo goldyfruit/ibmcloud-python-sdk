@@ -14,7 +14,6 @@ def get_headers(arg1=None, arg2=None):
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiaXR'
     }
 
-<<<<<<< HEAD
 def read_one(path, key, index=0):
     """This function returns only one item from a given file based on
     a dict name and index.
@@ -26,8 +25,6 @@ def read_one(path, key, index=0):
         except json.JSONDecodeError as err:
             return err
 
-=======
->>>>>>> e6df713ffb9dbde3e26bfebc8c881e564255face
 def get_one(path, index=0):
     """This function returns only one item of the list. The
     item to return could be selected by using the index variable.
