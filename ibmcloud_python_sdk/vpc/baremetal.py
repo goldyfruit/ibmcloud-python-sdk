@@ -820,29 +820,29 @@ class Baremetal():
     def associate_floating_ip(self, **kwargs):
         """Associate floating IP with a network interface on an bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param interface: The network interface name or ID¨
         :type interface: str
         :param fip: The floting IP name, ID or address
         :type fip: str
         """
-        args = ["bare_metal_server", "interface", "fip"]
+        args = ["server", "interface", "fip"]
         check_args(args, **kwargs)
 
         args = {
-            'bare_metal_server': kwargs.get('bare_metal_server'),
+            'server': kwargs.get('server'),
             'interface': kwargs.get('interface'),
             'fip': kwargs.get('fip'),
         }
 
-        bare_metal_server_info = self.get_server(
-            args["bare_metal_server"])
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(
+            args["server"])
+        if "errors" in server_info:
+            return server_info
 
         interface_info = self.get_server_interface(
-            bare_metal_server_info["id"],
+            server_info["id"],
             args["interface"])
         if "errors" in interface_info:
             return interface_info
@@ -855,7 +855,7 @@ class Baremetal():
             path = ("/v1/bare_metal_servers/{}/network_interfaces/{}"
                     "/floating_ips/{}"
                     "?version={}&generation={}".format(
-                        bare_metal_server_info["id"],
+                        server_info["id"],
                         interface_info["id"],
                         fip_info["id"],
                         self.cfg["version"],
@@ -868,7 +868,7 @@ class Baremetal():
                   " for bare metal server {}. {}".format(
                       fip_info["id"],
                       interface_info["id"],
-                      bare_metal_server_info["id"], error))
+                      server_info["id"], error))
             raise
 
     def attach_volume(self, **kwargs):
@@ -1045,41 +1045,3 @@ class Baremetal():
                       fip, interface, bare_metal_server,
                       error))
             raise
-
-    # def detach_volume(self, bare_metal_server, attachment):
-    #     """Detach volume from an bare metal server
-
-    #     :param bare_metal_server: Bare metal server name or ID
-    #     :type bare_metal_server: str
-    #     :param attachment: Volume attachement name or ID
-    #     :type attachment: str
-    #     """
-    #     try:
-    #         bare_metal_server_info = self.get_instance(bare_metal_server)
-    #         if "errors" in bare_metal_server_info:
-    #             return bare_metal_server_info
-
-    #         attachment_info = self.get_server_volume_attachment(
-    #             bare_metal_server_info["id"], attachment)
-    #         if "errors" in attachment_info:
-    #             return attachment_info
-
-    #         path = ("/v1/bare_metal_servers/{}/volume_attachments/{}"
-    #                 "?version={}&generation={}".format(
-    #                     bare_metal_server_info["id"],
-    #                     attachment_info["id"],
-    #                     self.cfg["version"],
-    #                     self.cfg["generation"]))
-
-    #         data = qw("iaas", "DELETE", path, headers())
-
-    #         if data["response"].status != 204:
-    #             return data["data"]
-
-    #         return resource_deleted()
-
-    #     except Exception as error:
-    #         print("Error detaching volume with attachment {} from"
-    #               "bare metal server"
-    #               " {}. {}".format(attachment, bare_metal_server, error))
-    #         raise
