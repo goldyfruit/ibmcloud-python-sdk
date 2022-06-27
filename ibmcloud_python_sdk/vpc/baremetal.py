@@ -44,19 +44,19 @@ class Baremetal():
             print("Error fetching bare metal server. {}".format(error))
             raise
 
-    def get_server(self, bare_metal_server):
+    def get_server(self, server):
         """Retrieve specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :return: Bare metal server information
         :rtype: dict
         """
-        by_name = self.get_server_by_name(bare_metal_server)
+        by_name = self.get_server_by_name(server)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_server_by_id(bare_metal_server)
+                    by_id = self.get_server_by_id(server)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -110,21 +110,21 @@ class Baremetal():
                 name, error))
             raise
 
-    def get_server_configuration(self, bare_metal_server):
+    def get_server_configuration(self, server):
         """Retrieve initial configuration for a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :return: Bare metal server configuration information
         :rtype: dict
         """
         by_name = self.get_server_configuration_by_name(
-            bare_metal_server)
+            server)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_server_configuration_by_id(
-                        bare_metal_server)
+                        server)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -162,12 +162,12 @@ class Baremetal():
         :rtype: dict
         """
         try:
-            bare_metal_server_info = self.get_server(name)
-            if "errors" in bare_metal_server_info:
-                return bare_metal_server_info
+            server_info = self.get_server(name)
+            if "errors" in server_info:
+                return server_info
 
             path = ("/v1/bare_metal_servers/{}/initialization?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"],
+                    "&generation={}".format(server_info["id"],
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -179,21 +179,21 @@ class Baremetal():
                   " {}. {}".format(name, error))
             raise
 
-    def get_server_interfaces(self, bare_metal_server):
+    def get_server_interfaces(self, server):
         """Retrieve network interfaces for a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :return: List of bare metal server's interfaces
         :rtype: list
         """
         by_name = self.get_server_interfaces_by_name(
-            bare_metal_server)
+            server)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_server_interfaces_by_id(
-                        bare_metal_server)
+                        server)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -231,13 +231,13 @@ class Baremetal():
         :return: List of bare metal server's interfaces
         :rtype: list
         """
-        bare_metal_server_info = self.get_server(name)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(name)
+        if "errors" in server_info:
+            return server_info
 
         try:
             path = ("/v1/bare_metal_servers/{}/network_interfaces?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"],
+                    "&generation={}".format(server_info["id"],
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -249,23 +249,23 @@ class Baremetal():
                   " {}. {}".format(name, error))
             raise
 
-    def get_server_interface(self, bare_metal_server, interface):
+    def get_server_interface(self, server, interface):
         """Retrieve specific network interface for a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param interface: Interface name or ID
         :type interface: str
         :return: Bare mental server's interface information
         :rtype: dict
         """
         by_name = self.get_server_interface_by_name(
-            bare_metal_server, interface)
+            server, interface)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_server_interface_by_id(
-                        bare_metal_server,
+                        server,
                         interface)
                     if "errors" in by_id:
                         return by_id
@@ -275,24 +275,24 @@ class Baremetal():
         else:
             return by_name
 
-    def get_server_interface_by_id(self, bare_metal_server, id):
+    def get_server_interface_by_id(self, server, id):
         """Retrieve specific network interface for a specific bare metal server by ID
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param id: Interface ID
         :type id: str
         :return: Bare metal server's interface information
         :rtype: dict
         """
-        bare_metal_server_info = self.get_server(bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(server)
+        if "errors" in server_info:
+            return server_info
 
         try:
             path = ("/v1/bare_metal_servers/{}"
                     "/network_interfaces/{}?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"], id,
+                    "&generation={}".format(server_info["id"], id,
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -300,26 +300,26 @@ class Baremetal():
 
         except Exception as error:
             print("Error fetching network interface {} for bare metal server"
-                  " {}. {}".format(bare_metal_server, id, error))
+                  " {}. {}".format(server, id, error))
             raise
 
-    def get_server_interface_by_name(self, bare_metal_server, name):
+    def get_server_interface_by_name(self, server, name):
         """Retrieve specific network interface for a specific bare metal server by ID
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param name: Bare metal server name
         :type name: str
         :return: Bare metal server's interface information
         :rtype: dict
         """
-        bare_metal_server_info = self.get_server(bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(server)
+        if "errors" in server_info:
+            return server_info
 
         try:
             data = self.get_server_interfaces(
-                bare_metal_server_info["id"])
+                server_info["id"])
             if "errors" in data:
                 return data
 
@@ -331,27 +331,27 @@ class Baremetal():
 
         except Exception as error:
             print("Error fetching network interface {} for instance"
-                  " {}. {}".format(bare_metal_server, name, error))
+                  " {}. {}".format(server, name, error))
             raise
 
-    def get_server_interface_fips(self, bare_metal_server,
+    def get_server_interface_fips(self, server,
                                   interface):
         """Retrieve floating IPs attached to a network interface for a
         specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
-        :param bare_metal_server: Bare metal server name or ID
+        :param server: Bare metal server name or ID
+        :type server: str
+        :param server: Bare metal server name or ID
         :type interface: str
         :return: Floating IP list attached to a bare metal server
         :rtype: list
         """
-        bare_metal_server_info = self.get_server(bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(server)
+        if "errors" in server_info:
+            return server_info
 
         interface_into = self.get_server_interface(
-            bare_metal_server_info["id"],
+            server_info["id"],
             interface)
         if "errors" in interface_into:
             return interface_into
@@ -360,7 +360,7 @@ class Baremetal():
             path = ("/v1/bare_metal_servers/{}/network_interfaces/{}"
                     "/floating_ips"
                     "?version={}&generation={}".format(
-                        bare_metal_server_info["id"],
+                        server_info["id"],
                         interface_into["id"],
                         self.cfg["version"],
                         self.cfg["generation"]))
@@ -370,16 +370,16 @@ class Baremetal():
         except Exception as error:
             print("Error fetching floating IPs attached to network interface"
                   " {} for instance {}. {}".format(
-                      interface, bare_metal_server, error))
+                      interface, server, error))
             raise
 
-    def get_server_interface_fip(self, bare_metal_server, interface,
+    def get_server_interface_fip(self, server, interface,
                                  floating):
         """Retrieve specific floating IP attached to a network interface for
         a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param interface: Interface name or ID
         :type interface: str
         :parem floating: Floating IP name, ID or address
@@ -387,18 +387,18 @@ class Baremetal():
         :return: Floating IP information
         :rtype: dict
         """
-        bare_metal_server_info = self.get_server(bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(server)
+        if "errors" in server_info:
+            return server_info
 
         interface_into = self.get_server_interface(
-            bare_metal_server_info["id"], interface)
+            server_info["id"], interface)
         if "errors" in interface_into:
             return interface_into
 
         try:
             data = self.get_server_interface_fips(
-                bare_metal_server_info["id"], interface_into["id"])
+                server_info["id"], interface_into["id"])
             if "errors" in data:
                 return data
 
@@ -415,7 +415,7 @@ class Baremetal():
                 "/v1/bare_metal_servers/{}/network_interfaces/{}"
                 "/floating_ips/{}"
                 "?version={}&generation={}".format(
-                    bare_metal_server_info["id"],
+                    server_info["id"],
                     interface_into["id"],
                     fip_info,
                     self.cfg["version"],
@@ -426,25 +426,25 @@ class Baremetal():
         except Exception as error:
             print("Error fetching floating IP {} attached to network interface"
                   " {} for bare metal server {}. {}".format(
-                      fip_info, interface, bare_metal_server, error))
+                      fip_info, interface, server, error))
             raise
 
-    def get_server_disks(self, bare_metal_server):
+    def get_server_disks(self, server):
         """Retrieve disks from a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :return: List of volume attachments
         :rtype: list
         """
-        bare_metal_server_info = self.get_server(bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(server)
+        if "errors" in server_info:
+            return server_info
 
         try:
             path = ("/v1/bare_metal_servers/{}/disks"
                     "?version={}&generation={}".format(
-                        bare_metal_server_info["id"],
+                        server_info["id"],
                         self.cfg["version"],
                         self.cfg["generation"]))
 
@@ -453,28 +453,28 @@ class Baremetal():
         except Exception as error:
             print
             ("Error fetching disks on bare metal server {}. {}".format(
-                bare_metal_server, error))
+                server, error))
             raise
 
-    def get_server_disk(self, bare_metal_server,
+    def get_server_disk(self, server,
                         disk):
         """Retrieve a single disk from a specific bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param attachment: Volume attachment name or ID
         :type attachment: str
         :return: Volume attachment information
         :rtype: dict
         """
-        bare_metal_server_info = self.get_server(
-            bare_metal_server)
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(
+            server)
+        if "errors" in server_info:
+            return server_info
 
         try:
             data = self.get_server_disks(
-                bare_metal_server_info["id"])
+                server_info["id"])
             if "errors" in data:
                 return data
 
@@ -485,7 +485,7 @@ class Baremetal():
 
             path = ("/v1/bare_metal_servers/{}/disks/{}"
                     "?version={}&generation={}".format(
-                        bare_metal_server_info["id"],
+                        server_info["id"],
                         disk_info,
                         self.cfg["version"],
                         self.cfg["generation"]))
@@ -494,7 +494,7 @@ class Baremetal():
 
         except Exception as error:
             print("Error fetching volume {} attached to bare metal server"
-                  " {}. {}".format(disk, bare_metal_server, error))
+                  " {}. {}".format(disk, server, error))
             raise
 
     def get_server_profiles(self):
@@ -534,7 +534,7 @@ class Baremetal():
                 profile, error))
             raise
 
-    def create_bare_metal_server(self, **kwargs):
+    def create_server(self, **kwargs):
         """Create BMS
 
         :param name: The unique user-defined name for this bare metal server
@@ -710,11 +710,11 @@ class Baremetal():
             print("Error creating bare metal server. {}".format(error))
             raise
 
-    def create_bare_metal_server_action(self, **kwargs):
+    def create_server_action(self, **kwargs):
         """Create bare metal server action
 
-        :param bare_metal_server: The bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: The bare metal server name or ID
+        :type server: str
         :param action: The action to execute (start, restart, stop)
         :type type: str
         :param type: If hard, the action will be forced immediately,
@@ -722,30 +722,28 @@ class Baremetal():
             (hard or soft)
         :type force: str
         """
-        args = ["bare_metal_server", "action"]
+        args = ["server", "action"]
         check_args(args, **kwargs)
 
         args = {
-            'bare_metal_server': kwargs.get('bare_metal_server'),
+            'server': kwargs.get('server'),
             'type': kwargs.get('type'),
             'action': kwargs.get('action'),
         }
 
-        bare_metal_server_info = self.get_server(
-            args["bare_metal_server"])
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(
+            args["server"])
+        if "errors" in server_info:
+            return server_info
 
         payload = {}
         for key, value in args.items():
             if key == "type" and value is not None:
                 payload[key] = value
 
-        print(payload)
-
         try:
             path = ("/v1/bare_metal_servers/{}/{}?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"],
+                    "&generation={}".format(server_info["id"],
                                             args["action"],
                                             self.cfg["version"],
                                             self.cfg["generation"]))
@@ -757,11 +755,11 @@ class Baremetal():
             print("Error creating bare metal server action. {}".format(error))
             raise
 
-    def create_bare_metal_server_interface(self, **kwargs):
+    def create_server_interface(self, **kwargs):
         """Create bare metal server interface
 
-        :param bare_metal_server: The bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: The bare metal server name or ID
+        :type server: str
         :param subnet: The associated subnet name or ID
         :type subnet: str
         :param primary_ipv4_address: The primary IPv4 address
@@ -769,20 +767,20 @@ class Baremetal():
         :param security_groups: Collection of security groups
         :type security_groups: str, optional
         """
-        args = ["bare_metal_server", "subnet"]
+        args = ["server", "subnet"]
         check_args(args, **kwargs)
 
         args = {
-            'bare_metal_server': kwargs.get('bare_metal_server'),
+            'server': kwargs.get('server'),
             'subnet': kwargs.get('forsubnetce'),
             'primary_ipv4_address': kwargs.get('primary_ipv4_address'),
             'security_groups': kwargs.get('security_groups'),
         }
 
-        bare_metal_server_info = self.get_server(
-            args["bare_metal_server"])
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
+        server_info = self.get_server(
+            args["server"])
+        if "errors" in server_info:
+            return server_info
 
         subnet_info = self.subnet.get_subnet(args["subnet"])
         if "errors" in subnet_info:
@@ -790,7 +788,7 @@ class Baremetal():
 
         payload = {}
         for key, value in args.items():
-            if key != "bare_metal_server" and value is not None:
+            if key != "server" and value is not None:
                 if key == "security_groups":
                     sg = []
                     for key_sg in args["security_groups"]:
@@ -805,7 +803,7 @@ class Baremetal():
 
         try:
             path = ("/v1/bare_metal_servers/{}/network_interfaces?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"],
+                    "&generation={}".format(server_info["id"],
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -871,79 +869,23 @@ class Baremetal():
                       server_info["id"], error))
             raise
 
-    def attach_volume(self, **kwargs):
-        """Attach a volume to an bare metal server
-
-        :param bare_metal_server: The bare metal server name or ID
-        :type bare_metal_server: str
-        :param volume: The identity of the volume to attach to the bare
-            metal server
-        :type volume: str
-        :param delete_volume_on_bare_metal_server_delete: If set to true,
-            when deleting the bare_metal_server the volume will also
-            be deleted
-        :type delete_volume_on_bare_metal_server_delete: bool, optional
-        :param name: The user-defined name for this volume attachment
-        :type name: str
-        """
-        args = ["bare_metal_server", "volume"]
-        check_args(args, **kwargs)
-
-        args = {
-            'bare_metal_server': kwargs.get('bare_metal_server'),
-            'volume': kwargs.get('volume'),
-            'delete_volume_on_bare_metal_server_delete': kwargs.get(
-                'delete_volume_on_bare_metal_server_delete'),
-            'name': kwargs.get('name'),
-        }
-
-        bare_metal_server_info = self.get_server(
-            args["bare_metal_server"])
-        if "errors" in bare_metal_server_info:
-            return bare_metal_server_info
-
-        volume_info = self.volume.get_volume(args["volume"])
-        if "errors" in volume_info:
-            return volume_info
-
-        payload = {}
-        for key, value in args.items():
-            if key != "bare_metal_server" and value is not None:
-                if key == "volume":
-                    payload["volume"] = {"id": volume_info["id"]}
-                else:
-                    payload[key] = value
-
-        try:
-            path = ("/v1/bare_metal_servers/{}/volume_attachments?version={}"
-                    "&generation={}".format(bare_metal_server_info["id"],
-                                            self.cfg["version"],
-                                            self.cfg["generation"]))
-
-            return qw("iaas", "POST", path, headers(),
-                      json.dumps(payload))["data"]
-
-        except Exception as error:
-            print("Error creating volume attachment. {}".format(error))
-            raise
-
-    def delete_bare_metal_server(self, bare_metal_server):
+    def delete_server(self, server):
         """Delete bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :return: Delete status
         :rtype: dict
         """
         try:
-            bare_metal_server_info = self.get_server(
-                bare_metal_server)
-            if "errors" in bare_metal_server_info:
-                return bare_metal_server_info
+            server_info = self.get_server(
+                server)
+            if "errors" in server_info:
+                return server_info
 
             path = (
                 "/v1/bare_metal_servers/{}?version={}&generation={}".format(
-                    bare_metal_server_info["id"], self.cfg["version"],
+                    server_info["id"], self.cfg["version"],
                     self.cfg["generation"]))
 
             data = qw("iaas", "DELETE", path, headers())
@@ -955,24 +897,24 @@ class Baremetal():
 
         except Exception as error:
             print("Error deleting bare metal server {}. {}".format(
-                bare_metal_server, error))
+                server, error))
             raise
 
-    def delete_bare_metal_server_interface(self, bare_metal_server, interface):
+    def delete_server_interface(self, server, interface):
         """Delete interface from bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param interface: Interface name or ID
         :type interface: str
         :return: Delete status
         :rtype: dict
         """
         try:
-            bare_metal_server_info = self.get_server(
-                bare_metal_server)
-            if "errors" in bare_metal_server_info:
-                return bare_metal_server_info
+            server_info = self.get_server(
+                server)
+            if "errors" in server_info:
+                return server_info
 
             interface_info = self.get_server_interface(interface)
             if "errors" in interface_info:
@@ -980,7 +922,7 @@ class Baremetal():
 
             path = (
                 "/v1/bare_metal_servers/{}/network_interfaces/{}?version={}"
-                "&generation={}".format(bare_metal_server_info["id"],
+                "&generation={}".format(server_info["id"],
                                         interface_info["id"],
                                         self.cfg["version"],
                                         self.cfg["generation"]))
@@ -994,27 +936,27 @@ class Baremetal():
 
         except Exception as error:
             print("Error deleting bare metal server {}. {}".format(
-                bare_metal_server, error))
+                server, error))
             raise
 
-    def disassociate_floating_ip(self, bare_metal_server, interface, fip):
+    def disassociate_floating_ip(self, server, interface, fip):
         """Disassociate floating IP from a network interface on an bare metal server
 
-        :param bare_metal_server: Bare metal server name or ID
-        :type bare_metal_server: str
+        :param server: Bare metal server name or ID
+        :type server: str
         :param interface: Interface name or ID
         :type interface: str
         :parem fip: Floating IP name, ID or address
         :type fip: str
         """
         try:
-            bare_metal_server_info = self.get_server(
-                bare_metal_server)
-            if "errors" in bare_metal_server_info:
-                return bare_metal_server_info
+            server_info = self.get_server(
+                server)
+            if "errors" in server_info:
+                return server_info
 
             interface_info = self.get_server_interface(
-                bare_metal_server, interface)
+                server, interface)
             if "errors" in interface_info:
                 return interface_info
 
@@ -1026,7 +968,7 @@ class Baremetal():
                 "/v1/bare_metal_servers/{}/network_interfaces/{}"
                 "/floating_ips/{}"
                 "?version={}&generation={}".format(
-                    bare_metal_server_info["id"],
+                    server_info["id"],
                     interface_info["id"],
                     fip_info["id"],
                     self.cfg["version"],
@@ -1042,6 +984,6 @@ class Baremetal():
         except Exception as error:
             print("Error disassociating floating IP {} from network interface"
                   " {} on bare metal server {}. {}".format(
-                      fip, interface, bare_metal_server,
+                      fip, interface, server,
                       error))
             raise
