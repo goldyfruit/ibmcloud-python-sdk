@@ -363,11 +363,11 @@ class Dns():
         vpc_crn = temp_vpc["crn"]
 
         # Get zone ID
-        zone_id = self.get_dns_zone(
+        zone_info = self.get_dns_zone(
             dns_zone=args['dns_zone'],
             resource_instance=resource_instance_guid)
-        if "errors" in zone_id:
-            return zone_id
+        if "errors" in zone_info:
+            return zone_info
 
         payload = {}
 
@@ -379,7 +379,7 @@ class Dns():
         try:
             # Connect to api endpoint for permitted network
             path = ("/v1/instances/{}/dnszones/{}/permitted_networks").format(
-                resource_instance_guid, zone_id)
+                resource_instance_guid, zone_info["id"])
 
             return qw("dns", "POST", path, headers(),
                       json.dumps(payload))["data"]
