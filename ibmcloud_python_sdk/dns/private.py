@@ -73,7 +73,7 @@ class Dns():
         by_name = self.get_dns_zone_by_name(dns_zone=args['dns_zone'],
                                             resource_instance=args[
                                                 'resource_instance'
-                                            ])
+        ])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
@@ -110,7 +110,7 @@ class Dns():
 
         # get resource instance guid
         temp_ri = self.resource_instance.get_resource_instance(args[
-                                            'resource_instance'])
+            'resource_instance'])
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -161,8 +161,8 @@ class Dns():
 
         # get resource instance guid
         temp_ri = self.resource_instance.get_resource_instance(
-                    args['resource_instance']
-                )
+            args['resource_instance']
+        )
         if "errors" in temp_ri:
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
@@ -363,7 +363,7 @@ class Dns():
         vpc_crn = temp_vpc["crn"]
 
         # Get zone ID
-        zone_id = self.get_dns_zone_id(
+        zone_id = self.get_dns_zone(
             dns_zone=args['dns_zone'],
             resource_instance=resource_instance_guid)
         if "errors" in zone_id:
@@ -632,16 +632,16 @@ class Dns():
         resource_instance_guid = temp_ri["guid"]
 
         by_name = self.get_resource_record_by_name(dns_zone=args[
-                                'dns_zone'],
-                                resource_instance=resource_instance_guid,
-                                record_name=args['record'])
+            'dns_zone'],
+            resource_instance=resource_instance_guid,
+            record_name=args['record'])
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
                     by_id = self.get_resource_record_by_id(dns_zone=args[
-                                'dns_zone'],
-                                resource_instance=resource_instance_guid,
-                                record_id=args['record'])
+                        'dns_zone'],
+                        resource_instance=resource_instance_guid,
+                        record_id=args['record'])
                     if "errors" in by_id:
                         return by_id
                     return by_id
