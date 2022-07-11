@@ -139,9 +139,9 @@ class Security():
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param target: target name or ID
+        :param target: Target name or ID
         :type interface: str
-        :return: target information
+        :return: Target information
         :rtype: dict
         """
         by_name = self.get_security_group_target_by_name(security_group,
@@ -165,9 +165,9 @@ class Security():
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param id: target ID
+        :param id: Target ID
         :type id: str
-        :return: target information
+        :return: Target information
         :rtype: dict
         """
         # Retrieve security group information to get the ID
@@ -197,9 +197,9 @@ class Security():
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param name: target name
+        :param name: Target name
         :type name: str
-        :return: target information
+        :return: Target information
         :rtype: dict
         """
         # Retrieve security group information to get the ID
@@ -304,7 +304,6 @@ class Security():
                   " {}. {}".format(id, security_group, error))
             raise
 
-    # TO DO : Verify
     def add_interface_security_group(self, **kwargs):
         """Add network interface to a security group
 
