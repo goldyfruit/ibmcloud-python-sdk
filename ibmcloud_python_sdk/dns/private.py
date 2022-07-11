@@ -477,7 +477,7 @@ class Dns():
             return temp_ri
         resource_instance_guid = temp_ri["guid"]
 
-        # Get Zone id
+        # Get Zone info
         try:
             zone = self.get_dns_zone(dns_zone=args['dns_zone'],
                                      resource_instance=args[
