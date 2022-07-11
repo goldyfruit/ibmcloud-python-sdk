@@ -20,23 +20,24 @@ class Subnet():
                                     'note',
                                     'tagReferences[tag]',
                                     'networkVlan[id,networkSpace]'])
+
     def __init__(self):
         self.client = sl.client()
-        self.hw = sl.SoftLayer.NetworkManager(self.client)
+        self.nm = sl.SoftLayer.NetworkManager(self.client)
 
     def get_subnets(self):
         """Retrieve subnet list
 
-        :return: List of subnet servers
+        :return: List of subnets
         :rtype: dict
         """
         # Display all the fields.
-        mask = ""
+        mask = self.DEFAULT_SUBNET_MASK
         try:
-            subnets = {}
-            subnets = self.hw.list_subnets(mask=self.DEFAULT_SUBNET_MASK)
+            subnet = {}
+            subnet["subnets"] = self.nm.list_subnets(mask=mask)
 
-            return subnets
+            return subnet
 
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)
@@ -46,11 +47,11 @@ class Subnet():
 
         :param id: Subnet ID
         :type id: str
-        :return: Subnet server information
+        :return: Subnet information
         :rtype: dict
         """
         try:
-            return self.hw.get_subnet(id, mask=self.DEFAULT_SUBNET_MASK)
+            return self.nm.get_subnet(id, mask=self.DEFAULT_SUBNET_MASK)
 
         except sl.SoftLayer.SoftLayerAPIError as error:
             return resource_error(error.faultCode, error.faultString)

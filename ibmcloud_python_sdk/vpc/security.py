@@ -106,7 +106,7 @@ class Security():
                 name, error))
             raise
 
-    def get_security_group_interfaces(self, security_group):
+    def get_security_group_targets(self, security_group):
         """Retrieve network interfaces associated to a security group
 
         :param security_group: Security group name or ID
@@ -122,7 +122,7 @@ class Security():
 
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}/network_interfaces?version={}"
+            path = ("/v1/security_groups/{}/targets?version={}"
                     "&generation={}".format(sg_info["id"], self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -134,23 +134,23 @@ class Security():
                   " group {}. {}".format(security_group, error))
             raise
 
-    def get_security_group_interface(self, security_group, interface):
-        """Retrieve specific network interface associated to a security group
+    def get_security_group_target(self, security_group, target):
+        """Retrieve specific target associated to a security group
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param interface: Network interface name or ID
+        :param target: Target name or ID
         :type interface: str
-        :return: Network interface information
+        :return: Target information
         :rtype: dict
         """
-        by_name = self.get_security_group_interface_by_name(security_group,
-                                                            interface)
+        by_name = self.get_security_group_target_by_name(security_group,
+                                                         target)
         if "errors" in by_name:
             for key_name in by_name["errors"]:
                 if key_name["code"] == "not_found":
-                    by_id = self.get_security_group_interface_by_id(
-                        security_group, interface)
+                    by_id = self.get_security_group_target_by_id(
+                        security_group, target)
                     if "errors" in by_id:
                         return by_id
                     return by_id
@@ -159,15 +159,15 @@ class Security():
         else:
             return by_name
 
-    def get_security_group_interface_by_id(self, security_group, id):
+    def get_security_group_target_by_id(self, security_group, id):
         """Retrieve specific network interface associated to a security group
         by ID
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param id: Network interface ID
+        :param id: Target ID
         :type id: str
-        :return: Network interface information
+        :return: Target information
         :rtype: dict
         """
         # Retrieve security group information to get the ID
@@ -178,7 +178,7 @@ class Security():
 
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
+            path = ("/v1/security_groups/{}/targets/{}?version={}"
                     "&generation={}".format(sg_info["id"], id,
                                             self.cfg["version"],
                                             self.cfg["generation"]))
@@ -191,15 +191,15 @@ class Security():
                   " security group {}. {}".format(id, security_group, error))
             raise
 
-    def get_security_group_interface_by_name(self, security_group, name):
+    def get_security_group_target_by_name(self, security_group, name):
         """Retrieve specific network interface associated to a security group
         by name
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :param name: Network interface name
+        :param name: Target name
         :type name: str
-        :return: Network interface information
+        :return: Target information
         :rtype: dict
         """
         # Retrieve security group information to get the ID
@@ -210,21 +210,21 @@ class Security():
 
         try:
             # Retrieve network interfaces
-            data = self.get_security_group_interfaces(sg_info["id"])
+            data = self.get_security_group_targets(sg_info["id"])
             if "errors" in data:
                 return data
 
             # Loop over network interfaces until filter match
-            for nic in data['network_interfaces']:
-                if nic["name"] == name:
+            for target in data['targets']:
+                if target["name"] == name:
                     # Return data
-                    return nic
+                    return target
 
             # Return error if no interface is found
             return resource_not_found()
 
         except Exception as error:
-            print("Error fetching network interface with name {} associated to"
+            print("Error fetching target with name {} associated to"
                   " security group {}. {}".format(name, security_group, error))
             raise
 
@@ -343,7 +343,7 @@ class Security():
 
         try:
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
+            path = ("/v1/security_groups/{}/targets/{}?version={}"
                     "&generation={}".format(sg_info["id"],
                                             target,
                                             self.cfg["version"],
@@ -529,13 +529,13 @@ class Security():
                 security_group, error))
             raise
 
-    def remove_interface_security_group(self, security_group, interface):
-        """Remove network interface from a security group
+    def remove_target_security_group(self, security_group, target):
+        """Remove target from a security group
 
         :param security_group: Security group name or ID
         :type security_group: str
-        :parem interface: Interface ID
-        :type interface: str
+        :parem target: target ID
+        :type target: str
         :return: Delete status
         :rtype: dict
         """
@@ -546,8 +546,8 @@ class Security():
                 return sg_info
 
             # Connect to api endpoint for security_groups
-            path = ("/v1/security_groups/{}/network_interfaces/{}?version={}"
-                    "&generation={}".format(sg_info["id"], interface,
+            path = ("/v1/security_groups/{}/targets/{}?version={}"
+                    "&generation={}".format(sg_info["id"], target,
                                             self.cfg["version"],
                                             self.cfg["generation"]))
 
@@ -561,8 +561,8 @@ class Security():
             return resource_deleted()
 
         except Exception as error:
-            print("Error removing network interface {} from security group"
-                  " {}. {}".format(interface, security_group, error))
+            print("Error removing target {} from security group"
+                  " {}. {}".format(target, security_group, error))
             raise
 
     def delete_security_group_rule(self, security_group, rule):
