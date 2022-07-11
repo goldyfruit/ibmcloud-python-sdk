@@ -639,7 +639,6 @@ class Baremetal():
                                             security_group)
                                         sg_array.append({"id": sg_info["id"]})
                                 tmp_net_int["security_groups"] = sg_array
-                            # network_interfaces.append(tmp_net_int)
                         base_payload["network_interfaces"].append(tmp_net_int)
                 elif key == "primary_network_interface":
                     tmp_pni = {}
@@ -647,9 +646,9 @@ class Baremetal():
                         if k_pni == "name" and v_pni != "":
                             tmp_pni["name"] = v_pni
                         if k_pni == "interface_type" and v_pni != "":
-                            tmp_pni["interface_type"] = v_pni or "pci"
-                        if k_pni == "vlan" and v_pni != "":
-                            tmp_pni["vlan"] = v_pni
+                            tmp_pni["interface_type"] = v_pni
+                        if k_pni == "allowed_vlans" and v_pni != "":
+                            tmp_pni["allowed_vlans"] = v_pni
                         if k_pni == "allow_interface_to_float" and v_pni != "":
                             tmp_pni["allow_interface_to_float"] = v_pni
                         if k_pni == "enable_infrastructure_nat" and v_pni != "":
@@ -762,19 +761,39 @@ class Baremetal():
         :type server: str
         :param subnet: The associated subnet name or ID
         :type subnet: str
-        :param primary_ipv4_address: The primary IPv4 address
-        :type primary_ipv4_address: str, optional
-        :param security_groups: Collection of security groups
-        :type security_groups: str, optional
+        :param interface_type: The network interface type
+        :type interface_type: str, optional (pci ou vlan)
+        :param name: The network interface name
+        :type name: str, optional
+        :param vlan: vlan id allowed
+        :type: vlan: int, optional (for pci type, mandatory for vlan type)
+        :param allow_ip_spoofing: Indicates whether source IP spoofing is
+          allowed on this interface.
+        :type allow_ip_spoofing: boolean, default false
+        :enable_infrastructure_nat
+        :param allow_interface_to_float:
+        :type allow_interface_to_float: bool
+        :param primary_ip: The primary IP address to bind to the network
+          interface.
+        :type primary_ip: str, the unique identifier for this reserved IP
+        :security_groups: The security groups to use for this network interface
+        :param security_groups: str
+
         """
         args = ["server", "subnet"]
         check_args(args, **kwargs)
 
         args = {
             'server': kwargs.get('server'),
-            'subnet': kwargs.get('forsubnetce'),
-            'primary_ipv4_address': kwargs.get('primary_ipv4_address'),
+            'subnet': kwargs.get('subnet'),
+            'interface_type': kwargs.get('interface_type'),
+            'primary_ip'
+            'name': kwargs.get('name'),
+            'vlan': kwargs.get('vlan'),
+            'allow_interface_to_float': kwargs.get('allow_interface_to_float'),
+            'primary_ip': kwargs.get('primary_ip'),
             'security_groups': kwargs.get('security_groups'),
+            'allow_ip_spoofing': kwargs.get('allow_ip_spoofing')
         }
 
         server_info = self.get_server(
@@ -811,7 +830,7 @@ class Baremetal():
                       json.dumps(payload))["data"]
 
         except Exception as error:
-            print("Error creating bare metal server interface. {}".format(
+            print("Error creating bare metal server network interface. {}".format(
                 error))
             raise
 
