@@ -15,7 +15,8 @@ def decode_token():
     """
     try:
         token = get_headers()["Authorization"]
-        return decode(token.split(" ")[1], verify=False)
+        return decode(token.split(" ")[1], verify=False,
+                      options={'verify_signature': False})
 
     except Exception as error:
         print("Error decoding token. {}".format(error))
