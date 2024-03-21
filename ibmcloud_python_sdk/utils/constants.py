@@ -9,5 +9,6 @@ EM_URL = "enterprise.cloud.ibm.com"
 SL_URL = "api.softlayer.com"
 PI_URL = "power-iaas.cloud.ibm.com"
 COS_DOMAIN = "cloud-object-storage.appdomain.cloud"
+GC_URL = "globalcatalog.cloud.ibm.com"
 HTTP_TIMEOUT = 60
 USER_AGENT = "IBM Cloud Python SDK"
