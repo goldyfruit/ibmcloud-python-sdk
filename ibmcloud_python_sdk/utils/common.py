@@ -67,6 +67,8 @@ def query_wrapper(conn_type, method, path, headers=None, payload=None):
         conn = http.client.HTTPSConnection(cfg["sl_url"], timeout=timeout)
     elif conn_type == "power":
         conn = http.client.HTTPSConnection(cfg["pi_url"], timeout=timeout)
+    elif conn_type == "gc":
+        conn = http.client.HTTPSConnection(cfg["gc_url"], timeout=timeout)
 
     if cache.client():
         if method == "GET" and conn_type != "auth":
