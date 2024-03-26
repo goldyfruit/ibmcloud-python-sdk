@@ -2,6 +2,7 @@ import json
 from ibmcloud_python_sdk.config import params
 from ibmcloud_python_sdk.auth import get_headers as headers
 from ibmcloud_python_sdk.utils.common import query_wrapper as qw
+from ibmcloud_python_sdk.utils.common import resource_error
 from ibmcloud_python_sdk.utils.common import resource_not_found
 from ibmcloud_python_sdk.utils.common import resource_deleted
 from ibmcloud_python_sdk.resource import resource_group
@@ -178,11 +179,13 @@ class ResourceInstance():
                 name, error))
             raise
 
-    def delete_resource_instance(self, instance):
+    def delete_resource_instance(self, instance, recursive=False):
         """Delete a resource instance
 
         :param instance: The resource instance name or ID
         :type instance: str
+        :param recursive: Recursive resources of the resource instance
+        :type recursive: bool
         :return: Deletion status
         :rtype: resource_deleted()
         """
@@ -192,11 +195,22 @@ class ResourceInstance():
                 return instance_info
 
             # Connect to api endpoint for resource_instances
-            path = ("/v2/resource_instances/{}".format(instance_info['guid']))
+            # If "recursive" is defined, delete the resource instance related
+            # recursive resources
+            if recursive:
+                path = ("/v2/resource_instances/{}?recursive=true".format(
+                    instance_info['guid']))
+            else:
+                path = ("/v2/resource_instances/{}".format(
+                    instance_info['guid']))
 
             data = qw("rg", "DELETE", path, headers())
 
             # Return data
+            # Error code - 422
+            # The server can't process the request, although it understands it
+            if data["response"].status == 422:
+                return resource_error(422, data["data"]["message"])
             if data["response"].status != 204:
                 return data["data"]
 
